@@ -377,6 +377,32 @@
       .cite-box .btn:hover { background: var(--accent); color: #171106; }
       .copied-msg { font-style: italic; color: var(--accent); font-size: 0.95rem; margin-left: 0.4rem; }
 
+      /* ---------- Sources ---------- */
+      .sources {
+        list-style: none;
+        margin: 0.8rem 0 0;
+        padding: 0;
+        border-top: 1px solid var(--line);
+      }
+      .sources li {
+        padding: 1.05rem 0;
+        border-bottom: 1px solid var(--line);
+        color: var(--ink-soft);
+        font-size: 1.02rem;
+        max-width: 68ch;
+      }
+      .sources li strong { color: var(--ink); font-weight: 600; }
+      .sources .for {
+        display: block;
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-bottom: 0.3rem;
+      }
+      .sources a { color: var(--accent); }
+
       footer {
         margin-top: 5rem;
         border-top: 1px solid var(--line);
@@ -430,7 +456,7 @@
           <div>
             <h2 id="claim-h">The universe doesn&rsquo;t remember everything. <em>Only what connects.</em></h2>
             <p class="lede">Everywhere you look, nature explores by branching — and keeps only the branches that complete a circuit. The rest vanish as if they never happened.</p>
-            <p class="soft">A lightning strike throws out hundreds of feelers and keeps one. A river delta spreads a thousand channels and keeps the ones that reach the sea. Of every species that ever lived, almost none made it into the rock. The pattern is the same at every scale, from a crystal smaller than a grain of sand to the whole of human invention — and once you see it, you can&rsquo;t unsee it.</p>
+            <p class="soft">A lightning strike throws out feelers and keeps one. A river delta spreads a thousand channels and keeps the ones that reach the sea. Of every species that ever lived, almost none made it into the rock. The pattern is the same at every scale, from a crystal no bigger than a grain of sand to the whole of human invention — and once you see it, you can&rsquo;t unsee it.</p>
             <p class="soft">That is the Completion Filter: <strong>branching is free, but persistence has a price — connection.</strong> The universe writes down completed circuits and erases everything else.</p>
           </div>
           <aside class="axiom">
@@ -483,8 +509,8 @@
               <span class="field">Observed · Atmospheric physics</span>
             </div>
             <div class="rung-body">
-              <p>A stepped leader feels its way down from the cloud in dozens of branching channels. Nearly all of them die mid-air. <strong>Only the branch that reaches the ground completes the circuit</strong> — and that one becomes the bolt, carrying the full return stroke.</p>
-              <p class="reading">The filter, in a millisecond: exploration by branching, selection by connection.</p>
+              <p>A stepped leader feels its way down from the cloud in branching channels. Nearly all of them die mid-air. Thirty to a hundred meters above the ground, an upward streamer rises off the earth to meet the descending leader — <strong>the ground reaches up to complete the connection</strong>. Where they meet, the circuit completes and the return stroke fires: that joined channel becomes the bolt.</p>
+              <p class="reading">The filter, in a fraction of a second: exploration by branching, selection by connection.</p>
             </div>
           </article>
           <article class="rung">
@@ -494,7 +520,7 @@
               <span class="field">Observed · Geomorphology</span>
             </div>
             <div class="rung-body">
-              <p>Rivers split, braid, and rejoin constantly. Channels that never reach the sea <strong>silt up, dry out, and disappear</strong> from the landscape. Channels that complete the circuit to the ocean carve valleys that persist for millions of years.</p>
+              <p>Rivers split, braid, and rejoin constantly. Most channels that never reach the sea <strong>usually silt up, dry out, and disappear</strong> from the landscape. Channels that complete the circuit to the ocean carve valleys that persist for millions of years.</p>
               <p class="reading">The river keeps what reaches the sea. Nothing else gets a vote.</p>
             </div>
           </article>
@@ -516,7 +542,7 @@
               <span class="field">Observed · Geochronology</span>
             </div>
             <div class="rung-body">
-              <p>Earth has formed uncountable crystals, and nearly all of them have been melted, eroded, or dragged back into the mantle. <strong>The few zircons that survived 4.4 billion years</strong> — like the ones from Jack Hills, Australia — are how we know the age of the Earth at all.</p>
+              <p>Earth has formed uncountable crystals, and nearly all of them have been melted, eroded, or dragged back into the mantle. <strong>The few zircons that survived 4.4 billion years</strong> — like the ones from Jack Hills, Australia, the oldest surviving pieces of Earth&rsquo;s crust — prove the planet is at least that old. Earth&rsquo;s full age, some 4.54 billion years, comes from dating meteorites instead.</p>
               <p class="reading">Survival is the filter. The witnesses are the ones that stayed connected to the rock.</p>
             </div>
           </article>
@@ -598,6 +624,39 @@
           <span class="copied-msg" id="copiedMsg" role="status" aria-live="polite"></span>
         </div>
         <p class="soft" style="margin-top:1.4rem;">Ironically, all of us made it — and just one of us made it — at the same time. Well. Isn&rsquo;t that fitting?</p>
+      </section>
+
+      <!-- Sources -->
+      <section aria-labelledby="sources-h">
+        <div class="kicker mono">Sources &amp; receipts</div>
+        <h2 id="sources-h">Don&rsquo;t take our word for it. <em>Check the receipts.</em></h2>
+        <p class="soft">Every rung of the ladder rests on published research. The key sources, so anyone can verify the facts for themselves:</p>
+        <ul class="sources">
+          <li>
+            <span class="for">Rung 01 · Lightning</span>
+            <strong>U.S. National Weather Service</strong>, lightning science and safety pages, <a href="https://www.weather.gov/">weather.gov</a> — how a stepped leader descends, how an upward streamer rises to meet it tens of meters above the ground, and how the return stroke fires once they connect.
+          </li>
+          <li>
+            <span class="for">Rung 04 · Zircons</span>
+            <strong>Valley, J. W., et al.</strong>, &ldquo;Hadean age for a post-magma-ocean zircon confirmed by atom-probe tomography,&rdquo; <em>Nature Geoscience</em> 7 (2014): 219&ndash;223 — the Jack Hills, Australia zircon dated to 4.404 billion years, the oldest known piece of Earth&rsquo;s crust.
+          </li>
+          <li>
+            <span class="for">Rung 04 · The age of the Earth</span>
+            <strong>Patterson, Clair C.</strong>, &ldquo;Age of meteorites and the earth,&rdquo; <em>Geochimica et Cosmochimica Acta</em> 10 (1956): 230&ndash;237 — dating meteorites to arrive at Earth&rsquo;s full age of about 4.54 billion years.
+          </li>
+          <li>
+            <span class="for">Rung 03 · The fossil record</span>
+            <strong>Coyne, Jerry A.</strong>, <em>Why Evolution Is True</em> (Viking, 2009) — paleontology&rsquo;s estimate that under 1% of all species that ever lived left fossils behind.
+          </li>
+          <li>
+            <span class="for">Rung 05 · Ideas &amp; the technosphere</span>
+            <strong>Haff, Peter K.</strong>, &ldquo;Technology as a geological phenomenon: implications for humanity and the technosphere,&rdquo; <em>The Anthropocene Review</em> 1 (2014) — the technosphere: the sum of human-made objects, treated as a planetary-scale system.
+          </li>
+          <li>
+            <span class="for">The human rung · Loosh</span>
+            <strong>Monroe, Robert A.</strong>, <em>Far Journeys</em> (Doubleday, 1985) — the book that coined &ldquo;loosh,&rdquo; the emotional energy this page borrows the word for.
+          </li>
+        </ul>
       </section>
     </main>
 
