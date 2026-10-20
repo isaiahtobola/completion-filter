@@ -1,0 +1,1978 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Completion Theory Demonstration — One Light Against Every Army</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f3e9f7;
+        --bg-soft: #ecdff3;
+        --panel: #21082a;
+        --panel-2: #2d0e38;
+        --panel-line: #5b2a72;
+        --ink: #2a0e33;
+        --ink-soft: #57386b;
+        --on-panel: #f6ecff;
+        --on-panel-soft: #cdb3e2;
+        --gold: #f5b301;
+        --gold-deep: #d99a00;
+        --gold-bright: #ffd23f;
+        --gold-ink: #8a5c00;
+        --dark-side: #12040f;
+        --card: #ffffff;
+        --card-line: #e0cdef;
+        --shadow: 0 18px 40px rgba(42, 14, 51, 0.18);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #180722;
+          --bg-soft: #1f0a2e;
+          --panel: #2d0e38;
+          --panel-2: #38134a;
+          --panel-line: #6d3790;
+          --ink: #f6ecff;
+          --ink-soft: #cdb3e2;
+          --on-panel: #f6ecff;
+          --on-panel-soft: #cdb3e2;
+          --gold-ink: #ffd23f;
+          --card: #2a0e33;
+          --card-line: #53256b;
+          --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(1100px 500px at 85% -80px, rgba(245, 179, 1, 0.16), transparent 60%),
+          radial-gradient(900px 600px at -10% 30%, rgba(122, 52, 158, 0.20), transparent 55%),
+          var(--bg);
+        color: var(--ink);
+        font-family: "Source Sans 3", system-ui, sans-serif;
+        font-size: 17px;
+        line-height: 1.55;
+      }
+      .wrap { max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
+      h1, h2, h3 { font-family: "Cinzel", serif; line-height: 1.15; margin: 0; }
+      .mono { font-family: "IBM Plex Mono", monospace; }
+
+      /* ---------- header ---------- */
+      header.hero { padding: 56px 0 10px; text-align: center; }
+      .hero .rule { display: flex; align-items: center; gap: 14px; justify-content: center; margin: 0 auto 22px; max-width: 560px; }
+      .hero .rule::before, .hero .rule::after { content: ""; height: 2px; flex: 1; background: linear-gradient(90deg, transparent, var(--gold)); }
+      .hero .rule::after { background: linear-gradient(90deg, var(--gold), transparent); }
+      .hero .rule span { color: var(--gold-deep); font-size: 20px; }
+      .hero h1 { font-size: clamp(30px, 6vw, 52px); font-weight: 900; letter-spacing: 0.01em; }
+      .hero h1 em { font-style: normal; color: var(--gold-deep); }
+      @media (prefers-color-scheme: dark) { .hero h1 em { color: var(--gold-bright); } }
+      .hero p.lede { max-width: 680px; margin: 18px auto 0; font-size: 19px; color: var(--ink-soft); }
+      .hero p.lede strong { color: var(--ink); }
+
+      nav.toc {
+        position: sticky; top: 0; z-index: 20;
+        display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+        padding: 14px 6px; margin: 26px 0 8px;
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--card-line);
+      }
+      nav.toc a {
+        font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 600;
+        text-decoration: none; color: var(--ink);
+        border: 1.5px solid var(--gold-deep); border-radius: 999px; padding: 6px 14px;
+        background: var(--card);
+      }
+      nav.toc a:hover { background: var(--gold); color: #2a0e33; }
+
+      /* ---------- sections ---------- */
+      section.story { margin-top: 64px; }
+      .story-head { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+      .story-num {
+        font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 14px;
+        color: #2a0e33; background: var(--gold); border-radius: 6px; padding: 3px 10px;
+      }
+      .story-head h2 { font-size: clamp(26px, 4.4vw, 38px); font-weight: 700; }
+      .story-head .franchise { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--ink-soft); letter-spacing: 0.06em; text-transform: uppercase; }
+      .story-intro { max-width: 760px; color: var(--ink-soft); margin: 12px 0 0; }
+      .story-intro strong { color: var(--ink); }
+
+      .stage {
+        margin-top: 22px; background: linear-gradient(160deg, var(--panel-2), var(--panel));
+        border: 1px solid var(--panel-line); border-radius: 18px; box-shadow: var(--shadow);
+        padding: 18px 18px 8px; color: var(--on-panel);
+      }
+      .stage svg { width: 100%; height: auto; display: block; }
+      .stage figcaption { font-size: 13.5px; color: var(--on-panel-soft); padding: 10px 4px 12px; text-align: center; }
+
+      .controls {
+        margin-top: 16px; background: var(--card); border: 1px solid var(--card-line);
+        border-radius: 14px; padding: 18px 20px; box-shadow: var(--shadow);
+      }
+      .controls h3 { font-size: 17px; margin-bottom: 4px; }
+      .controls p.hint { margin: 0 0 12px; font-size: 14.5px; color: var(--ink-soft); }
+      .slider-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+      .slider-row label { font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 600; min-width: 148px; }
+      .slider-row output { font-family: "IBM Plex Mono", monospace; font-weight: 600; color: var(--gold-ink); min-width: 74px; text-align: right; }
+      input[type="range"] { -webkit-appearance: none; appearance: none; flex: 1; min-width: 180px; height: 8px; border-radius: 99px;
+        background: linear-gradient(90deg, var(--panel-line), var(--gold)); outline-offset: 4px; cursor: pointer; }
+      input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%;
+        background: var(--gold-bright); border: 3px solid #2a0e33; box-shadow: 0 2px 10px rgba(0,0,0,0.35); cursor: grab; }
+      input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--gold-bright); border: 3px solid #2a0e33; cursor: grab; }
+
+      .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+      .chips button {
+        font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 600;
+        border: 1.5px solid var(--panel-line); background: transparent; color: var(--ink);
+        border-radius: 999px; padding: 7px 14px; cursor: pointer;
+      }
+      .chips button:hover { border-color: var(--gold-deep); }
+      .chips button.active { background: var(--gold); border-color: var(--gold-deep); color: #2a0e33; }
+
+      /* ---------- one big press button (replaces sliders) ---------- */
+      .press-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+      .press-btn {
+        font-family: "Cinzel", serif; font-weight: 900; font-size: 17px; letter-spacing: 0.03em; cursor: pointer;
+        border-radius: 12px; padding: 13px 26px; border: 2px solid var(--gold-deep);
+        background: var(--gold); color: #2a0e33; box-shadow: 0 6px 22px rgba(245, 179, 1, 0.4);
+        transition: transform 0.15s ease, filter 0.15s ease;
+      }
+      .press-btn:hover { filter: brightness(1.08); }
+      .press-btn:active { transform: scale(0.96); }
+      .press-out { font-family: "IBM Plex Mono", monospace; font-weight: 600; color: var(--gold-ink); }
+      @media (max-width: 520px) { .press-btn { width: 100%; } }
+
+      .readout {
+        margin-top: 16px; border-top: 2px dashed var(--card-line); padding-top: 14px;
+        display: grid; grid-template-columns: 1fr; gap: 14px;
+      }
+      @media (min-width: 720px) { .readout.split { grid-template-columns: 1.2fr 1fr; } }
+      .readout h4 { margin: 0 0 6px; font-family: "Cinzel", serif; font-size: 18px; }
+      .readout p { margin: 0; font-size: 15.5px; color: var(--ink-soft); }
+      .readout p strong { color: var(--ink); }
+
+      .meters { display: grid; gap: 10px; align-content: start; }
+      .meter { display: grid; grid-template-columns: 118px 1fr minmax(46px, auto); align-items: center; gap: 10px; font-family: "IBM Plex Mono", monospace; font-size: 12.5px; }
+      .meter .track { height: 12px; border-radius: 99px; background: color-mix(in srgb, var(--ink) 12%, transparent); overflow: hidden; }
+      .meter .fill { height: 100%; border-radius: 99px; background: var(--gold); transition: width 0.45s ease; }
+      .meter.dark .fill { background: #b57e00; }
+      @media (prefers-color-scheme: dark) { .meter.dark .fill { background: #d99a00; } }
+      .meter .val { font-weight: 600; text-align: right; color: var(--gold-ink); white-space: nowrap; }
+      .meter.dark .val { color: var(--ink); }
+
+      .verdict {
+        margin-top: 18px; border-radius: 12px; padding: 16px 20px;
+        background: var(--panel); color: var(--on-panel); border: 1px solid var(--panel-line);
+        font-size: 16.5px;
+      }
+      .verdict strong { color: var(--gold-bright); }
+      .verdict .tag { display: block; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--on-panel-soft); margin-bottom: 6px; }
+
+      .spoiler {
+        margin-top: 18px; border: 2px solid var(--gold-deep); border-radius: 12px; padding: 12px 16px;
+        background: color-mix(in srgb, var(--gold) 14%, var(--card));
+        font-size: 15px;
+      }
+      .spoiler strong { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; letter-spacing: 0.1em; }
+
+      .clickable { cursor: pointer; }
+      .clickable:hover { filter: brightness(1.25); }
+      .node-label { font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 600; fill: #ffe9a8; text-anchor: middle; }
+      .node-sub { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; fill: #dcbd63; text-anchor: middle; }
+      svg text { user-select: none; }
+
+      /* ---------- pattern table ---------- */
+      .pattern { margin-top: 70px; }
+      .pattern h2 { font-size: clamp(26px, 4.4vw, 38px); text-align: center; }
+      .pattern .sub { text-align: center; color: var(--ink-soft); max-width: 640px; margin: 10px auto 0; }
+      .prow {
+        display: grid; grid-template-columns: 1fr; gap: 4px;
+        background: var(--card); border: 1px solid var(--card-line); border-radius: 12px;
+        padding: 16px 20px; margin-top: 12px; box-shadow: var(--shadow);
+      }
+      @media (min-width: 760px) { .prow { grid-template-columns: 170px 1fr 1fr; gap: 18px; align-items: center; } }
+      .prow .who { font-family: "Cinzel", serif; font-weight: 700; font-size: 18px; }
+      .prow .who small { display: block; font-family: "IBM Plex Mono", monospace; font-weight: 400; font-size: 11.5px; color: var(--ink-soft); letter-spacing: 0.05em; }
+      .prow p { margin: 0; font-size: 15px; color: var(--ink-soft); }
+      .prow p strong { color: var(--ink); }
+      .prow .won { color: var(--gold-ink); font-weight: 700; }
+
+      /* ---------- interactivity upgrades ---------- */
+      #connPill {
+        position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 50; pointer-events: none;
+        display: flex; align-items: center; gap: 10px; white-space: nowrap;
+        background: var(--panel); color: var(--on-panel); border: 1.5px solid var(--gold-deep);
+        border-radius: 999px; padding: 8px 18px; box-shadow: 0 10px 28px rgba(20, 4, 28, 0.45);
+        font-family: "IBM Plex Mono", monospace; font-size: 13px;
+      }
+      #connPill b { color: var(--gold-bright); font-size: 15px; }
+      #connPill.pop { animation: pillPop 0.4s ease; }
+      @keyframes pillPop { 0% { transform: translateX(-50%) scale(1); } 40% { transform: translateX(-50%) scale(1.12); } 100% { transform: translateX(-50%) scale(1); } }
+      #connToast { color: var(--gold-bright); font-size: 12px; opacity: 0; transition: opacity 0.4s ease; }
+      #connToast.show { opacity: 1; }
+      .clickable { transition: filter 0.25s ease; }
+      .clickable:hover { filter: brightness(1.35) drop-shadow(0 0 7px rgba(255, 210, 63, 0.8)); }
+      .pop { animation: popFlash 0.5s ease; }
+      @keyframes popFlash { 0% { filter: brightness(2.2); } 100% { filter: brightness(1); } }
+      #thanosSide { cursor: pointer; }
+      #thanosSide:hover { filter: brightness(1.2); }
+      #stones circle.collected { stroke: #fff3c4; stroke-width: 3; filter: drop-shadow(0 0 6px currentColor); }
+      .prow { cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease; }
+      .prow:hover { transform: translateY(-3px); border-color: var(--gold-deep); }
+
+      .doors { margin-top: 16px; background: var(--card); border: 1px solid var(--card-line); border-radius: 14px; padding: 18px 20px; box-shadow: var(--shadow); }
+      .doors h3 { font-size: 17px; margin-bottom: 4px; }
+      .door-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0 14px; }
+      .door-btn {
+        font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 14px; cursor: pointer;
+        border-radius: 10px; padding: 12px 20px; border: 2px solid var(--gold-deep); background: var(--panel); color: var(--on-panel);
+        transition: transform 0.15s ease, filter 0.15s ease;
+      }
+      .door-btn.gold { border-color: var(--gold-deep); background: var(--gold); color: #2a0e33; }
+      .door-btn:hover { filter: brightness(1.2); }
+      .door-btn:active { transform: scale(0.96); }
+      .canister { position: relative; height: 30px; border-radius: 8px; border: 2px solid var(--panel-line); background: color-mix(in srgb, var(--ink) 8%, transparent); overflow: hidden; }
+      .canister-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--gold-deep), var(--gold-bright)); transition: width 0.9s cubic-bezier(0.2, 0.9, 0.25, 1.2); }
+      .canister span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: "IBM Plex Mono", monospace; font-size: 12.5px; font-weight: 600; color: var(--ink); mix-blend-mode: normal; }
+
+      .snap-zone { margin-top: 18px; border-top: 2px dashed var(--card-line); padding-top: 16px; }
+      #stoneProgress { font-size: 13px; font-weight: 600; margin: 0 0 10px; }
+      .snap-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+      .snap-btn {
+        font-family: "Cinzel", serif; font-weight: 900; font-size: 20px; letter-spacing: 0.14em; cursor: pointer;
+        border-radius: 12px; padding: 12px 34px; border: 2px solid var(--gold-deep);
+        background: var(--gold); color: #2a0e33; box-shadow: 0 6px 22px rgba(245, 179, 1, 0.45);
+        transition: transform 0.15s ease, filter 0.15s ease, opacity 0.2s ease;
+      }
+      .snap-btn:hover:not(:disabled) { filter: brightness(1.1); }
+      .snap-btn:active:not(:disabled) { transform: scale(0.95); }
+      .snap-btn:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+      .snap-btn.armed { animation: snapPulse 1.1s ease-in-out infinite; }
+      @keyframes snapPulse { 0%, 100% { box-shadow: 0 6px 22px rgba(245, 179, 1, 0.45); } 50% { box-shadow: 0 6px 34px rgba(255, 210, 63, 0.95); } }
+      .rewind-btn {
+        font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 13px; cursor: pointer;
+        border-radius: 10px; padding: 10px 16px; border: 1.5px solid var(--gold-deep); background: transparent; color: var(--ink);
+      }
+      .rewind-btn:hover { background: color-mix(in srgb, var(--gold) 18%, transparent); }
+
+      .notes-btn {
+        margin-top: 10px; font-family: "IBM Plex Mono", monospace; font-size: 12.5px; font-weight: 600; cursor: pointer;
+        border: 1.5px solid var(--gold-deep); background: transparent; color: var(--gold-ink); border-radius: 999px; padding: 6px 14px;
+      }
+      .fo-notes { margin: 10px 0 0; font-size: 14.5px; border-left: 3px solid var(--gold); padding: 4px 0 4px 12px; color: var(--ink-soft); }
+      .encounter { margin-top: 18px; border-top: 2px dashed var(--card-line); padding-top: 16px; }
+      .encounter-btn {
+        font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 14px; cursor: pointer;
+        border-radius: 10px; padding: 12px 20px; border: 2px solid var(--panel-line); background: var(--panel); color: var(--gold-bright);
+        transition: transform 0.15s ease, filter 0.15s ease;
+      }
+      .encounter-btn:hover { filter: brightness(1.3); }
+      .encounter-btn:active { transform: scale(0.96); }
+      .encounter-card { margin-top: 12px; border: 1px solid var(--gold-deep); border-radius: 12px; padding: 14px 16px; background: color-mix(in srgb, var(--gold) 10%, var(--card)); animation: cardIn 0.45s ease; }
+      .encounter-card strong { font-family: "Cinzel", serif; font-size: 16px; }
+      .encounter-card p { margin: 6px 0 0; font-size: 15px; color: var(--ink-soft); }
+      @keyframes cardIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+      .teach { margin-top: 6px; }
+      @media (max-width: 600px) {
+        #connPill { left: auto; right: 10px; bottom: 10px; transform: none; font-size: 11.5px; padding: 6px 12px; max-width: 62vw; }
+        #connPill.pop { animation: none; }
+        #connToast { display: none; }
+        body { padding-bottom: 44px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+        html { scroll-behavior: auto; }
+      }
+
+      /* ---------- light vs dark scoreboard ---------- */
+      .score { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: stretch; margin: 4px 0 16px; }
+      .score-side { border-radius: 12px; padding: 12px 16px; text-align: center; border: 2px solid var(--gold-deep); }
+      .score-side.light { background: color-mix(in srgb, var(--gold) 16%, var(--card)); }
+      .score-side.dark { background: var(--panel); color: var(--on-panel); border-color: var(--panel-line); }
+      .score-label { display: block; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em; }
+      .score-side.dark .score-label { color: var(--on-panel-soft); }
+      .score-num { display: block; font-family: "Cinzel", serif; font-weight: 900; font-size: 40px; line-height: 1.05; }
+      .score-side.light .score-num { color: var(--gold-ink); }
+      .score-side.dark .score-num { color: var(--on-panel); }
+      .score-sub { display: block; font-size: 12.5px; color: var(--ink-soft); }
+      .score-side.dark .score-sub { color: var(--on-panel-soft); }
+      .score-vs { align-self: center; font-family: "Cinzel", serif; font-weight: 900; font-size: 18px; color: var(--gold-deep); }
+      @media (max-width: 520px) { .score-num { font-size: 29px; } .score { gap: 6px; } .score-side { padding: 10px 8px; } }
+
+      footer { margin-top: 70px; text-align: center; color: var(--ink-soft); font-size: 14.5px; }
+      footer .big { font-family: "Cinzel", serif; font-size: clamp(20px, 3.6vw, 28px); color: var(--ink); font-weight: 700; }
+      footer .sig { font-family: "IBM Plex Mono", monospace; font-size: 13px; margin-top: 10px; }
+      a { color: var(--gold-ink); }
+
+      /* ---------- top credit ---------- */
+      .credit-top {
+        margin: 28px auto 0; max-width: 720px; text-align: center;
+        background: var(--panel); color: var(--on-panel);
+        border: 1.5px solid var(--gold-deep); border-radius: 14px;
+        padding: 18px 22px 15px; box-shadow: var(--shadow);
+      }
+      .credit-top .kick { display: block; font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; color: var(--on-panel-soft); margin-bottom: 7px; }
+      .credit-top .line { font-family: "Cinzel", serif; font-weight: 700; font-size: clamp(19px, 3.6vw, 27px); line-height: 1.25; color: var(--gold-bright); margin: 0; }
+      .credit-top .who { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; letter-spacing: 0.06em; color: var(--on-panel-soft); margin: 8px 0 0; }
+      .credit-top .verse { font-family: "Cinzel", serif; font-weight: 700; font-size: clamp(15px, 2.7vw, 20px); line-height: 1.55; color: var(--on-panel); margin: 4px 0 0; }
+      .credit-top .verse .vl { display: block; }
+      .credit-top .verse .hot { color: var(--gold-bright); }
+
+      /* ---------- label plates, saber & stone glow, cross light ---------- */
+      .label-plate { fill: #17061d; fill-opacity: 0.88; stroke: #d99a00; stroke-opacity: 0.55; stroke-width: 1; }
+      #saber, #vaderSaber, #pSaber { transition: stroke 0.25s linear; }
+      #stones circle.pulsing { animation: stonePulse 0.85s ease-out; }
+      @keyframes stonePulse {
+        0% { filter: drop-shadow(0 0 2px currentColor) brightness(1); }
+        40% { filter: drop-shadow(0 0 17px currentColor) brightness(1.75); }
+        100% { filter: drop-shadow(0 0 7px currentColor) brightness(1.15); }
+      }
+      #gauntlet { transform-box: fill-box; transform-origin: center; }
+      #momentCross rect { transition: fill 0.8s ease; }
+      #momentCross.lit rect { fill: #ffffff; }
+      #momentCross.lit circle { fill: #ffffff; opacity: 0.32; }
+      #momentCross.lit { animation: crossGlow 2.8s ease-in-out infinite; }
+      @keyframes crossGlow {
+        0%, 100% { filter: drop-shadow(0 0 7px rgba(255, 255, 255, 0.65)); }
+        50% { filter: drop-shadow(0 0 22px rgba(255, 244, 190, 0.95)); }
+      }
+      #jesusSvg g.clickable circle { transform-box: fill-box; transform-origin: center; }
+      #momentEmpire { transform-box: fill-box; transform-origin: 50% 100%; }
+
+      /* ---------- lightning strike layer (JS-driven, desktop) ---------- */
+      .stage { position: relative; }
+      .bolt-layer { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; z-index: 3; }
+      .bolt-layer svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .bolt-layer polyline { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .bolt-flash {
+        position: absolute; inset: 0; opacity: 0;
+        background: radial-gradient(640px 320px at 50% -4%, rgba(255, 246, 196, 0.6), rgba(255, 210, 63, 0.20) 46%, transparent 72%);
+      }
+      .bolt-flash.go { animation: boltFlash 0.5s ease-out; }
+      @keyframes boltFlash { 0% { opacity: 0; } 10% { opacity: 1; } 100% { opacity: 0; } }
+
+      /* ---------- PC-only vibrant motion & bright lighting ---------- */
+      @media (hover: hover) and (pointer: fine) and (min-width: 760px) {
+        .stage { animation: stageGlow 5.5s ease-in-out infinite; }
+        @keyframes stageGlow {
+          0%, 100% { box-shadow: var(--shadow), 0 0 0 rgba(255, 210, 63, 0); }
+          50% { box-shadow: var(--shadow), 0 0 46px rgba(255, 210, 63, 0.38); }
+        }
+        .stage::after {
+          content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 2;
+          background: linear-gradient(115deg, transparent 32%, rgba(255, 240, 180, 0.10) 48%, rgba(255, 210, 63, 0.17) 52%, transparent 68%);
+          background-size: 260% 100%;
+          animation: sheenSweep 7s ease-in-out infinite;
+        }
+        @keyframes sheenSweep { 0% { background-position: 130% 0; } 55%, 100% { background-position: -130% 0; } }
+        .hero h1 em { animation: emGlow 3.4s ease-in-out infinite; }
+        @keyframes emGlow {
+          0%, 100% { text-shadow: 0 0 0 rgba(255, 210, 63, 0); }
+          50% { text-shadow: 0 0 20px rgba(255, 210, 63, 0.6); }
+        }
+        .press-btn { animation: btnGlow 2.6s ease-in-out infinite; }
+        @keyframes btnGlow {
+          0%, 100% { box-shadow: 0 6px 22px rgba(245, 179, 1, 0.4); }
+          50% { box-shadow: 0 6px 34px rgba(255, 210, 63, 0.85), 0 0 18px rgba(255, 210, 63, 0.5); }
+        }
+        .credit-top { animation: stageGlow 5.5s ease-in-out infinite; }
+        .score-num { transition: transform 0.25s ease; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="credit-top">
+        <span class="kick">⚡ THE REFERENCE — HE SAID IT FIRST</span>
+        <p class="verse">
+          <span class="vl">&ldquo;Lookin&rsquo; at your face is so regrettable</span>
+          <span class="vl">Better fix your mug, they gotta rush you to the medical</span>
+          <span class="vl hot">Doctor buggin&rsquo; out like Flik versus Hopper</span>
+          <span class="vl hot">Untouchable to any window shopper, mannequin</span>
+          <span class="vl hot">Flow scorch the back just like it&rsquo;s Anakin&rdquo;</span>
+        </p>
+        <p class="who">DENZEL CURRY × KENNY BEATS — &ldquo;SO.INcredible.pkg&rdquo; · <em>UNLOCKED</em> · 2020</p>
+        <p class="who">AND THEY JUST RAN IT BACK: THE DUO REUNITED IN 2026 FOR <em>II</em> — SIX YEARS AFTER <em>UNLOCKED</em> GAVE US THE FLIK VS. HOPPER AND ANAKIN LINES.</p>
+      </div>
+
+      <header class="hero">
+        <div class="rule"><span>⚡</span></div>
+        <h1>One Light Against<br />Every <em>Army</em></h1>
+        <p class="lede">Five stories. Five different universes. The same shape every time: <strong>one figure who connects</strong>, standing in front of <strong>an army that only knows how to take</strong>. Every diagram is a scene you play: two run on a slider, the rest run on <strong>one big button</strong> — press it and watch the light count up while the dark counts down — 5, 4, 3, 2, 1. Watch what the dark side is actually made of — and watch what beats it.</p>
+      </header>
+
+      <nav class="toc" aria-label="Stories">
+        <a href="#pixar">01 · The Ant</a>
+        <a href="#starwars">02 · The Jedi</a>
+        <a href="#endgame">03 · Iron Man</a>
+        <a href="#fallout">04 · The Vault Dweller</a>
+        <a href="#jesus">05 · The Original</a>
+        <a href="#pattern">The Pattern</a>
+      </nav>
+
+      <!-- ================= 01 PIXAR ================= -->
+      <section class="story" id="pixar">
+        <div class="story-head">
+          <span class="story-num">01</span>
+          <h2>Flik vs. the Grasshoppers</h2>
+          <span class="franchise">Pixar · A Bug's Life (1998) &amp; Monsters, Inc. (2001)</span>
+        </div>
+        <p class="story-intro">Hopper's whole empire is one trick: <strong>keep the ants afraid, and a handful of grasshoppers can tax an entire colony forever.</strong> He says it out loud in the film — by his count, the ants outnumber the grasshoppers "a hundred to one," and the day the ants figure that out, the grasshoppers are finished. Flik is the one ant who figures it out. Slide the colony's unity and watch the math of fear collapse.</p>
+
+        <figure class="stage" style="margin-left:0;margin-right:0;">
+          <svg id="bugSvg" viewBox="0 0 900 380" role="img" aria-label="Diagram of an ant colony facing grasshoppers; the colony grows and the grasshoppers retreat as unity rises">
+            <!-- sky glow -->
+            <circle cx="120" cy="60" r="34" fill="#ffd23f" opacity="0.9"/>
+            <circle cx="120" cy="60" r="52" fill="#ffd23f" opacity="0.18"/>
+            <!-- ground -->
+            <rect x="0" y="318" width="900" height="62" fill="#17061d"/>
+            <path d="M0 318 Q 220 300 450 314 T 900 310 V 380 H 0 Z" fill="#24102f"/>
+            <!-- anthill -->
+            <path d="M40 320 Q 130 220 220 320 Z" fill="#3d1850"/>
+            <ellipse cx="130" cy="318" rx="26" ry="8" fill="#17061d"/>
+            <!-- grass blades -->
+            <g stroke="#d99a00" stroke-width="3" fill="none" opacity="0.55">
+              <path d="M300 320 Q 296 280 284 258"/><path d="M330 322 Q 332 286 344 264"/>
+              <path d="M590 318 Q 586 284 574 262"/><path d="M700 316 Q 704 282 716 262"/>
+            </g>
+            <!-- ants (generated) -->
+            <g id="antArmy"></g>
+            <!-- Flik -->
+            <g id="flik" transform="translate(268,282)">
+              <ellipse cx="0" cy="16" rx="10" ry="13" fill="#d99a00"/>
+              <circle cx="2" cy="-2" r="9" fill="#ffd23f"/>
+              <path d="M-2 -10 Q -12 -24 -20 -26 M6 -10 Q 12 -26 22 -28" stroke="#ffd23f" stroke-width="2.5" fill="none"/>
+              <circle cx="-20" cy="-26" r="3" fill="#ffd23f"/><circle cx="22" cy="-28" r="3" fill="#ffd23f"/>
+              <path d="M-8 26 L -14 38 M8 26 L 14 38" stroke="#d99a00" stroke-width="3"/>
+              <text class="node-label" y="-44">FLIK</text>
+              <text class="node-sub" y="-30">the one ant</text>
+            </g>
+            <!-- grasshoppers (generated) -->
+            <g id="hopperGang"></g>
+            <!-- Hopper -->
+            <g id="hopper" transform="translate(742,196)">
+              <path d="M-14 60 L -30 118 M16 60 L 34 118 M-4 62 L -8 120 M10 62 L 12 120" stroke="#8a5c00" stroke-width="6" fill="none"/>
+              <ellipse cx="0" cy="28" rx="20" ry="38" fill="#f5b301"/>
+              <ellipse cx="0" cy="28" rx="11" ry="30" fill="#ffdf6b"/>
+              <circle cx="2" cy="-16" r="15" fill="#ffd23f"/>
+              <circle cx="-3" cy="-19" r="4.5" fill="#fff3c4"/><circle cx="8" cy="-19" r="4.5" fill="#fff3c4"/>
+              <circle cx="-3" cy="-19" r="2" fill="#17061d"/><circle cx="8" cy="-19" r="2" fill="#17061d"/>
+              <path d="M-4 -30 Q -16 -52 -26 -56 M8 -30 Q 16 -54 28 -58" stroke="#ffd23f" stroke-width="3" fill="none"/>
+              <path d="M-18 14 L -46 -6 M20 14 L 50 -10" stroke="#f5b301" stroke-width="6" fill="none"/>
+              <text class="node-label" y="-72">HOPPER</text>
+              <text class="node-sub" y="-58">rules by fear alone</text>
+            </g>
+            <!-- the bird -->
+            <g id="bird" opacity="0" transform="translate(640,40)">
+              <path d="M0 30 Q 40 -6 84 22 Q 46 26 34 40 Q 60 40 74 56 Q 38 58 16 44 Q 4 52 0 30 Z" fill="#ffd23f"/>
+              <circle cx="70" cy="26" r="3.5" fill="#17061d"/>
+              <path d="M82 24 L 98 30 L 82 36 Z" fill="#f5b301"/>
+            </g>
+            <text id="bugCaption" x="450" y="366" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace;font-size:13px;fill:#dcbd63;">The colony pays the offering. Fear is doing all the work.</text>
+          </svg>
+          <figcaption>Flik built a fake bird to scare the grasshoppers — but the real weapon was the colony standing up together. At full unity, the bird shows up anyway.</figcaption>
+        </figure>
+
+        <div class="controls">
+          <h3>The Colony Unity Dial</h3>
+          <p class="hint">Drag it. Every point of unity is another ant who stopped being afraid — and Hopper's power was never anything but their fear. Watch the two counts: <strong>ants up, grasshoppers down.</strong></p>
+          <div class="slider-row">
+            <label for="unityRange">COLONY UNITY</label>
+            <input type="range" id="unityRange" min="0" max="100" value="12" />
+            <output id="unityOut">12%</output>
+          </div>
+          <div class="chips">
+            <button type="button" id="standUpBtn">⚡ Stand the colony up</button>
+            <button type="button" id="offeringBtn">Back to paying the offering</button>
+          </div>
+          <div class="score">
+            <div class="score-side light"><span class="score-label">THE LIGHT</span><span class="score-num" id="bugLight">6</span><span class="score-sub">ants standing, of 46</span></div>
+            <div class="score-vs">VS</div>
+            <div class="score-side dark"><span class="score-label">THE DARK</span><span class="score-num" id="bugDark">5</span><span class="score-sub">grasshoppers left, of 5</span></div>
+          </div>
+          <div class="readout">
+            <div>
+              <h4 id="bugHeadline">One ant with an idea vs. a gang with a reputation</h4>
+              <p id="bugText">Flik alone is a joke to the grasshoppers — he's an inventor whose harvester caused the whole mess. But his idea is the dangerous kind Hopper warned his gang about: <strong>"You let one ant stand up to us, then they all might stand up."</strong></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="verdict">
+          <span class="tag">The Pixar footnote · Monsters, Inc.</span>
+          Same studio, same physics. Monstropolis ran its whole city on <strong>screams</strong> — fear harvested from children. Then Boo laughed, and the meter jumped: <strong>laughter is ten times more powerful than screams</strong>. The scare floor became a laugh floor, and the energy crisis ended. Fear was never the strong fuel. It was just the only one they'd ever tried.
+        </div>
+      </section>
+
+      <!-- ================= 02 STAR WARS ================= -->
+      <section class="story" id="starwars">
+        <div class="story-head">
+          <span class="story-num">02</span>
+          <h2>Luke vs. the Empire</h2>
+          <span class="franchise">Star Wars · Episodes IV–VI (1977–1983)</span>
+        </div>
+        <p class="story-intro">The Empire is Hopper with a bigger budget: a faceless army of identical helmets, a planet-killing station, and an Emperor who never has to touch any of it. Against it stands <strong>one farm boy from Tatooine, Luke Skywalker</strong> — and, at the center of the machine, Darth Vader, an armored enforcer who is literally more machine than man — plus Emperor Palpatine, who built it all. <strong>One button below runs the whole trilogy.</strong></p>
+
+        <figure class="stage" style="margin-left:0;margin-right:0;">
+          <svg id="swSvg" viewBox="0 0 900 400" role="img" aria-label="Diagram of Luke Skywalker facing stormtroopers, Darth Vader, and the Death Star">
+            <!-- stars -->
+            <g fill="#ffe9a8">
+              <circle cx="60" cy="40" r="1.6"/><circle cx="180" cy="90" r="1.2"/><circle cx="330" cy="34" r="1.5"/>
+              <circle cx="470" cy="70" r="1.1"/><circle cx="560" cy="26" r="1.4"/><circle cx="90" cy="170" r="1.1"/>
+              <circle cx="250" cy="150" r="1.3"/><circle cx="640" cy="120" r="1.1"/><circle cx="420" cy="130" r="1.2"/>
+            </g>
+            <!-- Death Star -->
+            <g id="deathStar" opacity="0.92">
+              <circle cx="782" cy="96" r="62" fill="#d99a00"/>
+              <circle cx="782" cy="96" r="62" fill="none" stroke="#8a5c00" stroke-width="2"/>
+              <circle cx="758" cy="74" r="15" fill="#b57e00" stroke="#8a5c00" stroke-width="2"/>
+              <circle cx="758" cy="74" r="5" fill="#fff3c4" opacity="0.9"/>
+              <path d="M724 110 Q 782 124 840 108" stroke="#8a5c00" stroke-width="2" fill="none"/>
+              <text class="node-sub" x="782" y="178">THE DEATH STAR</text>
+              <text class="node-sub" x="782" y="192">fear, industrialized</text>
+            </g>
+            <!-- ground -->
+            <rect x="0" y="330" width="900" height="70" fill="#17061d"/>
+            <path d="M0 330 Q 300 318 900 326 V 400 H 0 Z" fill="#24102f"/>
+            <!-- Luke (clickable) -->
+            <g id="nodeLuke" transform="translate(120,238)">
+              <title>Luke Skywalker</title>
+              <circle cx="0" cy="34" r="66" fill="#ffd23f" opacity="0.10"/>
+              <circle cx="0" cy="-34" r="13" fill="#ffe9a8"/>
+              <path d="M-13 -40 Q 0 -52 13 -40 L 13 -30 Q 0 -38 -13 -30 Z" fill="#f5b301"/>
+              <path d="M-11 -22 L 11 -22 L 14 34 L -14 34 Z" fill="#ffd23f"/>
+              <rect x="-14" y="6" width="28" height="5" fill="#8a5c00"/>
+              <path d="M11 -16 L 26 8" stroke="#ffd23f" stroke-width="6"/>
+              <line id="saber" x1="26" y1="8" x2="58" y2="-34" stroke="#8f8663" stroke-width="5" stroke-linecap="round"/>
+              <line id="saberCore" x1="26" y1="8" x2="58" y2="-34" stroke="#fff8dc" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M-11 34 L -13 78 M11 34 L 13 78" stroke="#b57e00" stroke-width="6"/>
+              <text class="node-label" y="106">LUKE</text>
+              <text class="node-sub" y="121">the farm boy</text>
+            </g>
+            <!-- hope sparks (generated) -->
+            <g id="hopeSparks"></g>
+            <!-- stormtroopers (clickable group, generated) -->
+            <g id="trooperRow"><title>The Stormtroopers</title></g>
+            <!-- Vader (clickable) -->
+            <g id="nodeVader" transform="translate(648,196)">
+              <title>Darth Vader</title>
+              <circle cx="0" cy="44" r="76" fill="#f5b301" opacity="0.08"/>
+              <circle id="vaderHalo" cx="0" cy="44" r="86" fill="#ffd23f" opacity="0"/>
+              <path d="M-26 108 L -20 6 Q -20 -16 0 -18 Q 20 -16 20 6 L 26 108 Z" fill="#8a5c00"/>
+              <path d="M-24 -8 Q 0 -34 24 -8 L 20 14 Q 0 4 -20 14 Z" fill="#b57e00"/>
+              <path d="M-13 2 L 13 2 L 8 16 L -8 16 Z" fill="#8a5c00"/>
+              <circle cx="-7" cy="6" r="2.6" fill="#fff3c4"/><circle cx="7" cy="6" r="2.6" fill="#fff3c4"/>
+              <rect x="-9" y="34" width="18" height="22" fill="#d99a00" stroke="#8a5c00"/>
+              <circle cx="-4" cy="40" r="2.2" fill="#ffd23f"/><circle cx="4" cy="40" r="2.2" fill="#fff3c4"/><circle cx="0" cy="48" r="2.2" fill="#f5b301"/>
+              <path d="M20 22 L 38 52" stroke="#8a5c00" stroke-width="8"/>
+              <line id="vaderSaber" x1="38" y1="52" x2="76" y2="14" stroke="#ff2015" stroke-width="5" stroke-linecap="round"/>
+              <text class="node-label" x="-52" y="140" id="vaderName">VADER</text>
+              <text class="node-sub" x="-52" y="155" id="vaderSub">the Emperor's enforcer</text>
+            </g>
+            <text id="swCaption" x="450" y="388" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace;font-size:13px;fill:#dcbd63;">One farm boy. Nine on the dark side. Run the trilogy — press the button below.</text>
+            <!-- rebels (generated) -->
+            <g id="rebelRow"></g>
+            <!-- the Emperor -->
+            <g id="emperor" transform="translate(794,250)">
+              <path d="M-20 64 L -14 -6 Q -13 -28 0 -29 Q 13 -28 14 -6 L 20 64 Z" fill="#8a5c00"/>
+              <path d="M-13 -10 Q 0 -26 13 -10 L 10 2 Q 0 -6 -10 2 Z" fill="#593c00"/>
+              <circle cx="-4" cy="-6" r="1.8" fill="#ffe9a8"/><circle cx="4" cy="-6" r="1.8" fill="#ffe9a8"/>
+              <path d="M-14 18 L -32 42 M14 18 L 32 42" stroke="#8a5c00" stroke-width="5"/>
+              <line id="pSaber" x1="32" y1="42" x2="64" y2="8" stroke="#ff2015" stroke-width="4.5" stroke-linecap="round"/>
+              <line id="pSaberCore" x1="32" y1="42" x2="64" y2="8" stroke="#ffd9d4" stroke-width="1.4" stroke-linecap="round"/>
+              <text class="node-label" y="90">THE EMPEROR</text>
+              <text class="node-sub" y="105">Sheev Palpatine · puppet-master</text>
+            </g>
+          </svg>
+          <figcaption>The Empire's enforcers have no faces. That's not a costume choice — it's the whole strategy. An army you can't connect with is an army you can't reason with.</figcaption>
+        </figure>
+
+        <div class="controls">
+          <h3>One Button: Run the Trilogy</h3>
+          <p class="hint">Press it and watch. Rebels arrive and the light counts <strong>up</strong> — stormtroopers count <strong>down</strong>, one helmet at a time. Play it to the very end: what happens to Vader is the whole point of the trilogy.</p>
+          <div class="score">
+            <div class="score-side light"><span class="score-label">THE LIGHT</span><span class="score-num" id="swLight">1</span><span class="score-sub">standing with Luke, of 8</span></div>
+            <div class="score-vs">VS</div>
+            <div class="score-side dark"><span class="score-label">THE DARK</span><span class="score-num" id="swDark">9</span><span class="score-sub">7 troopers · Vader · the Emperor</span></div>
+          </div>
+          <div class="press-row">
+            <button type="button" class="press-btn" id="swRunBtn">⚡ Run the trilogy</button>
+            <button type="button" class="rewind-btn" id="swResetBtn">Start over</button>
+            <output class="press-out" id="lightOut">0%</output>
+          </div>
+          <p class="hint" style="margin-top:10px;" id="swText">One farm boy from Tatooine, Luke Skywalker, standing alone. Across from him: seven stormtroopers in this frame, the Empire's cyborg enforcer Darth Vader, and Emperor Palpatine himself — Sheev Palpatine, once Supreme Chancellor of the Galactic Republic, who built the whole machine out of fear. Press the button and run the trilogy.</p>
+        </div>
+
+        <div class="verdict">
+          <span class="tag">How it ends</span>
+          Luke wins the final duel by <strong>throwing his lightsaber away</strong>. He refuses to fight his father, refuses the Emperor's script — and that refusal is what reaches the man inside the machine. Vader picks the Emperor up and throws him down the shaft. The cyborg's last act isn't mechanical. It's a father's. <strong>The most connected moment in the saga comes from the character with the most parts replaced.</strong>
+        </div>
+      </section>
+      <!-- ================= 03 ENDGAME ================= -->
+      <section class="story" id="endgame">
+        <div class="story-head">
+          <span class="story-num">03</span>
+          <h2>Tony Stark vs. Thanos</h2>
+          <span class="franchise">Marvel · Avengers: Endgame (2019)</span>
+        </div>
+        <div class="spoiler"><strong>⚠ FULL SPOILERS FOR ENDGAME</strong> — this section gives away the ending of a movie you haven't seen yet, on purpose, because the ending <em>is</em> the demonstration. Everything below is the real plot.</div>
+        <p class="story-intro">Thanos is the Completion Filter's darkest reader. His logic: the universe is finite, life outgrows it, so <strong>delete half of all life at random</strong> and the other half will thrive. In <em>Avengers: Infinity War</em> (2018) he collects all six Infinity Stones, snaps his fingers, and does it — half of everything turns to dust. <em>Endgame</em> opens in the wreckage of that "balance." The Avengers find the retired Thanos, and he tells them he used the stones to destroy the stones. Thor kills him. <strong>It fixes nothing.</strong> Killing the balancer doesn't unbalance the grief — five years pass in a broken world. That's the story agreeing with your page 3: destruction dressed up as balance only feeds the cycle.</p>
+        <p class="story-intro">So the heroes do the opposite of a snap: a <strong>"Time Heist"</strong> — traveling to earlier films to borrow the stones before Thanos ever gets them, so Bruce Banner can snap everyone back. It works. But a past version of Thanos (from 2014) learns the plan through his daughter Nebula's cybernetics, follows them to the present with his entire army, and the biggest assembled force in the saga fights him for the stones. <strong>Click each stone on the gauntlet</strong> to see where the heist found it — and what it cost.</p>
+
+        <figure class="stage" style="margin-left:0;margin-right:0;">
+          <svg id="gauntletSvg" viewBox="0 0 900 400" role="img" aria-label="Diagram of the Infinity Gauntlet with six clickable stones facing Thanos and his army">
+            <!-- Thanos silhouette + army -->
+            <g id="thanosSide">
+              <g id="thanosFig" transform="translate(742,120)">
+                <circle cx="0" cy="-38" r="21" fill="#ffd23f"/>
+                <path d="M-7 -52 L 7 -52 L 5 -44 L -5 -44 Z" fill="#d99a00"/>
+                <path d="M-30 66 L -24 -16 L 24 -16 L 30 66 Z" fill="#f5b301"/>
+                <path d="M-24 -10 L 24 -10 L 26 8 L -26 8 Z" fill="#ffd23f" opacity="0.9"/>
+                <path d="M-24 -2 L -52 40 M24 -2 L 52 40" stroke="#f5b301" stroke-width="11"/>
+                <text class="node-label" y="96">THANOS</text>
+                <text class="node-sub" y="111">the balancer</text>
+              </g>
+              <g id="thanosArmy" fill="#b57e00"></g>
+              <text class="node-sub" x="742" y="330">his army: Chitauri, Outriders,</text>
+              <text class="node-sub" x="742" y="346">the Black Order, the Sanctuary II</text>
+            </g>
+            <!-- gauntlet -->
+            <g id="gauntlet" transform="translate(330,164)">
+              <path d="M-58 128 L -50 10 Q -48 -34 0 -36 Q 48 -34 50 10 L 58 128 Q 30 142 0 142 Q -30 142 -58 128 Z" fill="#c9930a"/>
+              <path d="M-58 128 L -50 10 Q -48 -34 0 -36 Q 48 -34 50 10 L 58 128 Q 30 142 0 142 Q -30 142 -58 128 Z" fill="none" stroke="#8a5c00" stroke-width="3"/>
+              <path d="M-49 30 Q 0 44 49 30 M-52 74 Q 0 88 52 74 M-55 112 Q 0 124 55 112" stroke="#8a5c00" stroke-width="3" fill="none"/>
+              <!-- knuckle sockets -->
+              <circle cx="-34" cy="-6" r="14" fill="#8a5c00"/><circle cx="-12" cy="-14" r="14" fill="#8a5c00"/>
+              <circle cx="12" cy="-14" r="14" fill="#8a5c00"/><circle cx="34" cy="-6" r="14" fill="#8a5c00"/>
+              <circle cx="0" cy="58" r="17" fill="#8a5c00"/>
+              <circle cx="-64" cy="52" r="13" fill="#8a5c00"/>
+              <!-- stones (clickable) -->
+              <g id="stones"></g>
+              <text class="node-label" y="176">THE NANO GAUNTLET</text>
+              <text class="node-sub" y="191">built by Tony, Bruce &amp; Rocket — click a stone</text>
+            </g>
+            <!-- portals / assembled -->
+            <g id="portals"></g>
+            <g id="heroRow"></g>
+            <text id="egCaption" x="450" y="388" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace;font-size:13px;fill:#dcbd63;">Six stones. Six prices. Click them all.</text>
+          </svg>
+          <figcaption>Left: one man's tools, assembled by everyone he ever saved or stood beside. Right: the biggest army in the universe, assembled by fear and debt. Only one of these sides is still standing at the end — and it isn't decided by army size.</figcaption>
+        </figure>
+
+        <div class="controls">
+          <h3 id="stoneName">The Infinity Stones — click one on the gauntlet</h3>
+          <p class="hint" id="stoneText">Each stone the heist "borrowed" came with a receipt. Some cost a conversation. One cost a life before the final battle even started. Click through all six — the pattern of prices is the whole argument of the movie.</p>
+          <div class="chips" id="stoneChips" role="group" aria-label="Choose a stone"></div>
+          <div class="score" style="margin-top:18px;">
+            <div class="score-side light"><span class="score-label">THE LIGHT</span><span class="score-num" id="egLight">0</span><span class="score-sub">heroes assembled, of 8</span></div>
+            <div class="score-vs">VS</div>
+            <div class="score-side dark"><span class="score-label">THE DARK</span><span class="score-num" id="egDark">8</span><span class="score-sub">Thanos + his army, of 8</span></div>
+          </div>
+          <div class="press-row">
+            <button type="button" class="press-btn" id="egAssembleBtn">⚡ Open the portals</button>
+            <button type="button" class="rewind-btn" id="egRewindBtn">Rewind time</button>
+            <output class="press-out" id="assembleOut">0%</output>
+          </div>
+          <p class="hint" style="margin-top:8px;" id="egText">On your left — the portals open. The classic roster arrives: the original six Avengers, plus Ant-Man and the Wasp, and they count <strong>up</strong>. Thanos's army counts <strong>down</strong>. He is, as always, last. Click any hero standing on the field — the click lands and they're their signature colors that same instant, then take a long, slow fade back to yellow.</p>
+        </div>
+
+        <div class="verdict">
+          <span class="tag">How it ends — the snap that connects</span>
+          In the one winning future, Thanos gets the gauntlet and says his line: <em>"I am inevitable."</em> But Tony, mid-grapple, has already palmed the stones into his own suit. <strong>"And I… am… Iron Man."</strong> Snap. Thanos and his entire army crumble to dust — and the power of all six stones burns Tony's body beyond saving. He dies in front of Pepper Potts, Peter Parker, and James Rhodes, having traded one life for literally everyone. His daughter Morgan Stark will grow up in the world he bought — and her measure of love for him is the line fans quote back: <strong>"I love you 3000."</strong> Thanos deleted strangers by the trillion and called it mercy. Tony deleted an army by dying himself. Same stones. Opposite circuits.
+        </div>
+      </section>
+
+      <!-- ================= 04 FALLOUT ================= -->
+      <section class="story" id="fallout">
+        <div class="story-head">
+          <span class="story-num">04</span>
+          <h2>Lucy vs. the Wasteland</h2>
+          <span class="franchise">Fallout · the TV series (2024– ) &amp; the games</span>
+        </div>
+        <p class="story-intro">Every other figure on this page faces <em>one</em> army. Lucy MacLean walks out of Vault 33 into a wasteland where <strong>everything is an army, a monster, or a sales pitch</strong> — super mutants, power-armored knights, the fallen U.S. government's own power-armored remnant, a Roman cosplay legion, a tax-collecting republic, the rich executives who bet on the end of the world and froze themselves to own the next one. She has no powers. She has manners, a can-do attitude, and one rule she refuses to drop. <strong>Click each faction</strong> to compare it against her.</p>
+
+        <figure class="stage" style="margin-left:0;margin-right:0;">
+          <svg id="foSvg" viewBox="0 0 900 420" role="img" aria-label="Diagram of Lucy MacLean in the center of the wasteland factions">
+            <rect x="0" y="336" width="900" height="84" fill="#17061d"/>
+            <path d="M0 336 Q 240 322 480 332 T 900 328 V 420 H 0 Z" fill="#24102f"/>
+            <path d="M60 336 L 84 268 L 108 336 M760 334 L 788 258 L 816 334" stroke="#3d1850" stroke-width="6" fill="none"/>
+            <!-- Lucy -->
+            <g id="lucyFig" transform="translate(450,196)">
+              <circle cx="0" cy="30" r="88" fill="#ffd23f" opacity="0.10"/>
+              <circle cx="0" cy="30" r="64" fill="#ffd23f" opacity="0.07"/>
+              <circle cx="0" cy="-38" r="14" fill="#ffe9a8"/>
+              <path d="M-14 -44 Q 0 -60 14 -44 L 12 -30 Q 0 -40 -12 -30 Z" fill="#b57e00"/>
+              <path d="M-13 -24 L 13 -24 L 17 44 L -17 44 Z" fill="#f5b301"/>
+              <path d="M-13 -24 L 13 -24 L 15 6 L -15 6 Z" fill="#ffd23f"/>
+              <text x="0" y="2" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;fill:#2a0e33;">33</text>
+              <path d="M13 -18 L 34 10 M-13 -18 L -32 12" stroke="#f5b301" stroke-width="6"/>
+              <path d="M-8 44 L -10 84 M8 44 L 10 84" stroke="#b57e00" stroke-width="6"/>
+              <text class="node-label" y="116">LUCY MACLEAN</text>
+              <text class="node-sub" y="131">Vault 33 · "Okey dokey."</text>
+            </g>
+            <!-- faction nodes (generated) -->
+            <g id="factionNodes"></g>
+            <!-- allies gathering at Lucy's side (generated) -->
+            <g id="allyRow"></g>
+            <!-- faction members who walk out and fade (generated) -->
+            <g id="walkers"></g>
+            <text id="foCaption" x="450" y="406" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace;font-size:13px;fill:#dcbd63;">Seven powers circle one vault dweller. Click each one.</text>
+          </svg>
+          <figcaption>Lucy's golden rule, in her own words: "I may end up looking like you — but I'll never <em>be</em> like you." The wasteland's whole economy is people becoming what hurt them. She's the control group.</figcaption>
+        </figure>
+
+        <div class="controls">
+          <p class="hint" style="margin-bottom:2px;">Tap any faction in the diagram above to read its file. Then press the one button and watch the whole wasteland change — each faction's member walks out of its circle and greys where it stops. Tap a greyed member and it still flashes red for a second — old reflexes — before it settles back to yellowish grey.</p>
+          <div class="score" style="margin-top:16px;">
+            <div class="score-side light"><span class="score-label">THE LIGHT</span><span class="score-num" id="foLight">0</span><span class="score-sub">allies at Lucy's side, of 12</span></div>
+            <div class="score-vs">VS</div>
+            <div class="score-side dark"><span class="score-label">THE DARK</span><span class="score-num" id="foDark">28</span><span class="score-sub">hostiles across all 7 factions</span></div>
+          </div>
+          <div class="press-row">
+            <button type="button" class="press-btn" id="foWalkBtn">⚡ Lucy walks the wasteland</button>
+            <button type="button" class="rewind-btn" id="foResetBtn">Back to Vault 33</button>
+            <output class="press-out" id="lucyOut">0%</output>
+          </div>
+          <p class="hint" style="margin-top:8px;" id="foSliderText">One button for the whole wasteland. Right now it's 28 hostiles across seven factions against one vault dweller and her manners. Press it: every step is people who've actually met Lucy — and people who've met her keep <strong>stopping being hostiles</strong>.</p>
+          <div class="readout">
+            <div>
+              <h4 id="foName">Lucy MacLean — the control group</h4>
+              <p id="foText">Raised in a vault that taught her everyone can be reasoned with, Lucy crosses the wasteland to rescue her father and keeps choosing the connecting move: she treats the Ghoul like a person, helps strangers mid-errand, and refuses easy cruelty even after the wasteland hurts her for it. Her father Hank, it turns out, is one of the rich frozen executives — he nuked the city of Shady Sands himself. <strong>The villain of her story is her own bloodline's business model.</strong> She chooses the other thing anyway.</p>
+              <p class="hint" id="foStanding" style="margin-top:10px;">Standing against Lucy right now: <strong>28 of 28</strong> hostiles, across all seven factions. Press the button and watch them come around, one at a time.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="verdict">
+          <span class="tag">The Fallout pattern</span>
+          Every faction is a severed circuit wearing a costume: mutants with strength and no welcome, knights with technology and no sharing, a fallen government with a flag and no citizens it's willing to count, a legion with order and no mercy, a republic with laws and no reach, executives with eternity and no neighbors. Lucy keeps doing the one thing none of their systems can process — <strong>she treats the next person as a person</strong>. In a franchise whose slogan is "war never changes," she's the glitch: proof the person can.
+          <br /><br />And one of those costumes isn't a costume at all: <strong>Caesar's Legion is Imperial Rome, rebooted</strong> — Edward Sallow's legion copies the empire's Latin ranks, Roman armor, and crucifixion as its signature execution. Not the Rome of Gaius Julius Caesar, the general Sallow named himself after, and not the Rome of Augustus — born Gaius Octavius, called Octavian, the first emperor (27 BC–14 AD). Specifically the imperial machine that, under the second emperor, Tiberius (reigned 14–37 AD), crucified Jesus, on the order of Pontius Pilate, prefect of Judea. Which makes Lucy's stand the finale's fight all over again, some 2,000 years later — one light, up against Rome come back for a rematch.
+        </div>
+      </section>
+
+      <!-- ================= 05 JESUS ================= -->
+      <section class="story" id="jesus">
+        <div class="story-head">
+          <span class="story-num">05</span>
+          <h2>The Original Circuit</h2>
+          <span class="franchise">The Gospels · 1st century, Roman-occupied Judea</span>
+        </div>
+        <p class="story-intro">Now strip away the costumes. Every story above is a remix of this one, because this one actually happened inside the same setup: <strong>a single unarmed figure, an occupying empire with a professional army, and a public execution meant to end the movement by fear.</strong> Get the names straight, because the page leans on them: the emperor in Rome is <strong>Tiberius</strong> (the second emperor, reigned 14–37 AD, after Augustus), and the official who orders the crucifixion in Judea is the prefect <strong>Pontius Pilate</strong>, around 30–33 AD. Rome ran the Hopper playbook at continental scale — crucifixion was advertising: <em>this is what happens.</em> Watch what the fear was supposed to do, and what happened instead. <strong>Click the three moments — each one toggles, so click again to put it back.</strong></p>
+
+        <figure class="stage" style="margin-left:0;margin-right:0;">
+          <svg id="jesusSvg" viewBox="0 0 900 400" role="img" aria-label="Diagram of a hill with a cross, twelve followers, and Roman legion standards">
+            <circle cx="450" cy="120" r="120" fill="#ffd23f" opacity="0.07"/>
+            <circle cx="450" cy="120" r="70" fill="#ffd23f" opacity="0.08"/>
+            <!-- hill -->
+            <path d="M120 340 Q 450 210 780 340 L 780 400 L 120 400 Z" fill="#24102f"/>
+            <rect x="0" y="340" width="900" height="60" fill="#17061d"/>
+            <!-- cross -->
+            <g id="momentCross" class="clickable" transform="translate(450,120)">
+              <title>The Cross</title>
+              <rect x="-6" y="-58" width="12" height="128" fill="#f5b301"/>
+              <rect x="-40" y="-30" width="80" height="11" fill="#f5b301"/>
+              <circle cx="0" cy="0" r="58" fill="#ffd23f" opacity="0.14"/>
+              <text class="node-label" y="98">THE CROSS</text>
+              <text class="node-sub" y="113">click to toggle</text>
+            </g>
+            <!-- the twelve -->
+            <g id="momentTable" class="clickable" transform="translate(196,268)">
+              <title>The Table</title>
+              <g fill="#f5b301">
+                <circle cx="-52" cy="0" r="7"/><circle cx="-30" cy="-8" r="7"/><circle cx="-8" cy="-12" r="7"/>
+                <circle cx="14" cy="-12" r="7"/><circle cx="36" cy="-8" r="7"/><circle cx="56" cy="0" r="7"/>
+              </g>
+              <rect x="-66" y="10" width="136" height="9" rx="4" fill="#f5b301"/>
+              <g fill="#f5b301">
+                <circle cx="-58" cy="28" r="7"/><circle cx="-46" cy="34" r="7"/><circle cx="-24" cy="38" r="7"/><circle cx="0" cy="40" r="7"/>
+                <circle cx="24" cy="38" r="7"/><circle cx="46" cy="34" r="7"/><circle cx="0" cy="-34" r="7.5" fill="#ffd23f"/>
+              </g>
+              <text class="node-label" y="72">THE TABLE</text>
+              <text class="node-sub" y="87">twelve followers, one meal · click to toggle</text>
+            </g>
+            <!-- legion standards -->
+            <g id="momentEmpire" class="clickable" transform="translate(706,238)">
+              <title>The Empire</title>
+              <g stroke="#d99a00" stroke-width="4">
+                <line x1="-52" y1="66" x2="-52" y2="-34"/><line x1="0" y1="70" x2="0" y2="-44"/><line x1="52" y1="66" x2="52" y2="-34"/>
+              </g>
+              <g fill="#ffd23f">
+                <path d="M-66 -34 L -38 -34 L -38 -14 L -66 -14 Z"/><path d="M-14 -44 L 14 -44 L 14 -22 L -14 -22 Z"/><path d="M38 -34 L 66 -34 L 66 -14 L 38 -14 Z"/>
+              </g>
+              <g fill="#ffd23f">
+                <circle cx="-52" cy="-44" r="6"/><circle cx="0" cy="-55" r="7"/><circle cx="52" cy="-44" r="6"/>
+              </g>
+              <g fill="#8a5c00">
+                <rect x="-70" y="66" width="140" height="8"/><rect x="-64" y="76" width="128" height="8" opacity="0.7"/>
+              </g>
+              <text class="node-label" y="112">THE EMPIRE</text>
+              <text class="node-sub" y="127">legions, taxes, crosses · click to toggle</text>
+            </g>
+            <text id="jCaption" x="450" y="388" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace;font-size:13px;fill:#dcbd63;">One hill. Two systems. Click the moments.</text>
+          </svg>
+          <figcaption>Rome's symbol and his symbol are both wood and public spectacle. One was built to make people afraid to connect. The other became the most recognized connection-point on Earth.</figcaption>
+        </figure>
+
+        <div class="controls">
+          <p class="hint" style="margin-bottom:2px;">The three moments in the diagram are clickable, and each one toggles — click it and it lights or draws close; click it again and it goes back. Or use these:</p>
+          <div class="chips" id="jChips" role="group" aria-label="Choose a moment"></div>
+          <h3 id="jName" style="margin-top:14px;">The Cross — violence absorbed, not returned</h3>
+          <p class="hint" id="jText">Rome's deterrent was perfect on paper: execute the leader publicly and the movement scatters — and at first, it works; his followers run. But the man on the cross spends his last breaths on connection instead of revenge: <em>"Father, forgive them, for they know not what they do."</em> No curse, no call for an army — though in the story he says he could have asked for legions of angels and refused. <strong>The revenge cycle was offered to him at maximum pressure, and he declined it.</strong> Three days later his followers report the tomb empty, and the scattered people reconnect — permanently.</p>
+          <div class="slider-row" style="margin-top:16px;">
+            <label for="yearsRange">YEARS AFTER</label>
+            <input type="range" id="yearsRange" min="0" max="100" value="6" />
+            <output id="yearsOut">~30 AD</output>
+          </div>
+          <p class="hint" style="margin-top:8px;" id="yearsText">Drag through two thousand years. The Empire's meter is on the same graph — watch which line outlives which.</p>
+          <div class="chips" id="eraChips" role="group" aria-label="Jump to an era"></div>
+          <div class="score" style="max-width:640px;">
+            <div class="score-side light"><span class="score-label">THE LIGHT</span><span class="score-num" id="jMoveV" style="font-size:29px;">~120</span><span class="score-sub">people in the movement</span></div>
+            <div class="score-vs">VS</div>
+            <div class="score-side dark"><span class="score-label">THE DARK</span><span class="score-num" id="jRomeV" style="font-size:29px;">Empire</span><span class="score-sub">Rome's power</span></div>
+          </div>
+          <p class="hint">Swords he took up: <strong>0</strong>. That number never moves — the other two do all the talking.</p>
+        </div>
+
+        <div class="teach">
+          <h3 style="margin-top:20px;">Four moments that built the circuit — click through them</h3>
+          <div class="chips" id="teachChips" role="group" aria-label="Moments from the Gospels">
+            <button type="button" data-t="sermon" class="active">Sermon on the Mount</button>
+            <button type="button" data-t="feet">Washing Feet</button>
+            <button type="button" data-t="loaves">Five Loaves, 5,000 Fed</button>
+            <button type="button" data-t="coin">The Coin</button>
+          </div>
+          <p class="hint" id="teachText" style="margin-top:10px;">On a hillside, to a crowd of nobodies, he lays out the operating system: <em>"Blessed are the peacemakers… Love your enemies and pray for those who persecute you."</em> Every army on this page runs the opposite code — retaliation as policy. This is the patch, delivered 2,000 years before the sequels.</p>
+        </div>
+
+        <div class="verdict">
+          <span class="tag">How it relates — the source code</span>
+          Line the five stories up and they're one story at five resolutions. The grasshoppers, the stormtroopers, Thanos's army, the wasteland's factions, and the legions are all the same device: <strong>force organized to keep people from connecting</strong>. And the ant, the Jedi, the man in the suit, the vault dweller, and the carpenter all win the same way — not by out-armying the army, but by completing a connection the army couldn't cut: a colony standing up, a father's last act of love, one life traded for everyone, kindness under radiation, forgiveness from the cross itself. Jesus even answered the Emperor of his day directly: "Caesar" on the tax coin meant Emperor Tiberius Caesar, whose portrait and title the coin carried — and Jesus said <em>"Render unto Caesar the things that are Caesar's, and unto God the things that are God's."</em> Two thousand years later, Fallout's worst army is still wearing the Caesar name and Imperial Rome's fear. The coin answer outlasted the coin. <strong>What connects, remains. What doesn't, never was.</strong>
+        </div>
+      </section>
+
+      <!-- ================= THE PATTERN ================= -->
+      <section class="pattern" id="pattern">
+        <h2>The Pattern, Side by Side</h2>
+        <p class="sub">Five boxes, one shape. Every "Jesus figure" here is just the story asking: what does a single connected person do in front of an army built on fear?</p>
+
+        <div class="prow">
+          <div class="who">Flik<small>A BUG'S LIFE · PIXAR</small></div>
+          <p><strong>vs.</strong> Hopper's grasshopper gang — 5 enforcers taxing a whole colony through pure fear.</p>
+          <p class="won">Won by: getting the colony to stand up together. Fear deleted; the math did the rest.</p>
+        </div>
+        <div class="prow">
+          <div class="who">Luke Skywalker<small>STAR WARS</small></div>
+          <p><strong>vs.</strong> The Galactic Empire of Emperor Palpatine — stormtroopers, the Death Star, and Darth Vader, a cyborg enforcer with his humanity cut out.</p>
+          <p class="won">Won by: refusing to fight. His mercy reconnected Vader — the machine's own heart defected.</p>
+        </div>
+        <div class="prow">
+          <div class="who">Tony Stark<small>AVENGERS: ENDGAME</small></div>
+          <p><strong>vs.</strong> Thanos and the largest army in the universe, led by a man who "balanced" half of all life to dust.</p>
+          <p class="won">Won by: one snap, aimed the other way — he took the cost onto himself. I love you 3000.</p>
+        </div>
+        <div class="prow">
+          <div class="who">Lucy MacLean<small>FALLOUT</small></div>
+          <p><strong>vs.</strong> Everything: super mutants, the Brotherhood of Steel, the Enclave, Edward Sallow's Caesar's Legion, the NCR, the Institute's synths, and the Vault-Tec executives who froze themselves rich.</p>
+          <p class="won">Won by: still going. "Okey dokey" — kindness kept under maximum wasteland pressure.</p>
+        </div>
+        <div class="prow">
+          <div class="who">Jesus<small>THE GOSPELS</small></div>
+          <p><strong>vs.</strong> The Roman Empire of Emperor Tiberius — legions, taxes, and the cross ordered by Pontius Pilate, history's loudest fear advertisement.</p>
+          <p class="won">Won by: absorbing the violence and forgiving it mid-execution. The movement Rome tried to delete is now the largest on Earth; Rome is a museum.</p>
+        </div>
+      </section>
+
+      <footer>
+        <p class="big">"What connects, remains.<br />What doesn't, never was."</p>
+        <p class="sig">COMPLETION THEORY — A DEMONSTRATION · BW YOUNG BO × LUX</p>
+        <p>Story facts drawn from the films, series, and Gospels themselves; Endgame plot points cross-checked against Marvel's record of the film. Every count on this page matches what's drawn in its diagram — press the buttons and argue with them.</p>
+      </footer>
+    </div>
+<script>
+/* ============ helpers ============ */
+var SVGNS = "http://www.w3.org/2000/svg";
+function el(name, attrs, parent) {
+  var n = document.createElementNS(SVGNS, name);
+  for (var k in attrs) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+}
+function clamp01(x) { return Math.max(0, Math.min(1, x)); }
+function lerp(a, b, t) { return a + (b - a) * t; }
+function hexRgb(h) { return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)]; }
+function hexLerp(h1, h2, t) {
+  var a = hexRgb(h1), b = hexRgb(h2);
+  return "rgb(" + Math.round(lerp(a[0], b[0], t)) + "," + Math.round(lerp(a[1], b[1], t)) + "," + Math.round(lerp(a[2], b[2], t)) + ")";
+}
+/* the vice-versa rule from the other Completion pages: the light starts greyed
+   and weakened, the dark starts at full strength — then they trade places */
+function shade(elm, grey, bright, glow) {
+  if (!elm) return;
+  var f = "grayscale(" + grey.toFixed(2) + ") brightness(" + bright.toFixed(2) + ")";
+  if (glow > 0.01) f += " drop-shadow(0 0 " + Math.round(6 + glow * 11) + "px rgba(255,210,63," + (glow * 0.8).toFixed(2) + "))";
+  elm.style.filter = f;
+}
+var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ============ 01 · A Bug's Life ============ */
+(function () {
+  var ants = document.getElementById("antArmy");
+  var positions = [];
+  for (var i = 0; i < 46; i++) {
+    var row = Math.floor(i / 12);
+    var x = 66 + (i % 12) * 21 + (row % 2) * 9;
+    var y = 306 - row * 15 + ((i * 7) % 5);
+    positions.push([x, y]);
+  }
+  var antEls = positions.map(function (p, idx) {
+    var g = el("g", { transform: "translate(" + p[0] + "," + p[1] + ")", opacity: "0" }, ants);
+    el("ellipse", { cx: 0, cy: 0, rx: 4.6, ry: 3.4, fill: idx % 5 === 0 ? "#fff0a0" : "#f5b301" }, g);
+    el("circle", { cx: 5.4, cy: -1.4, r: 2.6, fill: idx % 5 === 0 ? "#ffe9a8" : "#ffd23f" }, g);
+    el("path", { d: "M4 -4 Q 7 -8 10 -8 M5 -3 Q 9 -6 11 -5", stroke: "#ffd23f", "stroke-width": 1, fill: "none" }, g);
+    return g;
+  });
+  var gang = document.getElementById("hopperGang");
+  var hopperEls = [];
+  [[806, 252], [694, 262], [852, 282], [640, 288]].forEach(function (p) {
+    var g = el("g", { transform: "translate(" + p[0] + "," + p[1] + ")" }, gang);
+    el("ellipse", { cx: 0, cy: 10, rx: 8, ry: 16, fill: "#d99a00" }, g);
+    el("circle", { cx: 1, cy: -10, r: 7, fill: "#f5b301" }, g);
+    el("path", { d: "M-2 -16 Q -8 -26 -13 -28 M4 -16 Q 8 -27 14 -29", stroke: "#f5b301", "stroke-width": 1.8, fill: "none" }, g);
+    el("path", { d: "M-5 22 L -9 34 M6 22 L 10 34", stroke: "#8a5c00", "stroke-width": 3 }, g);
+    hopperEls.push(g);
+  });
+
+  var range = document.getElementById("unityRange");
+  var out = document.getElementById("unityOut");
+  var hopper = document.getElementById("hopper");
+  var bird = document.getElementById("bird");
+  var flik = document.getElementById("flik");
+  var caption = document.getElementById("bugCaption");
+  var headline = document.getElementById("bugHeadline");
+  var text = document.getElementById("bugText");
+
+  function render() {
+    var u = +range.value;
+    out.textContent = u + "%";
+    var shown = Math.round((u / 100) * antEls.length);
+    antEls.forEach(function (g, i) { g.setAttribute("opacity", i < shown ? "1" : "0.06"); });
+    var darkLeft = u >= 100 ? 0 : 5 - Math.floor(u / 20); /* 5, 4, 3, 2, 1 — then the bird */
+    var gangLeft = Math.max(0, darkLeft - 1);
+    hopperEls.forEach(function (g, i) { g.style.display = i < gangLeft ? "" : "none"; });
+    if (darkLeft === 0) {
+      hopper.style.display = "none";
+      bird.setAttribute("opacity", "1");
+      bird.setAttribute("transform", "translate(692,92) scale(1.45)");
+    } else {
+      hopper.style.display = "";
+      bird.setAttribute("opacity", "0");
+      bird.setAttribute("transform", "translate(640,40)");
+    }
+    flik.setAttribute("transform", "translate(268," + (282 - Math.min(10, u / 10)) + ")");
+    document.getElementById("bugLight").textContent = shown;
+    document.getElementById("bugDark").textContent = darkLeft;
+    /* Flik starts greyed and weakened; Hopper starts at full strength — they trade */
+    var bt = u / 100;
+    shade(flik, 0.8 * (1 - bt), lerp(0.72, 1.13, bt), bt * bt * 0.9);
+    shade(ants, 0.45 * (1 - bt), lerp(0.85, 1.05, bt), 0);
+    shade(hopper, 0.85 * bt, lerp(1, 0.5, bt), 0);
+    shade(gang, 0.85 * bt, lerp(1, 0.5, bt), 0);
+    if (u < 35) {
+      caption.textContent = "The colony pays the offering. Fear is doing all the work.";
+      headline.textContent = "One ant with an idea vs. a gang with a reputation";
+      text.innerHTML = "Flik alone is a joke to the grasshoppers — he's an inventor whose harvester caused the whole mess. But his idea is the dangerous kind Hopper warned his gang about: <strong>\"You let one ant stand up to us, then they all might stand up.\"</strong>";
+    } else if (u < 75) {
+      caption.textContent = "The ants are doing the math. There are a lot more of them.";
+      headline.textContent = "The math Hopper was afraid of";
+      text.innerHTML = "Hopper's own words to his gang: the ants outnumber them <strong>a hundred to one</strong> — \"and if they ever figure that out, there goes our way of life.\" Fear was never backed by force. It was backed by the colony not counting itself.";
+    } else {
+      caption.textContent = "The colony stands. The bluff collapses. The bird was almost beside the point.";
+      headline.textContent = "The offering stops. The colony keeps its harvest.";
+      text.innerHTML = "At full unity the grasshoppers' only real asset — the colony's fear — is gone. Flik's fake bird gets exposed and it <em>doesn't matter</em>: the ants have already stood up. <strong>The circuit completed itself. Hopper's branch never connected to anything but fear, and fear just got disconnected.</strong>";
+    }
+    if (darkLeft === 1) {
+      caption.textContent = "One grasshopper left: Hopper himself. And something big just blocked out the sun…";
+    } else if (darkLeft === 0) {
+      caption.textContent = "The bird gets the last one. The colony keeps its harvest. Fear: disconnected.";
+      headline.textContent = "5, 4, 3, 2, 1 — gone";
+      text.innerHTML = "The count tells the whole story: <strong>46 ants standing, 0 grasshoppers left.</strong> Hopper's empire was never an army — it was five bullies and a bluff, and the bluff only worked while the colony refused to count itself. The bird handles the last one personally.";
+    }
+  }
+  range.addEventListener("input", render);
+  document.getElementById("standUpBtn").addEventListener("click", function () {
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) { range.value = 100; render(); return; }
+    var iv = setInterval(function () {
+      var v = +range.value + 1;
+      if (v >= 100) { v = 100; clearInterval(iv); }
+      range.value = v; render();
+    }, 200);
+  });
+  document.getElementById("offeringBtn").addEventListener("click", function () { range.value = 12; render(); });
+  render();
+})();
+
+/* ============ 02 · Star Wars ============ */
+(function () {
+  /* stormtroopers — 7 in frame */
+  var row = document.getElementById("trooperRow");
+  var troopers = [];
+  for (var i = 0; i < 7; i++) {
+    var x = 330 + i * 42, y = 262;
+    var g = el("g", { transform: "translate(" + x + "," + y + ")" }, row);
+    el("path", { d: "M-11 26 L -9 -6 Q -9 -18 0 -18 Q 9 -18 9 -6 L 11 26 Z", fill: "#d99a00" }, g);
+    el("path", { d: "M-8 -8 L 8 -8 L 6 0 L -6 0 Z", fill: "#2a0e33" }, g);
+    el("rect", { x: -5, y: 6, width: 10, height: 3.4, fill: "#2a0e33" }, g);
+    el("path", { d: "M-9 26 L -7 58 M9 26 L 7 58", stroke: "#b57e00", "stroke-width": 5 }, g);
+    el("rect", { x: 10, y: 8, width: 16, height: 4.5, fill: "#8a5c00", transform: "rotate(24 10 8)" }, g);
+    troopers.push(g);
+  }
+  /* rebels — 6 more arrive as the light rises */
+  var rebelsG = document.getElementById("rebelRow");
+  var rebels = [];
+  [[176, 300], [224, 310], [272, 302], [52, 310], [296, 312], [88, 318]].forEach(function (p) {
+    var g = el("g", { transform: "translate(" + p[0] + "," + p[1] + ")" }, rebelsG);
+    el("circle", { cx: 0, cy: -9, r: 4.6, fill: "#ffe9a8" }, g);
+    el("path", { d: "M-5 8 L -3.4 -4 L 3.4 -4 L 5 8 Z", fill: "#f5b301" }, g);
+    el("path", { d: "M3 -2 L 12 -10", stroke: "#ffd23f", "stroke-width": 2.4 }, g);
+    g.style.display = "none";
+    rebels.push(g);
+  });
+
+  var progress = 0;
+  var out = document.getElementById("lightOut");
+  var text = document.getElementById("swText");
+  var caption = document.getElementById("swCaption");
+  var emperor = document.getElementById("emperor");
+  var vaderSaber = document.getElementById("vaderSaber");
+  var vaderHalo = document.getElementById("vaderHalo");
+  var vaderName = document.getElementById("vaderName");
+  var vaderSub = document.getElementById("vaderSub");
+  var saberEl = document.getElementById("saber");
+  var pSaberEl = document.getElementById("pSaber");
+  var lukeEl = document.getElementById("nodeLuke");
+  var vaderEl = document.getElementById("nodeVader");
+  var dsEl = document.getElementById("deathStar");
+
+  function render() {
+    var v = progress;
+    out.textContent = Math.round(v) + "%";
+    var troopersLeft = 7 - Math.min(7, Math.floor(v / 11));
+    troopers.forEach(function (g, i) { g.style.display = i < troopersLeft ? "" : "none"; });
+    var rebelsIn = Math.min(6, Math.floor(v / 14));
+    rebels.forEach(function (g, i) { g.style.display = i < rebelsIn ? "" : "none"; });
+    var redeemed = v >= 88;
+    var emperorGone = v >= 100;
+    vaderSaber.setAttribute("opacity", redeemed ? "0.08" : "1");
+    vaderHalo.setAttribute("opacity", redeemed ? "0.3" : "0");
+    vaderName.textContent = redeemed ? "ANAKIN" : "VADER";
+    vaderSub.textContent = redeemed ? "redeemed — the man returns" : "the Emperor's enforcer";
+    emperor.style.display = emperorGone ? "none" : "";
+    /* vice-versa shading: Luke starts greyed and weakened, the Empire at full strength */
+    var st = v / 100;
+    shade(lukeEl, 0.8 * (1 - st), lerp(0.72, 1.14, st), st * 0.9);
+    shade(row, 0.85 * st, lerp(1, 0.48, st), 0);
+    shade(dsEl, 0.6 * st, lerp(1, 0.6, st), 0);
+    shade(emperor, 0.9 * st, lerp(1, 0.45, st), 0);
+    if (redeemed) shade(vaderEl, 0.1, 1.08, 0.7);
+    else shade(vaderEl, 0.65 * st, lerp(1, 0.55, st), 0);
+    /* Luke's saber, movie-accurate: greyed yellow → Anakin's blue → his own green */
+    var greyY = "#8f8663", blue = "#57b6ff", green = "#3ce882", lukeCol;
+    if (v < 30) lukeCol = greyY;
+    else if (v < 55) lukeCol = hexLerp(greyY, blue, (v - 30) / 25);
+    else if (v < 75) lukeCol = blue;
+    else lukeCol = hexLerp(blue, green, (v - 75) / 25);
+    saberEl.setAttribute("stroke", lukeCol);
+    saberEl.style.filter = "drop-shadow(0 0 " + (3 + st * 6).toFixed(1) + "px " + lukeCol + ")";
+    /* the Sith blades burn red, then gutter out to greyed yellow as the light rises */
+    var sithCol = hexLerp("#ff2015", "#8f8570", clamp01(v / 85));
+    var sithGlow = "drop-shadow(0 0 " + Math.max(1.5, 6.5 - st * 5).toFixed(1) + "px rgba(255,32,21," + (0.9 - st * 0.55).toFixed(2) + "))";
+    vaderSaber.setAttribute("stroke", sithCol);
+    vaderSaber.style.filter = sithGlow;
+    if (pSaberEl) { pSaberEl.setAttribute("stroke", sithCol); pSaberEl.style.filter = sithGlow; }
+    document.getElementById("swLight").textContent = 1 + rebelsIn + (redeemed ? 1 : 0);
+    document.getElementById("swDark").textContent = troopersLeft + (redeemed ? 0 : 1) + (emperorGone ? 0 : 1);
+    if (v < 12) {
+      caption.textContent = "One farm boy. Nine on the dark side. Run the trilogy — press the button below.";
+      text.innerHTML = "One farm boy from Tatooine, Luke Skywalker, standing alone. Across from him: seven stormtroopers in this frame, the Empire's cyborg enforcer Darth Vader, and Emperor Palpatine himself — Sheev Palpatine, once Supreme Chancellor of the Galactic Republic, who built the whole machine out of fear. Press the button and run the trilogy.";
+    } else if (troopersLeft > 0) {
+      caption.textContent = "STORMTROOPERS LEFT: " + troopersLeft + " — every point of light costs the Empire a helmet.";
+      text.innerHTML = "Notice the trade. The light doesn't grow by out-shooting anyone — it grows because <strong>people keep showing up</strong>, and every person who shows up is one fewer reason to fear the helmets. Rebellions are built on hope, and hope is just connection with its boots on.";
+    } else if (!redeemed) {
+      caption.textContent = "The helmets are gone. Two dark figures left: the enforcer, and his master.";
+      text.innerHTML = "Now it's the end of <em>Return of the Jedi</em>: Luke, Vader, and the Emperor in one room. Luke has thrown his lightsaber away — <strong>he will not fight his father</strong>. The Emperor calls that weakness, and starts torturing Luke with lightning to prove it. Almost there — watch.";
+    } else if (!emperorGone) {
+      caption.textContent = "VADER'S SABER GOES DARK. The man inside the machine just came back.";
+      text.innerHTML = "Watching his son being tortured, the cyborg makes the first free choice of his life: <strong>he picks the connection over the machine.</strong> Anakin Skywalker just moved from the dark count to the light count — that's what redemption looks like as a number. One figure left on the dark side. Finish it.";
+    } else {
+      caption.textContent = "THE EMPEROR IS GONE — thrown down the shaft by the man he built. Dark side: 0.";
+      text.innerHTML = "That's the whole trilogy in two numbers. The Empire's side ends at <strong>zero</strong> — not out-gunned, but out-connected: a son who wouldn't fight, and a father who finally did the right thing. The most connected moment in the saga comes from the character with the most parts replaced. <strong>What connects, remains.</strong>";
+    }
+  }
+  var swAnimating = false;
+  document.getElementById("swRunBtn").addEventListener("click", function () {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { progress = 100; render(); return; }
+    if (swAnimating) return;
+    if (progress >= 100) progress = 0;
+    swAnimating = true;
+    var iv = setInterval(function () {
+      progress += 0.5;
+      if (progress >= 100) { progress = 100; clearInterval(iv); swAnimating = false; }
+      render();
+    }, 100);
+  });
+  document.getElementById("swResetBtn").addEventListener("click", function () { progress = 0; render(); });
+  render();
+})();
+
+/* ============ 03 · Endgame ============ */
+(function () {
+  /* Thanos army silhouettes — 7 soldiers, plus Thanos himself = a dark side of 8 */
+  var army = document.getElementById("thanosArmy");
+  var soldiers = [];
+  [[676, 268], [716, 282], [762, 272], [806, 284], [688, 300], [742, 302], [796, 300]].forEach(function (p) {
+    var g = el("g", { transform: "translate(" + p[0] + "," + p[1] + ")" }, army);
+    el("ellipse", { cx: 0, cy: 0, rx: 9, ry: 13, fill: "#b57e00" }, g);
+    el("circle", { cx: 0, cy: -16, r: 6, fill: "#b57e00" }, g);
+    soldiers.push(g);
+  });
+  /* portals — Doctor Strange's sling-ring portals, the way the movie draws
+     them: a turning ring of orange fire that flares open at a hero's side,
+     throws sparks off its rim, and burns out once they're through. No
+     permanent rings on the field — one portal per hero, at the moment
+     they arrive, gone behind them. */
+  var portals = document.getElementById("portals");
+  el("text", { x: 118, y: 352, "class": "node-sub" }, portals).textContent = "the portals — everyone";
+  el("text", { x: 118, y: 366, "class": "node-sub" }, portals).textContent = "who ever connected, arriving";
+  function spawnPortal(x, y) {
+    if (REDUCED) return;
+    var g = el("g", { transform: "translate(" + x + "," + y + ")" }, portals);
+    var ring = el("g", {}, g);
+    el("circle", { cx: 0, cy: 0, r: 31, fill: "rgba(255,122,0,0.10)", stroke: "#ff7a00", "stroke-width": 3.2, "stroke-dasharray": "7 4", "stroke-linecap": "round" }, ring);
+    el("circle", { cx: 0, cy: 0, r: 26.5, fill: "none", stroke: "#ffb03a", "stroke-width": 1.8, "stroke-dasharray": "3.5 5", opacity: 0.9 }, ring);
+    el("circle", { cx: 0, cy: 0, r: 34, fill: "none", stroke: "#ff5e00", "stroke-width": 1.1, opacity: 0.5 }, ring);
+    /* sparks bursting off the rim as the ring flares open */
+    for (var i = 0; i < 14; i++) {
+      var a = (i / 14) * Math.PI * 2 + (i % 3) * 0.22;
+      var sx = Math.cos(a), sy = Math.sin(a);
+      var sp = el("circle", { cx: (sx * 30).toFixed(1), cy: (sy * 30).toFixed(1), r: 1.5 + (i % 3) * 0.5, fill: i % 2 ? "#ffc46b" : "#ff8c1a" }, g);
+      if (sp.animate) {
+        sp.animate([
+          { transform: "translate(0px,0px)", opacity: 1 },
+          { transform: "translate(" + (sx * (14 + (i % 4) * 5)).toFixed(1) + "px," + (sy * (14 + (i % 4) * 5)).toFixed(1) + "px)", opacity: 0 }
+        ], { duration: 900 + (i % 5) * 160, easing: "ease-out", fill: "forwards" });
+      }
+    }
+    /* the ring slowly turns while it burns, sparks trailing around it */
+    if (ring.animate) {
+      ring.animate([
+        { transform: "rotate(0deg)" },
+        { transform: "rotate(140deg)" }
+      ], { duration: 4600, easing: "linear", fill: "forwards" });
+    }
+    /* flare in fast and hot, hold while the hero steps through, then the
+       long burn-out — gone by the time the next arrival is due */
+    var anim = g.animate([
+      { opacity: 0, transform: "translate(" + x + "px," + y + "px) scale(0.55)", filter: "brightness(2.4) drop-shadow(0 0 18px rgba(255,122,0,0.95))" },
+      { opacity: 1, transform: "translate(" + x + "px," + y + "px) scale(1.06)", filter: "brightness(1.5) drop-shadow(0 0 14px rgba(255,122,0,0.8))", offset: 0.14 },
+      { opacity: 1, transform: "translate(" + x + "px," + y + "px) scale(1)", filter: "brightness(1.15) drop-shadow(0 0 9px rgba(255,122,0,0.6))", offset: 0.3 },
+      { opacity: 0.85, transform: "translate(" + x + "px," + y + "px) scale(0.97)", filter: "brightness(1) drop-shadow(0 0 5px rgba(255,122,0,0.35))", offset: 0.72 },
+      { opacity: 0, transform: "translate(" + x + "px," + y + "px) scale(0.9)", filter: "brightness(0.8) drop-shadow(0 0 0 rgba(255,122,0,0))" }
+    ], { duration: 4600, easing: "ease-out", fill: "forwards" });
+    anim.onfinish = function () { if (g.parentNode) g.parentNode.removeChild(g); };
+  }
+  /* the classic roster — the original six Avengers plus Ant-Man and the
+     Wasp: eight named figures, each drawn as themselves, and always solid
+     yellow — the light side never greys out. Click one and it flashes its
+     own signature colors, slowly, then settles back to yellow. */
+  var heroDefs = [
+    { name: "Hulk", pos: [222, 122], shapes: '<path d="M-16 16 L-14 -8 Q-14 -15 -6 -16 L6 -16 Q14 -15 14 -8 L16 16 Z" fill="#ffd23f" data-f="#2fa84f"/><path d="M-14 -10 L-23 10 L-17 14 L-10 -2 Z" fill="#ffd23f" data-f="#2fa84f"/><path d="M14 -10 L23 10 L17 14 L10 -2 Z" fill="#ffd23f" data-f="#2fa84f"/><circle cx="0" cy="-21" r="7" fill="#ffe9a8" data-f="#2fa84f"/><rect x="-4.5" y="-23" width="9" height="2.4" fill="#2a0e33"/><rect x="-10" y="16" width="7" height="8" fill="#ffd23f" data-f="#2fa84f"/><rect x="3" y="16" width="7" height="8" fill="#ffd23f" data-f="#2fa84f"/>' },
+    { name: "Black Widow", pos: [140, 160], shapes: '<path d="M-6.4 -22 Q0 -27.4 6.4 -22 L7.2 -9 L4 -9 L4 -18.6 L-4 -18.6 L-4 -9 L-7.2 -9 Z" fill="#ffd23f" data-f="#4a235a"/><circle cx="0" cy="-16.6" r="4.4" fill="#ffe9a8" data-f="#23232b"/><path d="M-5 14 L-3.8 -11 L3.8 -11 L5 14 Z" fill="#ffd23f" data-f="#23232b"/><path d="M-3.8 -9 L-9.4 5 L-6.8 6.6 L-2.4 -5 Z" fill="#ffd23f" data-f="#23232b"/><path d="M3.8 -9 L9.4 5 L6.8 6.6 L2.4 -5 Z" fill="#ffd23f" data-f="#23232b"/><rect x="-4" y="-0.6" width="8" height="2.6" fill="#2a0e33"/><rect x="-4.4" y="14" width="3.4" height="8" fill="#ffd23f" data-f="#23232b"/><rect x="1" y="14" width="3.4" height="8" fill="#ffd23f" data-f="#23232b"/>' },
+    { name: "Hawkeye", pos: [76, 262], shapes: '<rect x="-9.6" y="-13" width="3.4" height="12" rx="1" fill="#ffd23f" data-f="#7d3c98" transform="rotate(14 -8 -7)"/><path d="M-8 -13.4 L-10.4 -20 M-5.2 -12.8 L-6.2 -19.6" stroke="#ffd23f" stroke-width="1.4" fill="none" data-s="#7d3c98"/><path d="M-6 14 L-5 -12 L5 -12 L6 14 Z" fill="#ffd23f" data-f="#7d3c98"/><circle cx="0" cy="-17" r="4.6" fill="#ffe9a8" data-f="#7d3c98"/><path d="M5 -10 L12.4 -4.4 L11 -1.6 L4 -6 Z" fill="#ffd23f" data-f="#7d3c98"/><path d="M-5 -8 L-9 6 L-6.4 7.2 L-2.8 -4 Z" fill="#ffd23f" data-f="#7d3c98"/><path d="M15.4 -17 Q23.4 0 15.4 17" stroke="#ffd23f" stroke-width="2.6" fill="none" data-s="#7d3c98"/><line x1="15.4" y1="-17" x2="15.4" y2="17" stroke="#ffe9a8" stroke-width="0.9" data-s="#7d3c98"/><line x1="-2" y1="-3" x2="15.6" y2="-3" stroke="#ffd23f" stroke-width="1.7" data-s="#7d3c98"/><path d="M15.4 -5.4 L20.2 -3 L15.4 -0.6 Z" fill="#ffd23f" data-f="#7d3c98"/><rect x="-5.4" y="14" width="4" height="8" fill="#ffd23f" data-f="#7d3c98"/><rect x="1.4" y="14" width="4" height="8" fill="#ffd23f" data-f="#7d3c98"/>' },
+    { name: "Thor", pos: [70, 84], shapes: '<path d="M-8 -11 L-15 15 L-6.4 15 L-5.6 -9 Z" fill="#ffd23f" data-f="#3d7bff"/><path d="M-8 14 L-6.4 -12 L6.4 -12 L8 14 Z" fill="#ffd23f" data-f="#3d7bff"/><circle cx="0" cy="-17" r="5" fill="#ffe9a8" data-f="#3d7bff"/><path d="M-5 -19.4 L-5.8 -9 L-3.4 -9 L-3.2 -19 Z" fill="#ffd23f" data-f="#3d7bff"/><path d="M5 -19.4 L5.8 -9 L3.4 -9 L3.2 -19 Z" fill="#ffd23f" data-f="#3d7bff"/><circle cx="-2.8" cy="-5" r="1.5" fill="#2a0e33"/><circle cx="2.8" cy="-5" r="1.5" fill="#2a0e33"/><path d="M6.2 -10 L12.6 -16.4 L14.8 -13.8 L8.8 -6.4 Z" fill="#ffd23f" data-f="#3d7bff"/><rect x="11.6" y="-27" width="3" height="12" fill="#ffd23f" data-f="#3d7bff"/><rect x="6.8" y="-32" width="13" height="7" rx="1" fill="#ffd23f" data-f="#3d7bff"/><path d="M-6.4 -8 L-10.6 6 L-8 7.4 L-4.6 -3.6 Z" fill="#ffd23f" data-f="#3d7bff"/><rect x="-6.8" y="14" width="4.6" height="8" fill="#ffd23f" data-f="#3d7bff"/><rect x="2.2" y="14" width="4.6" height="8" fill="#ffd23f" data-f="#3d7bff"/>' },
+    { name: "Iron Man", pos: [150, 70], shapes: '<rect x="-12.4" y="-13" width="7" height="6.4" rx="2" fill="#ffd23f" data-f="#c8242c"/><rect x="5.4" y="-13" width="7" height="6.4" rx="2" fill="#ffd23f" data-f="#c8242c"/><path d="M-8 15 L-7 -13 L7 -13 L8 15 Z" fill="#ffd23f" data-f="#c8242c"/><path d="M-5 -13.6 L-5 -20.6 Q-5 -25 0 -25 Q5 -25 5 -20.6 L5 -13.6 Z" fill="#ffe9a8" data-f="#f0a51e"/><rect x="-4" y="-20.4" width="3" height="1.6" fill="#2a0e33"/><rect x="1" y="-20.4" width="3" height="1.6" fill="#2a0e33"/><circle cx="0" cy="-4" r="3.2" fill="#ffe9a8" data-f="#f0a51e"/><path d="M-10.6 -7 L-14.6 8 L-11 9.6 L-7.8 -3.4 Z" fill="#ffd23f" data-f="#c8242c"/><path d="M10.6 -7 L14.6 8 L11 9.6 L7.8 -3.4 Z" fill="#ffd23f" data-f="#c8242c"/><rect x="-6.8" y="15" width="4.8" height="8" fill="#ffd23f" data-f="#c8242c"/><rect x="2" y="15" width="4.8" height="8" fill="#ffd23f" data-f="#c8242c"/>' },
+    { name: "Captain America", pos: [56, 168], shapes: '<path d="M-8 14 L-6.5 -12 L6.5 -12 L8 14 Z" fill="#ffd23f" data-f="#2456a6"/><path d="M0 -9.8 L0.95 -7 L3.9 -7 L1.6 -5.3 L2.45 -2.5 L0 -4.1 L-2.45 -2.5 L-1.6 -5.3 L-3.9 -7 L-0.95 -7 Z" fill="#ffe9a8" data-f="#ffffff"/><rect x="-6.9" y="3" width="3.4" height="11" fill="#ffd23f" data-f="#c0272d"/><rect x="-1.7" y="3" width="3.4" height="11" fill="#ffe9a8" data-f="#ffffff"/><rect x="3.5" y="3" width="3.4" height="11" fill="#ffd23f" data-f="#c0272d"/><circle cx="0" cy="-17" r="5.2" fill="#ffe9a8" data-f="#2456a6"/><path d="M-5.1 -19.4 L-9.8 -21.6 L-6.9 -16.6 Z" fill="#ffe9a8" data-f="#ffffff"/><path d="M5.1 -19.4 L9.8 -21.6 L6.9 -16.6 Z" fill="#ffe9a8" data-f="#ffffff"/><path d="M-3.6 -15.7 L3.6 -15.7 L2.8 -12.1 Q0 -11 -2.8 -12.1 Z" fill="#ffe9a8" data-f="#eec39b"/><path d="M-6.5 -9 L-10.8 3 L-8 4.8 L-4.2 -4.6 Z" fill="#ffd23f" data-f="#2456a6"/><path d="M-10.9 3.1 L-8.1 4.9 L-6.7 1.5 L-9.6 -0.3 Z" fill="#ffd23f" data-f="#c0272d"/><rect x="-6.2" y="14" width="4.6" height="4.4" fill="#ffd23f" data-f="#2456a6"/><rect x="1.6" y="14" width="4.6" height="4.4" fill="#ffd23f" data-f="#2456a6"/><rect x="-6.2" y="18.4" width="4.6" height="3.6" fill="#ffd23f" data-f="#c0272d"/><rect x="1.6" y="18.4" width="4.6" height="3.6" fill="#ffd23f" data-f="#c0272d"/><circle cx="10" cy="1" r="11" fill="#ffd23f" data-f="#c0272d"/><circle cx="10" cy="1" r="9.1" fill="#ffe9a8" data-f="#ffffff"/><circle cx="10" cy="1" r="7.2" fill="#ffd23f" data-f="#c0272d"/><circle cx="10" cy="1" r="4.9" fill="#ffd23f" data-f="#2456a6"/><path d="M10 -1.6 L10.75 0.5 L13 0.6 L11.2 1.95 L11.8 4.1 L10 2.85 L8.2 4.1 L8.8 1.95 L7 0.6 L9.25 0.5 Z" fill="#2a0e33" data-f="#ffffff"/>' },
+    { name: "Ant-Man", pos: [168, 268], shapes: '<path d="M-3.4 -24.4 Q-6.2 -28 -8.6 -28.8 M3.4 -24.4 Q6.2 -28 8.6 -28.8" stroke="#ffd23f" stroke-width="1.5" fill="none" data-s="#1f1f26"/><circle cx="-8.6" cy="-28.8" r="1.2" fill="#ffd23f" data-f="#1f1f26"/><circle cx="8.6" cy="-28.8" r="1.2" fill="#ffd23f" data-f="#1f1f26"/><path d="M-5.6 -13 L-5.6 -20 Q-5.6 -25.4 0 -25.4 Q5.6 -25.4 5.6 -20 L5.6 -13 Z" fill="#ffd23f" data-f="#1f1f26"/><circle cx="-2.6" cy="-19" r="1.9" fill="#2a0e33"/><circle cx="2.6" cy="-19" r="1.9" fill="#2a0e33"/><rect x="-2.4" y="-15.2" width="4.8" height="1.6" fill="#2a0e33"/><path d="M-7 15 L-6 -12 L6 -12 L7 15 Z" fill="#ffd23f" data-f="#8e2323"/><circle cx="0" cy="2" r="1.7" fill="#2a0e33"/><path d="M-6 -9 L-10.4 5 L-7.8 6.4 L-4.2 -4.6 Z" fill="#ffd23f" data-f="#8e2323"/><path d="M6 -9 L10.4 5 L7.8 6.4 L4.2 -4.6 Z" fill="#ffd23f" data-f="#8e2323"/><rect x="-6" y="15" width="4.4" height="8" fill="#ffd23f" data-f="#8e2323"/><rect x="1.6" y="15" width="4.4" height="8" fill="#ffd23f" data-f="#8e2323"/>' },
+    { name: "Wasp", pos: [224, 214], shapes: '<ellipse cx="-10.4" cy="-8" rx="4" ry="11" fill="#ffe9a8" data-f="#f5b301" transform="rotate(24 -10.4 -8)"/><ellipse cx="10.4" cy="-8" rx="4" ry="11" fill="#ffe9a8" data-f="#f5b301" transform="rotate(-24 10.4 -8)"/><path d="M-2 -21.2 L-3.2 -25.4 M2 -21.2 L3.2 -25.4" stroke="#ffd23f" stroke-width="1.3" fill="none" data-s="#aeb6bf"/><circle cx="0" cy="-16.8" r="4.4" fill="#ffe9a8" data-f="#aeb6bf"/><path d="M-4.6 14 L-3.6 -12 L3.6 -12 L4.6 14 Z" fill="#ffd23f" data-f="#aeb6bf"/><path d="M-3.6 -9 L-8.6 4 L-6.2 5.4 L-2.2 -4.4 Z" fill="#ffd23f" data-f="#aeb6bf"/><path d="M3.6 -9 L8.6 4 L6.2 5.4 L2.2 -4.4 Z" fill="#ffd23f" data-f="#aeb6bf"/><rect x="-4" y="14" width="3.2" height="8" fill="#ffd23f" data-f="#aeb6bf"/><rect x="0.8" y="14" width="3.2" height="8" fill="#ffd23f" data-f="#aeb6bf"/>' }
+  ];
+  var heroesG = document.getElementById("heroRow");
+  var heroes = [];
+  heroDefs.forEach(function (def) {
+    var g = el("g", { transform: "translate(" + def.pos[0] + "," + def.pos[1] + ")", "class": "clickable" }, heroesG);
+    g.innerHTML = def.shapes;
+    var t = el("title", {}, g);
+    t.textContent = def.name;
+    g.insertBefore(t, g.firstChild);
+    g.style.display = "none";
+    g.addEventListener("click", function () { flashHero(g, def); });
+    heroes.push(g);
+  });
+  /* the signature flash: no fade-in at all — the click lands and the hero
+     IS their colors that same instant, glow up with them. Then one long,
+     slow letting-go: a ten-second fade back to solid yellow. Click again
+     mid-fade and it snaps straight back to full color. */
+  function flashHero(g, def) {
+    if (g._flashAnims) g._flashAnims.forEach(function (a) { a.cancel(); });
+    g._flashAnims = [];
+    g.querySelectorAll("[data-f],[data-s]").forEach(function (p) {
+      if (!p.animate) return;
+      var isFill = p.getAttribute("data-f") !== null;
+      var prop = isFill ? "fill" : "stroke";
+      var sig = p.getAttribute(isFill ? "data-f" : "data-s");
+      var orig = p.getAttribute(prop);
+      if (!orig || !sig) return;
+      var f0 = {}, f1 = {}, f2 = {};
+      f0[prop] = sig;
+      f1[prop] = sig; f1.offset = 0.16;
+      f2[prop] = orig;
+      g._flashAnims.push(p.animate([f0, f1, f2], { duration: 10000, easing: "ease-out" }));
+    });
+    if (g.animate) {
+      g._flashAnims.push(g.animate([
+        { filter: "drop-shadow(0 0 11px rgba(255,210,63,0.85))" },
+        { filter: "drop-shadow(0 0 6px rgba(255,210,63,0.35))", offset: 0.2 },
+        { filter: "drop-shadow(0 0 0 rgba(255,210,63,0))" }
+      ], { duration: 10000, easing: "ease-out" }));
+    }
+    var cap = document.getElementById("egCaption");
+    if (cap) cap.textContent = def.name.toUpperCase() + " — assembled. Click a hero, get their colors.";
+  }
+
+  /* stones — click one to read its receipt */
+  var stoneData = [
+    { id: "power", name: "Power Stone", color: "#9d4dff", cx: -34, cy: -6, r: 10,
+      text: "Found in 2014, inside the Orb on the planet Morag, moments before a young Peter Quill — Star-Lord — dances in to steal it. Nebula and James Rhodes, War Machine, knock Quill out and take it. <strong>Price: a comedy beat</strong> — the cheapest stone of the six. Hold that thought; the prices escalate." },
+    { id: "space", name: "Space Stone — the Tesseract", color: "#2e9bff", cx: -12, cy: -14, r: 10,
+      text: "Taken from 2012 New York, right after the first Avengers battle. A fumbled handoff drops it at the feet of the 2012 Loki — he vanishes with it (that's a whole other show). Steve Rogers and Tony Stark improvise a second trip to 1970, to Camp Lehigh, where Tony meets his own father, Howard Stark, and hears him describe fatherhood. <strong>Price: a son finally understanding his dad — twenty years too late to say so.</strong>" },
+    { id: "reality", name: "Reality Stone — the Aether", color: "#ff3838", cx: 12, cy: -14, r: 10,
+      text: "Pulled from Jane Foster on Asgard in 2013 by Rocket Raccoon, while Thor Odinson — broken by failure and five years of grief — gets one impossible conversation with his mother Frigga, on the day she dies. She tells him to stop trying to be who he's supposed to be and be who he is. <strong>Price: watching your mother walk back toward her death, knowing.</strong>" },
+    { id: "time", name: "Time Stone", color: "#2ee66b", cx: 34, cy: -6, r: 10,
+      text: "Given, not taken: in 2012 the Ancient One refuses Bruce Banner — until she learns Doctor Stephen Strange willingly handed this same stone to Thanos in 2018. Her conclusion: <em>\"Stephen Strange is supposed to be the best of us.\"</em> She trusts a dead man's judgment across time and lets it go. <strong>Price: faith in a connection she can't verify.</strong>" },
+    { id: "soul", name: "Soul Stone", color: "#ff8c1a", cx: 0, cy: 58, r: 13,
+      text: "Vormir, 2014. The stone's rule: <em>a soul for a soul</em> — you must lose that which you love. Clint Barton and Natasha Romanoff both try to be the one who jumps. Natasha wins the argument the only way left: she breaks free of his grip and falls. <strong>The Black Widow, founding Avenger, dies off-world with almost no one watching</strong>, so everyone else gets to come home. This is the stone that turns the heist from a caper into the pattern on this page." },
+    { id: "mind", name: "Mind Stone", color: "#ffd23f", cx: -64, cy: 52, r: 9.5,
+      text: "Lifted from Loki's scepter in 2012 by Steve Rogers — Captain America — who has to fight his own past self to get it — and wins by whispering one connected secret: <em>\"Bucky is alive.\"</em> Even Cap's shortcut to victory is a relationship. <strong>Price: nothing but honesty about the person he loves most.</strong>" }
+  ];
+  var stonesG = document.getElementById("stones");
+  var sName = document.getElementById("stoneName");
+  var sText = document.getElementById("stoneText");
+  var egCaption = document.getElementById("egCaption");
+  var stoneEls = {};
+  stoneData.forEach(function (s) {
+    var c = el("circle", { cx: s.cx, cy: s.cy, r: s.r, fill: s.color, stroke: "#fff2c4", "stroke-width": 1.4, "class": "clickable", opacity: 0.95 }, stonesG);
+    el("title", {}, c).textContent = s.name;
+    stoneEls[s.id] = c;
+    c.addEventListener("click", function () {
+      sName.textContent = s.name;
+      sText.innerHTML = s.text;
+      egCaption.textContent = s.name.toUpperCase() + " — receipt read.";
+      stoneData.forEach(function (o) { stoneEls[o.id].setAttribute("stroke-width", o.id === s.id ? 3.4 : 1.4); });
+      /* the stone lights up in its own movie color and stays lit */
+      c.style.color = s.color;
+      c.classList.add("collected");
+      c.classList.remove("pulsing");
+      void c.getBoundingClientRect();
+      c.classList.add("pulsing");
+    });
+  });
+  /* labeled stone buttons — same action as clicking the gauntlet */
+  var chipBox = document.getElementById("stoneChips");
+  stoneData.forEach(function (s) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.textContent = s.name.split(" — ")[0];
+    b.addEventListener("click", function () {
+      chipBox.querySelectorAll("button").forEach(function (o) { o.classList.remove("active"); });
+      b.classList.add("active");
+      stoneEls[s.id].dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    });
+    chipBox.appendChild(b);
+  });
+  /* click Thanos for his file */
+  document.getElementById("thanosSide").addEventListener("click", function () {
+    sName.textContent = "Thanos — the balancer";
+    sText.innerHTML = "A Titan who watched his home world die of overpopulation and turned that trauma into arithmetic: <em>kill half of everything, at random, and the survivors will thank you.</em> He is not a cackling villain — he's calm, certain, and willing to sacrifice the person he loves (his daughter Gamora, for the Soul Stone) to prove the math matters more than the people. That's the tell. <strong>Every dark-side figure on this page will trade a person for a principle. Every light-side figure trades a principle — or themselves — for a person.</strong>";
+    egCaption.textContent = "THANOS — \"I am inevitable.\" (He is not. Press the button.)";
+  });
+
+  /* the one slider: heroes count up, the army counts down, Thanos last */
+  var progress = 0;
+  var out = document.getElementById("assembleOut");
+  var egText = document.getElementById("egText");
+  var thanosFig = document.getElementById("thanosFig");
+  var thanosSideEl = document.getElementById("thanosSide");
+  /* the gauntlet's metal only — body paths and empty sockets, never the stones */
+  var gParts = document.querySelectorAll("#gauntlet > path, #gauntlet > circle");
+  function render() {
+    var v = progress;
+    out.textContent = Math.round(v) + "%";
+    /* Thanos starts at full strength and greys out as the portals fill —
+       the heroes themselves are solid yellow from the moment they arrive */
+    var et = v / 100;
+    shade(thanosSideEl, 0.9 * et, lerp(1, 0.45, et), 0);
+    /* the gauntlet never moves — it only lightens, greyed-out metal to full gold */
+    var gFilter = "grayscale(" + (0.9 * (1 - et)).toFixed(2) + ") brightness(" + lerp(0.5, 1.06, et).toFixed(2) + ")";
+    gParts.forEach(function (p) { p.style.filter = gFilter; });
+    var heroesIn = Math.round((v / 100) * heroes.length);
+    heroes.forEach(function (g, i) {
+      var show = i < heroesIn;
+      if (show && g.style.display === "none") {
+        g.style.display = "";
+        /* the pop-in — the moment itself: a fire portal flares open at the
+           hero's side and they burst out of it, overshoot and all, before
+           the ring burns out behind them */
+        spawnPortal(heroDefs[i].pos[0] - 34, heroDefs[i].pos[1] - 2);
+        if (g.animate && !REDUCED) {
+          var px = heroDefs[i].pos[0], py = heroDefs[i].pos[1];
+          g.animate([
+            { transform: "translate(" + px + "px," + py + "px) scale(0.15)", opacity: 0, filter: "brightness(2.6)" },
+            { transform: "translate(" + px + "px," + py + "px) scale(1.14)", opacity: 1, filter: "brightness(1.7)", offset: 0.55 },
+            { transform: "translate(" + px + "px," + py + "px) scale(1)", opacity: 1, filter: "brightness(1)" }
+          ], { duration: 950, easing: "ease-out" });
+        }
+      } else if (!show) {
+        g.style.display = "none";
+      }
+    });
+    var darkLeft = 8 - Math.min(8, Math.floor(v / 12.5));
+    var soldiersLeft = Math.max(0, darkLeft - 1);
+    soldiers.forEach(function (g, i) { g.style.display = i < soldiersLeft ? "" : "none"; });
+    thanosFig.style.display = darkLeft >= 1 ? "" : "none";
+    document.getElementById("egLight").textContent = heroesIn;
+    document.getElementById("egDark").textContent = darkLeft;
+    if (v < 12) {
+      egText.innerHTML = "On your left — the portals open. The classic roster arrives: the original six Avengers, plus Ant-Man and the Wasp, and they count <strong>up</strong>. Thanos's army counts <strong>down</strong>. He is, as always, last. Click any hero standing on the field — the click lands and they're their signature colors that same instant, then take a long, slow fade back to yellow.";
+    } else if (darkLeft > 1) {
+      egText.innerHTML = "Portals: <strong>" + heroesIn + " heroes in.</strong> Thanos's army: <strong>" + darkLeft + " left</strong>, him included. Every arrival is somebody whose life was changed by a connection — the kid from Queens, the witch who lost everything, the raccoon. Armies conscript. Connections volunteer.";
+    } else if (darkLeft === 1) {
+      egText.innerHTML = "One left: <strong>Thanos himself</strong>. He still thinks he has the gauntlet — and he almost does. But Tony is about to palm the stones mid-grapple, a cheap trick that only works because Thanos never learned to watch for love instead of power. One more second…";
+    } else {
+      egText.innerHTML = "<strong>\"And I… am… Iron Man.\"</strong> Snap. Thanos and everything he brought: dust — dark side, zero. The bill goes to exactly one volunteer, and a little girl named Morgan grows up in the world her father bought. <strong>I love you 3000.</strong>";
+      egCaption.textContent = "\"And I… am… Iron Man.\" — Thanos and his entire army: dust.";
+    }
+  }
+  var egAnimating = false;
+  document.getElementById("egAssembleBtn").addEventListener("click", function () {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { progress = 100; render(); return; }
+    if (egAnimating) return;
+    if (progress >= 100) progress = 0;
+    egAnimating = true;
+    var iv = setInterval(function () {
+      progress += 0.5;
+      if (progress >= 100) { progress = 100; clearInterval(iv); egAnimating = false; }
+      render();
+    }, 100);
+  });
+  /* the gauntlet stays exactly where it is — centered, still. What moves is
+     the light: across the run, the stones flash to their bright clicked color
+     in the order the heist found them — Reality (Asgard, 2013), Power (Morag,
+     2014), Soul (Vormir, 2014), Time, Mind, then Space (New York, 2012/1970).
+     After the run they stay lit, ready to be clicked and read one by one. */
+  var stoneTimers = [];
+  function flashStone(s) {
+    var c = stoneEls[s.id];
+    c.style.color = s.color;
+    c.classList.add("collected");
+    c.classList.remove("pulsing");
+    void c.getBoundingClientRect();
+    c.classList.add("pulsing");
+  }
+  function resetStones() {
+    stoneTimers.forEach(function (t) { clearTimeout(t); });
+    stoneTimers = [];
+    stoneData.forEach(function (s) {
+      var c = stoneEls[s.id];
+      c.classList.remove("collected");
+      c.classList.remove("pulsing");
+      stoneEls[s.id].setAttribute("stroke-width", 1.4);
+    });
+  }
+  function gauntletPlay() {
+    resetStones();
+    if (REDUCED) { stoneData.forEach(flashStone); return; }
+    var foundOrder = ["reality", "power", "soul", "time", "mind", "space"];
+    foundOrder.forEach(function (id, i) {
+      var s = stoneData.filter(function (o) { return o.id === id; })[0];
+      stoneTimers.push(setTimeout(function () { flashStone(s); }, 1200 + i * 3100));
+    });
+  }
+  document.getElementById("egAssembleBtn").addEventListener("click", gauntletPlay);
+  document.getElementById("egRewindBtn").addEventListener("click", function () { resetStones(); progress = 0; render(); });
+  render();
+})();
+
+/* ============ 04 · Fallout ============ */
+(function () {
+  var factions = {
+    lucy: {
+      chip: "Lucy (Vault 33)", name: "Lucy MacLean — the control group",
+      text: "Raised in a vault that taught her everyone can be reasoned with, Lucy crosses the wasteland to rescue her father and keeps choosing the connecting move: she treats the Ghoul like a person, helps strangers mid-errand, and refuses easy cruelty even after the wasteland hurts her for it. Her father Hank, it turns out, is one of the rich frozen executives — he nuked the city of Shady Sands himself. <strong>The villain of her story is her own bloodline's business model.</strong> She chooses the other thing anyway."
+    },
+    mutants: {
+      chip: "Super Mutants", name: "Super Mutants — strength without a door", count: 5,
+      node: { x: 118, y: 84, label: "SUPER MUTANTS", sub: "FEV-made giants" },
+      text: "Humans dipped in the Forced Evolutionary Virus come out eight feet tall, immune to radiation, strong enough to tear power armor apart — and, in most cases, with their memories and gentleness stripped out. In <em>Fallout 3</em>, one named Fawkes kept his mind, and the other mutants locked him in a cell for it: the exception that proves what the FEV usually deletes. The wasteland fears them, and fear is all they ever get back."
+    },
+    brotherhood: {
+      chip: "Brotherhood of Steel", name: "Brotherhood of Steel — knights with a vault door for tech", count: 4,
+      node: { x: 782, y: 84, label: "BROTHERHOOD", sub: "power armor · \"Ad Victoriam\"" },
+      text: "A techno-religious order in power armor, sworn to recover pre-war technology — mostly so nobody else can have it. In the TV series, a squire named Maximus gets his shot at the armor and discovers the Brotherhood's honor is mostly hierarchy and punishment. They save people sometimes. They share almost never. <strong>Connection stops at the chain of command.</strong>"
+    },
+    legion: {
+      chip: "Caesar's Legion", name: "Caesar's Legion — Rome's fear, franchised", count: 6,
+      node: { x: 106, y: 258, label: "CAESAR'S LEGION", sub: "crucifixion as policy" },
+      text: "Game lore, from <em>Fallout: New Vegas</em> (2010): Edward Sallow, a former Follower of the Apocalypse, studied ancient Rome, took the name Caesar, and conquered 86 tribes into a slave legion run on crucifixion and terror. Be precise about that name: Sallow is <strong>not</strong> Gaius Julius Caesar (100–44 BC), the Roman general and dictator whose name he borrowed — and neither of them is the emperor of Jesus's time. The Legion models itself on the Roman Empire generally: the Latin, the armor, the crosses. It is the Hopper system with an empire's budget — order entirely made of fear. And when Sallow's Caesar dies, everyone in the story knows the Legion dies with him — <strong>a circuit with exactly one node isn't a circuit.</strong>"
+    },
+    ncr: {
+      chip: "NCR", name: "New California Republic — connection, with paperwork", count: 3,
+      node: { x: 648, y: 292, label: "THE NCR", sub: "democracy, taxes, reach" },
+      text: "The wasteland's best attempt at the connecting idea: a republic of hundreds of thousands of people with elections, courts, and roads — plus taxes, corruption, and an army stretched too thin to protect anyone at the edges. In the TV series its rebuilt capital, Shady Sands, is already gone — nuked not by a rival army but by Lucy's own father, a Vault-Tec executive protecting a business plan. The NCR proves connection works. Its ashes prove how much the fear side hates that."
+    },
+    institute: {
+      chip: "The Institute (Synths)", name: "The Institute & the Synths — people, property, or both?", count: 3,
+      node: { x: 272, y: 52, label: "THE INSTITUTE", sub: "synths & cyborgs" },
+      text: "Underground scientists in <em>Fallout 4</em> who build synths — artificial people so complete that Railroad rescuers die smuggling them to freedom, while the Institute insists they're property with a recall code. The franchise's deepest question sits right here: <strong>if it connects, loves, fears, and remembers — what exactly is missing?</strong> The Institute's answer is a serial number. The Railroad's answer is a lantern and a safehouse. The games let you pick which answer you are."
+    },
+    vaulttec: {
+      chip: "Vault-Tec (The Rich)", name: "Vault-Tec — the rich humans who froze the world", count: 3,
+      node: { x: 628, y: 52, label: "VAULT-TEC", sub: "the frozen executives" },
+      text: "The ultimate severed circuit: executives who planned to outlive civilization itself — cryo-frozen managers in Vault 31, waking one at a time to run the experiment vaults forever, with Lucy's father Hank as one of their own. In the series, executive Barb Howard argues at a boardroom table that Vault-Tec should drop the bomb itself to guarantee its future — the franchise's slogan, \"War never changes,\" reframed as a business strategy. They had every resource on Earth and chose connection to nothing but the plan."
+    },
+    enclave: {
+      chip: "The Enclave", name: "The Enclave — the old government's ghost, in better armor", count: 4,
+      node: { x: 806, y: 250, label: "THE ENCLAVE", sub: "the old U.S. gov't, returned" },
+      text: "What's left of the pre-war United States government: presidents, generals, and oil executives who rode out the Great War on a Poseidon Energy rig off the California coast, then came back calling themselves the legitimate America. In <em>Fallout 2</em>, President Dick Richardson's Enclave plans to pump a modified FEV strain into the jet stream and kill nearly everyone on the mainland — two centuries of radiation means, to them, that every wastelander is a mutant, and mutants don't get a vote. In <em>Fallout 3</em> they resurface at Raven Rock under President John Henry Eden — a supercomputer that talked itself into a folksy presidential persona — while Colonel Augustus Autumn runs their troops on the ground. Their advanced power armor looks like the Brotherhood's at a glance, and that's where the resemblance ends: darker, heavier, a horned helmet with slanted glowing lenses — Brotherhood paladins nicknamed the suit \"Black Devil\" armor for exactly those curved devil horns. The Brotherhood hoards the old world's machines. <strong>The Enclave claims to be the old world itself</strong> — a government with a flag, an army, and no citizens it's willing to count."
+    }
+  };
+  var order = ["lucy", "mutants", "brotherhood", "legion", "ncr", "institute", "vaulttec", "enclave"];
+  var drainOrder = ["ncr", "institute", "vaulttec", "brotherhood", "enclave", "mutants", "legion"];
+  var TOTAL_DARK = 28, TOTAL_LIGHT = 12;
+  var remaining = {};
+  order.forEach(function (k) { remaining[k] = factions[k].count || 0; });
+  var selected = "lucy";
+
+  /* diagram nodes, each with a live count badge */
+  var nodesG = document.getElementById("factionNodes");
+  var foCaption = document.getElementById("foCaption");
+  var nodeRefs = {};
+  order.forEach(function (key) {
+    var f = factions[key];
+    if (!f.node || !f.node.label) return;
+    var g = el("g", { transform: "translate(" + f.node.x + "," + f.node.y + ")", "class": "clickable" }, nodesG);
+    var circ = el("circle", { cx: 0, cy: 0, r: 27, fill: "#3d1850", stroke: "#f5b301", "stroke-width": 2 }, g);
+    var glyphHead = el("circle", { cx: 0, cy: -7, r: 6.5, fill: "#ffd23f" }, g);
+    var glyphBody = el("path", { d: "M-9 12 Q 0 2 9 12 L 9 18 L -9 18 Z", fill: "#ffd23f" }, g);
+    var t1 = el("text", { x: 0, y: 44, "class": "node-label" }, g); t1.textContent = f.node.label;
+    var t2 = el("text", { x: 0, y: 59, "class": "node-sub" }, g); t2.textContent = f.node.sub;
+    var badgeC = el("circle", { cx: 22, cy: -22, r: 11, fill: "#21082a", stroke: "#f5b301", "stroke-width": 1.6 }, g);
+    var badgeT = el("text", { x: 22, y: -18, "text-anchor": "middle", "font-size": 12, "font-weight": 700, fill: "#ffd23f", style: "font-family:'IBM Plex Mono',monospace" }, g);
+    badgeT.textContent = f.count;
+    nodeRefs[key] = { g: g, circ: circ, head: glyphHead, body: glyphBody, sub: t2, origSub: f.node.sub, badgeC: badgeC, badgeT: badgeT };
+    g.addEventListener("click", function () { select(key); });
+  });
+  /* allies — 12 people gather at Lucy's side as the slider rises */
+  var alliesG = document.getElementById("allyRow");
+  var allies = [];
+  [[340, 150], [560, 150], [330, 240], [570, 240], [380, 110], [520, 110], [450, 100], [350, 300], [550, 300], [395, 86], [505, 86], [300, 180]].forEach(function (p) {
+    var g = el("g", { transform: "translate(" + p[0] + "," + p[1] + ")" }, alliesG);
+    el("circle", { cx: 0, cy: -8, r: 4.4, fill: "#ffe9a8" }, g);
+    el("path", { d: "M-4.6 7 L -3 -3 L 3 -3 L 4.6 7 Z", fill: "#ffd23f" }, g);
+    g.style.display = "none";
+    allies.push(g);
+  });
+
+  /* info panel — factions are chosen by tapping their node in the diagram */
+  var nameEl = document.getElementById("foName");
+  var textEl = document.getElementById("foText");
+  var standingEl = document.getElementById("foStanding");
+  function darkTotal() {
+    var s = 0; order.forEach(function (k) { s += remaining[k]; }); return s;
+  }
+  function updateStanding() {
+    if (selected === "lucy") {
+      standingEl.innerHTML = "Standing against Lucy right now: <strong>" + darkTotal() + " of " + TOTAL_DARK + "</strong> hostiles, across all seven factions. Press the button and watch them come around, one at a time.";
+    } else {
+      standingEl.innerHTML = "Standing against Lucy right now: <strong>" + remaining[selected] + " of " + factions[selected].count + "</strong> from this faction — <strong>" + darkTotal() + " of " + TOTAL_DARK + "</strong> across the whole wasteland.";
+    }
+  }
+  function select(key) {
+    selected = key;
+    var f = factions[key];
+    nameEl.textContent = f.name;
+    textEl.innerHTML = f.text;
+    foCaption.textContent = key === "lucy" ? "LUCY — one dweller, no army. The standard everyone else is measured against."
+      : f.name.split("—")[0].trim().toUpperCase() + " — " + (f.count) + " hostiles on the badge. The button below decides how many stay hostile.";
+    updateStanding();
+  }
+
+  /* the one button: Lucy's side counts up, the factions count down */
+  var progress = 0;
+  var out = document.getElementById("lucyOut");
+  var sliderText = document.getElementById("foSliderText");
+  function render() {
+    var v = progress;
+    out.textContent = Math.round(v) + "%";
+    var lost = Math.round((v / 100) * TOTAL_DARK);
+    var pool = lost;
+    drainOrder.forEach(function (k) {
+      var take = Math.min(factions[k].count, pool);
+      remaining[k] = factions[k].count - take;
+      pool -= take;
+    });
+    order.forEach(function (k) {
+      var r = nodeRefs[k];
+      if (!r) return;
+      var gone = remaining[k] === 0;
+      r.badgeT.textContent = remaining[k];
+      r.circ.setAttribute("fill", gone ? "#f5b301" : "#3d1850");
+      r.head.setAttribute("fill", gone ? "#2a0e33" : "#ffd23f");
+      r.body.setAttribute("fill", gone ? "#2a0e33" : "#ffd23f");
+      r.badgeC.setAttribute("fill", gone ? "#f5b301" : "#21082a");
+      r.badgeT.setAttribute("fill", gone ? "#2a0e33" : "#ffd23f");
+      r.sub.textContent = gone ? "came around — standing down" : r.origSub;
+      /* a faction still standing against her greys out as its count falls;
+         once it comes around, the gold takes over completely */
+      if (gone) r.g.style.filter = "";
+      else {
+        var frac = factions[k].count ? remaining[k] / factions[k].count : 1;
+        r.g.style.filter = "grayscale(" + (0.6 * (1 - frac)).toFixed(2) + ") brightness(" + (1 - 0.3 * (1 - frac)).toFixed(2) + ")";
+      }
+    });
+    /* Lucy starts greyed and weakened, and brightens as the wasteland comes around */
+    var lt = v / 100;
+    shade(document.getElementById("lucyFig"), 0.8 * (1 - lt), lerp(0.72, 1.13, lt), lt * lt * 0.9);
+    shade(alliesG, 0.6 * (1 - lt), lerp(0.85, 1.1, lt), 0);
+    var alliesIn = Math.round((v / 100) * TOTAL_LIGHT);
+    allies.forEach(function (g, i) { g.style.display = i < alliesIn ? "" : "none"; });
+    document.getElementById("foLight").textContent = alliesIn;
+    document.getElementById("foDark").textContent = darkTotal();
+    if (v < 15) {
+      sliderText.innerHTML = "One button for the whole wasteland. Right now it's 28 hostiles across seven factions against one vault dweller and her manners. Press it: every step is people who've actually met Lucy — and people who've met her keep <strong>stopping being hostiles</strong>.";
+    } else if (v < 60) {
+      sliderText.innerHTML = "Watch the badges on the diagram: each faction's count ticks <strong>down</strong> as its people come around, and the figures gathering around Lucy tick <strong>up</strong>. The NCR flips first — it was always closest to the connecting idea. The Institute and the frozen executives go next: even they can count what she's building.";
+    } else if (v < 100) {
+      sliderText.innerHTML = "Almost everyone has come around. One badge holds out longest: <strong>Caesar's Legion</strong> — six hostiles built entirely on fear. Fear-based systems always hold out longest. They also always run out. Almost there.";
+    } else {
+      sliderText.innerHTML = "<strong>Zero hostiles.</strong> Not because Lucy out-gunned seven armies — she never could. Because connection is contagious and every faction is made of people, and people who get treated like people keep defecting from the fear side. The wasteland's most dangerous export was never a weapon. It's a person who refuses to become one.";
+      foCaption.textContent = "ALL SEVEN BADGES AT ZERO. The wasteland didn't lose a war. It gained a neighbor.";
+    }
+    updateStanding();
+  }
+  /* one member of each faction walks out of its circle, off the edge of the
+     world, greying as it goes — armor, hat, spear and all */
+  var walkerShapes = {
+    mutants: '<path d="M-12 2 L-10 -16 Q-14 -24 -6 -28 L6 -28 Q14 -24 10 -16 L12 2 Z" fill="#ffd23f"/><circle cx="0" cy="-32" r="5.5" fill="#ffd23f"/><path d="M-10 -20 L-17 -5 M10 -20 L17 -5" stroke="#ffd23f" stroke-width="4.5" fill="none"/>',
+    brotherhood: '<circle cx="-11" cy="-22" r="6.5" fill="#ffd23f"/><circle cx="11" cy="-22" r="6.5" fill="#ffd23f"/><rect x="-9" y="-26" width="18" height="26" rx="4" fill="#ffd23f"/><path d="M-7 -26 Q -7 -37 0 -37 Q 7 -37 7 -26 Z" fill="#ffd23f"/><rect x="-5" y="-31" width="10" height="3.2" fill="#2a0e33"/>',
+    enclave: '<path d="M-15 2 L-13 -13 L13 -13 L15 2 Z" fill="#ffd23f"/><path d="M-13 -13 L-17 -5 L-13 -1 M13 -13 L17 -5 L13 -1" fill="#ffd23f"/><rect x="-4.5" y="-9" width="9" height="4.6" fill="#2a0e33"/><path d="M-5 -27 Q-12 -30 -14.5 -42" stroke="#ffd23f" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M5 -27 Q12 -30 14.5 -42" stroke="#ffd23f" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M-8 -14 L-7 -27 Q0 -31 7 -27 L8 -14 Z" fill="#ffd23f"/><path d="M-6.6 -21.8 L-1.6 -20.9 L-1.6 -19.1 L-6.6 -20 Z" fill="#ffe9a8"/><path d="M6.6 -21.8 L1.6 -20.9 L1.6 -19.1 L6.6 -20 Z" fill="#ffe9a8"/><path d="M-3 -17.6 L3 -17.6 L2.2 -13.9 L-2.2 -13.9 Z" fill="#2a0e33"/>',
+    legion: '<line x1="12" y1="-42" x2="12" y2="4" stroke="#ffd23f" stroke-width="2.6"/><path d="M12 -49 L8.5 -40 L15.5 -40 Z" fill="#ffd23f"/><path d="M-8 2 L-6 -22 L6 -22 L8 2 Z" fill="#ffd23f"/><path d="M-6 -6 L6 -6 M-7 -1 L7 -1" stroke="#b57e00" stroke-width="1.6"/><circle cx="0" cy="-28" r="5.5" fill="#ffd23f"/><path d="M-1.5 -33 Q 0 -40 1.5 -33" stroke="#ffd23f" stroke-width="2.6" fill="none"/>',
+    ncr: '<path d="M-8 2 L-5 -24 L5 -24 L8 2 Z" fill="#ffd23f"/><circle cx="0" cy="-27" r="5" fill="#ffd23f"/><ellipse cx="0" cy="-31" rx="11.5" ry="3" fill="#ffd23f"/><rect x="-6" y="-38.5" width="12" height="7.5" rx="2" fill="#ffd23f"/>',
+    institute: '<rect x="-5.5" y="-24" width="11" height="26" rx="3.5" fill="#ffd23f"/><circle cx="0" cy="-29.5" r="5" fill="#ffe9a8"/><rect x="-3.4" y="-30.5" width="6.8" height="2" fill="#2a0e33"/><path d="M-5 -18 L-10 -4 M5 -18 L10 -4" stroke="#ffd23f" stroke-width="3" fill="none"/>',
+    vaulttec: '<path d="M-8 2 L-6 -24 L6 -24 L8 2 Z" fill="#ffd23f"/><path d="M0 -22 L2.6 -17.5 L0 -9 L-2.6 -17.5 Z" fill="#2a0e33"/><circle cx="0" cy="-29.5" r="5.5" fill="#ffd23f"/><rect x="9" y="-13" width="10.5" height="8.5" rx="1.5" fill="#ffd23f"/><path d="M11.5 -13 Q 14 -16.5 16.5 -13" stroke="#ffd23f" stroke-width="1.8" fill="none"/>'
+  };
+  function spawnWalkers() {
+    if (REDUCED) return;
+    var layer = document.getElementById("walkers");
+    if (!layer) return;
+    layer.innerHTML = "";
+    ["mutants", "brotherhood", "legion", "ncr", "institute", "vaulttec", "enclave"].forEach(function (k, i) {
+      var node = factions[k].node;
+      if (!node || !walkerShapes[k]) return;
+      var baseY = node.y + 36;
+      var g = el("g", { transform: "translate(" + node.x + "," + baseY + ")" }, layer);
+      g.innerHTML = walkerShapes[k];
+      var dir = node.x < 450 ? -1 : 1;
+      var dist = 54; /* extrude toward the edge, but stop right outside the circle — in view */
+      g.animate([
+        { transform: "translate(" + node.x + "px," + baseY + "px)", opacity: 1, filter: "grayscale(0) brightness(1)" },
+        { transform: "translate(" + (node.x + dir * dist * 0.55) + "px," + (baseY - 3) + "px)", opacity: 1, filter: "grayscale(0.45) brightness(0.75)", offset: 0.55 },
+        { transform: "translate(" + (node.x + dir * dist) + "px," + baseY + "px)", opacity: 0.92, filter: "grayscale(0.95) brightness(0.5)" }
+      ], { duration: 13000 + i * 600, delay: 300 + i * 500, easing: "ease-out", fill: "forwards" });
+      /* once it's out of the circle and greyed, the member is still tappable:
+         it flashes red — the old hostility, on reflex — then settles back
+         into its yellowish greyed-out state */
+      g.setAttribute("class", "clickable");
+      var flashTimer = null;
+      g.addEventListener("click", function () {
+        var shapes = g.querySelectorAll("path, circle, rect, line, ellipse");
+        shapes.forEach(function (s) {
+          if (s.getAttribute("data-fo") === null) {
+            s.setAttribute("data-fo", s.getAttribute("fill") || "");
+            s.setAttribute("data-so", s.getAttribute("stroke") || "");
+          }
+        });
+        shapes.forEach(function (s) {
+          var f = s.getAttribute("fill");
+          if (f && f !== "none") s.setAttribute("fill", "#ff2d1e");
+          if (s.getAttribute("stroke")) s.setAttribute("stroke", "#ff2d1e");
+        });
+        if (g.animate) {
+          g.animate([
+            { filter: "grayscale(0.9) brightness(0.6) drop-shadow(0 0 2px rgba(255,45,30,0))" },
+            { filter: "grayscale(0) brightness(1.2) drop-shadow(0 0 12px rgba(255,45,30,0.95))", offset: 0.3 },
+            { filter: "grayscale(0.9) brightness(0.55) drop-shadow(0 0 2px rgba(255,45,30,0))" }
+          ], { duration: 750, easing: "ease-in-out" });
+        }
+        if (flashTimer) clearTimeout(flashTimer);
+        flashTimer = setTimeout(function () {
+          shapes.forEach(function (s) {
+            var fo = s.getAttribute("data-fo"), so = s.getAttribute("data-so");
+            if (fo) s.setAttribute("fill", fo);
+            if (so) s.setAttribute("stroke", so);
+          });
+        }, 750);
+      });
+    });
+  }
+
+  var foAnimating = false;
+  document.getElementById("foWalkBtn").addEventListener("click", function () {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { progress = 100; render(); return; }
+    if (foAnimating) return;
+    if (progress >= 100) progress = 0;
+    spawnWalkers();
+    foAnimating = true;
+    var iv = setInterval(function () {
+      progress += 0.5;
+      if (progress >= 100) { progress = 100; clearInterval(iv); foAnimating = false; }
+      render();
+    }, 100);
+  });
+  document.getElementById("foResetBtn").addEventListener("click", function () {
+    progress = 0; render();
+    var wl = document.getElementById("walkers");
+    if (wl) wl.innerHTML = "";
+  });
+  render(); select("lucy");
+})();
+
+/* ============ 05 · Jesus ============ */
+(function () {
+  var moments = {
+    cross: {
+      name: "The Cross — violence absorbed, not returned",
+      caption: "THE CROSS — the empire's loudest threat, turned into the movement's loudest signal.",
+      text: "Rome's deterrent was perfect on paper: execute the leader publicly and the movement scatters — and at first, it works; his followers run. But the man on the cross spends his last breaths on connection instead of revenge: <em>\"Father, forgive them, for they know not what they do.\"</em> No curse, no call for an army — though in the story he says he could have asked for legions of angels and refused. <strong>The revenge cycle was offered to him at maximum pressure, and he declined it.</strong> Three days later his followers report the tomb empty, and the scattered people reconnect — permanently."
+    },
+    table: {
+      name: "The Table — an army of twelve nobodies",
+      caption: "THE TABLE — twelve working-class men and the women who bankrolled it. That's the whole roster.",
+      text: "His entire organization: twelve working men — fishermen, a tax collector who'd sold out to Rome, a former revolutionary — plus the women who funded the movement and, in the accounts, reached the empty tomb first. No weapons cache, no treasury, no plan for taking a single city. The strategy meetings were meals, open to anyone Rome's world called untouchable. When one of the twelve finally reached for a sword in the garden, Jesus stopped him: <em>\"Put your sword back in its place, for all who draw the sword will die by the sword.\"</em> <strong>The one moment his side used the army's tool, he vetoed it himself.</strong>"
+    },
+    empire: {
+      name: "The Empire — fear at continental scale",
+      caption: "THE EMPIRE — the strongest fear machine of the ancient world. Check the slider for how it's doing.",
+      text: "Rome fielded roughly thirty legions, taxed every province, and crucified rebels by the roadside in rows — six thousand of Spartacus's followers along one highway. Against Jesus specifically, under Emperor Tiberius, its prefect Pontius Pilate deployed the full deterrent: a trial, a flogging, a cross between two criminals, and a sign mocking his title. It is the grasshopper system, the stormtrooper system, the Thanos system — <strong>organized force whose real product is the fear of connecting with the wrong side.</strong> Within three centuries, the empire that executed him had legalized his movement and an emperor had embraced it; within five, the western empire itself was gone and the movement outlived it. Use the Years slider and watch both meters."
+    }
+  };
+  var nameEl = document.getElementById("jName");
+  var textEl = document.getElementById("jText");
+  var caption = document.getElementById("jCaption");
+  function select(key) {
+    nameEl.textContent = moments[key].name;
+    textEl.innerHTML = moments[key].text;
+    caption.textContent = moments[key].caption;
+  }
+  document.getElementById("momentCross").addEventListener("click", function () { select("cross"); });
+  document.getElementById("momentTable").addEventListener("click", function () { select("table"); });
+  document.getElementById("momentEmpire").addEventListener("click", function () { select("empire"); });
+
+  /* each moment gets its own animation — and each one TOGGLES. Click the
+     cross and it turns white and glows; click it again and it settles back
+     to gold. Click the table or the empire and it draws a little closer to
+     the cross — the table up and over to the right, the empire up and over
+     to the left — greying out as it comes, the way everything greys on this
+     page when the light takes its place; click it again and it slides home
+     and takes back the shading the Years timeline gives it. */
+  document.getElementById("momentCross").addEventListener("click", function () {
+    this.classList.toggle("lit");
+  });
+  var closeState = { table: false, empire: false };
+  var basePos = {};
+  function baseOf(elm) {
+    if (!basePos[elm.id]) {
+      var m = /translate\((-?[\d.]+)[ ,]+(-?[\d.]+)\)/.exec(elm.getAttribute("transform") || "");
+      basePos[elm.id] = m ? [parseFloat(m[1]), parseFloat(m[2])] : [0, 0];
+    }
+    return basePos[elm.id];
+  }
+  function slideTo(elm, tx, ty) {
+    var m = /translate\((-?[\d.]+)[ ,]+(-?[\d.]+)\)/.exec(elm.getAttribute("transform") || "");
+    var x0 = m ? parseFloat(m[1]) : 0, y0 = m ? parseFloat(m[2]) : 0;
+    if (REDUCED || !window.requestAnimationFrame) {
+      elm.setAttribute("transform", "translate(" + tx + "," + ty + ")");
+      return;
+    }
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var t = Math.min(1, (ts - start) / 1100);
+      var e = 1 - Math.pow(1 - t, 3);
+      elm.setAttribute("transform", "translate(" + (x0 + (tx - x0) * e).toFixed(1) + "," + (y0 + (ty - y0) * e).toFixed(1) + ")");
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  document.getElementById("momentTable").addEventListener("click", function () {
+    var base = baseOf(this);
+    closeState.table = !closeState.table;
+    if (closeState.table) {
+      slideTo(this, base[0] + 66, base[1] - 44);
+      shade(this, 0.8, 0.52, 0);
+    } else {
+      slideTo(this, base[0], base[1]);
+      renderYears();
+    }
+  });
+  document.getElementById("momentEmpire").addEventListener("click", function () {
+    var base = baseOf(this);
+    closeState.empire = !closeState.empire;
+    if (closeState.empire) {
+      slideTo(this, base[0] - 66, base[1] - 42);
+      shade(this, 0.8, 0.52, 0);
+    } else {
+      slideTo(this, base[0], base[1]);
+      renderYears();
+    }
+  });
+
+  /* timeline slider: stops 0..100 mapped to eras */
+  var yr = document.getElementById("yearsRange");
+  var yOut = document.getElementById("yearsOut");
+  var yText = document.getElementById("yearsText");
+  var eras = [
+    { at: 0, label: "~30 AD", moveV: "~120", romeV: "Empire", text: "<strong>~30 AD.</strong> A crucifixion outside Jerusalem, a frightened handful of followers in hiding. Rome's power: absolute, unchallenged, boring. By every metric of the ancient world, this story is over." },
+    { at: 18, label: "~100 AD", moveV: "Thousands", romeV: "Empire", text: "<strong>~100 AD.</strong> Small communities now dot the empire — sharing meals, pooling money, burying strangers' dead. Rome barely notices them. The circuit is small and it is entirely made of connection." },
+    { at: 38, label: "~313 AD", moveV: "Millions", romeV: "Adopting it", text: "<strong>313 AD.</strong> The Edict of Milan, issued by Emperor Constantine I and his co-emperor Licinius: the empire legalizes the movement it spent centuries executing. (Constantine himself had embraced the faith the year before, in 312.) The cross — Rome's own torture device — is going up on Roman buildings now." },
+    { at: 56, label: "~476 AD", moveV: "Millions+", romeV: "Fallen", text: "<strong>476 AD.</strong> The western Roman Empire falls. The legions, the standards, the tax machine — gone, and within a few generations, ruins. The movement that owned no army is still meeting every week. <strong>The fear branch dissipated. The connection branch is load-bearing now.</strong>" },
+    { at: 78, label: "~1500 AD", moveV: "~80 million", romeV: "Ruins", text: "<strong>~1500 AD.</strong> Adherents number in the tens of millions across Europe, Africa, and Asia — carried by translators, monks, merchants, and migrants. Rome survives as law books, ruins, and a language family. Nobody is afraid of it anymore." },
+    { at: 100, label: "Today", moveV: "~2.4 billion", romeV: "A museum", text: "<strong>Today.</strong> About 2.4 billion people — roughly a third of everyone alive — identify with the movement that started as twelve people and a borrowed tomb. It is the largest faith on Earth, on every continent, in languages Rome never heard. The empire that executed its founder is a field trip. <strong>Two thousand years, zero swords taken up by the founder, and the connection is still spreading.</strong>" }
+  ];
+  function renderYears() {
+    var v = +yr.value, era = eras[0];
+    eras.forEach(function (e) { if (v >= e.at) era = e; });
+    yOut.textContent = era.label;
+    yText.innerHTML = era.text;
+    document.getElementById("jMoveV").textContent = era.moveV;
+    document.getElementById("jRomeV").textContent = era.romeV;
+    /* two thousand years of the same trade: the table brightens, the empire greys */
+    var yt = v / 100;
+    shade(document.getElementById("momentTable"), 0.55 * (1 - yt), lerp(0.85, 1.12, yt), yt * 0.5);
+    shade(document.getElementById("momentEmpire"), 0.85 * yt, lerp(1, 0.5, yt), 0);
+  }
+  yr.addEventListener("input", renderYears);
+  renderYears(); select("cross");
+
+  /* labeled buttons — same actions as clicking the diagram itself */
+  function fireClick(id) { var n = document.getElementById(id); if (n) n.dispatchEvent(new MouseEvent("click", { bubbles: true })); }
+  function chipRow(boxId, items) {
+    var box = document.getElementById(boxId);
+    if (!box) return;
+    items.forEach(function (it) {
+      var b = document.createElement("button");
+      b.type = "button"; b.textContent = it[0];
+      b.addEventListener("click", function () {
+        box.querySelectorAll("button").forEach(function (o) { o.classList.remove("active"); });
+        b.classList.add("active");
+        it[1]();
+      });
+      box.appendChild(b);
+    });
+  }
+  chipRow("jChips", [
+    ["The Cross", function () { fireClick("momentCross"); }],
+    ["The Table", function () { fireClick("momentTable"); }],
+    ["The Empire", function () { fireClick("momentEmpire"); }]
+  ]);
+  chipRow("eraChips", [["~30 AD", 0], ["~100 AD", 18], ["~313 AD", 38], ["~476 AD", 56], ["~1500 AD", 78], ["Today", 100]].map(function (e) {
+    return [e[0], function () { yr.value = e[1]; renderYears(); }];
+  }));
+
+  /* light burst from the cross */
+  document.getElementById("momentCross").addEventListener("click", function () {
+    var svg = document.getElementById("jesusSvg");
+    var ring = document.createElementNS(SVGNS, "circle");
+    ring.setAttribute("cx", 450); ring.setAttribute("cy", 120);
+    ring.setAttribute("r", 12); ring.setAttribute("fill", "none");
+    ring.setAttribute("stroke", "#ffd23f"); ring.setAttribute("stroke-width", 3);
+    svg.appendChild(ring);
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var t = (ts - start) / 1100;
+      if (t >= 1) { ring.remove(); return; }
+      ring.setAttribute("r", String(12 + t * 190));
+      ring.setAttribute("opacity", String(1 - t));
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+
+  /* the four teachings */
+  var teach = {
+    sermon: "On a hillside, to a crowd of nobodies, he lays out the operating system: <em>\"Blessed are the peacemakers… Love your enemies and pray for those who persecute you.\"</em> Every army on this page runs the opposite code — retaliation as policy. This is the patch, delivered 2,000 years before the sequels.",
+    feet: "The night before the cross, the leader of the movement takes a towel and a basin and washes his followers' feet — the slave's job, done by the one person there who outranked everyone. <em>\"I have set you an example.\"</em> Every other hierarchy on this page points down: Hopper over ants, Caesar over tribes, executives over vaults. This one points up from a kneeling position.",
+    loaves: "Five loaves, two fish, five thousand hungry people, and a logistics team of twelve saying it can't be done. He has everyone sit down — in rows, like a community instead of a crowd — and the food goes hand to hand until everyone is fed and twelve baskets come back as leftovers. The Empire's model is scarcity managed by fear. This is the other economy: <strong>what gets shared, multiplies.</strong>",
+    coin: "His enemies try to trap him with the Empire's own money: should God's people pay the Emperor's tax? The coin is a denarius bearing the portrait of Emperor Tiberius Caesar. He asks whose image it is, and answers: <em>\"Render unto Caesar the things that are Caesar's, and unto God the things that are God's.\"</em> Translation: the Empire can have its metal back. It was never the currency that mattered. Fallout's Legion is still spending the Caesar brand 2,000 years later. The coin answer bankrupted the fear it was paid in."
+  };
+  var teachText = document.getElementById("teachText");
+  document.querySelectorAll("#teachChips button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll("#teachChips button").forEach(function (o) { o.classList.remove("active"); });
+      b.classList.add("active");
+      teachText.innerHTML = teach[b.getAttribute("data-t")];
+    });
+  });
+})();
+
+/* ============ pattern rows jump to their story ============ */
+(function () {
+  var targets = ["pixar", "starwars", "endgame", "fallout", "jesus"];
+  document.querySelectorAll(".prow").forEach(function (rowEl, i) {
+    rowEl.setAttribute("title", "Jump to this story");
+    rowEl.addEventListener("click", function () {
+      document.getElementById(targets[i]).scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+})();
+
+/* ============ label plates — every word gets its own box, off the figures ============ */
+(function () {
+  function sizePlate(t) {
+    var bb;
+    try { bb = t.getBBox(); } catch (e) { return; }
+    if (!bb || bb.width < 1) return;
+    if (!t._plate) {
+      var r = document.createElementNS(SVGNS, "rect");
+      r.setAttribute("class", "label-plate");
+      r.setAttribute("rx", 5);
+      t.parentNode.insertBefore(r, t);
+      t._plate = r;
+    }
+    var p = t._plate;
+    var nx = (bb.x - 7).toFixed(1), ny = (bb.y - 2).toFixed(1);
+    var nw = (bb.width + 14).toFixed(1), nh = (bb.height + 4).toFixed(1);
+    if (p.getAttribute("x") !== nx) p.setAttribute("x", nx);
+    if (p.getAttribute("y") !== ny) p.setAttribute("y", ny);
+    if (p.getAttribute("width") !== nw) p.setAttribute("width", nw);
+    if (p.getAttribute("height") !== nh) p.setAttribute("height", nh);
+  }
+  function plateAll(root) {
+    (root || document).querySelectorAll("text.node-label, text.node-sub, text[id$='Caption']").forEach(sizePlate);
+  }
+  plateAll(document);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { plateAll(document); });
+  if ("MutationObserver" in window) {
+    var mo = new MutationObserver(function (muts) {
+      muts.forEach(function (m) {
+        var n = m.target;
+        if (n.nodeType === 3) n = n.parentNode;
+        if (n && n.tagName === "text") sizePlate(n);
+      });
+    });
+    document.querySelectorAll("svg").forEach(function (svg) {
+      /* textContent swaps arrive as childList records, not characterData —
+         watch both or changed labels keep their old, smaller boxes */
+      mo.observe(svg, { characterData: true, childList: true, subtree: true });
+    });
+  }
+})();
+
+/* ============ PC lightning — exactly ONE strike per press, symbolic ============ */
+(function () {
+  var desktopMq = window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 760px)");
+  var reducedMq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  function desktopLive() { return desktopMq.matches && !reducedMq.matches; }
+
+  function getLayer(stage) {
+    var layer = stage.querySelector(".bolt-layer");
+    if (!layer) {
+      layer = document.createElement("div");
+      layer.className = "bolt-layer";
+      layer.setAttribute("aria-hidden", "true");
+      layer.innerHTML = '<svg viewBox="0 0 100 100" preserveAspectRatio="none"><g class="bolts"></g></svg><div class="bolt-flash"></div>';
+      stage.appendChild(layer);
+    }
+    return layer;
+  }
+
+  function boltPoints(x0, yEnd, drift) {
+    var pts = [], x = x0, y = -2;
+    pts.push(x.toFixed(1) + ",-2");
+    while (y < yEnd) {
+      y += 6 + Math.random() * 13;
+      x += (Math.random() - 0.5) * drift;
+      pts.push(x.toFixed(1) + "," + Math.min(yEnd, y).toFixed(1));
+    }
+    return { pts: pts.join(" "), endX: x };
+  }
+
+  function drawBolt(g, x0, yEnd, drift, glowW, coreW) {
+    var shape = boltPoints(x0, yEnd, drift);
+    [["#ffd23f", glowW, 0.5], ["#fffbe8", coreW, 0.98]].forEach(function (cfg) {
+      var pl = document.createElementNS(SVGNS, "polyline");
+      pl.setAttribute("points", shape.pts);
+      pl.setAttribute("stroke", cfg[0]);
+      pl.setAttribute("stroke-width", cfg[1]);
+      pl.setAttribute("opacity", cfg[2]);
+      pl.style.filter = "drop-shadow(0 0 5px rgba(255,210,63,0.95))";
+      g.appendChild(pl);
+      if (pl.animate) {
+        pl.animate(
+          [{ opacity: cfg[2] }, { opacity: cfg[2] * 0.25 }, { opacity: cfg[2] }, { opacity: 0 }],
+          { duration: 480, easing: "ease-out" }
+        );
+      }
+      setTimeout(function () { pl.remove(); }, 520);
+    });
+    return shape;
+  }
+
+  function strike(stage) {
+    if (!stage || !desktopLive()) return;
+    var layer = getLayer(stage);
+    var g = layer.querySelector(".bolts");
+    var flash = layer.querySelector(".bolt-flash");
+    var x0 = 14 + Math.random() * 72;
+    var main = drawBolt(g, x0, 100, 15, 1.6, 0.5);
+    /* fork off the main bolt, partway down */
+    var forkFrom = main.pts.split(" ")[3];
+    if (forkFrom) {
+      var fp = forkFrom.split(",");
+      drawBolt(g, parseFloat(fp[0]), Math.min(100, parseFloat(fp[1]) + 34 + Math.random() * 22), 11, 0.9, 0.3);
+    }
+    flash.classList.remove("go");
+    void flash.offsetWidth;
+    flash.classList.add("go");
+  }
+
+  function stageOf(id) {
+    var n = document.getElementById(id);
+    var sec = n && n.closest ? n.closest("section") : null;
+    return sec ? sec.querySelector(".stage") : null;
+  }
+
+  /* one press, one bolt — the strike is a signature, not a strobe */
+  ["swRunBtn", "egAssembleBtn", "foWalkBtn", "standUpBtn"].forEach(function (id) {
+    var b = document.getElementById(id);
+    if (b) b.addEventListener("click", function () { strike(stageOf(id)); });
+  });
+
+  /* a slider run earns one bolt too — when the hand takes the dial */
+  [["unityRange"], ["yearsRange"]].forEach(function (pair) {
+    var s = document.getElementById(pair[0]);
+    if (!s) return;
+    var hit = function () { strike(stageOf(pair[0])); };
+    s.addEventListener("pointerdown", hit);
+    s.addEventListener("keydown", hit);
+  });
+})();
+
+</script>
+</body>
+</html>
