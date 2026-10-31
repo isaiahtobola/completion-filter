@@ -23,5 +23,51 @@
   <a class="page" href="the-completion-filter-4.html">Part 4 — The Conductors<small>Tesla, the statues, and the family tree as lightning</small></a>
   <a class="page" href="completion-theory-demonstration.html">The Demonstration<small>Five stories, one pattern — press the buttons, watch the light count up</small></a>
   <p class="credit">BW Young Bo, Lux, and humanity's research.</p>
+<style>
+  /* Lightning beside the boxes (his 2026-10-31 order): hover on PC or
+     scroll-past on mobile strikes ONE bolt beside each Part box, then it
+     fades and never strikes again until the page is reloaded. */
+  .cf-bolt { position:fixed; width:42px; height:118px; margin-top:-59px; pointer-events:none; z-index:60; opacity:0; filter:drop-shadow(0 0 14px rgba(255,209,102,.9)); }
+  .cf-bolt.show { animation:cfstrike 1.4s ease-out forwards; }
+  @keyframes cfstrike { 0%{opacity:0} 6%{opacity:1} 13%{opacity:.2} 21%{opacity:1} 40%{opacity:.85} 100%{opacity:0} }
+  .cf-flash { position:fixed; width:190px; height:190px; margin:-95px 0 0 -95px; border-radius:50%; pointer-events:none; z-index:59; opacity:0; background:radial-gradient(circle, rgba(255,240,190,.5) 0%, rgba(255,209,102,.16) 45%, rgba(255,209,102,0) 70%); }
+  .cf-flash.show { animation:cfflash 1s ease-out forwards; }
+  @keyframes cfflash { 0%{opacity:0} 8%{opacity:1} 100%{opacity:0} }
+</style>
+<script>
+  /* One strike per box per page load — the bolt is the theory's own
+     evidence, so it stays rare on purpose. */
+  (function(){
+    var BOLT = '<svg viewBox="0 0 40 120" width="42" height="118" aria-hidden="true"><path d="M23 0 L7 54 L17 54 L4 120 L35 45 L23 45 L38 0 Z" fill="#ffd166"/><path d="M22 8 L13 50 L19 50 L12 100 L29 48 L21 48 L31 8 Z" fill="#fff3c4"/></svg>';
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('a.page')).slice(0, 4);
+    function strike(box){
+      if(box.__struck) return;
+      box.__struck = true;
+      var r = box.getBoundingClientRect();
+      var bolt = document.createElement('div');
+      bolt.className = 'cf-bolt'; bolt.innerHTML = BOLT;
+      var onRight = (r.right + 56) < window.innerWidth;
+      bolt.style.left = (onRight ? r.right + 8 : r.left - 50) + 'px';
+      bolt.style.top = (r.top + r.height / 2) + 'px';
+      var flash = document.createElement('div');
+      flash.className = 'cf-flash';
+      flash.style.left = (onRight ? r.right + 28 : r.left - 28) + 'px';
+      flash.style.top = (r.top + r.height / 2) + 'px';
+      document.body.appendChild(flash);
+      document.body.appendChild(bolt);
+      requestAnimationFrame(function(){ flash.classList.add('show'); bolt.classList.add('show'); });
+      setTimeout(function(){ flash.remove(); bolt.remove(); }, 1600);
+    }
+    boxes.forEach(function(box){
+      box.addEventListener('mouseenter', function(){ strike(box); });
+    });
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting) strike(en.target); });
+      }, { threshold: 0.65 });
+      boxes.forEach(function(box){ io.observe(box); });
+    }
+  })();
+</script>
 </body>
 </html>
