@@ -722,5 +722,124 @@
         });
       })();
     </script>
-  </body>
+  
+<style>
+  .cfz-fx{position:fixed; inset:0; z-index:200; pointer-events:none}
+  .cfz-flash{position:absolute; inset:0; opacity:1; transition:opacity .55s ease;
+    background:radial-gradient(ellipse at 50% 0%, rgba(255,244,200,.85), rgba(240,183,63,.22) 45%, transparent 75%)}
+  .cfz-fx.out .cfz-flash{opacity:0}
+  .cfz-fx svg{position:absolute; inset:0; width:100%; height:100%}
+  .cfz-bolt{fill:none; stroke:#ffeeb8; stroke-width:3; stroke-linejoin:round; opacity:1; transition:opacity .5s ease;
+    filter:drop-shadow(0 0 6px #f0b73f) drop-shadow(0 0 18px rgba(240,183,63,.8))}
+  .cfz-fx.out .cfz-bolt{opacity:0}
+  .cf-nav{position:fixed; top:14px; right:14px; z-index:210; font-family:ui-monospace, Menlo, monospace}
+  .cf-nav-btn{background:#2a1745; color:#ffd166; border:2px solid #f0b73f; border-radius:999px;
+    padding:9px 18px; font-size:13px; letter-spacing:.12em; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,.45)}
+  .cf-nav-btn:hover{background:#3a2260}
+  .cf-nav-menu{position:absolute; right:0; top:calc(100% + 8px); min-width:250px; background:#241239;
+    border:2px solid #f0b73f; border-radius:12px; padding:8px; box-shadow:0 18px 44px rgba(0,0,0,.55)}
+  .cf-nav-menu[hidden]{display:none}
+  .cf-nav-menu a{display:block; color:#f5ead2; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:14px}
+  .cf-nav-menu a:hover{background:#3a2260; color:#ffd166}
+  .cfz-chip{position:fixed; left:50%; bottom:16px; transform:translateX(-50%); z-index:205; pointer-events:none;
+    font-family:ui-monospace, Menlo, monospace; font-size:11px; letter-spacing:.18em; color:#ffd166;
+    background:rgba(28,15,46,.82); border:1px solid rgba(240,183,63,.5); border-radius:999px; padding:8px 16px;
+    transition:opacity 1s ease; white-space:nowrap}
+</style>
+<div class="cf-nav">
+  <button type="button" class="cf-nav-btn" id="cfNavBtn" aria-haspopup="true" aria-expanded="false">PAGES &#9662;</button>
+  <div class="cf-nav-menu" id="cfNavMenu" hidden>
+    <a href="index.html">Hub — all the parts</a>
+    <a href="the-completion-filter.html">Part 1 — The Completion Filter</a>
+    <a href="the-completion-filter-page-2.html">Part 2 — Reverse Lightning</a>
+    <a href="the-completion-filter-page-3.html">Part 3 — The Letting Go</a>
+    <a href="the-completion-filter-4.html">Part 4 — The Conductors</a>
+    <a href="completion-theory-demonstration.html">The Demonstration</a>
+  </div>
+</div>
+<div class="cfz-chip" id="cfzChip">DOUBLE-CLICK OR DOUBLE-TAP — CALL THE LIGHTNING</div>
+<script>
+(function(){
+  "use strict";
+  var actx = null;
+  function zapSound(big){
+    try{
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      if(actx.state === 'suspended') actx.resume();
+      var t = actx.currentTime;
+      var dur = (big ? 0.42 : 0.26) + Math.random()*0.14;
+      var buf = actx.createBuffer(1, Math.floor(actx.sampleRate*dur), actx.sampleRate);
+      var d = buf.getChannelData(0), i;
+      for(i=0;i<d.length;i++){ d[i] = (Math.random()*2-1) * Math.pow(1 - i/d.length, 1.7); }
+      var src = actx.createBufferSource(); src.buffer = buf;
+      var bp = actx.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 0.9;
+      bp.frequency.setValueAtTime(3600 + Math.random()*1400, t);
+      bp.frequency.exponentialRampToValueAtTime(200, t + dur);
+      var g = actx.createGain(); g.gain.setValueAtTime(big ? 0.65 : 0.5, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      src.connect(bp); bp.connect(g); g.connect(actx.destination); src.start(t);
+      var o = actx.createOscillator(); o.type = 'sine';
+      o.frequency.setValueAtTime(118, t); o.frequency.exponentialRampToValueAtTime(34, t + 0.26);
+      var g2 = actx.createGain(); g2.gain.setValueAtTime(big ? 0.3 : 0.22, t);
+      g2.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+      o.connect(g2); g2.connect(actx.destination); o.start(t); o.stop(t + 0.32);
+    }catch(e){}
+  }
+  function boltD(x0){
+    var H = window.innerHeight, pts = [], x = x0, y = -20, steps = 14 + (Math.random()*6|0), i;
+    for(i=0;i<=steps;i++){ pts.push([x, y]); y += (H+40)/steps; x += (Math.random()*72-36); }
+    var out = 'M' + pts.map(function(q){ return q[0].toFixed(0) + ' ' + q[1].toFixed(0); }).join(' L');
+    for(var b=0;b<3;b++){
+      var bi = 3 + (Math.random()*(steps-5)|0), bp0 = pts[bi], bx = bp0[0], by = bp0[1], dir = Math.random()<0.5?-1:1, segs = [], j;
+      for(j=0;j<4;j++){ segs.push([bx, by]); bx += dir*(20+Math.random()*36); by += 26+Math.random()*30; }
+      segs.push([bx, by]);
+      out += ' M' + segs.map(function(q){ return q[0].toFixed(0) + ' ' + q[1].toFixed(0); }).join(' L');
+    }
+    return out;
+  }
+  var chipDone = false;
+  window.__cfZap = function(big){
+    var old = document.querySelector('.cfz-fx'); if(old) old.remove();
+    var wrap = document.createElement('div'); wrap.className = 'cfz-fx';
+    var flash = document.createElement('div'); flash.className = 'cfz-flash';
+    if(big) flash.style.background = 'radial-gradient(ellipse at 50% 0%, rgba(255,248,214,.97), rgba(240,183,63,.35) 48%, transparent 78%)';
+    var NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + window.innerWidth + ' ' + window.innerHeight);
+    var n = big ? 3 : (Math.random() < 0.45 ? 2 : 1), k;
+    for(k=0;k<n;k++){
+      var path = document.createElementNS(NS, 'path');
+      path.setAttribute('d', boltD(window.innerWidth * (0.15 + Math.random()*0.7)));
+      path.setAttribute('class', 'cfz-bolt');
+      if(big) path.style.strokeWidth = '4';
+      svg.appendChild(path);
+    }
+    wrap.appendChild(flash); wrap.appendChild(svg);
+    document.body.appendChild(wrap);
+    zapSound(big);
+    setTimeout(function(){ wrap.classList.add('out'); }, big ? 140 : 90);
+    setTimeout(function(){ if(wrap.parentNode) wrap.remove(); }, big ? 950 : 720);
+    if(!chipDone){ chipDone = true; var chip = document.getElementById('cfzChip'); if(chip) chip.style.opacity = '0.35'; }
+  };
+  document.addEventListener('dblclick', function(){ window.__cfZap(false); });
+  var lastTap = 0;
+  document.addEventListener('touchend', function(){
+    var now = Date.now();
+    if(now - lastTap < 320){ window.__cfZap(false); lastTap = 0; } else { lastTap = now; }
+  }, {passive:true});
+  var navBtn = document.getElementById('cfNavBtn'), navMenu = document.getElementById('cfNavMenu');
+  if(navBtn && navMenu){
+    navBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = navMenu.hidden;
+      navMenu.hidden = !open;
+      navBtn.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('click', function(e){
+      if(!navMenu.hidden && !e.target.closest('.cf-nav')) navMenu.hidden = true;
+    });
+  }
+})();
+</script>
+</body>
 </html>
