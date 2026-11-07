@@ -1958,22 +1958,48 @@
       actx = actx || new (window.AudioContext || window.webkitAudioContext)();
       if(actx.state === 'suspended') actx.resume();
       var t = actx.currentTime;
-      var dur = (big ? 0.42 : 0.26) + Math.random()*0.14;
+      var V = big ? 1.25 : 1;
+      var master = actx.createGain(); master.gain.value = 0.9; master.connect(actx.destination);
+      /* 1) THE DIVE — a sawtooth arc plunging high to low. That falling
+         pitch IS the zap. (Nov 7: his ear caught the old recipe — noise
+         burst + low thump — as a drum snare. He was right. Thump deleted.) */
+      var f0 = 2300 + Math.random()*900;
+      var o = actx.createOscillator(); o.type = 'sawtooth';
+      o.frequency.setValueAtTime(f0, t);
+      o.frequency.exponentialRampToValueAtTime(110 + Math.random()*40, t + 0.16);
+      var o2 = actx.createOscillator(); o2.type = 'square';
+      o2.frequency.setValueAtTime(f0*1.5, t);
+      o2.frequency.exponentialRampToValueAtTime(170, t + 0.13);
+      var lp = actx.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 2;
+      lp.frequency.setValueAtTime(6500, t);
+      lp.frequency.exponentialRampToValueAtTime(500, t + 0.2);
+      var og = actx.createGain();
+      og.gain.setValueAtTime(0.30*V, t);
+      og.gain.exponentialRampToValueAtTime(0.001, t + 0.21);
+      o.connect(lp); o2.connect(lp); lp.connect(og); og.connect(master);
+      o.start(t); o.stop(t + 0.22); o2.start(t); o2.stop(t + 0.22);
+      /* 2) THE CRACKLE — arc sputter: noise chopped into random sparks by
+         a jittery gate, kept bright with a highpass so it sizzles like a
+         live wire instead of whooshing like a drum skin. */
+      var dur = (big ? 0.4 : 0.3) + Math.random()*0.1;
       var buf = actx.createBuffer(1, Math.floor(actx.sampleRate*dur), actx.sampleRate);
-      var d = buf.getChannelData(0), i;
-      for(i=0;i<d.length;i++){ d[i] = (Math.random()*2-1) * Math.pow(1 - i/d.length, 1.7); }
+      var d = buf.getChannelData(0), i, gate = 0, hold = 0;
+      for(i=0;i<d.length;i++){
+        if(hold-- <= 0){ gate = Math.random() < 0.42 ? 0 : (0.35 + Math.random()*0.65); hold = 90 + (Math.random()*260|0); }
+        d[i] = (Math.random()*2-1) * gate * Math.pow(1 - i/d.length, 1.25);
+      }
       var src = actx.createBufferSource(); src.buffer = buf;
-      var bp = actx.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 0.9;
-      bp.frequency.setValueAtTime(3600 + Math.random()*1400, t);
-      bp.frequency.exponentialRampToValueAtTime(200, t + dur);
-      var g = actx.createGain(); g.gain.setValueAtTime(big ? 0.65 : 0.5, t);
-      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
-      src.connect(bp); bp.connect(g); g.connect(actx.destination); src.start(t);
-      var o = actx.createOscillator(); o.type = 'sine';
-      o.frequency.setValueAtTime(118, t); o.frequency.exponentialRampToValueAtTime(34, t + 0.26);
-      var g2 = actx.createGain(); g2.gain.setValueAtTime(big ? 0.3 : 0.22, t);
-      g2.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
-      o.connect(g2); g2.connect(actx.destination); o.start(t); o.stop(t + 0.32);
+      var hp = actx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 1400;
+      var g = actx.createGain(); g.gain.value = 0.5*V;
+      src.connect(hp); hp.connect(g); g.connect(master); src.start(t);
+      /* 3) THE SNAP — the first spark: 15ms of pure bright click. */
+      var sbuf = actx.createBuffer(1, Math.floor(actx.sampleRate*0.015), actx.sampleRate);
+      var sd = sbuf.getChannelData(0);
+      for(i=0;i<sd.length;i++){ sd[i] = (Math.random()*2-1) * (1 - i/sd.length); }
+      var ssrc = actx.createBufferSource(); ssrc.buffer = sbuf;
+      var shp = actx.createBiquadFilter(); shp.type = 'highpass'; shp.frequency.value = 4000;
+      var sg = actx.createGain(); sg.gain.value = 0.6*V;
+      ssrc.connect(shp); shp.connect(sg); sg.connect(master); ssrc.start(t);
     }catch(e){}
   }
   function boltD(x0){
