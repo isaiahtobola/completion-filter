@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Completion Filter — BW Young Bo</title>
+<style>
+  body { background:#1c0f2e; color:#f5ead2; font-family:Georgia,serif; margin:0; padding:48px 20px; text-align:center; }
+  h1 { color:#ffd166; font-size:2em; margin-bottom:8px; }
+  p.sub { color:#cbb8e8; margin-bottom:36px; }
+  a.page { display:block; max-width:520px; margin:12px auto; padding:18px 24px; background:#2a1745; border:2px solid #f0b73f; border-radius:12px; color:#ffd166; text-decoration:none; font-size:1.15em; }
+  a.page:hover { background:#3a2260; }
+  a.page small { display:block; color:#cbb8e8; font-size:0.8em; margin-top:6px; }
+  .credit { margin-top:48px; color:#8f7ab8; font-size:0.9em; }
+</style>
+</head>
+<body>
+  <h1>The Completion Filter</h1>
+  <p class="sub">What connects, remains. What doesn't, never was.</p>
+  <a class="page" href="the-completion-filter.html">Part 1 — The Completion Filter<small>The theory: only what connects persists</small></a>
+  <a class="page" href="the-completion-filter-page-2.html">Part 2 — Reverse Lightning<small>The mechanism: the return stroke, and who gets remembered</small></a>
+  <a class="page" href="the-completion-filter-page-3.html">Part 3 — The Letting Go<small>Endings, ancestors, and what arrives when you release</small></a>
+  <a class="page" href="the-completion-filter-4.html">Part 4 — The Conductors<small>Tesla, the statues, and the family tree as lightning</small></a>
+  <a class="page" href="completion-theory-demonstration.html">The Demonstration<small>Five stories, one pattern — press the buttons, watch the light count up</small></a>
+  <p class="credit">BW Young Bo, Lux, and humanity's research.</p>
+
+<style>
+  .cfz-fx{position:fixed; inset:0; z-index:200; pointer-events:none}
+  .cfz-flash{position:absolute; inset:0; opacity:1; transition:opacity .55s ease;
+    background:radial-gradient(ellipse at 50% 0%, rgba(255,244,200,.85), rgba(240,183,63,.22) 45%, transparent 75%)}
+  .cfz-fx.out .cfz-flash{opacity:0}
+  .cfz-fx svg{position:absolute; inset:0; width:100%; height:100%}
+  .cfz-bolt{fill:none; stroke:#ffeeb8; stroke-width:3; stroke-linejoin:round; opacity:1; transition:opacity .5s ease;
+    filter:drop-shadow(0 0 6px #f0b73f) drop-shadow(0 0 18px rgba(240,183,63,.8))}
+  .cfz-fx.out .cfz-bolt{opacity:0}
+  .cf-nav{position:fixed; top:14px; left:14px; z-index:210; font-family:ui-monospace, Menlo, monospace}
+  .cf-nav-r{left:auto; right:14px; text-align:right}
+  .cf-nav-r .cf-nav-menu{left:auto; right:0}
+  .cf-nav-here{display:block; color:#ffd166; font-size:11px; letter-spacing:.14em; text-align:center; margin-top:6px; text-shadow:0 2px 8px rgba(0,0,0,.8)}
+  .cf-nav-btn{background:#2a1745; color:#ffd166; border:2px solid #f0b73f; border-radius:999px;
+    padding:9px 18px; font-size:13px; letter-spacing:.12em; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,.45)}
+  .cf-nav-btn:hover{background:#3a2260}
+  .cf-nav-menu{position:absolute; left:0; top:calc(100% + 8px); min-width:250px; background:#241239;
+    border:2px solid #f0b73f; border-radius:12px; padding:8px; box-shadow:0 18px 44px rgba(0,0,0,.55)}
+  .cf-nav-menu[hidden]{display:none}
+  .cf-nav-menu a{display:block; color:#f5ead2; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:14px}
+  .cf-nav-menu a:hover{background:#3a2260; color:#ffd166}
+  .cfz-chip{position:fixed; left:50%; bottom:16px; transform:translateX(-50%); z-index:205; pointer-events:none;
+    font-family:ui-monospace, Menlo, monospace; font-size:11px; letter-spacing:.18em; color:#ffd166;
+    background:rgba(28,15,46,.82); border:1px solid rgba(240,183,63,.5); border-radius:999px; padding:8px 16px;
+    transition:opacity 1s ease; white-space:nowrap}
+</style>
+<div class="cf-nav">
+  <button type="button" class="cf-nav-btn" id="cfNavBtn" aria-haspopup="true" aria-expanded="false">PAGES &#9662;</button>
+  <span class="cf-nav-here"></span>
+  <div class="cf-nav-menu" id="cfNavMenu" hidden>
+    <a href="index.html">Hub — all the parts</a>
+    <a href="the-completion-filter.html">Part 1 — The Completion Filter</a>
+    <a href="the-completion-filter-page-2.html">Part 2 — Reverse Lightning</a>
+    <a href="the-completion-filter-page-3.html">Part 3 — The Letting Go</a>
+    <a href="the-completion-filter-4.html">Part 4 — The Conductors</a>
+    <a href="completion-theory-demonstration.html">The Demonstration</a>
+  </div>
+</div>
+<div class="cf-nav cf-nav-r">
+  <button type="button" class="cf-nav-btn" id="cfNavBtnR" aria-haspopup="true" aria-expanded="false">PAGES &#9662;</button>
+  <span class="cf-nav-here"></span>
+  <div class="cf-nav-menu" id="cfNavMenuR" hidden>
+    <a href="index.html">Hub — all the parts</a>
+    <a href="the-completion-filter.html">Part 1 — The Completion Filter</a>
+    <a href="the-completion-filter-page-2.html">Part 2 — Reverse Lightning</a>
+    <a href="the-completion-filter-page-3.html">Part 3 — The Letting Go</a>
+    <a href="the-completion-filter-4.html">Part 4 — The Conductors</a>
+    <a href="completion-theory-demonstration.html">The Demonstration</a>
+  </div>
+</div>
+<div class="cfz-chip" id="cfzChip">DOUBLE-CLICK OR DOUBLE-TAP — CALL THE LIGHTNING</div>
+<script>
+(function(){
+  "use strict";
+  var actx = null;
+  function zapSound(big){
+    try{
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      if(actx.state === 'suspended') actx.resume();
+      var t = actx.currentTime;
+      var V = big ? 1.25 : 1;
+      var master = actx.createGain(); master.gain.value = 0.9; master.connect(actx.destination);
+      /* 1) THE DIVE — a sawtooth arc plunging high to low. That falling
+         pitch IS the zap. (Nov 7: his ear caught the old recipe — noise
+         burst + low thump — as a drum snare. He was right. Thump deleted.) */
+      var f0 = 2300 + Math.random()*900;
+      var o = actx.createOscillator(); o.type = 'sawtooth';
+      o.frequency.setValueAtTime(f0, t);
+      o.frequency.exponentialRampToValueAtTime(110 + Math.random()*40, t + 0.16);
+      var o2 = actx.createOscillator(); o2.type = 'square';
+      o2.frequency.setValueAtTime(f0*1.5, t);
+      o2.frequency.exponentialRampToValueAtTime(170, t + 0.13);
+      var lp = actx.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 2;
+      lp.frequency.setValueAtTime(6500, t);
+      lp.frequency.exponentialRampToValueAtTime(500, t + 0.2);
+      var og = actx.createGain();
+      og.gain.setValueAtTime(0.30*V, t);
+      og.gain.exponentialRampToValueAtTime(0.001, t + 0.21);
+      o.connect(lp); o2.connect(lp); lp.connect(og); og.connect(master);
+      o.start(t); o.stop(t + 0.22); o2.start(t); o2.stop(t + 0.22);
+      /* 2) THE CRACKLE — arc sputter: noise chopped into random sparks by
+         a jittery gate, kept bright with a highpass so it sizzles like a
+         live wire instead of whooshing like a drum skin. */
+      var dur = (big ? 0.4 : 0.3) + Math.random()*0.1;
+      var buf = actx.createBuffer(1, Math.floor(actx.sampleRate*dur), actx.sampleRate);
+      var d = buf.getChannelData(0), i, gate = 0, hold = 0;
+      for(i=0;i<d.length;i++){
+        if(hold-- <= 0){ gate = Math.random() < 0.42 ? 0 : (0.35 + Math.random()*0.65); hold = 90 + (Math.random()*260|0); }
+        d[i] = (Math.random()*2-1) * gate * Math.pow(1 - i/d.length, 1.25);
+      }
+      var src = actx.createBufferSource(); src.buffer = buf;
+      var hp = actx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 1400;
+      var g = actx.createGain(); g.gain.value = 0.5*V;
+      src.connect(hp); hp.connect(g); g.connect(master); src.start(t);
+      /* 3) THE SNAP — the first spark: 15ms of pure bright click. */
+      var sbuf = actx.createBuffer(1, Math.floor(actx.sampleRate*0.015), actx.sampleRate);
+      var sd = sbuf.getChannelData(0);
+      for(i=0;i<sd.length;i++){ sd[i] = (Math.random()*2-1) * (1 - i/sd.length); }
+      var ssrc = actx.createBufferSource(); ssrc.buffer = sbuf;
+      var shp = actx.createBiquadFilter(); shp.type = 'highpass'; shp.frequency.value = 4000;
+      var sg = actx.createGain(); sg.gain.value = 0.6*V;
+      ssrc.connect(shp); shp.connect(sg); sg.connect(master); ssrc.start(t);
+    }catch(e){}
+  }
+  function boltD(x0){
+    var H = window.innerHeight, pts = [], x = x0, y = -20, steps = 14 + (Math.random()*6|0), i;
+    for(i=0;i<=steps;i++){ pts.push([x, y]); y += (H+40)/steps; x += (Math.random()*72-36); }
+    var out = 'M' + pts.map(function(q){ return q[0].toFixed(0) + ' ' + q[1].toFixed(0); }).join(' L');
+    for(var b=0;b<3;b++){
+      var bi = 3 + (Math.random()*(steps-5)|0), bp0 = pts[bi], bx = bp0[0], by = bp0[1], dir = Math.random()<0.5?-1:1, segs = [], j;
+      for(j=0;j<4;j++){ segs.push([bx, by]); bx += dir*(20+Math.random()*36); by += 26+Math.random()*30; }
+      segs.push([bx, by]);
+      out += ' M' + segs.map(function(q){ return q[0].toFixed(0) + ' ' + q[1].toFixed(0); }).join(' L');
+    }
+    return out;
+  }
+  var chipDone = false;
+  window.__cfZap = function(big){
+    var old = document.querySelector('.cfz-fx'); if(old) old.remove();
+    var wrap = document.createElement('div'); wrap.className = 'cfz-fx';
+    var flash = document.createElement('div'); flash.className = 'cfz-flash';
+    if(big) flash.style.background = 'radial-gradient(ellipse at 50% 0%, rgba(255,248,214,.97), rgba(240,183,63,.35) 48%, transparent 78%)';
+    var NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + window.innerWidth + ' ' + window.innerHeight);
+    var n = big ? 3 : (Math.random() < 0.45 ? 2 : 1), k;
+    for(k=0;k<n;k++){
+      var path = document.createElementNS(NS, 'path');
+      path.setAttribute('d', boltD(window.innerWidth * (0.15 + Math.random()*0.7)));
+      path.setAttribute('class', 'cfz-bolt');
+      if(big) path.style.strokeWidth = '4';
+      svg.appendChild(path);
+    }
+    wrap.appendChild(flash); wrap.appendChild(svg);
+    document.body.appendChild(wrap);
+    zapSound(big);
+    setTimeout(function(){ wrap.classList.add('out'); }, big ? 140 : 90);
+    setTimeout(function(){ if(wrap.parentNode) wrap.remove(); }, big ? 950 : 720);
+    if(!chipDone){ chipDone = true; var chip = document.getElementById('cfzChip'); if(chip) chip.style.opacity = '0.35'; }
+  };
+  document.addEventListener('dblclick', function(){ window.__cfZap(false); });
+  var lastTap = 0;
+  document.addEventListener('touchend', function(){
+    var now = Date.now();
+    if(now - lastTap < 320){ window.__cfZap(false); lastTap = 0; } else { lastTap = now; }
+  }, {passive:true});
+  var navBtn = document.getElementById('cfNavBtn'), navMenu = document.getElementById('cfNavMenu');
+  var navBtnR = document.getElementById('cfNavBtnR'), navMenuR = document.getElementById('cfNavMenuR');
+  /* BUILD 104 (his call, main site's Build Log numbering): the PAGES
+     pill sits on BOTH top corners now — "no menu on the opposite
+     side of pages" was the catch — and each pill carries a HERE line
+     naming the page you're on. */
+  var hereMap = {'index.html':'HUB \u2014 ALL THE PARTS','the-completion-filter.html':'PART 1 \u2014 THE COMPLETION FILTER','the-completion-filter-page-2.html':'PART 2 \u2014 REVERSE LIGHTNING','the-completion-filter-page-3.html':'PART 3 \u2014 THE LETTING GO','the-completion-filter-4.html':'PART 4 \u2014 THE CONDUCTORS','completion-theory-demonstration.html':'THE DEMONSTRATION'};
+  var curPage = location.pathname.split('/').pop() || 'index.html';
+  /* LOCK-IN NOTE (same dawn, his goodnight ask): the pill never
+     says its own page without the location first — "WHERE YOU ARE"
+     is the whole point of the mirror. */
+  document.querySelectorAll('.cf-nav-here').forEach(function(el){ el.textContent = 'WHERE YOU ARE \u25BE ' + (hereMap[curPage] || ''); });
+  function wireNav(bb, mm){
+    if(!bb || !mm) return;
+    bb.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = mm.hidden;
+      document.querySelectorAll('.cf-nav-menu').forEach(function(x){ x.hidden = true; });
+      document.querySelectorAll('.cf-nav-btn').forEach(function(x){ x.setAttribute('aria-expanded','false'); });
+      mm.hidden = !open;
+      bb.setAttribute('aria-expanded', String(open));
+    });
+  }
+  wireNav(navBtn, navMenu); wireNav(navBtnR, navMenuR);
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.cf-nav')) document.querySelectorAll('.cf-nav-menu').forEach(function(x){ x.hidden = true; });
+  });
+})();
+</script>
+
+<script>
+/* The lightning INTRO (his Nov 6 call): it lives ONLY here. Tapping a
+   theory calls one big strike down the whole sky — then the door opens. */
+(function(){
+  document.querySelectorAll('a.page, .cf-nav-menu a').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var href = a.getAttribute('href');
+      if(!href || href.charAt(0) === '#') return;
+      e.preventDefault();
+      if(typeof window.__cfZap === 'function') window.__cfZap(true);
+      setTimeout(function(){ window.location.href = href; }, 950);
+    });
+  });
+  /* and one welcome strike, a breath after the page lands */
+  setTimeout(function(){ if(typeof window.__cfZap === 'function') window.__cfZap(false); }, 700);
+})();
+</script>
+
+</body>
+</html>
