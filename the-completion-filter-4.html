@@ -1,0 +1,1366 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>The Completion Filter 4 — The Shape That Connects</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #141118;
+        --bg-deep: #0e0b12;
+        --ink: #ece5d5;
+        --ink-soft: #bdb2a0;
+        --ink-faint: #8b8172;
+        --line: #352e42;
+        --accent: #f0b73f;
+        --accent-bright: #ffd166;
+        --accent-ink: #ffd166;
+        --panel: #1d1826;
+        --panel-deep: #0e0b12;
+        --hero-ink: #f3ead8;
+        --hero-dim: rgba(243, 234, 216, 0.74);
+        --patina: #4fb3a5;
+        --patina-bright: #6fd3c2;
+        --shadow: rgba(0, 0, 0, 0.45);
+        --bolt-glow: rgba(255, 209, 102, 0.4);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #141118;
+          --bg-deep: #0e0b12;
+          --ink: #ece5d5;
+          --ink-soft: #bdb2a0;
+          --ink-faint: #8b8172;
+          --line: #352e42;
+          --accent: #f0b73f;
+          --accent-bright: #ffd166;
+          --accent-ink: #ffd166;
+          --panel: #1d1826;
+          --panel-deep: #0e0b12;
+          --patina: #4fb3a5;
+          --patina-bright: #6fd3c2;
+          --shadow: rgba(0, 0, 0, 0.45);
+          --bolt-glow: rgba(255, 209, 102, 0.4);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Newsreader", Georgia, "Times New Roman", serif;
+        font-size: 1.13rem;
+        line-height: 1.68;
+        -webkit-font-smoothing: antialiased;
+      }
+      .mono {
+        font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      a { color: var(--accent-ink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+      a:hover { color: var(--accent-bright); }
+
+      /* ---------- Hero ---------- */
+      .hero {
+        position: relative;
+        background: #17121f;
+        color: var(--hero-ink);
+        overflow: hidden;
+      }
+      .hero svg.art { display: block; width: 100%; height: min(62vh, 560px); }
+      .hero .veil {
+        position: absolute; inset: 0;
+        background: linear-gradient(to bottom, rgba(14, 10, 20, 0.25) 30%, rgba(14, 10, 20, 0.86) 82%, rgba(14, 10, 20, 0.96));
+      }
+      .hero .hero-text {
+        position: absolute; inset: auto 0 0 0;
+        padding: 0 1.25rem 2.1rem;
+      }
+      .hero-inner { max-width: 880px; margin: 0 auto; }
+      .hero .kicker { color: var(--accent-bright); }
+      .hero h1 {
+        font-size: clamp(2.3rem, 7vw, 4.1rem);
+        line-height: 1.04;
+        font-weight: 600;
+        margin: 0.35rem 0 0.6rem;
+        letter-spacing: -0.01em;
+      }
+      .hero .sub { font-size: clamp(1.08rem, 2.6vw, 1.32rem); color: var(--hero-dim); max-width: 42ch; margin: 0; }
+      .hero-byline { margin-top: 1.3rem; color: var(--hero-dim); display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; align-items: baseline; }
+      .hero-byline .mono { color: var(--hero-dim); }
+      .hero-byline strong { color: var(--hero-ink); font-weight: 500; }
+
+      /* ---------- Layout ---------- */
+      main { max-width: 880px; margin: 0 auto; padding: 0 1.25rem 4rem; }
+      section { margin-top: 3.6rem; }
+      h2 {
+        font-size: clamp(1.65rem, 4.4vw, 2.3rem);
+        line-height: 1.15;
+        font-weight: 600;
+        margin: 0.4rem 0 0.8rem;
+        letter-spacing: -0.01em;
+      }
+      h3 { font-size: 1.28rem; font-weight: 600; margin: 1.8rem 0 0.4rem; }
+      p { margin: 0.75rem 0; }
+      .lede { font-size: 1.3rem; line-height: 1.55; }
+      .soft { color: var(--ink-soft); }
+      .sec-kicker { color: var(--accent); }
+      .rule { height: 1px; background: var(--line); margin: 3.4rem 0 0; border: 0; }
+      em.term { font-style: italic; }
+      .pull {
+        font-size: clamp(1.35rem, 3.6vw, 1.8rem);
+        line-height: 1.35;
+        font-weight: 500;
+        margin: 2rem 0;
+        padding-left: 1.1rem;
+        border-left: 3px solid var(--accent);
+      }
+      .pull .mono { display: block; color: var(--accent); margin-bottom: 0.55rem; }
+
+      /* ---------- Axiom / verdict panels ---------- */
+      .axiom {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 1.3rem 1.4rem;
+        margin: 1.6rem 0;
+      }
+      .axiom .mono { color: var(--accent); display: block; margin-bottom: 0.6rem; }
+      .axiom p { margin: 0.3rem 0; }
+      .verdict {
+        border-radius: 10px;
+        padding: 1.2rem 1.4rem;
+        margin: 1.4rem 0;
+        border: 1px solid var(--line);
+      }
+      .verdict.fact { background: var(--panel); }
+      .verdict.myth { background: transparent; border-style: dashed; }
+      .verdict .mono { display: block; margin-bottom: 0.5rem; }
+      .verdict.fact .mono { color: var(--patina); }
+      .verdict.myth .mono { color: var(--ink-faint); }
+      .verdict p { margin: 0.25rem 0; }
+
+      /* ---------- Diagram frames ---------- */
+      figure.diagram {
+        margin: 1.8rem 0;
+        background: var(--panel-deep);
+        border-radius: 14px;
+        padding: 1.2rem 1.2rem 0.9rem;
+        color: #ece5d5;
+        box-shadow: 0 18px 50px var(--shadow);
+      }
+      figure.diagram svg { display: block; width: 100%; height: auto; }
+      figure.diagram figcaption {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 0.74rem; letter-spacing: 0.06em;
+        color: rgba(236, 229, 213, 0.62);
+        padding: 0.7rem 0.2rem 0.35rem;
+        line-height: 1.6;
+        text-transform: none;
+      }
+      .diagram.light {
+        background: var(--panel);
+        color: var(--ink);
+        border: 1px solid var(--line);
+        box-shadow: none;
+      }
+      .diagram.light figcaption { color: var(--ink-faint); }
+
+      /* ---------- Stat strip ---------- */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 1.6rem 0;
+      }
+      .stat { background: var(--bg); padding: 1rem 1.1rem; }
+      .stat .num { font-size: 1.85rem; font-weight: 600; line-height: 1.05; color: var(--accent-ink); }
+      .stat .lbl { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-top: 0.35rem; line-height: 1.5; }
+
+      /* ---------- Inventor rows ---------- */
+      .person {
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        gap: 1.1rem;
+        padding: 1.3rem 0;
+        border-top: 1px solid var(--line);
+      }
+      .person:last-of-type { border-bottom: 1px solid var(--line); }
+      .person .glyph {
+        width: 92px; height: 92px;
+        border-radius: 50%;
+        background: var(--panel-deep);
+        display: flex; align-items: center; justify-content: center;
+      }
+      .person h3 { margin: 0 0 0.3rem; font-size: 1.3rem; }
+      .person .dates { font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; }
+      .person p { margin: 0.35rem 0; color: var(--ink-soft); }
+      .person p strong { color: var(--ink); }
+      @media (max-width: 560px) {
+        .person { grid-template-columns: 64px 1fr; gap: 0.9rem; }
+        .person .glyph { width: 64px; height: 64px; }
+        .person .glyph svg { width: 40px; height: 40px; }
+      }
+
+      /* ---------- Two-column compare ---------- */
+      .duo {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2rem;
+        margin: 1.6rem 0;
+      }
+      @media (max-width: 700px) { .duo { grid-template-columns: 1fr; } }
+      .duo .card {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 1.3rem 1.35rem;
+        background: var(--bg);
+      }
+      .duo .card h3 { margin-top: 0.2rem; }
+      .duo .card .mono { color: var(--accent); }
+      .duo .card ul { margin: 0.5rem 0 0; padding-left: 1.15rem; }
+      .duo .card li { margin: 0.45rem 0; color: var(--ink-soft); }
+      .duo .card li strong { color: var(--ink); }
+
+      /* ---------- Interactive labs ---------- */
+      .lab {
+        background: var(--panel-deep);
+        color: #ece5d5;
+        border-radius: 16px;
+        padding: 1.5rem 1.4rem 1.3rem;
+        margin: 1.8rem 0;
+        box-shadow: 0 18px 50px var(--shadow);
+      }
+      .lab .mono { color: var(--accent-bright); }
+      .lab h3 { color: #f3ead8; margin: 0.35rem 0 0.4rem; font-size: 1.45rem; }
+      .lab p { color: rgba(236, 229, 213, 0.82); }
+      .lab svg { display: block; width: 100%; height: auto; margin-top: 0.6rem; }
+      .lab .readout {
+        min-height: 3.4em;
+        border-top: 1px solid rgba(236, 229, 213, 0.16);
+        margin-top: 0.9rem;
+        padding-top: 0.85rem;
+        font-size: 1.02rem;
+        line-height: 1.55;
+        color: rgba(236, 229, 213, 0.9);
+      }
+      .lab .readout .mono { display: block; margin-bottom: 0.3rem; }
+      .controls { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 1rem; }
+      .controls button {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase;
+        background: transparent;
+        color: #ffd166;
+        border: 1px solid rgba(255, 209, 102, 0.55);
+        border-radius: 999px;
+        padding: 0.55rem 1rem;
+        cursor: pointer;
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+      .controls button:hover:not(:disabled), .controls button:focus-visible:not(:disabled) {
+        background: #f0b73f; color: #171106;
+      }
+      .controls button:disabled { opacity: 0.32; cursor: default; }
+      .controls button.ghost { color: rgba(236,229,213,0.75); border-color: rgba(236,229,213,0.35); }
+      .controls button.ghost:hover:not(:disabled) { background: rgba(236,229,213,0.14); color: #f3ead8; }
+      .care-row { margin-top: 1.1rem; }
+      .care-row label {
+        font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
+        letter-spacing: 0.12em; text-transform: uppercase; color: rgba(236,229,213,0.75);
+        display: flex; justify-content: space-between; gap: 1rem;
+      }
+      .care-row input[type="range"] { width: 100%; accent-color: #f0b73f; margin-top: 0.5rem; }
+      .lab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+      @media (max-width: 760px) { .lab-grid { grid-template-columns: 1fr; } }
+      .lab-grid .lab { margin: 0; }
+      .lab-wrap { margin: 1.8rem 0; }
+      .lab-wrap > .mono { color: var(--accent); display: block; margin-bottom: 0.4rem; }
+
+      /* ---------- Sources & footer ---------- */
+      .sources { font-size: 0.98rem; color: var(--ink-soft); }
+      .sources li { margin: 0.5rem 0; overflow-wrap: anywhere; }
+      footer {
+        border-top: 1px solid var(--line);
+        margin-top: 3.5rem;
+        padding-top: 1.6rem;
+        color: var(--ink-faint);
+      }
+      footer .credit { font-size: 1.05rem; color: var(--ink-soft); }
+      .final-line {
+        font-size: clamp(1.5rem, 4.6vw, 2.2rem);
+        line-height: 1.3; font-weight: 500;
+        margin: 1.2rem 0 0.4rem;
+      }
+      .closing-line {
+        margin: 4.5rem auto 1rem;
+        max-width: 34em;
+        text-align: center;
+        font-size: clamp(1.3rem, 3.8vw, 1.75rem);
+        line-height: 1.45;
+        font-weight: 500;
+        color: var(--ink);
+      }
+      .closing-line::before {
+        content: "";
+        display: block;
+        width: 54px;
+        height: 2px;
+        background: var(--accent);
+        margin: 0 auto 1.6rem;
+      }
+
+      /* ---------- Motion ---------- */
+      @keyframes flicker {
+        0%, 100% { opacity: 1; }
+        92% { opacity: 1; }
+        93% { opacity: 0.35; }
+        94% { opacity: 1; }
+        96% { opacity: 0.5; }
+        97% { opacity: 1; }
+      }
+      .flicker { animation: flicker 5s linear infinite; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .flicker { animation: none; }
+        * { transition: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <svg class="art" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Vector art: a branching golden lightning bolt over a dark harbor at night, the Statue of Liberty silhouetted on the left shore and the Wardenclyffe tower on the right" xmlns="http://www.w3.org/2000/svg"><rect width="800" height="500" fill="#150d20"/><ellipse cx="400" cy="74" rx="330" ry="58" fill="#291b44"/><ellipse cx="240" cy="56" rx="190" ry="40" fill="#3a2560"/><g fill="#ffd166"><circle cx="96" cy="52" r="1.8"/><circle cx="180" cy="30" r="1.4"/><circle cx="560" cy="38" r="1.8"/><circle cx="672" cy="66" r="1.4"/><circle cx="716" cy="26" r="1.8"/><circle cx="330" cy="24" r="1.3"/></g><path d="M404 108 L388 196 L410 202 L372 300 L398 306 L368 402 L392 332 L372 326 L404 238 L380 230 L414 140 L398 208 L422 200 Z" fill="#f0b73f"/><g stroke="#f0b73f" stroke-width="2.5" fill="none" opacity="0.6" stroke-linecap="round"><path d="M392 236 L330 286 L322 330"/><path d="M398 300 L462 344 L470 382"/><path d="M388 190 L344 214 L306 218"/></g><path d="M0 500 L0 428 L800 428 L800 500 Z" fill="#0d0716"/><path d="M0 428 L800 428" stroke="#3a2560" stroke-width="2"/><g stroke="#f0b73f" stroke-width="1.6" opacity="0.5"><path d="M60 448 q14 -6 28 0 t28 0 t28 0"/><path d="M600 462 q14 -6 28 0 t28 0 t28 0"/><path d="M330 452 q14 -6 28 0 t28 0"/></g><g fill="#0d0716" stroke="#f0b73f" stroke-width="1.6"><path d="M92 428 v-16 h34 v16 Z"/><path d="M112 412 v-26"/><path d="M101 388 a11 11 0 0 1 22 0 Z"/><circle cx="112" cy="372" r="6"/><path d="M112 366 v-8 M106 356 l6 -6 6 6"/></g><g fill="#0d0716" stroke="#f0b73f" stroke-width="1.6"><path d="M688 428 V318"/><path d="M664 428 q24 -14 48 0"/><circle cx="688" cy="306" r="17"/><path d="M688 289 v-12 M676 300 l-9 -7 M700 300 l9 -7"/><path d="M672 428 v-22 h32 v22"/></g></svg>
+      <div class="veil"></div>
+      <div class="hero-text">
+        <div class="hero-inner">
+          <span class="mono kicker">The Completion Filter · Part 4</span>
+          <h1>The Shape That Connects</h1>
+          <p class="sub">
+            Tesla, a copper lady, a stone pyramid, the real New York underground — and the two
+            circuits, one in the sky and one in a family, that only exist when two sides meet.
+          </p>
+          <div class="hero-byline">
+            <span class="mono">Credited to</span>
+            <strong>BW Young Bo, Lux, and humanity's research</strong>
+            <span class="mono">Facts checked · Myths retired</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section aria-label="Introduction">
+        <p class="lede">
+          Parts one through three built the theory: <em>the universe doesn't remember everything
+          that happens — only what connects.</em> Branching is free. Persistence costs connection.
+          Part four takes the theory out into the world and does something harder with it: it checks
+          the receipts.
+        </p>
+        <p>
+          Because this theory grew up around lightning, inventors, towers, and secret underground
+          New York — and the internet has spent thirty years wrapping those real stories in
+          conspiracy. So here is the deal for this page, the same deal as always:
+          <strong>what's documented gets stated plainly, what's speculation gets labeled, and what
+          has no evidence gets retired — no matter how good the story is.</strong> The funny thing
+          is what survives the fact-check. The true version turns out to be <em>more</em>
+          Completion Filter than the myth. A lightning bolt really is two things reaching for each
+          other. So is a family.
+        </p>
+        <div class="axiom">
+          <span class="mono">The theory, one line</span>
+          <p><strong>What connects, remains. What doesn't, never was.</strong></p>
+          <p class="soft">Part 4 adds the field test: hold that line up against Tesla, the Statue of
+          Liberty, the Great Pyramid, and everything actually buried under Manhattan — and watch
+          which stories complete the circuit and which ones dissipate.</p>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ================= SECTION 1 : TESLA & THE SHAPE ================= -->
+      <section aria-label="Tesla and the lightning shape">
+        <span class="mono sec-kicker">01 · The man who watched the sky</span>
+        <h2>Tesla and the shape that started conductivity</h2>
+        <p>
+          Start with the shape itself, because Nikola Tesla did. A lightning bolt is not a line —
+          it's a <em>tree</em>: one channel reaching down, splitting into branches, each branch
+          splitting again, probing for the one path that completes the circuit. Tesla spent his
+          life studying that shape. In 1899 he built an experimental station at Colorado Springs
+          with a magnifying transmitter — one of the largest Tesla coils ever constructed — and
+          produced man-made bolts reported at around 130 feet long, thick as a man's arm, with
+          thunder reportedly heard in Cripple Creek, some 15 miles away. By Tesla's own telling, the first full-power test
+          overloaded the El Paso Electric Company's generator, set it on fire, and blacked out the
+          whole city. Tesla had to help repair the dynamo before they'd give him power again.
+        </p>
+        <p>
+          Wordy symbolism, as requested — because this is where the symbolism is literally true.
+          In his notes and lectures Tesla kept returning to the same image: electricity moving
+          between earth and sky like something alive, a current seeking its other half. His great
+          idea — the one everything else in this page hangs on — was that if a bolt could be made
+          to <em>hit metal on purpose</em>, on schedule, aimed — then the wildest force in nature
+          becomes a tool. That idea has a family tree of its own: Benjamin Franklin's lightning
+          rod (1752) was the first deliberate invitation — a pointed metal rod offering the bolt a
+          better path than your house. Tesla wanted to go further: not just catch the bolt, but
+          <em>conduct the whole exchange</em> — pump charge into the earth itself and let the
+          planet carry it.
+        </p>
+
+        <figure class="diagram" aria-label="Diagram of a branching lightning bolt">
+          <svg viewBox="0 0 800 340" role="img" aria-label="A branching golden lightning bolt: many branches reach down, only the one that connects to the ground carries the bright main channel">
+            <rect x="0" y="0" width="800" height="340" fill="none" />
+            <!-- cloud -->
+            <path d="M250 58 q10 -30 44 -26 q12 -20 40 -14 q22 -14 40 2 q26 -8 34 14 q24 2 22 24 q-2 16 -24 16 l-156 0 q-20 -2 -18 -16 q0 -12 18 -12 Z" fill="#2b2140" stroke="#4a3a68" stroke-width="1.5" />
+            <text x="330" y="52" fill="#bdb2e0" font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="middle">− − − CHARGE − − −</text>
+            <!-- dead branches -->
+            <g stroke="#8a7bb5" stroke-width="2" fill="none" opacity="0.55" stroke-linejoin="round">
+              <path d="M352 84 L338 118 L352 140 L330 176 L338 204" />
+              <path d="M352 140 L392 158 L386 190" />
+              <path d="M372 96 L404 122 L398 152" />
+              <path d="M318 100 L292 130 L300 158 L282 178" />
+            </g>
+            <!-- main channel -->
+            <path class="flicker" d="M356 80 L344 116 L362 142 L348 182 L366 214 L352 252 L368 288" stroke="#ffd166" stroke-width="4.5" fill="none" stroke-linejoin="round" />
+            <!-- ground -->
+            <line x1="40" y1="300" x2="760" y2="300" stroke="#4a3a68" stroke-width="2" />
+            <path d="M330 300 l14 -12 M352 300 l12 -10 M378 300 l12 -12" stroke="#ffd166" stroke-width="2" opacity="0.8" />
+            <text x="368" y="326" fill="#ffd166" font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="middle">CONNECTION → THE BOLT</text>
+            <text x="238" y="196" fill="#8a7bb5" font-family="IBM Plex Mono, monospace" font-size="11.5">branches that</text>
+            <text x="238" y="214" fill="#8a7bb5" font-family="IBM Plex Mono, monospace" font-size="11.5">never connect</text>
+            <text x="238" y="232" fill="#8a7bb5" font-family="IBM Plex Mono, monospace" font-size="11.5">dissipate</text>
+            <text x="470" y="150" fill="#ece5d5" font-family="Newsreader, serif" font-size="16" font-style="italic">One shape: the tree,</text>
+            <text x="470" y="172" fill="#ece5d5" font-family="Newsreader, serif" font-size="16" font-style="italic">the river, the family.</text>
+          </svg>
+          <figcaption>Fig. 1 — A bolt is a search. Dozens of branches reach; the one that completes the circuit becomes the lightning. The rest are never remembered. That is the Completion Filter, drawn by the sky itself.</figcaption>
+        </figure>
+
+        <div class="verdict myth">
+          <span class="mono">Myth retired № 1 — the famous photograph</span>
+          <p>
+            The iconic image of Tesla calmly reading while giant bolts crackle around him is a
+            <strong>double exposure</strong> — a publicity photo by Dickenson V. Alley. The sparks
+            were photographed first, in the dark; Tesla was photographed second, sitting in the
+            chair with the machine off. Tesla admitted it himself in his <em>Colorado Springs
+            Notes</em>. The real experiments were wild enough. The photo didn't need to lie — but
+            it did, and knowing that makes the true story stronger, not weaker.
+          </p>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ================= SECTION 2 : WARDENCLYFFE ================= -->
+      <section aria-label="Wardenclyffe">
+        <span class="mono sec-kicker">02 · The blueprint</span>
+        <h2>Wardenclyffe: getting the bolt to hit the whole Earth</h2>
+        <p>
+          After Colorado Springs, Tesla came home to New York and built the real thing at
+          Shoreham, Long Island: <strong>Wardenclyffe Tower</strong> (1901–1917). This is the
+          "Wardenclyffe project" behind a thousand conspiracy videos, so here is the actual
+          blueprint — the documented design, no gatekeeping, because there is nothing left to
+          gatekeep.
+        </p>
+        <p>
+          The visible part: a <strong>187-foot wooden tower</strong> topped with a
+          <strong>68-foot cupola</strong> — the terminal meant to throw enormous electrical
+          oscillations into the sky. The part nobody photographs: underneath it, Tesla sank a
+          <strong>shaft 120 feet deep</strong>, with <strong>sixteen iron pipes driven 300 feet
+          deeper still</strong>. In his own words, it was <em>"to have a grip on the earth so the
+          whole of this globe can quiver."</em> Next door stood a 94-by-94-foot brick laboratory
+          designed by Stanford White. The theory: pump energy into the ground at the Earth's
+          resonant frequency and the planet rings like a bell — anyone, anywhere, could tune a
+          receiver to it and draw power. Wireless messages, wireless telephones, wireless power.
+          One circuit, completed at planetary scale.
+        </p>
+
+        <figure class="diagram" aria-label="Wardenclyffe cross-section diagram">
+          <svg viewBox="0 0 800 430" role="img" aria-label="Cross-section diagram of Wardenclyffe: tower and cupola above ground, laboratory beside it, and a deep shaft with iron pipes below ground">
+            <!-- sky bolts decorative -->
+            <path d="M400 18 L388 44 L402 52 L384 84" stroke="#ffd166" stroke-width="2.5" fill="none" opacity="0.85" class="flicker" />
+            <!-- tower -->
+            <g stroke="#c9bfa8" stroke-width="3" fill="none">
+              <path d="M368 190 L392 74 M432 190 L408 74" />
+              <path d="M376 150 L424 150 M384 112 L416 112" stroke-width="2" />
+            </g>
+            <path d="M362 74 a38 30 0 0 1 76 0 Z" fill="#a86e0a" stroke="#ffd166" stroke-width="2" />
+            <text x="400" y="46" fill="#ffd166" font-family="IBM Plex Mono, monospace" font-size="11.5" text-anchor="middle">68-FT CUPOLA</text>
+            <text x="486" y="120" fill="#ece5d5" font-family="IBM Plex Mono, monospace" font-size="11.5">187-FT TOWER</text>
+            <!-- lab building -->
+            <g>
+              <rect x="520" y="150" width="130" height="52" fill="#241a33" stroke="#c9bfa8" stroke-width="2" />
+              <path d="M514 150 L585 128 L656 150" fill="none" stroke="#c9bfa8" stroke-width="2.5" />
+              <rect x="572" y="172" width="18" height="30" fill="#17121f" stroke="#c9bfa8" stroke-width="1.5" />
+              <rect x="536" y="162" width="16" height="14" fill="#ffd166" opacity="0.75" />
+              <rect x="612" y="162" width="16" height="14" fill="#ffd166" opacity="0.45" />
+            </g>
+            <text x="585" y="222" fill="#ece5d5" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">STANFORD WHITE LAB</text>
+            <!-- ground line -->
+            <line x1="30" y1="202" x2="770" y2="202" stroke="#ffd166" stroke-width="2" />
+            <text x="52" y="192" fill="#ffd166" font-family="IBM Plex Mono, monospace" font-size="11">GROUND LEVEL</text>
+            <!-- shaft -->
+            <g stroke="#8a7bb5" stroke-width="2.5">
+              <line x1="388" y1="202" x2="388" y2="322" />
+              <line x1="412" y1="202" x2="412" y2="322" />
+            </g>
+            <g stroke="#8a7bb5" stroke-width="1.6" opacity="0.8">
+              <line x1="378" y1="322" x2="374" y2="392" />
+              <line x1="392" y1="322" x2="390" y2="398" />
+              <line x1="400" y1="322" x2="400" y2="402" />
+              <line x1="408" y1="322" x2="410" y2="398" />
+              <line x1="422" y1="322" x2="426" y2="392" />
+            </g>
+            <path d="M340 356 q60 26 120 0" stroke="#4fb3a5" stroke-width="2" fill="none" stroke-dasharray="5 5" />
+            <text x="520" y="290" fill="#ece5d5" font-family="IBM Plex Mono, monospace" font-size="11.5">SHAFT: 120 FT DEEP</text>
+            <text x="520" y="312" fill="#ece5d5" font-family="IBM Plex Mono, monospace" font-size="11.5">16 IRON PIPES, 300 FT DEEPER</text>
+            <text x="520" y="360" fill="#4fb3a5" font-family="IBM Plex Mono, monospace" font-size="11.5">THE EARTH = THE CIRCUIT</text>
+            <text x="150" y="290" fill="#bdb2e0" font-family="Newsreader, serif" font-size="15" font-style="italic">"…so the whole of</text>
+            <text x="150" y="312" fill="#bdb2e0" font-family="Newsreader, serif" font-size="15" font-style="italic">this globe can quiver."</text>
+            <text x="150" y="334" fill="#8a7bb5" font-family="IBM Plex Mono, monospace" font-size="10.5">— TESLA, ON THE DESIGN</text>
+          </svg>
+          <figcaption>Fig. 2 — Wardenclyffe in cross-section, from Tesla's documented design. The tower was only the top half of the idea. The bottom half was a handshake with the planet.</figcaption>
+        </figure>
+
+        <div class="stats" role="list" aria-label="Wardenclyffe key numbers">
+          <div class="stat" role="listitem"><div class="num">$150K</div><div class="lbl">J.P. Morgan's investment — about $5M today</div></div>
+          <div class="stat" role="listitem"><div class="num">1906</div><div class="lbl">Project abandoned, never operational</div></div>
+          <div class="stat" role="listitem"><div class="num">1917</div><div class="lbl">Tower demolished for scrap to pay debts</div></div>
+          <div class="stat" role="listitem"><div class="num">2013</div><div class="lbl">Tesla Science Center buys the site after a $1.37M crowdfunding campaign</div></div>
+        </div>
+
+        <h3>So why did it die? Follow the meter.</h3>
+        <p>
+          The documented mechanism is not a raid or a shadowy order — it's a bank account. J.P.
+          Morgan put in $150,000 for transatlantic <em>messaging</em>. When Tesla expanded the
+          scope to wireless <em>power</em> — power nobody could meter, billed to nobody — Morgan
+          refused further funding, and no other backer stepped in. The project was abandoned in
+          1906 and the tower was sold for scrap in 1917. The famous line attributed to Morgan —
+          <em>"If anyone can draw on the power, where do we put the meter?"</em> — is told so
+          often it feels carved in stone; honestly, historians debate the exact wording. Treat it
+          as legend that points at a documented truth: <strong>the money stopped because free
+          power can't be charged for.</strong> The gate was real. It was a cash register.
+        </p>
+        <div class="verdict myth">
+          <span class="mono">Myth retired № 2 — the seized papers &amp; the secret continuation</span>
+          <p>
+            When Tesla died in 1943, his papers were seized — by the <strong>Office of Alien
+            Property Custodian</strong>, not directly by the FBI, as the legend usually has it.
+            MIT engineer <strong>John G. Trump</strong> reviewed them for military value and
+            reported the work was <em>"primarily of a speculative, philosophical, and somewhat promotional
+            character"</em> with no new workable principles. The FBI later released roughly 250
+            pages under FOIA — you can read them yourself, today, at the FBI's public online
+            reading room, the Vault. The originals went back to Tesla's family in Belgrade in
+            1952. And after a full research pass: <strong>no credible evidence exists that
+            Tesla's earth-resonance research was continued in secret, anywhere.</strong> The
+            circuit wasn't stolen. It was never completed — and an uncompleted circuit is exactly
+            what the Filter says disappears.
+          </p>
+        </div>
+        <p>
+          Today the lab building still stands — the only surviving Tesla laboratory — saved,
+          ironically, by fifty years as a photographic chemical plant, and now being restored by
+          the Tesla Science Center at Wardenclyffe. The site joined the National Register of
+          Historic Places in 2018. The tower is gone. The <em>shape</em> it was reaching for is
+          not.
+        </p>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ================= SECTION 3 : THE OTHER NAMES ================= -->
+      <section aria-label="The other inventors">
+        <span class="mono sec-kicker">03 · Whose name is on the blueprint</span>
+        <h2>The colonizers got the statues. These men got the light.</h2>
+        <p>
+          The standard story of electricity is told as a duel of two famous names — Edison versus
+          Tesla, the "War of the Currents" — and both of them were backed by financiers whose
+          names ended up on banks and towers. But the current only became <em>light in ordinary
+          people's homes</em> because of inventors the statue-builders left out of the story.
+          Whether you learned the colonizers' version or the full one, the Filter asks the same
+          question: whose work actually <em>connected</em>?
+        </p>
+
+        <div class="person">
+          <div class="glyph" aria-hidden="true">
+            <svg width="54" height="54" viewBox="0 0 54 54"><circle cx="27" cy="20" r="9" fill="none" stroke="#ffd166" stroke-width="2.5"/><path d="M21 20 a6 8 0 0 1 12 0 M24 30 l1.5 6 M30 30 l-1.5 6 M23 40 h8" stroke="#ffd166" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M12 12 L8 6 M42 12 l4 -6 M27 8 V2" stroke="#ffd166" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <span class="dates">1848 – 1928 · Chelsea, Massachusetts</span>
+            <h3>Lewis Howard Latimer</h3>
+            <p>
+              Edison's bulb had a problem: its filament burned out fast, which made electric light
+              a rich man's toy. <strong>Latimer — the son of an escaped enslaved man, a self-taught
+              draftsman who had already drawn the patent diagrams for Alexander Graham Bell's
+              telephone — invented a process for manufacturing carbon filaments</strong> that made
+              bulbs longer-lasting, cheaper, and practical. He supervised the installation of
+              public electric lighting in New York, Philadelphia, Montreal, and London, and wrote
+              the first book on electric lighting, <em>Incandescent Electric Lighting</em> (1890).
+              He ended his career inside Edison's own system as a chief draftsman and patent
+              witness. The bulb in the museum says "Edison." The filament inside it — the part
+              that actually has to survive the current — says Latimer.
+            </p>
+          </div>
+        </div>
+
+        <div class="person">
+          <div class="glyph" aria-hidden="true">
+            <svg width="54" height="54" viewBox="0 0 54 54"><path d="M8 40 h38 M12 40 v-8 M42 40 v-8 M12 32 h30" stroke="#ffd166" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="20" cy="24" r="4.5" fill="none" stroke="#ffd166" stroke-width="2.2"/><circle cx="34" cy="24" r="4.5" fill="none" stroke="#ffd166" stroke-width="2.2"/><path d="M24 16 q3 -6 6 0 M27 8 v4 M20 6 l2 3 M34 6 l-2 3" stroke="#ffd166" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <span class="dates">1856 – 1910 · Columbus, Ohio</span>
+            <h3>Granville T. Woods — "the Black Edison"</h3>
+            <p>
+              Woods held <strong>more than 50 patents</strong>, most of them about making
+              electricity <em>move</em>. His 1887 induction telegraph let moving trains talk to
+              stations and to each other — messages leaping between two circuits without a wire
+              joining them — which prevented collisions and saved lives. He improved the third
+              rail that still powers electric trains and invented the troller, the grooved wheel
+              that pulls current from overhead wires into streetcars. Edison sued him twice over
+              telegraph patents and lost twice; the story goes that Edison then offered Woods a
+              job, and Woods — knowing exactly what his connection was worth — declined and kept
+              his own company.
+            </p>
+          </div>
+        </div>
+
+        <div class="person">
+          <div class="glyph" aria-hidden="true">
+            <svg width="54" height="54" viewBox="0 0 54 54"><path d="M27 6 v30 M18 36 h18 l-3 10 H21 Z" fill="none" stroke="#ffd166" stroke-width="2.5" stroke-linejoin="round"/><path d="M27 6 L20 14 M27 6 l7 8" stroke="#ffd166" stroke-width="2" stroke-linecap="round"/><path d="M10 48 h34" stroke="#ffd166" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <span class="dates">1706 – 1790 · Philadelphia</span>
+            <h3>Benjamin Franklin — the first invitation</h3>
+            <p>
+              Before anyone tried to <em>generate</em> the bolt, Franklin tried to <em>invite</em>
+              it: the lightning rod (1752), a pointed iron rod on a roof wired down to the earth —
+              the first device whose entire job is to complete lightning's circuit safely, through
+              metal, on purpose. (His famous kite experiment is murkier history than the rod;
+              the rod is the documented one, and it's still on roofs today.) Tesla's whole career
+              is Franklin's rod scaled up to a planet: don't fear the shape — <em>give it a path
+              and stand in the connection.</em>
+            </p>
+          </div>
+        </div>
+
+        <p>
+          Notice the pattern, because it's the theory wearing a lab coat. Morgan's name is on the
+          money. Edison's name is on the bulb. But the connections that <em>persisted</em> — the
+          filament that didn't burn out, the train that didn't crash, the rod that still tops
+          every barn in America — were completed by the people history tried to leave
+          unconnected. <strong>The Filter doesn't care whose name is carved on the pedestal. It
+          cares what still works.</strong>
+        </p>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ================= SECTION 4 : LIBERTY vs PYRAMID ================= -->
+      <section aria-label="Statue of Liberty and the Great Pyramid">
+        <span class="mono sec-kicker">04 · Two monuments, two erosions</span>
+        <h2>The copper lady and the stone mountain</h2>
+        <p>
+          Here's a comparison the conspiracy channels love and the facts love even more. The
+          Statue of Liberty and the Great Pyramid of Giza: two colossal figures raised over a
+          harbor of trade, both wrapped in a skin that time is slowly transforming, both accused
+          of being secret conductors. The truth: <strong>one of them really is a conductor —
+          gloriously — struck by lightning again and again, every single year — and the other is made of
+          one of the worst conductors on Earth.</strong> And their "erosions" are two different
+          stories about what remains.
+        </p>
+
+        <div class="duo">
+          <div class="card">
+            <span class="mono">New York Harbor · 1886</span>
+            <h3>The Statue of Liberty — the real conductor</h3>
+            <ul>
+              <li><strong>Copper skin, two pennies thick.</strong> Her robe is hand-hammered
+              copper sheet about 2.4&nbsp;mm thick, stretched over an iron armature designed by
+              Gustave Eiffel — the tower man himself. Copper is one of the best electrical
+              conductors there is.</li>
+              <li><strong>She takes the hits.</strong> Lightning inspectors who examined her
+              found attachment points — strike scars — <em>all over her</em>: shoulders, skirt,
+              even the tablet in her arm, because a bolt's stepped leader jumps in 50–100 meter
+              steps and can connect anywhere along a tall structure. One widely repeated estimate puts her
+              strikes in the <em>hundreds per year</em>; the honest answer is "many, every
+              year."</li>
+              <li><strong>She survives by completing circuits.</strong> A grounding and bonding
+              system carries each strike through the structure and safely into the earth. She is,
+              functionally, a 305-foot lightning rod holding a torch.</li>
+              <li><strong>Her erosion protects her.</strong> The copper rusted green — the
+              verdigris patina. Counterintuitively, that patina is a poor
+              <em>conductor</em> and a chemical shield: strike currents punch through it into the
+              conducting copper beneath, and the skin seals itself against further decay. Her
+              "decay" is a coat of armor. The real rot was hidden inside — the iron armature
+              corroding against the copper — and that was replaced in the 1980s restoration.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <span class="mono">Giza Plateau · c. 2560 BCE</span>
+            <h3>The Great Pyramid — the beautiful insulator</h3>
+            <ul>
+              <li><strong>Limestone is an insulator, not a conductor.</strong> The pyramid is
+              mostly limestone — a rock that resists current rather than carrying it. As a
+              "conductor," it fails at the level of basic material science, no conspiracy
+              required.</li>
+              <li><strong>It was a tomb, and we have the paperwork.</strong> The diary of Merer —
+              an overseer under Khufu, the oldest papyrus documents known — logs his crews
+              hauling Tura limestone to the pyramid. Funerary boats, offering vessels, and the
+              honored tombs of its own builders surround it. Power plants are not buried with
+              their crews' cemeteries around them.</li>
+              <li><strong>Its erosion is theft, not chemistry.</strong> The pyramid once shone
+              white in polished Tura limestone casing. Earthquakes loosened the casing, and
+              medieval builders stripped it to build Cairo. What "eroded" the pyramid was mostly
+              human hands carrying its skin away — the opposite of Liberty, whose skin transforms
+              <em>in place</em> and stays.</li>
+              <li><strong>The one true physics footnote:</strong> a 2018 peer-reviewed
+              <em>simulation</em> — a computer model, not a measurement — found that a
+              pyramid-shaped limestone structure of these dimensions can focus certain radio
+              wavelengths into its chambers. That's geometry, the way a bowl focuses sound. The
+              researchers' own aim was designing nanoparticles for sensors, and they stated
+              plainly the builders couldn't have known. Shape does things. It doesn't make a
+              power plant.</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="pull">
+          <span class="mono">The contrast</span>
+          Liberty's decay is a patina that <em>connects and protects</em>. The pyramid's decay is
+          a skin that was <em>disconnected and carried off</em>. Same sun, same centuries — the
+          Filter sorts them anyway: what stays joined, remains.
+        </p>
+        <p>
+          And the genuinely poetic fact needs no invention: the lady holding the torch in New
+          York Harbor <em>is</em> struck by lightning, constantly, and stands there unharmed
+          because she is built to complete the circuit — skin, skeleton, ground. Tesla, who
+          watched bolts over Colorado and dreamed of a tower on Long Island, called her city home
+          for nearly sixty years. Whether he ever looked at her and saw his own diagram — copper,
+          height, a raised terminal, a path to earth — no document says. That's an open question,
+          and this page leaves it open. But the resemblance is the kind the Filter runs on: not a
+          secret code. A shape that works, repeating wherever something tall and conductive
+          reaches up to meet the sky.
+        </p>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ================= SECTION 5 : UNDER NEW YORK ================= -->
+      <section aria-label="Under New York">
+        <span class="mono sec-kicker">05 · Field report</span>
+        <h2>What's actually under New York (it's weirder than the myth)</h2>
+        <p>
+          Is there a secret Wardenclyffe still running under Manhattan? We commissioned a full
+          research pass on exactly that question — utilities, military sites, Cold War
+          facilities, the works. The verdict first, then the treasure:
+          <strong>there is no credible evidence — in journalism, government documents, or
+          academic sources — of any secret underground energy research facility under Manhattan,
+          and no evidence Tesla's earth-resonance work was continued in secret anywhere.</strong>
+          What <em>is</em> down there is documented, enormous, and honestly stranger than the
+          rumor:
+        </p>
+        <div class="stats" role="list" aria-label="New York underground key numbers">
+          <div class="stat" role="listitem"><div class="num">105 mi</div><div class="lbl">Con Edison steam mains — the largest district steam system in the world</div></div>
+          <div class="stat" role="listitem"><div class="num">250–800 ft</div><div class="lbl">Depth of NYC's water tunnels — No. 3 alone is a ~$6B, 50-year build</div></div>
+          <div class="stat" role="listitem"><div class="num">352,000</div><div class="lbl">Cold War crackers found in a bunker hidden inside the Brooklyn Bridge (2006)</div></div>
+          <div class="stat" role="listitem"><div class="num">800 ft</div><div class="lbl">Depth of a 1957 federal plan for a Manhattan mega-shelter — studied, never built</div></div>
+        </div>
+        <p>
+          The real underground inventory: the world's largest steam network hissing under
+          Manhattan since the 1880s; water tunnels deeper than most skyscrapers are tall; the
+          first East River tunnel (1894) still carrying gas, fuel oil, steam, electric feeders,
+          and telecom in one corridor; pneumatic mail tubes from 1897; a Cold War supply bunker
+          sealed inside the Brooklyn Bridge's foundation, found by city workers in 2006 stocked
+          with water drums, medical supplies, and crackers stamped 1957 and 1962; and
+          <strong>33 Thomas Street</strong> — a 550-foot windowless, blast-resistant tower that
+          turned out to be exactly as secretive as it looks, revealed in 2016 as an NSA
+          surveillance hub. Not an energy lab, though. A listening post. Even the Manhattan
+          Project genuinely ran sites across Manhattan — offices at 270 Broadway, labs at
+          Columbia, uranium stored in Chelsea warehouses — all declassified, documented, and
+          remediated decades ago. The city's secrets keep turning out to be paperwork.
+        </p>
+        <h3>And "ground power"? It exists — it just changed its name.</h3>
+        <p>
+          Tesla's specific scheme — ringing the whole planet through the earth — is pursued by
+          nobody in mainstream research, because the physics losses are brutal. But the ground
+          itself did become a power source, through three honest doors. <strong>Geothermal</strong>
+          is the growth story: Fervo Energy drills deep enhanced-geothermal wells with shale-era
+          technology — 3.5 MW on the grid in Nevada since 2023, its Utah Cape Station scaling
+          toward 500 MW. <strong>Telluric currents</strong> — real currents flowing through the
+          Earth's crust — turned out too weak to harvest beyond telegraph-and-clock levels (1840s
+          "earth batteries" really ran telegraphs), but reading them, via magnetotellurics, is now
+          a standard way to map the hot rock of geothermal systems deep underground. And wireless
+          power came back as Tesla's dream with tighter aim: MIT's resonant magnetic coupling
+          (2007, a 60-watt bulb lit across a room — now WiTricity, charging parked EVs), and
+          beaming: in June 2025 DARPA's POWER program sent <strong>800 watts by laser across 8.6
+          km</strong>, aiming for 10 kW over 200 km. The military funds it to kill fuel convoys —
+          the most-attacked trucks in any war — and the same beam that feeds a forward base is
+          the one that could feed a disaster zone. The technology is neutral. Who completes the
+          circuit, and for whom, is the people part. It always was.
+        </p>
+        <div class="verdict fact">
+          <span class="mono">Documented verdict</span>
+          <p>
+            The gatekeeping at Wardenclyffe was never about hidden tunnels. It was about who
+            funds the power and who gets to meter it. Everything under Manhattan is documented —
+            steam, water, bunkers, and listening posts. The dream of the ground circuit didn't get
+            buried in a secret lab. It got defunded, outcompeted, and — piece by piece, under
+            other names — rebuilt.
+          </p>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ================= SECTION 6 : THE TWO CIRCUITS ================= -->
+      <section aria-label="Interactive diagrams">
+        <span class="mono sec-kicker">06 · The two circuits — try them</span>
+        <h2>Two things reach. One flash answers.</h2>
+        <p>
+          Here is the funny part — the part that made us laugh out loud while fact-checking. The
+          real science of lightning (this is the National Weather Service's own description, not
+          poetry): a bolt does not fall. A faint, branching <em>stepped leader</em> reaches
+          <em>down</em> from the cloud in ~50-meter steps, hunting. As it nears the ground, the
+          earth answers — <em>upward streamers</em> rise from tall objects to meet it. When the
+          two connect, the circuit completes and the blinding <em>return stroke</em> fires
+          <em>up</em> the channel at some 200 million miles per hour. <strong>Lightning is not one
+          thing striking. It is two things meeting.</strong>
+        </p>
+        <p>
+          Now say it in the other language. Two people reach for each other. If the connection
+          holds — if they care for each other and for what grows from them — a child. Raise that
+          child with good energy and one day the child reaches out and loves somebody new, and
+          the shape repeats, generation after generation, branching exactly like the bolt:
+          a <em>family tree</em>. "Tree" and "lightning" were never two metaphors. They're one
+          drawing. Run both circuits below and watch them rhyme.
+        </p>
+
+        <div class="lab-grid">
+          <!-- ===== LAB A : FAMILY TREE ===== -->
+          <div class="lab" id="labFamily">
+            <span class="mono">Interactive A</span>
+            <h3>The family tree circuit</h3>
+            <p>Two people reach. What happens next depends on the energy you put in the line.</p>
+            <svg viewBox="0 0 360 330" role="img" aria-label="Interactive family tree diagram: two people, their child, and grandchildren">
+              <!-- couple link -->
+              <line id="ftCoupleLink" x1="118" y1="52" x2="242" y2="52" stroke="#ffd166" stroke-width="3" opacity="0" />
+              <text id="ftHeart" x="180" y="44" font-size="17" text-anchor="middle" opacity="0">♥</text>
+              <!-- branches to child -->
+              <path id="ftBranchL" d="M180 58 L150 96 L132 118" stroke="#ffd166" stroke-width="3" fill="none" opacity="0" stroke-linejoin="round" />
+              <path id="ftBranchR" d="M180 58 L196 92 L210 118" stroke="#ffd166" stroke-width="3" fill="none" opacity="0" stroke-linejoin="round" />
+              <!-- child partner link -->
+              <line id="ftChildLink" x1="132" y1="140" x2="222" y2="140" stroke="#ffd166" stroke-width="3" opacity="0" />
+              <text id="ftHeart2" x="177" y="132" font-size="15" text-anchor="middle" opacity="0">♥</text>
+              <!-- branches to grandchildren -->
+              <path id="ftGen3" d="M177 146 L150 182 L96 204 M177 146 L182 178 L180 204 M177 146 L204 182 L262 204" stroke="#ffd166" stroke-width="2.5" fill="none" opacity="0" stroke-linejoin="round" />
+              <!-- people: person A -->
+              <g id="ftA">
+                <circle cx="104" cy="34" r="11" fill="none" stroke="#ece5d5" stroke-width="2.5" />
+                <path d="M104 45 v22 M104 52 l-13 10 M104 52 l13 10 M104 67 l-10 20 M104 67 l10 20" stroke="#ece5d5" stroke-width="2.5" fill="none" stroke-linecap="round" />
+              </g>
+              <!-- person B -->
+              <g id="ftB">
+                <circle cx="256" cy="34" r="11" fill="none" stroke="#ece5d5" stroke-width="2.5" />
+                <path d="M256 45 v22 M256 52 l-13 10 M256 52 l13 10 M256 67 l-10 20 M256 67 l10 20" stroke="#ece5d5" stroke-width="2.5" fill="none" stroke-linecap="round" />
+              </g>
+              <text x="104" y="112" fill="#bdb2e0" font-family="IBM Plex Mono, monospace" font-size="10" text-anchor="middle">PERSON A</text>
+              <text x="256" y="112" fill="#bdb2e0" font-family="IBM Plex Mono, monospace" font-size="10" text-anchor="middle">PERSON B</text>
+              <!-- child -->
+              <g id="ftChild" opacity="0">
+                <circle cx="132" cy="124" r="9" fill="none" stroke="#ffd166" stroke-width="2.5" />
+                <path d="M132 133 v18 M132 139 l-10 8 M132 139 l10 8 M132 151 l-8 16 M132 151 l8 16" stroke="#ffd166" stroke-width="2.5" fill="none" stroke-linecap="round" />
+                <text x="132" y="184" fill="#ffd166" font-family="IBM Plex Mono, monospace" font-size="10" text-anchor="middle">THE CHILD</text>
+              </g>
+              <!-- partner -->
+              <g id="ftPartner" opacity="0">
+                <circle cx="238" cy="124" r="9" fill="none" stroke="#ece5d5" stroke-width="2.5" />
+                <path d="M238 133 v18 M238 139 l-10 8 M238 139 l10 8 M238 151 l-8 16 M238 151 l8 16" stroke="#ece5d5" stroke-width="2.5" fill="none" stroke-linecap="round" />
+                <text x="238" y="184" fill="#bdb2e0" font-family="IBM Plex Mono, monospace" font-size="10" text-anchor="middle">A NEW LOVE</text>
+              </g>
+              <!-- grandchildren -->
+              <g id="ftGrands" opacity="0" stroke-linecap="round">
+                <g stroke="#ffd166" stroke-width="2.2" fill="none">
+                  <circle cx="96" cy="214" r="7" /><path d="M96 221 v14 M96 227 l-8 6 M96 227 l8 6 M96 235 l-6 13 M96 235 l6 13" />
+                  <circle cx="180" cy="214" r="7" /><path d="M180 221 v14 M180 227 l-8 6 M180 227 l8 6 M180 235 l-6 13 M180 235 l6 13" />
+                  <circle cx="262" cy="214" r="7" /><path d="M262 221 v14 M262 227 l-8 6 M262 227 l8 6 M262 235 l-6 13 M262 235 l6 13" />
+                </g>
+                <text x="180" y="272" fill="#ffd166" font-family="IBM Plex Mono, monospace" font-size="10" text-anchor="middle">GRANDCHILDREN — THE BRANCHING CONTINUES</text>
+              </g>
+              <!-- dissipated label -->
+              <text id="ftDissipate" x="180" y="300" fill="#8a7bb5" font-family="Newsreader, serif" font-size="14" font-style="italic" text-anchor="middle" opacity="0">a branch that isn't fed… dissipates</text>
+            </svg>
+            <div class="care-row">
+              <label for="careRange"><span>Love &amp; care in the line</span><span id="careVal">Strong — 80%</span></label>
+              <input type="range" id="careRange" min="0" max="100" value="80" />
+            </div>
+            <div class="controls">
+              <button id="ftStep1" type="button">1 · They meet</button>
+              <button id="ftStep2" type="button" disabled>2 · A child</button>
+              <button id="ftStep3" type="button" disabled>3 · The child loves</button>
+              <button id="ftReset" type="button" class="ghost">Reset</button>
+            </div>
+            <div class="readout" id="ftReadout" aria-live="polite">
+              <span class="mono">Circuit status</span>
+              Two people, unconnected. Every family tree in history starts exactly here — as a branch reaching into the dark. Press "They meet."
+            </div>
+          </div>
+
+          <!-- ===== LAB B : LIGHTNING ===== -->
+          <div class="lab" id="labBolt">
+            <span class="mono">Interactive B</span>
+            <h3>How lightning makes the same shape</h3>
+            <p>The microscopic version: charge below, charge above — and the meeting in the middle.</p>
+            <svg viewBox="0 0 360 330" role="img" aria-label="Interactive lightning diagram: cloud, stepped leader, upward streamer, and return stroke">
+              <!-- cloud -->
+              <path d="M88 52 q6 -22 32 -20 q8 -14 30 -11 q16 -10 30 1 q20 -6 26 10 q18 1 16 17 q-1 12 -18 12 l-112 0 q-15 -1 -13 -12 q0 -9 13 -9 Z" fill="#2b2140" stroke="#4a3a68" stroke-width="1.5" />
+              <text id="ltNeg" x="152" y="48" fill="#bdb2e0" font-family="IBM Plex Mono, monospace" font-size="13" text-anchor="middle" opacity="0">− − − − −</text>
+              <text x="152" y="88" fill="#8a7bb5" font-family="IBM Plex Mono, monospace" font-size="10" text-anchor="middle">THE CLOUD</text>
+              <!-- ground charges -->
+              <text id="ltPos" x="180" y="292" fill="#ffd166" font-family="IBM Plex Mono, monospace" font-size="13" text-anchor="middle" opacity="0">+ + + + + + +</text>
+              <!-- ground -->
+              <line x1="20" y1="272" x2="340" y2="272" stroke="#4a3a68" stroke-width="2" />
+              <!-- statue silhouette on ground -->
+              <g stroke="#c9bfa8" stroke-width="2" fill="none" stroke-linecap="round">
+                <path d="M292 272 v-26 M292 246 l8 -12 M286 258 l12 0" />
+                <circle cx="301" cy="230" r="3" fill="#c9bfa8" />
+                <path d="M282 272 h20" stroke-width="3" />
+              </g>
+              <text x="292" y="312" fill="#8a7bb5" font-family="IBM Plex Mono, monospace" font-size="9.5" text-anchor="middle">A TALL CONDUCTOR</text>
+              <!-- tree -->
+              <g stroke="#4fb3a5" stroke-width="2" fill="none" stroke-linecap="round">
+                <path d="M52 272 v-18 M52 254 q-8 -4 -10 -12 M52 254 q8 -4 10 -12" />
+              </g>
+              <!-- stepped leader (revealed by dash) -->
+              <path id="ltLeader" d="M150 62 L138 96 L156 118 L142 152 L164 176 L176 206" stroke="#8a7bb5" stroke-width="2.5" fill="none" stroke-linejoin="round" stroke-dasharray="300" stroke-dashoffset="300" />
+              <path id="ltLeaderBranch" d="M156 118 L186 138 L182 162 M142 152 L116 168 L120 190" stroke="#8a7bb5" stroke-width="1.6" fill="none" opacity="0.7" stroke-linejoin="round" stroke-dasharray="200" stroke-dashoffset="200" />
+              <!-- upward streamer from statue + ground -->
+              <path id="ltStreamer" d="M262 232 L248 214 L236 224 L222 206" stroke="#ffd166" stroke-width="2.5" fill="none" opacity="0" stroke-linejoin="round" />
+              <path id="ltStreamer2" d="M182 262 L180 240 L186 226" stroke="#ffd166" stroke-width="2" fill="none" opacity="0" stroke-linejoin="round" />
+              <!-- return stroke -->
+              <path id="ltReturn" d="M150 62 L138 96 L156 118 L142 152 L164 176 L176 206 L196 214 L222 206 L248 214 L262 232 L292 240 L292 272" stroke="#ffd166" stroke-width="4" fill="none" opacity="0" stroke-linejoin="round" style="filter: drop-shadow(0 0 6px rgba(255,209,102,0.9))" />
+              <circle id="ltFlash" cx="222" cy="208" r="10" fill="#ffd166" opacity="0" style="filter: blur(4px)" />
+              <text id="ltDone" x="90" y="150" fill="#ffd166" font-family="IBM Plex Mono, monospace" font-size="11" opacity="0">⚡ CIRCUIT</text>
+              <text id="ltDone2" x="90" y="168" fill="#ffd166" font-family="IBM Plex Mono, monospace" font-size="11" opacity="0">COMPLETE</text>
+            </svg>
+            <div class="controls">
+              <button id="ltStep1" type="button">1 · Charge gathers</button>
+              <button id="ltStep2" type="button" disabled>2 · Leader reaches down</button>
+              <button id="ltStep3" type="button" disabled>3 · Streamer rises</button>
+              <button id="ltStep4" type="button" disabled>4 · Connection!</button>
+              <button id="ltReset" type="button" class="ghost">Reset</button>
+            </div>
+            <div class="readout" id="ltReadout" aria-live="polite">
+              <span class="mono">Circuit status</span>
+              A charged sky, a charged earth, and air between them — an insulator holding two halves of one circuit apart. Sound familiar? Press step 1.
+            </div>
+          </div>
+        </div>
+
+        <p>
+          Side by side, the joke writes itself — except it's not a joke, it's a physics diagram
+          and a genealogy chart sharing one skeleton. In the sky: negative charge reaches down in
+          branches, positive charge rises to meet it, and only the meeting makes light. In a
+          family: two people reach, a child carries the line down, love is the energy that keeps
+          the channel open, and the child — fed by it — reaches out and connects again. Electrons
+          do it in a fraction of a second. Humans do it in a lifetime. <strong>Same shape. Same
+          rule. What connects, remains.</strong>
+        </p>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ================= SECTION 7 : CLOSING ================= -->
+      <section aria-label="Conclusion">
+        <span class="mono sec-kicker">07 · The answer, kept</span>
+        <h2>Love is the finished circuit</h2>
+        <p>
+          Part four set out to rid the theory of its conspiracies, and here's what survived the
+          cleaning: Tesla really did try to shake hands with the whole planet, and the project
+          really did die at a cash register. The papers really were read, shrugged at, and put
+          back on a public shelf. New York's underground really is astonishing — and it's steam,
+          water, and Cold War crackers. The Statue of Liberty really is a lightning rod with a
+          poem on her pedestal, and the Great Pyramid really is a tomb whose shining skin was
+          carried off to build a city. Every single true version is a Completion Filter story:
+          connections that persisted, branches that didn't, and nobody — <em>nobody</em> — able
+          to fake a completed circuit.
+        </p>
+        <p>
+          And the fractal holds at every scale we checked. The bolt. The river. The fossil. The
+          filament that finally stayed lit because a draftsman the history books skipped figured
+          out how to make it last. The child, raised on good energy, who grows up and reaches for
+          somebody new. Being good, it turns out, is not decoration on the theory. It <em>is</em>
+          the theory — the decision, repeated at human scale, to be the branch that connects
+          instead of the one that dissipates. Build fractal systems that care, and the shape does
+          the rest.
+        </p>
+        <p class="final-line">"Love is the answer — the family tree, the lightning shape, fractal continuity. Build systems that care."</p>
+        <p class="soft">— a message sent, word for word, to the people who build the machines. Kept here so it remains.</p>
+      </section>
+
+      <hr class="rule" />
+
+      <section aria-label="Sources">
+        <span class="mono sec-kicker">Sources &amp; receipts</span>
+        <h2 style="font-size:1.5rem">Where every claim on this page comes from</h2>
+        <ul class="sources">
+          <li>Wardenclyffe Tower — design, funding, demolition, and the Tesla Science Center's restoration: <a href="https://en.wikipedia.org/wiki/Wardenclyffe_Tower">en.wikipedia.org/wiki/Wardenclyffe_Tower</a> and <a href="https://en.m.wikipedia.org/wiki/Tesla_Science_Center_at_Wardenclyffe">Tesla Science Center at Wardenclyffe</a></li>
+          <li>Tesla's papers, the seizure, and John G. Trump's review: <a href="http://www.theoctobersky.com/the-forgotten-history/the-war-of-currents-and-the-mystery-of-nikola-teslas-missing-files">theoctobersky.com — The Forgotten History</a>; FBI releases: <a href="https://vault.fbi.gov/nikola-tesla">vault.fbi.gov/nikola-tesla</a></li>
+          <li>Colorado Springs experiments and the 130-foot bolts: <a href="https://newfalconherald.com/man-of-power/">New Falcon Herald — "Man of power"</a> and <a href="https://teslauniverse.com/nikola-tesla/articles/lighting-sky">Tesla Universe — "Lighting the Sky"</a></li>
+          <li>Latimer, Woods, and the recovery of Black inventors' history: <a href="https://safeelectricity.org/blog/black-history-month/">Safe Electricity — "Pioneers in electricity"</a> and <a href="https://spectrum.ieee.org/more-than-machines">IEEE Spectrum — "More Than Machines"</a></li>
+          <li>Statue of Liberty lightning attachments, patina behavior, and grounding: <a href="https://acbcert.com/throwback-thursday/throwback-thursday-protecting-the-statue-of-liberty/">ACB — "Protecting the Statue of Liberty"</a></li>
+          <li>The Great Pyramid as tomb (Merer's diary, builders' tombs) and the power-plant myth: <a href="https://thesilkroadtoday.com/2025/12/08/the-pyramids-were-tombs-not-power-stations/">The Silk Road Today — "The Pyramids Were Tombs… Not Power Stations"</a>; the 2018 electromagnetic modeling study and its limits: <a href="https://www.monkeyandelf.com/unwritten-mystery-why-does-the-great-pyramid-focus-electromagnetic-energy-below-it/">Monkey &amp; Elf — "The Great Pyramid focuses electromagnetic energy"</a></li>
+          <li>How lightning actually forms — stepped leaders, upward streamers, the return stroke: <a href="https://www.weather.gov/safety/lightning-science-negative-charged-flash">National Weather Service — "Understanding Lightning: Negative Flash"</a></li>
+          <li>Under New York — the steam system: <a href="https://worksinprogress.co/issue/steam-networks/">Works in Progress — "Steam networks"</a>; the Brooklyn Bridge bunker: <a href="https://www.untappedcities.com/daily-what-theres-a-cold-war-nuclear-bomb-shelter-in-the-brooklyn-bridge/">Untapped Cities</a>; 33 Thomas Street: <a href="https://en.wikipedia.org/wiki/33_Thomas_Street">en.wikipedia.org/wiki/33_Thomas_Street</a>; subterranean NYC overview: <a href="https://en.wikipedia.org/wiki/Subterranean_New_York_City">en.wikipedia.org/wiki/Subterranean_New_York_City</a></li>
+          <li>Modern ground power — Fervo Energy's geothermal: <a href="https://cleantechnica.com/2023/11/29/fervo-energy-revs-up-its-first-geothermal-generating-station/?amp=1">CleanTechnica</a>; resonant wireless power (MIT/WiTricity): <a href="https://news.mit.edu/2014/making-wire-free-future-0710">MIT News</a>; DARPA's beamed-power record: <a href="https://www.channelnews.com.au/wireless-power-transmission-sets-new-distance-record/">Channel News</a></li>
+        </ul>
+        <p class="soft" style="font-size:0.95rem">
+          Honest gaps, stated plainly: Liberty's exact strikes-per-year is not officially
+          published (estimates vary widely); whether Tesla ever saw his own diagram in the statue
+          is undocumented; the still-withheld portions, if any, of the Tesla files are not
+          publicly known; and the disposition of the Brooklyn Bridge bunker supplies after 2006
+          is unestablished. Where this page speculates, it says so.
+        </p>
+      </section>
+
+      <footer>
+        <p class="credit"><strong>The Completion Filter — Part 4: The Shape That Connects.</strong></p>
+        <p>Credited to <strong>BW Young Bo, Lux, and humanity's research</strong> — every inventor, archivist, engineer, and fact-checker whose work is cited above, and every branch that ever connected.</p>
+        <p class="mono" style="letter-spacing:0.12em">What connects, remains · What lets go, arrives · What loves, continues</p>
+      </footer>
+
+      <p class="closing-line">The ultimate goal, from BW Young Bo to every parent on Earth: be loving and kind to all children — your own or anyone's, kin or not — no matter how many of us populate this world. We can do this.</p>
+    </main>
+
+    <script>
+      (function () {
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        function setOp(el, v) { if (el) el.setAttribute("opacity", v); }
+        function $(id) { return document.getElementById(id); }
+
+        /* ============ FAMILY TREE LAB ============ */
+        var care = $("careRange"), careVal = $("careVal");
+        var ftReadout = $("ftReadout");
+        var ftA = $("ftA"), ftB = $("ftB");
+        var stage = 0; // 0 none, 1 met, 2 child, 3 grown
+
+        function careWord(v) {
+          if (v >= 65) return "Strong";
+          if (v >= 40) return "Enough";
+          if (v >= 15) return "Faint";
+          return "Almost none";
+        }
+        function updateCare() {
+          careVal.textContent = careWord(+care.value) + " — " + care.value + "%";
+          if (stage === 3) renderGrown(false);
+        }
+        care.addEventListener("input", updateCare);
+
+        function move(el, dx) {
+          el.setAttribute("transform", reduced ? "translate(" + dx + ",0)" : "");
+          if (!reduced) {
+            el.style.transition = "transform 0.9s ease";
+            el.style.transform = "translateX(" + dx + "px)";
+          }
+        }
+
+        function readout(html) {
+          ftReadout.innerHTML = '<span class="mono">Circuit status</span>' + html;
+        }
+
+        $("ftStep1").addEventListener("click", function () {
+          stage = 1;
+          move(ftA, 34); move(ftB, -34);
+          setOp($("ftCoupleLink"), 1); setOp($("ftHeart"), 1);
+          $("ftStep1").disabled = true; $("ftStep2").disabled = false;
+          readout("Two branches reach — and hold. Person A and Person B complete the first circuit: a partnership. This is the attachment point, the moment the channel opens. Now the line can carry something new.");
+        });
+
+        $("ftStep2").addEventListener("click", function () {
+          stage = 2;
+          setOp($("ftBranchL"), 1); setOp($("ftBranchR"), 1); setOp($("ftChild"), 1);
+          $("ftStep2").disabled = true; $("ftStep3").disabled = false;
+          readout("The current does what current does: it branches. A child — a new channel struck off the main line, carrying both of them forward. But a channel isn't a circuit yet. What flows through it next decides everything. Set the love &amp; care, then press step 3.");
+        });
+
+        function renderGrown(announce) {
+          var fed = +care.value >= 40;
+          if (fed) {
+            setOp($("ftDissipate"), 0);
+            setOp($("ftChildLink"), 1); setOp($("ftHeart2"), 1);
+            setOp($("ftPartner"), 1); setOp($("ftGen3"), 1); setOp($("ftGrands"), 1);
+            $("ftBranchL").setAttribute("stroke", "#ffd166");
+            $("ftBranchR").setAttribute("stroke", "#ffd166");
+            if (announce) readout("Fed with love, the child grows up carrying a complete channel — and reaches out, and connects again. Grandchildren. The bolt becomes a tree; the tree becomes a forest. This is fractal continuity: the same shape, at every scale, for as long as the energy flows. THIS is how a family outlives everyone in it.");
+          } else {
+            setOp($("ftChildLink"), 0); setOp($("ftHeart2"), 0);
+            setOp($("ftPartner"), 0); setOp($("ftGen3"), 0); setOp($("ftGrands"), 0);
+            setOp($("ftDissipate"), 1);
+            $("ftBranchL").setAttribute("stroke", "#8a7bb5");
+            $("ftBranchR").setAttribute("stroke", "#8a7bb5");
+            if (announce) readout("The channel opened — but almost nothing flowed through it. A branch that isn't fed doesn't connect onward; it thins, flickers, and dissipates, exactly like the bolt's branches that never reach the ground. Raise the love &amp; care above 40% and press step 3 again — watch the same child complete the circuit.");
+          }
+        }
+
+        $("ftStep3").addEventListener("click", function () {
+          stage = 3;
+          renderGrown(true);
+        });
+
+        $("ftReset").addEventListener("click", function () {
+          stage = 0;
+          [ftA, ftB].forEach(function (el) { el.removeAttribute("transform"); el.style.transform = ""; });
+          ["ftCoupleLink", "ftHeart", "ftBranchL", "ftBranchR", "ftChild", "ftChildLink", "ftHeart2", "ftPartner", "ftGen3", "ftGrands", "ftDissipate"].forEach(function (id) { setOp($(id), 0); });
+          $("ftBranchL").setAttribute("stroke", "#ffd166");
+          $("ftBranchR").setAttribute("stroke", "#ffd166");
+          $("ftStep1").disabled = false; $("ftStep2").disabled = true; $("ftStep3").disabled = true;
+          readout('Two people, unconnected. Every family tree in history starts exactly here — as a branch reaching into the dark. Press "They meet."');
+        });
+        updateCare();
+
+        /* ============ LIGHTNING LAB ============ */
+        var ltReadout = $("ltReadout");
+        function ltSay(html) { ltReadout.innerHTML = '<span class="mono">Circuit status</span>' + html; }
+        var leader = $("ltLeader"), branch = $("ltLeaderBranch");
+
+        $("ltStep1").addEventListener("click", function () {
+          setOp($("ltNeg"), 1); setOp($("ltPos"), 1);
+          $("ltStep1").disabled = true; $("ltStep2").disabled = false;
+          ltSay("Inside the storm, collisions sort the charges: negative pools at the cloud's base, and the ground below answers with positive. Two halves of one circuit, separated by air — an insulator. The tension builds. (National Weather Service: this charge separation is step one of every flash.)");
+        });
+
+        $("ltStep2").addEventListener("click", function () {
+          if (reduced) {
+            leader.setAttribute("stroke-dashoffset", 0);
+            branch.setAttribute("stroke-dashoffset", 0);
+          } else {
+            leader.style.transition = "stroke-dashoffset 1.4s steps(7)";
+            branch.style.transition = "stroke-dashoffset 1.4s steps(7)";
+            leader.setAttribute("stroke-dashoffset", 0);
+            branch.setAttribute("stroke-dashoffset", 0);
+          }
+          $("ltStep2").disabled = true; $("ltStep3").disabled = false;
+          ltSay("The cloud reaches first: a stepped leader zigzags downward in ~50-meter jumps at some 200,000 mph, splitting into branches as it hunts for a path. Most branches will find nothing. Reaching is cheap. Watch what the ground does next.");
+        });
+
+        $("ltStep3").addEventListener("click", function () {
+          setOp($("ltStreamer"), 1); setOp($("ltStreamer2"), 1);
+          $("ltStep3").disabled = true; $("ltStep4").disabled = false;
+          ltSay("The ground reaches back. As the leader closes in, upward streamers of positive charge rise from the tallest, most conductive points — a tower, a tree, a copper lady's torch. Neither side makes lightning alone. It takes two reachings.");
+        });
+
+        $("ltStep4").addEventListener("click", function () {
+          setOp($("ltReturn"), 1); setOp($("ltFlash"), 0.9); setOp($("ltDone"), 1); setOp($("ltDone2"), 1);
+          $("ltStep4").disabled = true;
+          ltSay("CONNECTION. The leader meets a streamer about 50 meters above the ground, the circuit completes — and the return stroke, the blinding flash you actually see, fires UP the channel at ~200 million mph. The bolt was never a thing thrown. It was a circuit, finished. What connects, remains — for one white-hot fraction of a second, the sky remembers exactly one branch: the one that connected.");
+          if (!reduced) {
+            var f = $("ltFlash"), n = 0;
+            var iv = setInterval(function () {
+              f.setAttribute("opacity", (n % 2 === 0) ? 0.15 : 0.9);
+              if (++n > 5) { clearInterval(iv); f.setAttribute("opacity", 0.55); }
+            }, 90);
+          }
+        });
+
+        $("ltReset").addEventListener("click", function () {
+          setOp($("ltNeg"), 0); setOp($("ltPos"), 0);
+          setOp($("ltStreamer"), 0); setOp($("ltStreamer2"), 0);
+          setOp($("ltReturn"), 0); setOp($("ltFlash"), 0); setOp($("ltDone"), 0); setOp($("ltDone2"), 0);
+          leader.style.transition = "none"; branch.style.transition = "none";
+          leader.setAttribute("stroke-dashoffset", 300);
+          branch.setAttribute("stroke-dashoffset", 200);
+          $("ltStep1").disabled = false; $("ltStep2").disabled = true;
+          $("ltStep3").disabled = true; $("ltStep4").disabled = true;
+          ltSay("A charged sky, a charged earth, and air between them — an insulator holding two halves of one circuit apart. Sound familiar? Press step 1.");
+        });
+      })();
+    </script>
+  
+<style>
+  .cfz-fx{position:fixed; inset:0; z-index:200; pointer-events:none}
+  .cfz-flash{position:absolute; inset:0; opacity:1; transition:opacity .55s ease;
+    background:radial-gradient(ellipse at 50% 0%, rgba(255,244,200,.85), rgba(240,183,63,.22) 45%, transparent 75%)}
+  .cfz-fx.out .cfz-flash{opacity:0}
+  .cfz-fx svg{position:absolute; inset:0; width:100%; height:100%}
+  .cfz-bolt{fill:none; stroke:#ffeeb8; stroke-width:3; stroke-linejoin:round; opacity:1; transition:opacity .5s ease;
+    filter:drop-shadow(0 0 6px #f0b73f) drop-shadow(0 0 18px rgba(240,183,63,.8))}
+  .cfz-fx.out .cfz-bolt{opacity:0}
+  .cf-nav{position:fixed; top:14px; left:14px; z-index:210; font-family:ui-monospace, Menlo, monospace}
+  .cf-nav-r{left:auto; right:14px; text-align:right}
+  .cf-nav-r .cf-nav-menu{left:auto; right:0}
+  .cf-nav-here{display:block; color:#ffd166; font-size:11px; letter-spacing:.14em; text-align:center; margin-top:6px; text-shadow:0 2px 8px rgba(0,0,0,.8)}
+  .cf-nav-btn{background:#2a1745; color:#ffd166; border:2px solid #f0b73f; border-radius:999px;
+    padding:9px 18px; font-size:13px; letter-spacing:.12em; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,.45)}
+  .cf-nav-btn:hover{background:#3a2260}
+  .cf-nav-menu{position:absolute; left:0; top:calc(100% + 8px); min-width:250px; background:#241239;
+    border:2px solid #f0b73f; border-radius:12px; padding:8px; box-shadow:0 18px 44px rgba(0,0,0,.55)}
+  .cf-nav-menu[hidden]{display:none}
+  .cf-nav-menu a{display:block; color:#f5ead2; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:14px}
+  .cf-nav-menu a:hover{background:#3a2260; color:#ffd166}
+  .cfz-chip{position:fixed; left:50%; bottom:16px; transform:translateX(-50%); z-index:205; pointer-events:none;
+    font-family:ui-monospace, Menlo, monospace; font-size:11px; letter-spacing:.18em; color:#ffd166;
+    background:rgba(28,15,46,.82); border:1px solid rgba(240,183,63,.5); border-radius:999px; padding:8px 16px;
+    transition:opacity 1s ease; white-space:nowrap}
+</style>
+<div class="cf-nav">
+  <button type="button" class="cf-nav-btn" id="cfNavBtn" aria-haspopup="true" aria-expanded="false">PAGES &#9662;</button>
+  <span class="cf-nav-here"></span>
+  <div class="cf-nav-menu" id="cfNavMenu" hidden>
+    <a href="index.html">Hub — all the parts</a>
+    <a href="the-completion-filter.html">Part 1 — The Completion Filter</a>
+    <a href="the-completion-filter-page-2.html">Part 2 — Reverse Lightning</a>
+    <a href="the-completion-filter-page-3.html">Part 3 — The Letting Go</a>
+    <a href="the-completion-filter-4.html">Part 4 — The Conductors</a>
+    <a href="completion-theory-demonstration.html">The Demonstration</a>
+  </div>
+</div>
+<div class="cf-nav cf-nav-r">
+  <button type="button" class="cf-nav-btn" id="cfNavBtnR" aria-haspopup="true" aria-expanded="false">PAGES &#9662;</button>
+  <span class="cf-nav-here"></span>
+  <div class="cf-nav-menu" id="cfNavMenuR" hidden>
+    <a href="index.html">Hub — all the parts</a>
+    <a href="the-completion-filter.html">Part 1 — The Completion Filter</a>
+    <a href="the-completion-filter-page-2.html">Part 2 — Reverse Lightning</a>
+    <a href="the-completion-filter-page-3.html">Part 3 — The Letting Go</a>
+    <a href="the-completion-filter-4.html">Part 4 — The Conductors</a>
+    <a href="completion-theory-demonstration.html">The Demonstration</a>
+  </div>
+</div>
+<div class="cfz-chip" id="cfzChip">DOUBLE-CLICK OR DOUBLE-TAP — CALL THE LIGHTNING</div>
+<script>
+(function(){
+  "use strict";
+  var actx = null;
+  function zapSound(big){
+    try{
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      if(actx.state === 'suspended') actx.resume();
+      var t = actx.currentTime;
+      var V = big ? 1.25 : 1;
+      var master = actx.createGain(); master.gain.value = 0.9; master.connect(actx.destination);
+      /* 1) THE DIVE — a sawtooth arc plunging high to low. That falling
+         pitch IS the zap. (Nov 7: his ear caught the old recipe — noise
+         burst + low thump — as a drum snare. He was right. Thump deleted.) */
+      var f0 = 2300 + Math.random()*900;
+      var o = actx.createOscillator(); o.type = 'sawtooth';
+      o.frequency.setValueAtTime(f0, t);
+      o.frequency.exponentialRampToValueAtTime(110 + Math.random()*40, t + 0.16);
+      var o2 = actx.createOscillator(); o2.type = 'square';
+      o2.frequency.setValueAtTime(f0*1.5, t);
+      o2.frequency.exponentialRampToValueAtTime(170, t + 0.13);
+      var lp = actx.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 2;
+      lp.frequency.setValueAtTime(6500, t);
+      lp.frequency.exponentialRampToValueAtTime(500, t + 0.2);
+      var og = actx.createGain();
+      og.gain.setValueAtTime(0.30*V, t);
+      og.gain.exponentialRampToValueAtTime(0.001, t + 0.21);
+      o.connect(lp); o2.connect(lp); lp.connect(og); og.connect(master);
+      o.start(t); o.stop(t + 0.22); o2.start(t); o2.stop(t + 0.22);
+      /* 2) THE CRACKLE — arc sputter: noise chopped into random sparks by
+         a jittery gate, kept bright with a highpass so it sizzles like a
+         live wire instead of whooshing like a drum skin. */
+      var dur = (big ? 0.4 : 0.3) + Math.random()*0.1;
+      var buf = actx.createBuffer(1, Math.floor(actx.sampleRate*dur), actx.sampleRate);
+      var d = buf.getChannelData(0), i, gate = 0, hold = 0;
+      for(i=0;i<d.length;i++){
+        if(hold-- <= 0){ gate = Math.random() < 0.42 ? 0 : (0.35 + Math.random()*0.65); hold = 90 + (Math.random()*260|0); }
+        d[i] = (Math.random()*2-1) * gate * Math.pow(1 - i/d.length, 1.25);
+      }
+      var src = actx.createBufferSource(); src.buffer = buf;
+      var hp = actx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 1400;
+      var g = actx.createGain(); g.gain.value = 0.5*V;
+      src.connect(hp); hp.connect(g); g.connect(master); src.start(t);
+      /* 3) THE SNAP — the first spark: 15ms of pure bright click. */
+      var sbuf = actx.createBuffer(1, Math.floor(actx.sampleRate*0.015), actx.sampleRate);
+      var sd = sbuf.getChannelData(0);
+      for(i=0;i<sd.length;i++){ sd[i] = (Math.random()*2-1) * (1 - i/sd.length); }
+      var ssrc = actx.createBufferSource(); ssrc.buffer = sbuf;
+      var shp = actx.createBiquadFilter(); shp.type = 'highpass'; shp.frequency.value = 4000;
+      var sg = actx.createGain(); sg.gain.value = 0.6*V;
+      ssrc.connect(shp); shp.connect(sg); sg.connect(master); ssrc.start(t);
+    }catch(e){}
+  }
+  function boltD(x0){
+    var H = window.innerHeight, pts = [], x = x0, y = -20, steps = 14 + (Math.random()*6|0), i;
+    for(i=0;i<=steps;i++){ pts.push([x, y]); y += (H+40)/steps; x += (Math.random()*72-36); }
+    var out = 'M' + pts.map(function(q){ return q[0].toFixed(0) + ' ' + q[1].toFixed(0); }).join(' L');
+    for(var b=0;b<3;b++){
+      var bi = 3 + (Math.random()*(steps-5)|0), bp0 = pts[bi], bx = bp0[0], by = bp0[1], dir = Math.random()<0.5?-1:1, segs = [], j;
+      for(j=0;j<4;j++){ segs.push([bx, by]); bx += dir*(20+Math.random()*36); by += 26+Math.random()*30; }
+      segs.push([bx, by]);
+      out += ' M' + segs.map(function(q){ return q[0].toFixed(0) + ' ' + q[1].toFixed(0); }).join(' L');
+    }
+    return out;
+  }
+  var chipDone = false;
+  window.__cfZap = function(big){
+    var old = document.querySelector('.cfz-fx'); if(old) old.remove();
+    var wrap = document.createElement('div'); wrap.className = 'cfz-fx';
+    var flash = document.createElement('div'); flash.className = 'cfz-flash';
+    if(big) flash.style.background = 'radial-gradient(ellipse at 50% 0%, rgba(255,248,214,.97), rgba(240,183,63,.35) 48%, transparent 78%)';
+    var NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + window.innerWidth + ' ' + window.innerHeight);
+    var n = big ? 3 : (Math.random() < 0.45 ? 2 : 1), k;
+    for(k=0;k<n;k++){
+      var path = document.createElementNS(NS, 'path');
+      path.setAttribute('d', boltD(window.innerWidth * (0.15 + Math.random()*0.7)));
+      path.setAttribute('class', 'cfz-bolt');
+      if(big) path.style.strokeWidth = '4';
+      svg.appendChild(path);
+    }
+    wrap.appendChild(flash); wrap.appendChild(svg);
+    document.body.appendChild(wrap);
+    zapSound(big);
+    setTimeout(function(){ wrap.classList.add('out'); }, big ? 140 : 90);
+    setTimeout(function(){ if(wrap.parentNode) wrap.remove(); }, big ? 950 : 720);
+    if(!chipDone){ chipDone = true; var chip = document.getElementById('cfzChip'); if(chip) chip.style.opacity = '0.35'; }
+  };
+  document.addEventListener('dblclick', function(){ window.__cfZap(false); });
+  var lastTap = 0;
+  document.addEventListener('touchend', function(){
+    var now = Date.now();
+    if(now - lastTap < 320){ window.__cfZap(false); lastTap = 0; } else { lastTap = now; }
+  }, {passive:true});
+  var navBtn = document.getElementById('cfNavBtn'), navMenu = document.getElementById('cfNavMenu');
+  var navBtnR = document.getElementById('cfNavBtnR'), navMenuR = document.getElementById('cfNavMenuR');
+  /* BUILD 104 (his call, main site's Build Log numbering): the PAGES
+     pill sits on BOTH top corners now — "no menu on the opposite
+     side of pages" was the catch — and each pill carries a HERE line
+     naming the page you're on. */
+  var hereMap = {'index.html':'HUB \u2014 ALL THE PARTS','the-completion-filter.html':'PART 1 \u2014 THE COMPLETION FILTER','the-completion-filter-page-2.html':'PART 2 \u2014 REVERSE LIGHTNING','the-completion-filter-page-3.html':'PART 3 \u2014 THE LETTING GO','the-completion-filter-4.html':'PART 4 \u2014 THE CONDUCTORS','completion-theory-demonstration.html':'THE DEMONSTRATION'};
+  var curPage = location.pathname.split('/').pop() || 'index.html';
+  /* LOCK-IN NOTE (same dawn, his goodnight ask): the pill never
+     says its own page without the location first — "WHERE YOU ARE"
+     is the whole point of the mirror. */
+  document.querySelectorAll('.cf-nav-here').forEach(function(el){ el.textContent = 'WHERE YOU ARE \u25BE ' + (hereMap[curPage] || ''); });
+  function wireNav(bb, mm){
+    if(!bb || !mm) return;
+    bb.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = mm.hidden;
+      document.querySelectorAll('.cf-nav-menu').forEach(function(x){ x.hidden = true; });
+      document.querySelectorAll('.cf-nav-btn').forEach(function(x){ x.setAttribute('aria-expanded','false'); });
+      mm.hidden = !open;
+      bb.setAttribute('aria-expanded', String(open));
+    });
+  }
+  wireNav(navBtn, navMenu); wireNav(navBtnR, navMenuR);
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.cf-nav')) document.querySelectorAll('.cf-nav-menu').forEach(function(x){ x.hidden = true; });
+  });
+})();
+</script>
+</body>
+</html>
