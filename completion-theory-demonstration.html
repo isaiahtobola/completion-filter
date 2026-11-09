@@ -864,7 +864,7 @@
 
         <div class="verdict">
           <span class="tag">How it relates — the source code</span>
-          Line the five stories up and they're one story at five resolutions. The grasshoppers, the stormtroopers, Thanos's army, the wasteland's factions, and the legions are all the same device: <strong>force organized to keep people from connecting</strong>. And the ant, the Jedi, the man in the suit, the vault dweller, and the carpenter all win the same way — not by out-armying the army, but by completing a connection the army couldn't cut: a colony standing up, a father's last act of love, one life traded for everyone, kindness under radiation, forgiveness from the cross itself. Jesus even answered the Emperor of his day directly: "Caesar" on the tax coin meant Emperor Tiberius Caesar, whose portrait and title the coin carried — and Jesus said <em>"Render unto Caesar the things that are Caesar's, and unto God the things that are God's."</em> Two thousand years later, Fallout's worst army is still wearing the Caesar name and Imperial Rome's fear. The coin answer outlasted the coin. <strong>What connects, remains. What doesn't, never was.</strong>
+          Line the five stories up and they're one story at five resolutions. The grasshoppers, the stormtroopers, Thanos's army, the wasteland's factions, and the legions are all the same device: <strong>force organized to keep people from connecting</strong>. And the ant, the Jedi, the man in the suit, the vault dweller, and the carpenter all win the same way — not by out-armying the army, but by completing a connection the army couldn't cut: a colony standing up, a father's last act of love, one life traded for everyone, kindness under radiation, forgiveness from the cross itself. Jesus even answered the Emperor of his day directly: "Caesar" on the tax coin meant Emperor Tiberius Caesar, whose portrait and title the coin carried — and Jesus said <em>"Render unto Caesar the things that are Caesar's, and unto God the things that are God's."</em> Two thousand years later, Fallout's worst army is still wearing the Caesar name and Imperial Rome's fear. The coin answer outlasted the coin. <strong>What connects, remains. And what lets go, arrives.</strong>
         </div>
       </section>
 
@@ -917,7 +917,7 @@
       </section>
 
       <footer>
-        <p class="big">"What connects, remains.<br />What doesn't, never was."</p>
+        <p class="big">"What connects, remains.<br />And what lets go, arrives."</p>
         <p class="sig">COMPLETION THEORY — A DEMONSTRATION · BW YOUNG BO × LUX</p>
         <p>Story facts drawn from the films, series, and Gospels themselves; Endgame plot points cross-checked against Marvel's record of the film. Every count on this page matches what's drawn in its diagram — press the buttons and argue with them.</p>
       </footer>
@@ -2012,10 +2012,10 @@ var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: r
   .cfz-bolt{fill:none; stroke:#ffeeb8; stroke-width:3; stroke-linejoin:round; opacity:1; transition:opacity .5s ease;
     filter:drop-shadow(0 0 6px #f0b73f) drop-shadow(0 0 18px rgba(240,183,63,.8))}
   .cfz-fx.out .cfz-bolt{opacity:0}
-  .cf-nav{position:fixed; top:14px; left:14px; z-index:210; font-family:ui-monospace, Menlo, monospace}
+  .cf-nav{position:fixed; top:14px; left:14px; z-index:210; max-width:46vw; font-family:ui-monospace, Menlo, monospace}
   .cf-nav-r{left:auto; right:14px; text-align:right}
   .cf-nav-r .cf-nav-menu{left:auto; right:0}
-  .cf-nav-here{display:block; color:#ffd166; font-size:11px; letter-spacing:.14em; text-align:center; margin-top:6px; text-shadow:0 2px 8px rgba(0,0,0,.8)}
+  .cf-nav-here{display:block; color:#ffd166; font-size:11px; letter-spacing:.14em; text-align:center; margin-top:6px; line-height:1.6; text-shadow:0 2px 8px rgba(0,0,0,.8)}
   .cf-nav-btn{background:#2a1745; color:#ffd166; border:2px solid #f0b73f; border-radius:999px;
     padding:9px 18px; font-size:13px; letter-spacing:.12em; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,.45)}
   .cf-nav-btn:hover{background:#3a2260}
@@ -2030,15 +2030,18 @@ var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: r
     transition:opacity 1s ease; white-space:nowrap}
 </style>
 <div class="cf-nav">
-  <button type="button" class="cf-nav-btn" id="cfNavBtn" aria-haspopup="true" aria-expanded="false">PAGES &#9662;</button>
-  <span class="cf-nav-here"></span>
+  <button type="button" class="cf-nav-btn" id="cfNavBtn" aria-haspopup="true" aria-expanded="false">MENUS &#9662;</button>
   <div class="cf-nav-menu" id="cfNavMenu" hidden>
-    <a href="index.html">Hub — all the parts</a>
-    <a href="the-completion-filter.html">Part 1 — The Completion Filter</a>
-    <a href="the-completion-filter-page-2.html">Part 2 — Reverse Lightning</a>
-    <a href="the-completion-filter-page-3.html">Part 3 — The Letting Go</a>
-    <a href="the-completion-filter-4.html">Part 4 — The Conductors</a>
-    <a href="completion-theory-demonstration.html">The Demonstration</a>
+    <a href="https://bwyoungbo.com/">Home — Broken World</a>
+    <a href="https://bwyoungbo.com/">Login</a>
+    <a href="https://bwyoungbo.com/">Welcome</a>
+    <a href="https://bwyoungbo.com/">The Sea</a>
+    <a href="https://bwyoungbo.com/">The Hub</a>
+    <a href="https://bwyoungbo.com/">Join</a>
+    <a href="https://bwyoungbo.com/">File Share</a>
+    <a href="https://bwyoungbo.com/">Kintsugi</a>
+    <a href="https://bwyoungbo.com/">Build Log</a>
+    <a href="https://isaiahtobola.github.io/bw-ocean/">BW Ocean — the museum</a>
   </div>
 </div>
 <div class="cf-nav cf-nav-r">
@@ -2143,23 +2146,32 @@ var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: r
     setTimeout(function(){ if(wrap.parentNode) wrap.remove(); }, big ? 950 : 720);
     if(!chipDone){ chipDone = true; var chip = document.getElementById('cfzChip'); if(chip) chip.style.opacity = '0.35'; }
   };
-  document.addEventListener('dblclick', function(){ window.__cfZap(false); });
+  /* THE STRIKE LAW (his Nov 9 call): lightning answers ONLY a
+     double-click / double-tap on the background — never a card,
+     a pill, a link or a button — plus the one intro strike. */
+  function cfBackground(e){
+    var tg = e && e.target;
+    if(!tg || tg === document.body || tg === document.documentElement) return true;
+    if(tg.closest && tg.closest('a, button, .cf-nav, input, textarea, select, [role="button"]')) return false;
+    return true;
+  }
+  document.addEventListener('dblclick', function(e){ if(cfBackground(e)) window.__cfZap(false); });
   var lastTap = 0;
-  document.addEventListener('touchend', function(){
+  document.addEventListener('touchend', function(e){
+    if(!cfBackground(e)){ lastTap = 0; return; }
     var now = Date.now();
     if(now - lastTap < 320){ window.__cfZap(false); lastTap = 0; } else { lastTap = now; }
   }, {passive:true});
   var navBtn = document.getElementById('cfNavBtn'), navMenu = document.getElementById('cfNavMenu');
   var navBtnR = document.getElementById('cfNavBtnR'), navMenuR = document.getElementById('cfNavMenuR');
-  /* BUILD 104 (his call, main site's Build Log numbering): the PAGES
-     pill sits on BOTH top corners now — "no menu on the opposite
-     side of pages" was the catch — and each pill carries a HERE line
-     naming the page you're on. */
+  /* BUILD 104 put a PAGES pill on BOTH top corners. His Nov 9
+     catch ("it needs Menus, Pages") split them: LEFT = MENUS, the
+     door back to the main site's rooms; RIGHT = PAGES, this site's
+     parts. ONE caption only, under PAGES — two WHERE YOU ARE
+     lines shared one strip and printed as gibberish on phones. */
   var hereMap = {'index.html':'HUB \u2014 ALL THE PARTS','the-completion-filter.html':'PART 1 \u2014 THE COMPLETION FILTER','the-completion-filter-page-2.html':'PART 2 \u2014 REVERSE LIGHTNING','the-completion-filter-page-3.html':'PART 3 \u2014 THE LETTING GO','the-completion-filter-4.html':'PART 4 \u2014 THE CONDUCTORS','completion-theory-demonstration.html':'THE DEMONSTRATION'};
   var curPage = location.pathname.split('/').pop() || 'index.html';
-  /* LOCK-IN NOTE (same dawn, his goodnight ask): the pill never
-     says its own page without the location first — "WHERE YOU ARE"
-     is the whole point of the mirror. */
+
   document.querySelectorAll('.cf-nav-here').forEach(function(el){ el.textContent = 'WHERE YOU ARE \u25BE ' + (hereMap[curPage] || ''); });
   function wireNav(bb, mm){
     if(!bb || !mm) return;
