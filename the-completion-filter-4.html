@@ -1216,15 +1216,15 @@
 <div class="cf-nav">
   <button type="button" class="cf-nav-btn" id="cfNavBtn" aria-haspopup="true" aria-expanded="false">MENUS &#9662;</button>
   <div class="cf-nav-menu" id="cfNavMenu" hidden>
-    <a href="https://bwyoungbo.com/">Home — Broken World</a>
-    <a href="https://bwyoungbo.com/">Login</a>
-    <a href="https://bwyoungbo.com/">Welcome</a>
-    <a href="https://bwyoungbo.com/">The Sea</a>
-    <a href="https://bwyoungbo.com/">The Hub</a>
-    <a href="https://bwyoungbo.com/">Join</a>
-    <a href="https://bwyoungbo.com/">File Share</a>
-    <a href="https://bwyoungbo.com/">Kintsugi</a>
-    <a href="https://bwyoungbo.com/">Build Log</a>
+    <a href="https://bwyoungbo.com/?room=home">Home — Broken World</a>
+    <a href="https://bwyoungbo.com/?room=login">Login</a>
+    <a href="https://bwyoungbo.com/?room=welcome">Welcome</a>
+    <a href="https://bwyoungbo.com/?room=sea">The Sea</a>
+    <a href="https://bwyoungbo.com/?room=hub">The Hub</a>
+    <a href="https://bwyoungbo.com/?room=join">Join</a>
+    <a href="https://bwyoungbo.com/?room=files">File Share</a>
+    <a href="https://bwyoungbo.com/?room=kintsugi">Kintsugi</a>
+    <a href="https://bwyoungbo.com/?room=buildlog">Build Log</a>
     <a href="https://isaiahtobola.github.io/bw-ocean/">BW Ocean — the museum</a>
   </div>
 </div>
@@ -1374,5 +1374,129 @@
   });
 })();
 </script>
+
+<style>
+  /* ================= CF HOLIDAY THEMES (Nov 9) ================= */
+  /* ---- CF holiday themes (Nov 9): nav chrome takes the season ---- */
+  .cf-theme-btn{position:fixed; left:14px; bottom:16px; z-index:210; font-family:ui-monospace, Menlo, monospace}
+  .cf-theme-btn .h-stack{display:inline-grid; vertical-align:top}
+  .cf-theme-btn .h-stack>*{grid-area:1/1}
+  .cf-theme-btn .h-sizer{visibility:hidden}
+  .cf-theme-btn .h-label{text-align:center; white-space:nowrap}
+  .cf-theme-btn.locked{opacity:.42; filter:grayscale(1); cursor:not-allowed}
+  body[data-theme="halloween"] .cf-nav-btn{background:#17100b; color:#ffa53a; border-color:#ff8c1a}
+  body[data-theme="halloween"] .cf-nav-btn:hover{background:#211710}
+  body[data-theme="halloween"] .cf-nav-menu{background:#120b06; border-color:#ff8c1a}
+  body[data-theme="halloween"] .cf-nav-menu a{color:#ffe8d1}
+  body[data-theme="halloween"] .cf-nav-menu a:hover{background:#211710; color:#ffa53a}
+  body[data-theme="halloween"] .cf-nav-here{color:#ffa53a}
+  body[data-theme="halloween"] .cfz-chip{background:rgba(10,6,5,.85); color:#ffa53a; border-color:rgba(255,140,26,.5)}
+  body[data-theme="xmas"] .cf-nav-btn{background:#0d2416; color:#ff5a4d; border-color:#d93636}
+  body[data-theme="xmas"] .cf-nav-btn:hover{background:#12331e}
+  body[data-theme="xmas"] .cf-nav-menu{background:#081a0f; border-color:#d93636}
+  body[data-theme="xmas"] .cf-nav-menu a{color:#ffefe0}
+  body[data-theme="xmas"] .cf-nav-menu a:hover{background:#12331e; color:#ff5a4d}
+  body[data-theme="xmas"] .cf-nav-here{color:#ff5a4d}
+  body[data-theme="xmas"] .cfz-chip{background:rgba(7,22,12,.85); color:#ff5a4d; border-color:rgba(217,54,54,.5)}
+
+  /* ---- part pages: the shared variable system takes the season ---- */
+  body[data-theme="halloween"]{
+    --bg:#17100b; --bg-deep:#0a0605;
+    --ink:#ffe8d1; --ink-soft:#d9b48f; --ink-faint:#b08d5f;
+    --line:#3a2410; --accent:#ff8c1a; --accent-bright:#ffa53a; --accent-ink:#ffa53a;
+    --panel:#211710; --panel-deep:#0a0605;
+    --hero-ink:#ffe8d1; --hero-dim:rgba(255,232,209,.72);
+  }
+  body[data-theme="xmas"]{
+    --bg:#0d2416; --bg-deep:#07160c;
+    --ink:#ffefe0; --ink-soft:#a8c9ae; --ink-faint:#7ba886;
+    --line:#1d4a2c; --accent:#d93636; --accent-bright:#ff5a4d; --accent-ink:#ff5a4d;
+    --panel:#12331e; --panel-deep:#07160c;
+    --hero-ink:#ffefe0; --hero-dim:rgba(255,239,224,.72);
+  }
+  body[data-theme="halloween"] .hero{background:#0a0605}
+  body[data-theme="xmas"] .hero{background:#07160c}
+  body[data-theme="halloween"] .hero::after{background:linear-gradient(to bottom, rgba(10,6,5,.18) 40%, rgba(10,6,5,.82) 88%, rgba(10,6,5,.94))}
+  body[data-theme="xmas"] .hero::after{background:linear-gradient(to bottom, rgba(7,22,12,.18) 40%, rgba(7,22,12,.82) 88%, rgba(7,22,12,.94))}
+  body[data-theme="halloween"] .hero-shade{background:linear-gradient(180deg, rgba(10,6,5,.55) 0%, rgba(10,6,5,.16) 42%, rgba(10,6,5,.84) 100%)}
+  body[data-theme="xmas"] .hero-shade{background:linear-gradient(180deg, rgba(7,22,12,.55) 0%, rgba(7,22,12,.16) 42%, rgba(7,22,12,.84) 100%)}
+  body[data-theme="halloween"] .hero .veil{background:linear-gradient(to bottom, rgba(10,6,5,.25) 30%, rgba(10,6,5,.86) 82%, rgba(10,6,5,.96))}
+  body[data-theme="xmas"] .hero .veil{background:linear-gradient(to bottom, rgba(7,22,12,.25) 30%, rgba(7,22,12,.86) 82%, rgba(7,22,12,.96))}
+  body[data-theme="halloween"] .section-art{background:#0a0605}
+  body[data-theme="xmas"] .section-art{background:#07160c}
+  body[data-theme="halloween"] .door-stage{background:#0a0605}
+  body[data-theme="xmas"] .door-stage{background:#07160c}
+  body[data-theme="halloween"] .art-hint{background:rgba(10,6,5,.72)}
+  body[data-theme="xmas"] .art-hint{background:rgba(7,22,12,.72)}
+  /* xmas red is deep: filled accent buttons take cream words */
+  body[data-theme="xmas"] .btn{color:#ffefe0}
+  body[data-theme="xmas"] .cite-box .btn{color:#ff5a4d}
+  body[data-theme="xmas"] .cite-box .btn:hover{color:#ffefe0}
+  body[data-theme="xmas"] .badge-num{fill:#ffefe0}
+  body[data-theme="xmas"] .key-num{color:#ffefe0}
+  /* part 4 lab controls */
+  body[data-theme="halloween"] .lab .controls button{color:#ffa53a; border-color:rgba(255,165,58,.55)}
+  body[data-theme="halloween"] .lab .controls button:hover:not(:disabled),
+  body[data-theme="halloween"] .lab .controls button:focus-visible:not(:disabled){background:#ff8c1a; color:#171106}
+  body[data-theme="halloween"] .lab .care-row input[type="range"]{accent-color:#ff8c1a}
+  body[data-theme="xmas"] .lab .controls button{color:#ff5a4d; border-color:rgba(255,90,77,.55)}
+  body[data-theme="xmas"] .lab .controls button:hover:not(:disabled),
+  body[data-theme="xmas"] .lab .controls button:focus-visible:not(:disabled){background:#d93636; color:#ffefe0}
+  body[data-theme="xmas"] .lab .care-row input[type="range"]{accent-color:#d93636}
+</style>
+
+<button type="button" class="cf-nav-btn cf-theme-btn" id="cfThemeBtn" title="Cycle the season: Normal \u2192 Halloween \u2192 Christmas \u2192 Normal"><span class="h-stack"><span class="h-sizer" aria-hidden="true">Happy Holidays</span><span class="h-label">Happy Holidays</span></span></button>
+
+<script>
+/* CF HOLIDAY THEMES (Nov 9) — the Completion Filter dresses for the
+   season exactly like the main site: the Happy Holidays button cycles
+   Normal -> Halloween -> Christmas -> Normal, the choice persists
+   per-visitor (localStorage "bw-theme", the main site's key), and THE
+   SEASON LAW holds: themes exist Sep 30 -> Jan 1 only. Outside the
+   window the button greys out and locks, and any leftover seasonal
+   theme is put away — plum & gold is the law of the rest of the year. */
+(function(){
+  "use strict";
+  var THEMES = ['', 'halloween', 'xmas'];
+  var LABELS = {'': 'Happy Holidays', 'halloween': 'Halloween', 'xmas': 'Christmas'};
+  function seasonOpen(){
+    var n = new Date(), m = n.getMonth(), d = n.getDate();
+    return (m > 8 || (m === 8 && d >= 30)) || (m === 0 && d <= 1);
+  }
+  var theme = '';
+  try{ theme = localStorage.getItem('bw-theme') || ''; }catch(e){}
+  if(THEMES.indexOf(theme) < 0) theme = '';
+  if(!seasonOpen()) theme = '';
+  var btn = document.getElementById('cfThemeBtn');
+  function applyTheme(){
+    var open = seasonOpen();
+    if(!open) theme = '';
+    if(theme) document.body.setAttribute('data-theme', theme);
+    else document.body.removeAttribute('data-theme');
+    if(btn){
+      var label = btn.querySelector('.h-label');
+      if(open){
+        btn.removeAttribute('disabled');
+        btn.classList.remove('locked');
+        if(label) label.textContent = LABELS[theme];
+        btn.title = 'Cycle the season: Normal \u2192 Halloween \u2192 Christmas \u2192 Normal';
+      } else {
+        btn.setAttribute('disabled', '');
+        btn.classList.add('locked');
+        if(label) label.textContent = 'Happy Holidays';
+        btn.title = 'Locked \u2014 the season runs Sep 30 to Jan 1.';
+      }
+    }
+    try{ localStorage.setItem('bw-theme', theme); }catch(e){}
+  }
+  if(btn) btn.addEventListener('click', function(){
+    if(!seasonOpen()) return;
+    theme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
+    applyTheme();
+  });
+  applyTheme();
+})();
+</script>
+
 </body>
 </html>
