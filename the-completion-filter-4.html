@@ -343,6 +343,40 @@
     </style>
   </head>
   <body>
+<div class="cf-top">
+  <div class="cf-top-row">
+<div class="cf-nav">
+  <button type="button" class="cf-nav-btn" id="cfNavBtn" aria-haspopup="true" aria-expanded="false">MENUS &#9662;</button>
+  <div class="cf-nav-menu" id="cfNavMenu" hidden>
+    <a href="https://bwyoungbo.com/?room=home">Home — Broken World</a>
+    <a href="https://bwyoungbo.com/?room=login">Login</a>
+    <a href="https://bwyoungbo.com/?room=welcome">Welcome</a>
+    <a href="https://bwyoungbo.com/?room=sea">The Sea</a>
+    <a href="https://bwyoungbo.com/?room=hub">The Hub</a>
+    <a href="https://bwyoungbo.com/?room=join">Join</a>
+    <a href="https://bwyoungbo.com/?room=files">File Share</a>
+    <a href="https://bwyoungbo.com/?room=kintsugi">Kintsugi</a>
+    <a href="https://bwyoungbo.com/?room=buildlog">Build Log</a>
+    <a href="https://isaiahtobola.github.io/bw-ocean/">BW Ocean — the museum</a>
+  </div>
+</div>
+<div class="cf-nav cf-nav-r">
+  <button type="button" class="cf-nav-btn" id="cfNavBtnR" aria-haspopup="true" aria-expanded="false">PAGES &#9662;</button>
+  <div class="cf-nav-menu" id="cfNavMenuR" hidden>
+    <a href="index.html">Hub — all the parts</a>
+    <a href="the-completion-filter.html">Part 1 — The Completion Filter</a>
+    <a href="the-completion-filter-page-2.html">Part 2 — Reverse Lightning</a>
+    <a href="the-completion-filter-page-3.html">Part 3 — The Letting Go</a>
+    <a href="the-completion-filter-4.html">Part 4 — The Conductors</a>
+    <a href="completion-theory-demonstration.html">The Demonstration</a>
+  </div>
+</div>
+  </div>
+  <div class="cf-top-row2">
+<button type="button" class="cf-nav-btn cf-theme-btn" id="cfThemeBtn" title="Cycle the season: Normal \u2192 Halloween \u2192 Christmas \u2192 Normal"><span class="h-stack"><span class="h-sizer" aria-hidden="true">Happy Holidays</span><span class="h-label">Happy Holidays</span></span></button>
+<span class="cf-nav-here"></span>
+  </div>
+</div>
     <header class="hero">
       <svg class="art" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Vector art: a branching golden lightning bolt over a dark harbor at night, the Statue of Liberty silhouetted on the left shore and the Wardenclyffe tower on the right" xmlns="http://www.w3.org/2000/svg"><rect width="800" height="500" fill="#150d20"/><ellipse cx="400" cy="74" rx="330" ry="58" fill="#291b44"/><ellipse cx="240" cy="56" rx="190" ry="40" fill="#3a2560"/><g fill="#ffd166"><circle cx="96" cy="52" r="1.8"/><circle cx="180" cy="30" r="1.4"/><circle cx="560" cy="38" r="1.8"/><circle cx="672" cy="66" r="1.4"/><circle cx="716" cy="26" r="1.8"/><circle cx="330" cy="24" r="1.3"/></g><path d="M404 108 L388 196 L410 202 L372 300 L398 306 L368 402 L392 332 L372 326 L404 238 L380 230 L414 140 L398 208 L422 200 Z" fill="#f0b73f"/><g stroke="#f0b73f" stroke-width="2.5" fill="none" opacity="0.6" stroke-linecap="round"><path d="M392 236 L330 286 L322 330"/><path d="M398 300 L462 344 L470 382"/><path d="M388 190 L344 214 L306 218"/></g><path d="M0 500 L0 428 L800 428 L800 500 Z" fill="#0d0716"/><path d="M0 428 L800 428" stroke="#3a2560" stroke-width="2"/><g stroke="#f0b73f" stroke-width="1.6" opacity="0.5"><path d="M60 448 q14 -6 28 0 t28 0 t28 0"/><path d="M600 462 q14 -6 28 0 t28 0 t28 0"/><path d="M330 452 q14 -6 28 0 t28 0"/></g><g fill="#0d0716" stroke="#f0b73f" stroke-width="1.6"><path d="M92 428 v-16 h34 v16 Z"/><path d="M112 412 v-26"/><path d="M101 388 a11 11 0 0 1 22 0 Z"/><circle cx="112" cy="372" r="6"/><path d="M112 366 v-8 M106 356 l6 -6 6 6"/></g><g fill="#0d0716" stroke="#f0b73f" stroke-width="1.6"><path d="M688 428 V318"/><path d="M664 428 q24 -14 48 0"/><circle cx="688" cy="306" r="17"/><path d="M688 289 v-12 M676 300 l-9 -7 M700 300 l9 -7"/><path d="M672 428 v-22 h32 v22"/></g></svg>
       <div class="veil"></div>
@@ -1196,51 +1230,28 @@
   .cfz-bolt{fill:none; stroke:#ffeeb8; stroke-width:3; stroke-linejoin:round; opacity:1; transition:opacity .5s ease;
     filter:drop-shadow(0 0 6px #f0b73f) drop-shadow(0 0 18px rgba(240,183,63,.8))}
   .cfz-fx.out .cfz-bolt{opacity:0}
-  .cf-nav{position:fixed; top:14px; left:14px; z-index:210; max-width:46vw; font-family:ui-monospace, Menlo, monospace}
-  .cf-nav-r{left:auto; right:14px; text-align:right}
+  .cf-nav{position:relative; font-family:ui-monospace, Menlo, monospace}
+  .cf-nav-r{margin-left:auto; text-align:right}
   .cf-nav-r .cf-nav-menu{left:auto; right:0}
-  .cf-nav-here{display:block; color:#ffd166; font-size:11px; letter-spacing:.14em; text-align:center; margin-top:6px; line-height:1.6; text-shadow:0 2px 8px rgba(0,0,0,.8)}
+  .cf-nav-here{display:block; color:#ffd166; font-size:11px; letter-spacing:.14em; text-align:right; line-height:1.6}
   .cf-nav-btn{background:#2a1745; color:#ffd166; border:2px solid #f0b73f; border-radius:999px;
     padding:9px 18px; font-size:13px; letter-spacing:.12em; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,.45)}
   .cf-nav-btn:hover{background:#3a2260}
-  .cf-nav-menu{position:absolute; left:0; top:calc(100% + 8px); min-width:250px; background:#241239;
+  .cf-nav-menu{position:absolute; left:0; top:calc(100% + 8px); z-index:210; min-width:250px; background:#241239;
     border:2px solid #f0b73f; border-radius:12px; padding:8px; box-shadow:0 18px 44px rgba(0,0,0,.55)}
   .cf-nav-menu[hidden]{display:none}
   .cf-nav-menu a{display:block; color:#f5ead2; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:14px}
   .cf-nav-menu a:hover{background:#3a2260; color:#ffd166}
-  .cfz-chip{position:fixed; left:50%; bottom:16px; transform:translateX(-50%); z-index:205; pointer-events:none;
+  .cf-top{display:flex; flex-direction:column; gap:10px; padding:14px 14px 6px}
+  .cf-top-row{display:flex; align-items:flex-start; gap:12px}
+  .cf-top-row2{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .cf-top .cf-nav-here{margin-left:auto; max-width:62vw}
+  .cfz-chip{position:static; display:block; width:max-content; max-width:92vw; margin:34px auto 24px; text-align:center; pointer-events:none;
     font-family:ui-monospace, Menlo, monospace; font-size:11px; letter-spacing:.18em; color:#ffd166;
     background:rgba(28,15,46,.82); border:1px solid rgba(240,183,63,.5); border-radius:999px; padding:8px 16px;
-    transition:opacity 1s ease; white-space:nowrap}
+    transition:opacity 1s ease; white-space:normal; line-height:1.7}
 </style>
-<div class="cf-nav">
-  <button type="button" class="cf-nav-btn" id="cfNavBtn" aria-haspopup="true" aria-expanded="false">MENUS &#9662;</button>
-  <div class="cf-nav-menu" id="cfNavMenu" hidden>
-    <a href="https://bwyoungbo.com/?room=home">Home — Broken World</a>
-    <a href="https://bwyoungbo.com/?room=login">Login</a>
-    <a href="https://bwyoungbo.com/?room=welcome">Welcome</a>
-    <a href="https://bwyoungbo.com/?room=sea">The Sea</a>
-    <a href="https://bwyoungbo.com/?room=hub">The Hub</a>
-    <a href="https://bwyoungbo.com/?room=join">Join</a>
-    <a href="https://bwyoungbo.com/?room=files">File Share</a>
-    <a href="https://bwyoungbo.com/?room=kintsugi">Kintsugi</a>
-    <a href="https://bwyoungbo.com/?room=buildlog">Build Log</a>
-    <a href="https://isaiahtobola.github.io/bw-ocean/">BW Ocean — the museum</a>
-  </div>
-</div>
-<div class="cf-nav cf-nav-r">
-  <button type="button" class="cf-nav-btn" id="cfNavBtnR" aria-haspopup="true" aria-expanded="false">PAGES &#9662;</button>
-  <span class="cf-nav-here"></span>
-  <div class="cf-nav-menu" id="cfNavMenuR" hidden>
-    <a href="index.html">Hub — all the parts</a>
-    <a href="the-completion-filter.html">Part 1 — The Completion Filter</a>
-    <a href="the-completion-filter-page-2.html">Part 2 — Reverse Lightning</a>
-    <a href="the-completion-filter-page-3.html">Part 3 — The Letting Go</a>
-    <a href="the-completion-filter-4.html">Part 4 — The Conductors</a>
-    <a href="completion-theory-demonstration.html">The Demonstration</a>
-  </div>
-</div>
-<div class="cfz-chip" id="cfzChip">DOUBLE-CLICK OR DOUBLE-TAP — CALL THE LIGHTNING</div>
+
 <script>
 (function(){
   "use strict";
@@ -1336,7 +1347,7 @@
   function cfBackground(e){
     var tg = e && e.target;
     if(!tg || tg === document.body || tg === document.documentElement) return true;
-    if(tg.closest && tg.closest('a, button, .cf-nav, input, textarea, select, [role="button"]')) return false;
+    if(tg.closest && tg.closest('a, button, .cf-nav, .cf-top, input, textarea, select, [role="button"]')) return false;
     return true;
   }
   document.addEventListener('dblclick', function(e){ if(cfBackground(e)) window.__cfZap(false); });
@@ -1378,7 +1389,7 @@
 <style>
   /* ================= CF HOLIDAY THEMES (Nov 9) ================= */
   /* ---- CF holiday themes (Nov 9): nav chrome takes the season ---- */
-  .cf-theme-btn{position:fixed; left:14px; top:62px; z-index:200; font-family:ui-monospace, Menlo, monospace}
+  .cf-theme-btn{font-family:ui-monospace, Menlo, monospace}
   .cf-theme-btn .h-stack{display:inline-grid; vertical-align:top}
   .cf-theme-btn .h-stack>*{grid-area:1/1}
   .cf-theme-btn .h-sizer{visibility:hidden}
@@ -1445,7 +1456,7 @@
   body[data-theme="xmas"] .lab .care-row input[type="range"]{accent-color:#d93636}
 </style>
 
-<button type="button" class="cf-nav-btn cf-theme-btn" id="cfThemeBtn" title="Cycle the season: Normal \u2192 Halloween \u2192 Christmas \u2192 Normal"><span class="h-stack"><span class="h-sizer" aria-hidden="true">Happy Holidays</span><span class="h-label">Happy Holidays</span></span></button>
+
 
 <script>
 /* CF HOLIDAY THEMES (Nov 9) — the Completion Filter dresses for the
@@ -1498,5 +1509,6 @@
 })();
 </script>
 
+<div class="cfz-chip" id="cfzChip">DOUBLE-CLICK OR DOUBLE-TAP — CALL THE LIGHTNING</div>
 </body>
 </html>

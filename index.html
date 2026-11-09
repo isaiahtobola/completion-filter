@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The Completion Filter — BW Young Bo</title>
 <style>
-  body { background:#1c0f2e; color:#f5ead2; font-family:Georgia,serif; margin:0; padding:112px 20px 48px; text-align:center; }
+  body { background:#1c0f2e; color:#f5ead2; font-family:Georgia,serif; margin:0; padding:20px 20px 48px; text-align:center; }
   h1 { color:#ffd166; font-size:2em; margin-bottom:8px; }
   p.sub { color:#cbb8e8; margin-bottom:36px; }
   a.page { display:block; max-width:520px; margin:12px auto; padding:18px 24px; background:#2a1745; border:2px solid #f0b73f; border-radius:12px; color:#ffd166; text-decoration:none; font-size:1.15em; }
@@ -15,6 +15,40 @@
 </style>
 </head>
 <body>
+<div class="cf-top">
+  <div class="cf-top-row">
+<div class="cf-nav">
+  <button type="button" class="cf-nav-btn" id="cfNavBtn" aria-haspopup="true" aria-expanded="false">MENUS &#9662;</button>
+  <div class="cf-nav-menu" id="cfNavMenu" hidden>
+    <a href="https://bwyoungbo.com/?room=home">Home — Broken World</a>
+    <a href="https://bwyoungbo.com/?room=login">Login</a>
+    <a href="https://bwyoungbo.com/?room=welcome">Welcome</a>
+    <a href="https://bwyoungbo.com/?room=sea">The Sea</a>
+    <a href="https://bwyoungbo.com/?room=hub">The Hub</a>
+    <a href="https://bwyoungbo.com/?room=join">Join</a>
+    <a href="https://bwyoungbo.com/?room=files">File Share</a>
+    <a href="https://bwyoungbo.com/?room=kintsugi">Kintsugi</a>
+    <a href="https://bwyoungbo.com/?room=buildlog">Build Log</a>
+    <a href="https://isaiahtobola.github.io/bw-ocean/">BW Ocean — the museum</a>
+  </div>
+</div>
+<div class="cf-nav cf-nav-r">
+  <button type="button" class="cf-nav-btn" id="cfNavBtnR" aria-haspopup="true" aria-expanded="false">PAGES &#9662;</button>
+  <div class="cf-nav-menu" id="cfNavMenuR" hidden>
+    <a href="index.html">Hub — all the parts</a>
+    <a href="the-completion-filter.html">Part 1 — The Completion Filter</a>
+    <a href="the-completion-filter-page-2.html">Part 2 — Reverse Lightning</a>
+    <a href="the-completion-filter-page-3.html">Part 3 — The Letting Go</a>
+    <a href="the-completion-filter-4.html">Part 4 — The Conductors</a>
+    <a href="completion-theory-demonstration.html">The Demonstration</a>
+  </div>
+</div>
+  </div>
+  <div class="cf-top-row2">
+<button type="button" class="cf-nav-btn cf-theme-btn" id="cfThemeBtn" title="Cycle the season: Normal \u2192 Halloween \u2192 Christmas \u2192 Normal"><span class="h-stack"><span class="h-sizer" aria-hidden="true">Happy Holidays</span><span class="h-label">Happy Holidays</span></span></button>
+<span class="cf-nav-here"></span>
+  </div>
+</div>
   <h1>The Completion Filter</h1>
   <p class="sub">What connects, remains. And what lets go, arrives.</p>
   <a class="page" href="the-completion-filter.html">Part 1 — The Completion Filter<small>The theory: only what connects persists</small></a>
@@ -33,51 +67,28 @@
   .cfz-bolt{fill:none; stroke:#ffeeb8; stroke-width:3; stroke-linejoin:round; opacity:1; transition:opacity .5s ease;
     filter:drop-shadow(0 0 6px #f0b73f) drop-shadow(0 0 18px rgba(240,183,63,.8))}
   .cfz-fx.out .cfz-bolt{opacity:0}
-  .cf-nav{position:fixed; top:14px; left:14px; z-index:210; max-width:46vw; font-family:ui-monospace, Menlo, monospace}
-  .cf-nav-r{left:auto; right:14px; text-align:right}
+  .cf-nav{position:relative; font-family:ui-monospace, Menlo, monospace}
+  .cf-nav-r{margin-left:auto; text-align:right}
   .cf-nav-r .cf-nav-menu{left:auto; right:0}
-  .cf-nav-here{display:block; color:#ffd166; font-size:11px; letter-spacing:.14em; text-align:center; margin-top:6px; line-height:1.6; text-shadow:0 2px 8px rgba(0,0,0,.8)}
+  .cf-nav-here{display:block; color:#ffd166; font-size:11px; letter-spacing:.14em; text-align:right; line-height:1.6}
   .cf-nav-btn{background:#2a1745; color:#ffd166; border:2px solid #f0b73f; border-radius:999px;
     padding:9px 18px; font-size:13px; letter-spacing:.12em; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,.45)}
   .cf-nav-btn:hover{background:#3a2260}
-  .cf-nav-menu{position:absolute; left:0; top:calc(100% + 8px); min-width:250px; background:#241239;
+  .cf-nav-menu{position:absolute; left:0; top:calc(100% + 8px); z-index:210; min-width:250px; background:#241239;
     border:2px solid #f0b73f; border-radius:12px; padding:8px; box-shadow:0 18px 44px rgba(0,0,0,.55)}
   .cf-nav-menu[hidden]{display:none}
   .cf-nav-menu a{display:block; color:#f5ead2; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:14px}
   .cf-nav-menu a:hover{background:#3a2260; color:#ffd166}
-  .cfz-chip{position:fixed; left:50%; bottom:16px; transform:translateX(-50%); z-index:205; pointer-events:none;
+  .cf-top{display:flex; flex-direction:column; gap:10px; padding:14px 14px 6px}
+  .cf-top-row{display:flex; align-items:flex-start; gap:12px}
+  .cf-top-row2{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .cf-top .cf-nav-here{margin-left:auto; max-width:62vw}
+  .cfz-chip{position:static; display:block; width:max-content; max-width:92vw; margin:34px auto 24px; text-align:center; pointer-events:none;
     font-family:ui-monospace, Menlo, monospace; font-size:11px; letter-spacing:.18em; color:#ffd166;
     background:rgba(28,15,46,.82); border:1px solid rgba(240,183,63,.5); border-radius:999px; padding:8px 16px;
-    transition:opacity 1s ease; white-space:nowrap}
+    transition:opacity 1s ease; white-space:normal; line-height:1.7}
 </style>
-<div class="cf-nav">
-  <button type="button" class="cf-nav-btn" id="cfNavBtn" aria-haspopup="true" aria-expanded="false">MENUS &#9662;</button>
-  <div class="cf-nav-menu" id="cfNavMenu" hidden>
-    <a href="https://bwyoungbo.com/?room=home">Home — Broken World</a>
-    <a href="https://bwyoungbo.com/?room=login">Login</a>
-    <a href="https://bwyoungbo.com/?room=welcome">Welcome</a>
-    <a href="https://bwyoungbo.com/?room=sea">The Sea</a>
-    <a href="https://bwyoungbo.com/?room=hub">The Hub</a>
-    <a href="https://bwyoungbo.com/?room=join">Join</a>
-    <a href="https://bwyoungbo.com/?room=files">File Share</a>
-    <a href="https://bwyoungbo.com/?room=kintsugi">Kintsugi</a>
-    <a href="https://bwyoungbo.com/?room=buildlog">Build Log</a>
-    <a href="https://isaiahtobola.github.io/bw-ocean/">BW Ocean — the museum</a>
-  </div>
-</div>
-<div class="cf-nav cf-nav-r">
-  <button type="button" class="cf-nav-btn" id="cfNavBtnR" aria-haspopup="true" aria-expanded="false">PAGES &#9662;</button>
-  <span class="cf-nav-here"></span>
-  <div class="cf-nav-menu" id="cfNavMenuR" hidden>
-    <a href="index.html">Hub — all the parts</a>
-    <a href="the-completion-filter.html">Part 1 — The Completion Filter</a>
-    <a href="the-completion-filter-page-2.html">Part 2 — Reverse Lightning</a>
-    <a href="the-completion-filter-page-3.html">Part 3 — The Letting Go</a>
-    <a href="the-completion-filter-4.html">Part 4 — The Conductors</a>
-    <a href="completion-theory-demonstration.html">The Demonstration</a>
-  </div>
-</div>
-<div class="cfz-chip" id="cfzChip">DOUBLE-CLICK OR DOUBLE-TAP — CALL THE LIGHTNING</div>
+
 <script>
 (function(){
   "use strict";
@@ -173,7 +184,7 @@
   function cfBackground(e){
     var tg = e && e.target;
     if(!tg || tg === document.body || tg === document.documentElement) return true;
-    if(tg.closest && tg.closest('a, button, .cf-nav, input, textarea, select, [role="button"]')) return false;
+    if(tg.closest && tg.closest('a, button, .cf-nav, .cf-top, input, textarea, select, [role="button"]')) return false;
     return true;
   }
   document.addEventListener('dblclick', function(e){ if(cfBackground(e)) window.__cfZap(false); });
@@ -226,7 +237,7 @@
 <style>
   /* ================= CF HOLIDAY THEMES (Nov 9) ================= */
   /* ---- CF holiday themes (Nov 9): nav chrome takes the season ---- */
-  .cf-theme-btn{position:fixed; left:14px; top:62px; z-index:200; font-family:ui-monospace, Menlo, monospace}
+  .cf-theme-btn{font-family:ui-monospace, Menlo, monospace}
   .cf-theme-btn .h-stack{display:inline-grid; vertical-align:top}
   .cf-theme-btn .h-stack>*{grid-area:1/1}
   .cf-theme-btn .h-sizer{visibility:hidden}
@@ -264,7 +275,7 @@
   body[data-theme="xmas"] .credit{color:#7ba886}
 </style>
 
-<button type="button" class="cf-nav-btn cf-theme-btn" id="cfThemeBtn" title="Cycle the season: Normal \u2192 Halloween \u2192 Christmas \u2192 Normal"><span class="h-stack"><span class="h-sizer" aria-hidden="true">Happy Holidays</span><span class="h-label">Happy Holidays</span></span></button>
+
 
 <script>
 /* CF HOLIDAY THEMES (Nov 9) — the Completion Filter dresses for the
@@ -317,5 +328,6 @@
 })();
 </script>
 
+<div class="cfz-chip" id="cfzChip">DOUBLE-CLICK OR DOUBLE-TAP — CALL THE LIGHTNING</div>
 </body>
 </html>

@@ -537,6 +537,40 @@
     </style>
   </head>
   <body>
+<div class="cf-top">
+  <div class="cf-top-row">
+<div class="cf-nav">
+  <button type="button" class="cf-nav-btn" id="cfNavBtn" aria-haspopup="true" aria-expanded="false">MENUS &#9662;</button>
+  <div class="cf-nav-menu" id="cfNavMenu" hidden>
+    <a href="https://bwyoungbo.com/?room=home">Home — Broken World</a>
+    <a href="https://bwyoungbo.com/?room=login">Login</a>
+    <a href="https://bwyoungbo.com/?room=welcome">Welcome</a>
+    <a href="https://bwyoungbo.com/?room=sea">The Sea</a>
+    <a href="https://bwyoungbo.com/?room=hub">The Hub</a>
+    <a href="https://bwyoungbo.com/?room=join">Join</a>
+    <a href="https://bwyoungbo.com/?room=files">File Share</a>
+    <a href="https://bwyoungbo.com/?room=kintsugi">Kintsugi</a>
+    <a href="https://bwyoungbo.com/?room=buildlog">Build Log</a>
+    <a href="https://isaiahtobola.github.io/bw-ocean/">BW Ocean — the museum</a>
+  </div>
+</div>
+<div class="cf-nav cf-nav-r">
+  <button type="button" class="cf-nav-btn" id="cfNavBtnR" aria-haspopup="true" aria-expanded="false">PAGES &#9662;</button>
+  <div class="cf-nav-menu" id="cfNavMenuR" hidden>
+    <a href="index.html">Hub — all the parts</a>
+    <a href="the-completion-filter.html">Part 1 — The Completion Filter</a>
+    <a href="the-completion-filter-page-2.html">Part 2 — Reverse Lightning</a>
+    <a href="the-completion-filter-page-3.html">Part 3 — The Letting Go</a>
+    <a href="the-completion-filter-4.html">Part 4 — The Conductors</a>
+    <a href="completion-theory-demonstration.html">The Demonstration</a>
+  </div>
+</div>
+  </div>
+  <div class="cf-top-row2">
+<button type="button" class="cf-nav-btn cf-theme-btn" id="cfThemeBtn" title="Cycle the season: Normal \u2192 Halloween \u2192 Christmas \u2192 Normal"><span class="h-stack"><span class="h-sizer" aria-hidden="true">Happy Holidays</span><span class="h-label">Happy Holidays</span></span></button>
+<span class="cf-nav-here"></span>
+  </div>
+</div>
     <!-- ================= HERO ================= -->
     <header class="hero">
       <svg class="hero-img" viewBox="0 0 640 430" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Vector art: a golden lightning bolt erupting upward from dark ground into a violet storm cloud, thin feeder branches reaching up from the earth toward the bolt" xmlns="http://www.w3.org/2000/svg"><rect width="640" height="430" fill="#150d20"/><ellipse cx="320" cy="86" rx="255" ry="62" fill="#291b44"/><ellipse cx="205" cy="66" rx="150" ry="44" fill="#3a2560"/><ellipse cx="450" cy="70" rx="165" ry="48" fill="#291b44"/><path d="M0 430 L0 402 L120 392 L260 398 L410 388 L540 396 L640 390 L640 430 Z" fill="#0d0716"/><g stroke="#f0b73f" stroke-width="2" fill="none" opacity="0.55" stroke-linecap="round"><path d="M120 392 L132 356 L126 330"/><path d="M520 394 L510 360 L518 336"/><path d="M238 396 L244 372"/></g><path d="M326 388 L306 322 L330 316 L296 240 L322 232 L282 138 L308 146 L292 84 L316 148 L292 142 L330 234 L302 244 L340 318 L314 326 L344 390 Z" fill="#f0b73f"/><circle cx="297" cy="96" r="3.2" fill="#ffd166"/><circle cx="128" cy="352" r="2.4" fill="#ffd166"/><circle cx="516" cy="330" r="2.4" fill="#ffd166"/></svg>
@@ -1302,51 +1336,28 @@
   .cfz-bolt{fill:none; stroke:#ffeeb8; stroke-width:3; stroke-linejoin:round; opacity:1; transition:opacity .5s ease;
     filter:drop-shadow(0 0 6px #f0b73f) drop-shadow(0 0 18px rgba(240,183,63,.8))}
   .cfz-fx.out .cfz-bolt{opacity:0}
-  .cf-nav{position:fixed; top:14px; left:14px; z-index:210; max-width:46vw; font-family:ui-monospace, Menlo, monospace}
-  .cf-nav-r{left:auto; right:14px; text-align:right}
+  .cf-nav{position:relative; font-family:ui-monospace, Menlo, monospace}
+  .cf-nav-r{margin-left:auto; text-align:right}
   .cf-nav-r .cf-nav-menu{left:auto; right:0}
-  .cf-nav-here{display:block; color:#ffd166; font-size:11px; letter-spacing:.14em; text-align:center; margin-top:6px; line-height:1.6; text-shadow:0 2px 8px rgba(0,0,0,.8)}
+  .cf-nav-here{display:block; color:#ffd166; font-size:11px; letter-spacing:.14em; text-align:right; line-height:1.6}
   .cf-nav-btn{background:#2a1745; color:#ffd166; border:2px solid #f0b73f; border-radius:999px;
     padding:9px 18px; font-size:13px; letter-spacing:.12em; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,.45)}
   .cf-nav-btn:hover{background:#3a2260}
-  .cf-nav-menu{position:absolute; left:0; top:calc(100% + 8px); min-width:250px; background:#241239;
+  .cf-nav-menu{position:absolute; left:0; top:calc(100% + 8px); z-index:210; min-width:250px; background:#241239;
     border:2px solid #f0b73f; border-radius:12px; padding:8px; box-shadow:0 18px 44px rgba(0,0,0,.55)}
   .cf-nav-menu[hidden]{display:none}
   .cf-nav-menu a{display:block; color:#f5ead2; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:14px}
   .cf-nav-menu a:hover{background:#3a2260; color:#ffd166}
-  .cfz-chip{position:fixed; left:50%; bottom:16px; transform:translateX(-50%); z-index:205; pointer-events:none;
+  .cf-top{display:flex; flex-direction:column; gap:10px; padding:14px 14px 6px}
+  .cf-top-row{display:flex; align-items:flex-start; gap:12px}
+  .cf-top-row2{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .cf-top .cf-nav-here{margin-left:auto; max-width:62vw}
+  .cfz-chip{position:static; display:block; width:max-content; max-width:92vw; margin:34px auto 24px; text-align:center; pointer-events:none;
     font-family:ui-monospace, Menlo, monospace; font-size:11px; letter-spacing:.18em; color:#ffd166;
     background:rgba(28,15,46,.82); border:1px solid rgba(240,183,63,.5); border-radius:999px; padding:8px 16px;
-    transition:opacity 1s ease; white-space:nowrap}
+    transition:opacity 1s ease; white-space:normal; line-height:1.7}
 </style>
-<div class="cf-nav">
-  <button type="button" class="cf-nav-btn" id="cfNavBtn" aria-haspopup="true" aria-expanded="false">MENUS &#9662;</button>
-  <div class="cf-nav-menu" id="cfNavMenu" hidden>
-    <a href="https://bwyoungbo.com/?room=home">Home — Broken World</a>
-    <a href="https://bwyoungbo.com/?room=login">Login</a>
-    <a href="https://bwyoungbo.com/?room=welcome">Welcome</a>
-    <a href="https://bwyoungbo.com/?room=sea">The Sea</a>
-    <a href="https://bwyoungbo.com/?room=hub">The Hub</a>
-    <a href="https://bwyoungbo.com/?room=join">Join</a>
-    <a href="https://bwyoungbo.com/?room=files">File Share</a>
-    <a href="https://bwyoungbo.com/?room=kintsugi">Kintsugi</a>
-    <a href="https://bwyoungbo.com/?room=buildlog">Build Log</a>
-    <a href="https://isaiahtobola.github.io/bw-ocean/">BW Ocean — the museum</a>
-  </div>
-</div>
-<div class="cf-nav cf-nav-r">
-  <button type="button" class="cf-nav-btn" id="cfNavBtnR" aria-haspopup="true" aria-expanded="false">PAGES &#9662;</button>
-  <span class="cf-nav-here"></span>
-  <div class="cf-nav-menu" id="cfNavMenuR" hidden>
-    <a href="index.html">Hub — all the parts</a>
-    <a href="the-completion-filter.html">Part 1 — The Completion Filter</a>
-    <a href="the-completion-filter-page-2.html">Part 2 — Reverse Lightning</a>
-    <a href="the-completion-filter-page-3.html">Part 3 — The Letting Go</a>
-    <a href="the-completion-filter-4.html">Part 4 — The Conductors</a>
-    <a href="completion-theory-demonstration.html">The Demonstration</a>
-  </div>
-</div>
-<div class="cfz-chip" id="cfzChip">DOUBLE-CLICK OR DOUBLE-TAP — CALL THE LIGHTNING</div>
+
 <script>
 (function(){
   "use strict";
@@ -1442,7 +1453,7 @@
   function cfBackground(e){
     var tg = e && e.target;
     if(!tg || tg === document.body || tg === document.documentElement) return true;
-    if(tg.closest && tg.closest('a, button, .cf-nav, input, textarea, select, [role="button"]')) return false;
+    if(tg.closest && tg.closest('a, button, .cf-nav, .cf-top, input, textarea, select, [role="button"]')) return false;
     return true;
   }
   document.addEventListener('dblclick', function(e){ if(cfBackground(e)) window.__cfZap(false); });
@@ -1484,7 +1495,7 @@
 <style>
   /* ================= CF HOLIDAY THEMES (Nov 9) ================= */
   /* ---- CF holiday themes (Nov 9): nav chrome takes the season ---- */
-  .cf-theme-btn{position:fixed; left:14px; top:62px; z-index:200; font-family:ui-monospace, Menlo, monospace}
+  .cf-theme-btn{font-family:ui-monospace, Menlo, monospace}
   .cf-theme-btn .h-stack{display:inline-grid; vertical-align:top}
   .cf-theme-btn .h-stack>*{grid-area:1/1}
   .cf-theme-btn .h-sizer{visibility:hidden}
@@ -1551,7 +1562,7 @@
   body[data-theme="xmas"] .lab .care-row input[type="range"]{accent-color:#d93636}
 </style>
 
-<button type="button" class="cf-nav-btn cf-theme-btn" id="cfThemeBtn" title="Cycle the season: Normal \u2192 Halloween \u2192 Christmas \u2192 Normal"><span class="h-stack"><span class="h-sizer" aria-hidden="true">Happy Holidays</span><span class="h-label">Happy Holidays</span></span></button>
+
 
 <script>
 /* CF HOLIDAY THEMES (Nov 9) — the Completion Filter dresses for the
@@ -1604,5 +1615,6 @@
 })();
 </script>
 
+<div class="cfz-chip" id="cfzChip">DOUBLE-CLICK OR DOUBLE-TAP — CALL THE LIGHTNING</div>
 </body>
 </html>
