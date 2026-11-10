@@ -67,7 +67,7 @@
   canvas#ropes.grabbing{cursor:grabbing}
   .grid{
     position:relative; z-index:2; pointer-events:none; flex:1;
-    display:grid; grid-template-columns:1fr 1fr 1fr; grid-template-rows:1fr 1fr 1fr; gap:88px 46px;
+    display:grid; grid-template-columns:1fr 1fr 1fr; grid-template-rows:auto auto auto; align-items:start; gap:104px 56px;
     grid-template-areas:"tyson tesla facts" "save amy kid" "lazar scientists sleep";
   }
   .grid .card{pointer-events:auto}
@@ -95,15 +95,15 @@
       linear-gradient(170deg, var(--panel2), var(--panel));
     border:1.5px solid var(--gold); border-radius:4px;
     outline:1px solid rgba(240,183,63,.28); outline-offset:3px;
-    padding:22px 16px 14px;
+    padding:17px 13px 11px;
     box-shadow:0 14px 30px rgba(0,0,0,.5);
-    font-size:14.5px; line-height:1.5; cursor:pointer;
+    font-size:13.5px; line-height:1.5; cursor:pointer;
     transform:rotate(var(--tilt, 0deg)) translateY(var(--shift, 0px));
     transition:transform .18s, border-color .18s, box-shadow .18s;
   }
-  #card-tyson{--tilt:-1.1deg} #card-tesla{--tilt:.8deg} #card-facts{--tilt:-.6deg}
-  #card-amy{--tilt:.9deg} #card-kid{--tilt:-1.3deg} #card-save{--tilt:.75deg} #card-scientists{--tilt:-.7deg}
-  #card-lazar{--tilt:.7deg} #card-sleep{--tilt:-.85deg}
+  #card-tyson{--tilt:-2.4deg} #card-tesla{--tilt:1.9deg} #card-facts{--tilt:-1.7deg}
+  #card-amy{--tilt:2.3deg} #card-kid{--tilt:-2.6deg} #card-save{--tilt:2deg} #card-scientists{--tilt:-2.2deg}
+  #card-lazar{--tilt:1.8deg} #card-sleep{--tilt:-2.5deg}
   #card-tyson::before{transform:translateX(-50%) rotate(-4deg)}
   #card-tesla::before{transform:translateX(-50%) rotate(2.5deg)}
   #card-facts::before{transform:translateX(-50%) rotate(-1deg)}
@@ -130,17 +130,17 @@
     box-shadow:0 3px 6px rgba(0,0,0,.6); border:1px solid rgba(0,0,0,.35); z-index:3;
   }
   .card h2{
-    font-family:"IBM Plex Mono", monospace; font-weight:600; font-size:12.5px;
+    font-family:"IBM Plex Mono", monospace; font-weight:600; font-size:11.5px;
     letter-spacing:.11em; color:var(--yellow);
     border-bottom:1px solid rgba(240,183,63,.35); padding-bottom:7px; margin-bottom:9px;
   }
-  .card h2 small{display:block; color:var(--dim); letter-spacing:.03em; font-size:11px; margin-top:3px; font-weight:400}
+  .card h2 small{display:block; color:var(--dim); letter-spacing:.03em; font-size:10.5px; margin-top:3px; font-weight:400}
   .pillar{
     font-family:"IBM Plex Mono", monospace; font-size:10px; letter-spacing:.16em;
     color:var(--gold); margin-bottom:8px;
   }
   .card q{font-style:italic}
-  .card .note{color:var(--dim); font-size:13.5px; margin-top:7px}
+  .card .note{color:var(--dim); font-size:12.5px; margin-top:7px}
   .chips{display:flex; flex-wrap:wrap; gap:4px; margin-top:9px}
   .chip{
     font-family:"IBM Plex Mono", monospace; font-size:10.5px;
@@ -191,7 +191,7 @@
   .slabel.link:hover{border-color:var(--yellow); color:#fff}
   .v-fact{color:var(--gold)} .v-killed{color:#eda198} .v-spec{color:var(--dim)} .v-mixed{color:var(--lav)} .v-claim{color:var(--cream)}
 
-  .watch{margin:16px 0 6px}
+  .watch{margin:12px 0 4px}
   .watch .frame{
     position:relative; padding-top:56.25%; background:#000;
     border:1.5px solid rgba(240,183,63,.55); border-radius:6px; overflow:hidden;
@@ -210,7 +210,7 @@
     font-family:"IBM Plex Mono", monospace; font-size:12.5px; letter-spacing:.05em; line-height:1.7;
   }
   .watchlink:hover{background:rgba(240,183,63,.15); color:#fff}
-  .watch.tall{max-width:320px; margin-left:auto; margin-right:auto}
+  .watch.tall{max-width:230px; margin-left:auto; margin-right:auto}
   .watch.tall .frame{padding-top:177.78%}
   .watchlink b{color:var(--yellow)}
   .qnote{
@@ -299,14 +299,33 @@
   .conn button:hover b{color:#241203}
   .src{font-family:"IBM Plex Mono", monospace; font-size:11px; color:var(--faint); line-height:1.8}
 
+
+  /* ---------- pictures (preview-frame grammar, like .watch) ---------- */
+  .pic{margin:14px 0 6px}
+  .pic .frame{position:relative; background:#000; border:1.5px solid rgba(240,183,63,.55); border-radius:6px; overflow:hidden}
+  .pic img{display:block; width:100%; height:auto}
+  .pic .cap{margin-top:8px; font-family:"IBM Plex Mono", monospace; font-size:10.5px; letter-spacing:.06em; color:var(--muted); line-height:1.6}
+  .pic .cap b{color:var(--gold)}
+  .picpair{display:flex; gap:14px; margin:14px 0 6px}
+  .picpair .pic{flex:1 1 0; margin:0}
+  .picpair .frame{aspect-ratio:1/1}
+  .picpair .pic img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+  .plaque{padding:20px 14px 16px; text-align:center; background:radial-gradient(420px 200px at 50% 40%, rgba(240,183,63,.12), transparent 70%), #0d0716}
+  .plaque .pl-t{display:block; font-family:"IBM Plex Mono", monospace; font-size:12px; letter-spacing:.08em; color:var(--cream); line-height:1.7}
+  .plaque .pl-s{display:block; font-family:"IBM Plex Mono", monospace; font-size:10.5px; letter-spacing:.05em; color:var(--dim); margin-top:5px; line-height:1.6}
+  /* ---------- pinned polaroids on card faces (fixed box = no layout shift) ---------- */
+  .polaroid{float:right; width:86px; margin:1px 0 8px 10px; background:var(--cream); padding:5px 5px 4px; transform:rotate(2.5deg); box-shadow:0 6px 14px rgba(0,0,0,.45)}
+  .polaroid .ph{height:70px; overflow:hidden; background:#0d0716}
+  .polaroid img{width:100%; height:100%; object-fit:cover; display:block}
+  .polaroid span{display:block; font-family:"IBM Plex Mono", monospace; font-size:8.5px; color:#241203; text-align:center; margin-top:3px; letter-spacing:.04em; line-height:1.3}
   @media (max-width:820px){
     .grid{grid-template-columns:1fr; grid-template-rows:none; gap:46px; grid-template-areas:"tyson" "save" "tesla" "facts" "amy" "kid" "lazar" "sleep" "scientists"}
     .board{padding:28px 16px 20px; min-height:0}
     .modal{padding:24px 19px 20px}
     .slabel{font-size:9.5px; white-space:nowrap; max-width:none; padding:3px 7px}
-    #card-tyson{--tilt:-.5deg} #card-tesla{--tilt:.4deg} #card-facts{--tilt:-.3deg}
-    #card-amy{--tilt:.45deg} #card-kid{--tilt:-.6deg} #card-save{--tilt:.5deg} #card-scientists{--tilt:-.45deg}
-    #card-lazar{--tilt:.4deg} #card-sleep{--tilt:-.5deg}
+    #card-tyson{--tilt:-1.2deg} #card-tesla{--tilt:1deg} #card-facts{--tilt:-.9deg}
+    #card-amy{--tilt:1.1deg} #card-kid{--tilt:-1.3deg} #card-save{--tilt:1.2deg} #card-scientists{--tilt:-1deg}
+    #card-lazar{--tilt:.9deg} #card-sleep{--tilt:-1.15deg}
     .card .pin{left:50% !important}
   }
 </style>
@@ -353,6 +372,7 @@
       <span class="pin"></span>
       <div class="pillar">ISAIAH'S HYPOTHESIS · THE SHAPE OF TIME</div>
       <h2>COULD THERE BE SAVE FILES, IS TIME EVEN LINEAR??<small>Isaiah's question · eternalism · time capsules · the block universe</small></h2>
+      <div class="polaroid"><div class="ph"><img data-shards="media/pair-neuronweb-00.b64.txt" data-mime="image/jpeg" alt="A star of neurons"></div><span>THE NEURON WEB</span></div>
       <q>Time is not linear… if life has save files, like a video game, then yes — future humans can send us, or themselves, back here.</q>
       <p class="note">Isaiah's newest door, pinned Nov 10: the one-way rule may only be a rule about the line. Inside the file: the scholars who killed the universal "now," the physicist who calls his frozen Nows <b>time capsules</b> — and the counterweight, pinned at full strength.</p>
       <span class="tag mixed">SPECULATION ON SCHOLARLY FACTS</span>
@@ -433,6 +453,7 @@
       <span class="pin"></span>
       <div class="pillar">ISAIAH'S FILE · THE NIGHT SHIFT</div>
       <h2>THE BATTERY QUESTION — ISAIAH'S SLEEP FILE<small>containers · REM · why we wake up tired</small></h2>
+      <div class="polaroid"><div class="ph"><img data-shards="media/sleep-eeg-00.b64.txt" data-mime="image/jpeg" alt="A human sleep EEG trace"></div><span>SLEEP, ON PAPER</span></div>
       <p>Isaiah's riff: if they see us as <b>containers</b>, look at the container's schedule — built to go dark for hours every night, dreaming, and so often waking up <b>tired</b>, like something was drawn out of it.</p>
       <p class="note">The speculation is his. The sleep facts inside the file are measured — and the deepest one is that science still cannot say why sleep exists at all.</p>
       <div class="chips">
@@ -449,6 +470,7 @@
       <span class="pin"></span>
       <div class="pillar">THE PEOPLE · NAMES ON THE MATH</div>
       <h2>THE SCIENTISTS — THE ONES WHO CRACKED TIME OPEN<small>Gödel · Wheeler · Barbour · Rovelli · Everett · Thorne · Mallett · Aharonov · Deutsch · Hawking</small></h2>
+      <div class="polaroid"><div class="ph"><img data-shards="media/sci-einstein-00.b64.txt" data-mime="image/jpeg" alt="Albert Einstein, 1921"></div><span>EINSTEIN, 1921</span></div>
       <p>Every door on this board has a name and a year on it. These are the researchers who did the cracking — the loop in the equations, the choice that seems to reach back, the universe with no time in it at all — and the one great opponent whose conjecture guards the wall.</p>
       <span class="tag fact">DOCUMENTED LIVES · DOCUMENTED WORK</span>
       <span class="openfile">OPEN THE FILE →</span>
@@ -464,6 +486,31 @@
       <div><b>FROM THE FUTURE</b>Nothing received. Ever. So far.</div>
     </div>
     <span class="openfile">OPEN THE FULL THEORY →</span>
+  </section>
+
+  <section class="case" data-open="morning" tabindex="0">
+    <h2>THE MORNING IT ALL CONNECTED — NOVEMBER 10, 2026</h2>
+    <p class="q">One morning, one question — "TIME IS NOT LINEAR" — and by 11 AM it had grown a tree, a cast of scientists, two pictures, and a universe shaped like a brain.</p>
+    <div class="ans">
+      <div><b>SAVE FILES</b>If time isn't a line, life may keep saves — and the pieces might already be findable.</div>
+      <div><b>SAVE NODES</b>Time moves like a tree. The forks are where the saves would sit.</div>
+      <div><b>THE CAPSTONE</b>SPACE ITSELF IS TIME TRAVEL — distance is a difference in time.</div>
+    </div>
+    <span class="openfile">READ THE FULL PLOT →</span>
+  </section>
+
+  <section class="case" data-open="locker" tabindex="0">
+    <h2>THE EVIDENCE LOCKER — PICTURES &amp; FILM</h2>
+    <p class="q">Every picture and every film on this board, in one locker — the webs, the neuron, the faces, the footage. Nothing on the board asks to be believed without being seen.</p>
+    <span class="openfile">OPEN THE LOCKER →</span>
+  </section>
+
+  <section class="case" data-open="minecraft" tabindex="0">
+    <h2>THE OPERATION TABLE — A STATEMENT · ISAIAH · SPECULATION</h2>
+    <p class="q">"If Earth is anything like Minecraft, then the aliens or future humans could have found a way to operate the save file function with technology similar to Godly ability."</p>
+    <p class="note" style="color:var(--dim); font-size:13.5px; margin-top:7px">His sentence, pinned as the headline of its own file: the analogy mapped piece by piece, the weird recent AI evidence, the simulation argument — and the one distinction the whole theory turns on: reading a save is not loading one.</p>
+    <span class="tag mixed">SPECULATION · IN GAME GRAMMAR</span>
+    <span class="openfile">OPEN THE FILE →</span>
   </section>
 
   <span class="slabel" data-rope="underground">UNDERGROUND — <span class="v v-fact">said in both ✓</span></span>
@@ -531,9 +578,30 @@
 <template id="d-save">
   <h3>ISAIAH'S HYPOTHESIS — IN HIS WORDS</h3>
   <div class="vrow"><span class="vtag open">SPECULATION</span><span><b>Isaiah, November 10, 2026:</b> <i>"Time is not linear. If scientists ever agree or find evidence that time is not linear and life has save files — like a video game — then yes: future humans can send us, or themselves, back here. Like how story games have save files, Earth might too — and we could find little pieces of evidence for this as well."</i> Note the shape of it: the condition comes first — <i>if</i> the evidence lands. This file is the search he asked for: the scholarly record on whether time is a line at all.</span></div>
+  <h3>THE TWO WEBS — SIDE BY SIDE</h3>
+  <div class="picpair">
+    <div class="pic">
+      <div class="frame"><img data-shards="media/pair-neuronweb-00.b64.txt" data-mime="image/jpeg" alt="A star of neurons under fluorescence microscopy"></div>
+      <p class="cap"><b>◈ LEFT — THE NEURON WEB.</b> A single neuron and its web of processes, fluorescent microscopy. <b>Credit:</b> Madalena Simões-Abade · CC BY-SA 4.0 · via Wikimedia Commons.</p>
+    </div>
+    <div class="pic">
+      <div class="frame"><img data-shards="media/pair-cosmicweb-00.b64.txt" data-mime="image/jpeg" alt="Three-dimensional map of dark matter in the universe"></div>
+      <p class="cap"><b>◈ RIGHT — THE OUTER WEB.</b> "Three-Dimensional Distribution of Dark Matter in the Universe (with 3 slices of time)" (2007) — a <b>map</b> built from COSMOS gravitational-lensing measurements, not a simulation still. <b>Credit:</b> NASA, ESA, and R. Massey (California Institute of Technology) · Public domain · via Wikimedia Commons.</p>
+    </div>
+  </div>
+  <div class="vrow"><span class="vtag legend">INTERPRETATION</span><span><b>Same shape, ~10²⁷ apart.</b> Isaiah's pin: the web inside the skull and the web bigger than galaxies wear one shape, across more than 27 orders of magnitude — Vazza &amp; Feletti's measured comparison (Scholarly's SHAPE EVIDENCE; the Neuron Universe block in the theory file). The shape is FACT. What the shape <i>means</i> is his proposed theory, tagged as his, with the authors' own caution kept beside it.</span></div>
+  <div class="conn">
+    <button data-open-link="morning"><b>THE NEURON UNIVERSE</b> → the Morning file: beat 6, the paper, the caution</button>
+    <button data-open-link="facts"><b>SHAPE EVIDENCE</b> → Scholarly: the comparison, weighed</button>
+  </div>
   <h3>THE SCHOLARLY PIECES</h3>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>The "now" is not universal.</b> Special relativity (Einstein, 1905) makes simultaneity observer-dependent: events simultaneous for one observer are not for another moving relative to them — there is no single cosmic present. Minkowski (1908) folded space and time into one four-dimensional spacetime, and the reading that followed — the <b>block universe</b>, or eternalism, argued formally by Rietdijk (1966) and Putnam (1967) — holds that past, present and future all exist, laid out in the block. On that reading, time was never a line being drawn. It is a territory, already whole.</span></div>
-  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Einstein, in his own hand.</b> In March 1955, weeks before his own death, Einstein wrote to the family of his lifelong friend Michele Besso: <i>"the distinction between past, present and future is only a stubbornly persistent illusion."</i> Documented, in his correspondence — the man who killed the universal now, comforting a grieving family with the block.</span></div>
+  <div class="pic">
+    <div class="frame"><img data-shards="media/save-spacetime-00.b64.txt" data-mime="image/png" alt="A Minkowski spacetime diagram"></div>
+    <p class="cap"><b>◈ PICTURE — SPACETIME, DRAWN.</b> A Minkowski diagram: past below, future above, the block on paper — the shape the save-file hypothesis is drawn in. <b>Credit:</b> Simon Tyran, Vienna (Yukterez) · CC BY 4.0 · via Wikimedia Commons.</p>
+  </div>
+
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Einstein, in his own hand.</b> On <b>21 March 1955</b> — days after Besso's death, and weeks before his own — Einstein wrote to the family of his lifelong friend Michele Besso: <i>"People like us, who believe in physics, know that the distinction between past, present and future is only a stubbornly persistent illusion."</i> Documented, in his correspondence — the man who killed the universal now, comforting a grieving family with the block.</span></div>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>Barbour's time capsules.</b> Julian Barbour, <i>The End of Time</i> (1999): physics can be written with no time variable at all — the universe as a heap of frozen configurations he calls <b>Nows</b>, some of which contain records, fossils and memories of other Nows inside them. Barbour's own name for such a Now: a <b>time capsule</b>.</span></div>
   <div class="vrow"><span class="vtag legend">INTERPRETATION</span><span><b>The rhyme with the save file.</b> A time capsule is a frozen world-state that carries the records of other states within it — structurally, exactly what a story game's save file is: a whole world, held still, with its history inside it. Isaiah's metaphor has a scholarly twin, published twenty-seven years before he said it. The board's discipline applies: a rhyme is not a receipt. Barbour's Nows are not stored anywhere, and nothing in his physics lets anyone load one.</span></div>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>Order itself can be undefined.</b> Quantum mechanics permits processes with no definite before/after: the process-matrix framework (Oreshkov, Costa &amp; Brukner, 2012) describes correlations no fixed causal order can produce, and experiments (Rubino et al., 2017) have run operations in an indefinite order in the lab. At the quantum scale, "which came first" can have no answer — sequence is not a law of the small world.</span></div>
@@ -559,9 +627,17 @@
 <template id="d-scientists">
   <h3>WHAT THIS FILE IS</h3>
   <p>Theory floats; people publish. Every idea on this board traces back to a named researcher, a dated paper, and a receipt anyone can check. These are the ones whose work cracked time open — what each of them actually claimed or built, the receipt, and the one line that ties them to this board. None of them claimed what the claims on this board claim. Their work is pinned at its weight — no higher, and no lower.</p>
+  <div class="pic">
+    <div class="frame"><img data-shards="media/sci-einstein-00.b64.txt" data-mime="image/jpeg" alt="Albert Einstein, photographed in 1921"></div>
+    <p class="cap"><b>◈ PICTURE — ALBERT EINSTEIN, 1921.</b> Photographed by Ferdinand Schmutzer (1870–1928), the year of his Nobel Prize. Gödel was his daily walking partner at Princeton — the loop below was found inside this man's equations. <b>Credit:</b> Ferdinand Schmutzer · Public domain · via Wikimedia Commons.</p>
+  </div>
   <h3>KURT GÖDEL — THE LOOP IN THE EQUATIONS</h3>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>Mathematician and logician, Princeton.</b> Already immortal for the incompleteness theorems (1931), Gödel turned to Einstein's equations and in <b>1949</b> published a rotating-universe solution — a cosmos whose rotation drags spacetime into <b>closed timelike curves</b>: paths that loop back into their own past. It appeared in the volume honoring Einstein's seventieth birthday. Einstein — Gödel's daily walking partner at Princeton — wrote in reply that the result had disturbed him: if such solutions are physically possible, the flow of time is in trouble inside his own theory.</span></div>
   <div class="vrow"><span class="vtag legend">CONNECTION</span><span>The first hard-math door to loops. Before Gödel, "backward in time" was fiction. After him, it was a published solution of the field equations — the hallway every later door on this board stands in.</span></div>
+  <div class="watch">
+    <div class="frame"><iframe src="https://www.youtube.com/embed/dZaqLgezRNE" title="Something Disturbing Happens When You Solve Einstein's Equations This Way — PBS Space Time" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    <p class="cap"><b>▶ WATCH — THE DISTURBING SOLUTION</b> — "Something Disturbing Happens When You Solve Einstein's Equations This Way" · <b>PBS Space Time</b> — Gödel's rotating universe and its loops, walked through · <a href="https://www.youtube.com/watch?v=dZaqLgezRNE" target="_blank" rel="noopener">open on YouTube</a></p>
+  </div>
   <h3>JOHN ARCHIBALD WHEELER — THE CHOICE THAT REACHES BACK</h3>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>Physicist, Princeton; mentor to Feynman, Everett and Thorne.</b> He gave physics the term <b>"black hole"</b> (1967) and, in <b>1978</b>, proposed the <b>delayed-choice experiment</b>: decide how to measure a photon <i>after</i> it has passed the apparatus, and the result seems to settle what the photon did before the choice was made. Later he went further — <b>"it from bit"</b> (1989): every physical thing arises from information, answers to yes-or-no questions. His name for the whole picture: the <b>participatory universe</b>.</span></div>
   <div class="vrow"><span class="vtag legend">CONNECTION</span><span>Observation reaching back is his thought experiment — made lab-real a generation later in the quantum-eraser work pinned on the Save File card. And "it from bit" is this theory's second pillar in three words: information is the fundamental cargo.</span></div>
@@ -590,7 +666,7 @@
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>Physicist, Oxford; a founder of quantum computation.</b> In <b>1991</b> he published the first consistent quantum model of closed timelike curves: a traveler who loops back does not rewrite their own past — they arrive in a <b>branch</b>. Run Gödel's loops through Everett's branches, Deutsch showed, and every paradox dissolves: consistency is kept, and nobody's grandfather is harmed.</span></div>
   <div class="vrow"><span class="vtag legend">CONNECTION</span><span>He welded this board's two biggest doors into one. And notice the rhyme with Tyson, of all people: not into your own future — and, in Deutsch's model, not into your own past either. The past a traveler reaches is real, but it is a branch — which is either the theory's escape hatch or its epitaph, and the file leaves that exactly as open as Deutsch did.</span></div>
   <h3>STEPHEN HAWKING — THE HONORED OPPONENT</h3>
-  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Astrophysicist, Cambridge.</b> In <b>1992</b> he proposed the <b>chronology protection conjecture</b>: the laws of physics themselves prevent time travel on any macroscopic scale — as a time machine nears switching on, vacuum fluctuations should destroy it. He joked about a Chronology Protection Agency keeping the universe safe for historians, and pointed at his favorite evidence: the total absence of tourists from the future. In <b>2009</b> he threw a party for time travelers at Cambridge — champagne, banners, a hall — and sent the invitations <i>after</i> it happened. Nobody came. He called it his experimental evidence.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Astrophysicist, Cambridge.</b> In <b>1992</b> he proposed the <b>chronology protection conjecture</b>: the laws of physics themselves prevent time travel on any macroscopic scale — as a time machine nears switching on, vacuum fluctuations should destroy it. He joked about a Chronology Protection Agency keeping the universe safe for historians, and pointed at his favorite evidence: the total absence of tourists from the future. On <b>June 28, 2009</b>, he threw a party for time travelers at <b>Gonville and Caius College, Cambridge</b> — champagne, banners, a hall — and sent the invitations <i>after</i> it happened. Nobody came. His verdict, kept in his own framing — a joke with a point: <i>"I have experimental evidence that time travel is not possible. I sat there a long time, but no one came."</i></span></div>
   <div class="vrow"><span class="vtag legend">CONNECTION</span><span>He is the wall — and this board honors him as one. The One-Way Signal's bet is his conjecture in work clothes, and the Far Shore hypothesis is, stated precisely, the claim that his conjecture might be wrong. He chose the word <i>conjecture</i> himself: not a proof, a challenge. The theory accepts it as one.</span></div>
   <h3>WHY THEY'RE PINNED</h3>
   <p>Because the pattern of this whole case is that the wildest claims arrive without names, dates, or papers — and the real cracks in time arrive with all three. Gödel, Wheeler, Barbour, Rovelli, Everett, Thorne, Mallett, Aharonov, Deutsch, Hawking: every one checkable, every one at their documented weight. If the far shore is ever reached, it will be reached down a road one of these people surveyed. And if it never is, Hawking's empty party stays the funniest, saddest data point in physics.</p>
@@ -688,6 +764,11 @@
   <div class="vrow"><span class="vtag claim">CLAIM</span><span><b>A professor's argument (2019).</b> Michael P. Masters, a biological anthropologist at Montana Tech, published <i>Identified Flying Objects</i>, arguing from human evolution that the reported beings look like OUR descendants — larger braincases, smaller jaws, faces drifting the exact direction human skulls have drifted for two million years — and that the simplest explanation is that they are us, from ahead. His credentials are real; the book is his argument, published openly — not settled science.</span></div>
   <h3>WHAT THE LAB SAYS — MODERN SCIENCE &amp; QUANTUM PHYSICS</h3>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>Entanglement can't phone home.</b> Quantum entanglement links two particles instantly, across any distance — and the no-communication theorem (Eberhard, 1978) proves it can never carry a message. The universe allows the connection and forbids the call.</span></div>
+  <div class="watch">
+    <div class="frame"><iframe src="https://www.youtube.com/embed/0xI2oNEc1Sw" title="Why Can't You Use Quantum Mechanics To Communicate Faster Than Light? — Looking Glass Universe" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    <p class="cap"><b>▶ WATCH — WHY THE CALL IS FORBIDDEN</b> — "Why Can't You Use Quantum Mechanics To Communicate Faster Than Light?" · <b>Looking Glass Universe</b> — the no-communication rule, shown not just stated · <a href="https://www.youtube.com/watch?v=0xI2oNEc1Sw" target="_blank" rel="noopener">open on YouTube</a></p>
+  </div>
+
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>The quantum time flip (Vienna, 2024).</b> Physicists ran a single photon's evolution in a superposition of forward AND backward time at once — and certified the photon genuinely had no definite time direction (Strömberg et al., <i>Physical Review Research</i>). One photon; state engineering, not a trip. But at the quantum scale, the direction of time turned out to be negotiable.</span></div>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>Rewinding a state (2019).</b> A quantum computer's state was evolved backward with ~85% success (Lesovik et al.). Rewinding a recording, not visiting the past — total entropy still rose. The past can be re-simulated; it cannot be re-entered.</span></div>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>The math allows what the world hasn't shown.</b> Einstein's equations contain closed timelike curves (Gödel, 1949) — paths that loop into their own past. Hawking's chronology protection, the idea that nature forbids them, is still an unproven conjecture. The door is not locked by any proof. It is locked by the complete absence of one verified case.</span></div>
@@ -798,6 +879,11 @@ The future humans view us as containers — and we are. We sleep. We dream. We h
   <h3>THE CORRECTION, GENTLY — IT'S A THIRD, AND THAT'S STILL ENORMOUS</h3>
   <p>Not half — about <b>a third</b> of a human life is spent asleep: roughly <b>26 years</b> inside a 79-year life, some 230,000 hours. The correction makes the number smaller and the fact stranger: the single largest block of a human life is spent unconscious, on purpose, by design of the body itself. Whatever sleep is for, evolution pays a third of every life for it.</p>
   <h3>THE MEASURED FACTS — WHAT SCIENCE ACTUALLY KNOWS ABOUT THE NIGHT SHIFT</h3>
+  <div class="pic">
+    <div class="frame"><img data-shards="media/sleep-eeg-00.b64.txt" data-mime="image/jpeg" alt="A human sleep EEG trace, stage 1"></div>
+    <p class="cap"><b>◈ PICTURE — STAGE 1 SLEEP, ON PAPER.</b> A human sleep EEG trace: the night shift, recorded — the instrument view of the territory this file walks. <b>Credit:</b> Public domain · via Wikimedia Commons.</p>
+  </div>
+
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>REM was found in 1953.</b> Eugene Aserinsky and Nathaniel Kleitman at the University of Chicago discovered rapid eye movement sleep (<i>Science</i>, 1953): a stage where the eyes dart, dreams run vivid — and the sleeper is nearly impossible to wake by anything but a significant stimulus. Nobody knew the stage existed before then. The dreams were always there; the instruments weren't.</span></div>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>The brain does not switch off.</b> The brain burns about <b>20% of the body's resting energy</b>, and in REM its activity and blood flow rise back to near waking levels (Braun et al., <i>Science</i>, 1997). Sleep is not the machine powering down. Parts of the night, the machine runs at full throttle — pointed inward. Whatever the night shift is doing, it is not rest in the simple sense.</span></div>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>The container locks itself.</b> During REM, the brainstem actively paralyzes the body's voluntary muscles — REM atonia, mapped by Michel Jouvet in the 1960s. You cannot move, cannot act out the dream, cannot leave. The vessel is sealed while the dream runs. (When the lock fails, people physically act out their dreams — REM sleep behavior disorder. When it lingers into waking, it's sleep paralysis.)</span></div>
@@ -806,6 +892,10 @@ The future humans view us as containers — and we are. We sleep. We dream. We h
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>Waking up tired has a real name too: sleep inertia.</b> Wake from deep slow-wave sleep and the brain needs 15–60 minutes to come fully online — groggy, heavy, half-drained even after a full night (Tassi &amp; Muzet, <i>Sleep Medicine Reviews</i>, 2000). Add sleep debt — nights shorter than the body ordered — and a person can sleep eight hours and surface feeling harvested. The feeling is real. Its causes, so far, are measurable ones.</span></div>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>Everything sleeps.</b> Every animal ever studied has sleep or a sleep-like state. Dolphins sleep one brain hemisphere at a time, swimming (Mukhametov, 1970s). Even jellyfish — no brain at all — enter a sleep-like state (Nath et al., <i>Current Biology</i>, 2017). Sleep is older than brains. Evolution kept it in every lineage, at the price of lying defenseless for hours — the most dangerous behavior any creature performs daily.</span></div>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>And skipping it kills.</b> Rats totally deprived of sleep die within about two to three weeks (Rechtschaffen's lab, 1980s). In humans, fatal familial insomnia — a prion disease that destroys the ability to sleep — is exactly what it sounds like: progressive sleeplessness, then death, typically within about eighteen months of onset (Medori et al., 1992). Sleep is not optional equipment. Whatever it does, the body will die without it.</span></div>
+  <div class="watch">
+    <div class="frame"><iframe src="https://www.youtube.com/embed/eTgNgGO_bLs" title="What happens when we sleep? — The Economist" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    <p class="cap"><b>▶ WATCH — WHERE DO WE GO WHEN WE SLEEP?</b> — "What happens when we sleep?" · <b>The Economist</b> — the stages, the dreaming brain at full burn, the nightly rinse: the measured tour of the night shift · <a href="https://www.youtube.com/watch?v=eTgNgGO_bLs" target="_blank" rel="noopener">open on YouTube</a></p>
+  </div>
   <h3>THE HONEST COUNTERWEIGHT</h3>
   <div class="vrow"><span class="vtag open">OPEN</span><span><b>Biology explains every fact above without a harvester.</b> Waste clearance, memory consolidation, adenosine bookkeeping, energy restoration — the night shift has documented jobs, and "waking up tired" has documented causes. The harvest reading is Isaiah's speculation, and this board does not dress it as more. But here is the honest hook his riff hangs on, and it is a real one: <b>after a century of study, science still cannot answer the basic question — why do we sleep at all?</b> Why would evolution force every creature on Earth to go defenseless for hours a day, for hundreds of millions of years, if the payoff could have been engineered any other way? The functions are known. The necessity is not explained. That gap is not evidence of a collector. It is a genuine open door — and this file is pinned in the doorway, no further.</span></div>
   <h3>THE FRACTAL — CONTAINERS ALL THE WAY DOWN</h3>
@@ -876,6 +966,10 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
   <div class="vrow"><span class="vtag fact">PILLAR 2</span><span><b>Lookback — FACT.</b> Light takes time, so seeing is always seeing the past: starlight, and every signal ever received, arrives from the sender's past into the receiver's present. We are the past, broadcasting, to everyone downstream. Voyager 1 is the running example: sent out in 1977, still reporting, its voice ~23 hours old when it reaches us.</span></div>
   <div class="vrow"><span class="vtag claim">PILLAR 3</span><span><b>Future humans — CLAIM.</b> Eskridge's P-47/P-52 account. Untestable as stated; held open, at claim weight, until a test or a trace exists. (The Girl's card.)</span></div>
   <div class="vrow"><span class="vtag fact">PILLAR 4</span><span><b>Gatekeeping leaves paper — FACT, where documents exist.</b> The 51% contract, the seizure order, the cartel's fines. Where there is no paper, this board prints no quote. (Tesla × Morgan card.)</span></div>
+  <div class="watch">
+    <div class="frame"><iframe src="https://www.youtube.com/embed/yuD34tEpRFw" title="Time Dilation - Einstein's Theory Of Relativity Explained! — Science ABC" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    <p class="cap"><b>▶ WATCH — THE PILLARS, EXPLAINED</b> — "Time Dilation - Einstein's Theory Of Relativity Explained!" · <b>Science ABC</b> — the forward-only physics under all four pillars, in plain sight · <a href="https://www.youtube.com/watch?v=yuD34tEpRFw" target="_blank" rel="noopener">open on YouTube</a></p>
+  </div>
   <h3>THE BET — HOW THIS THEORY CAN LOSE</h3>
   <p>The theory stakes itself on a falsifiable bet: <b>every pressed "time traveler / future human" claim will reduce to signals, stories, or stored traces — never a verifiable body out of its century; and every real suppression will have paper.</b> One verified body out of its century, or one message demonstrably received before it was sent, kills the theory. We are actively looking for both. That is what makes it a theory instead of a vibe.</p>
   <h3>ISAIAH'S THOUGHTS AND HYPOTHETICALS</h3>
@@ -967,6 +1061,258 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
   <p class="src">Theory co-created by Isaiah Tobola and Lux, November 9–10, 2026 · evidence: this board · audit: workspace/one-way-signal-audit/ · transcripts: workspace/transcripts-2026-11-10/</p>
 </template>
 
+<template id="d-morning">
+  <h3>THE PLOT — ONE MORNING, ONE QUESTION</h3>
+  <p>It started with a sentence at breakfast and ended, before lunch, with a universe shaped like a brain. This file is the whole morning of <b>November 10, 2026</b> told as one story — every beat in the order it landed, every claim tagged at its honest weight, and every receipt one click away in the file that holds it.</p>
+
+  <h3>1 · THE WAKE-UP CLAIM — 10:32 AM</h3>
+  <div class="vrow"><span class="vtag open">ISAIAH, 10:32 AM</span><span><b>"TIME IS NOT LINEAR."</b> Four words, said the way other people say <i>pass the coffee</i>. Everything on this board from this morning is those four words, unfolded. If time is not a line, the board's oldest rule — forward only — may only be a rule about the line.</span></div>
+  <div class="conn">
+    <button data-open-link="save"><b>THE CLAIM, UNPACKED</b> → the Save File card: is time even linear??</button>
+  </div>
+
+  <h3>2 · SAVE FILES</h3>
+  <div class="vrow"><span class="vtag open">SPECULATION</span><span><b>The hypothesis, in his words:</b> <i>"If scientists ever agree or find evidence that time is not linear and life has save files — like a video game — then yes: future humans can send us, or themselves, back here."</i> The condition comes first — <i>if</i> the evidence lands. The scholarly rhyme was already waiting for him: Julian Barbour's <i>The End of Time</i> (1999) writes physics with no time variable at all — a heap of frozen configurations, <b>Nows</b>, the record-bearing ones called <b>time capsules</b>. A frozen world-state carrying records of other states inside it is, structurally, a save file. Rhyme — not receipt.</span></div>
+  <div class="conn">
+    <button data-open-link="save"><b>SAVE FILES</b> → the Save File card: Barbour, the block, and the counterweight</button>
+  </div>
+
+  <h3>3 · THE TREE + SAVE NODES</h3>
+  <div class="vrow"><span class="vtag open">ISAIAH · SPECULATION</span><span><b>His next move:</b> <i>"Time and butterfly effect moves like a tree — so in fact not linear. Meaning there could be save nodes."</i> His term, adopted by this board: <b>SAVE NODES</b> — on a branching time, the forks are where the saves would sit, the way a story game saves at its branch points.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>The anchor — Edward Lorenz.</b> His 1963 paper "Deterministic Nonperiodic Flow" showed a weather model where rounding one starting number reroutes the whole forecast — sensitive dependence on initial conditions. <b>The delicious part, and it's true:</b> Lorenz did not coin the butterfly title. He never submitted a title for his 1972 talk, so the session convener, <b>Philip Merilees</b>, invented one: <i>"Predictability: Does the Flap of a Butterfly's Wings in Brazil Set Off a Tornado in Texas?"</i> And a flap can equally <i>prevent</i> a tornado — the point is predictability, not causation. At a fork, a small cause doesn't shove the future down a line. It selects which branch the future grows down.</span></div>
+  <div class="conn">
+    <button data-open-link="question"><b>THE TREE</b> → the theory file: time moves like a tree, in full</button>
+  </div>
+
+  <h3>4 · THE SCIENTISTS</h3>
+  <p>Isaiah did not invent the cracks in time — he walked through doors that named, dated papers had already opened. One line each; the full lives are in their file:</p>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Kurt Gödel (1949)</b> — found closed timelike curves inside Einstein's own equations: loops into the past, as mathematics.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>John Archibald Wheeler (1978; 1989)</b> — the delayed-choice experiment, and "it from bit": information as the substrate of things.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Hugh Everett III (1957)</b> — the wavefunction never collapses; every outcome branches. The tree, in physics dress.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Kip Thorne (1988)</b> — with Michael Morris and Ulvi Yurtsever, priced the traversable wormhole: real math, exotic-matter price tag.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Ronald Mallett</b> — a ring of circulating light to drag spacetime into loops; motivated by his father's death when he was ten, and honest about its limit: no earlier than switch-on.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Stephen Hawking — the honored opponent (1992)</b> — the chronology protection conjecture: nature itself may forbid the loop. The wall this whole board leans against — and respects.</span></div>
+  <div class="conn">
+    <button data-open-link="scientists"><b>THE SCIENTISTS</b> → the full file: ten names, ten receipts</button>
+  </div>
+
+  <h3>5 · THE AI WITNESS</h3>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Machines already read the past out of the record.</b> This very board was built by an AI reading an 1889 novel, an 1896 pamphlet, and a 1955 letter — this week. Starlight, archives, Voyager's twenty-three-hour-old voice: information crossing time <i>forward</i> is real and measured.</span></div>
+  <div class="vrow"><span class="vtag legend">INTERPRETATION</span><span><b>THE GAP — stated plain, because the whole theory turns on it:</b> reading a save is not entering it. A record you can read is not yet a moment you can step into. That gap is exactly the door the Far Shore hypothesis names. This beat doesn't close it. It points at it, holding a working example of the reading half.</span></div>
+  <div class="conn">
+    <button data-open-link="question"><b>THE AI WITNESS</b> → the theory file: his hypothesis, and the gap</button>
+  </div>
+
+  <h3>6 · THE NEURON UNIVERSE</h3>
+  <div class="vrow"><span class="vtag open">ISAIAH · PROPOSED THEORY</span><span><b>His proposed theory, signed by him:</b> <i>"If the nodes in space make up neuron web shapes past outside even universes, and our brains do too, the ability we have with our brains to think about the past, present and future is the same cog that would be in the neuron shape of the universe, allowing it a similar ABILITY."</i></span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>The measured rhyme underneath it.</b> Franco Vazza (University of Bologna) and Alberto Feletti (University of Verona) published the first quantitative network comparison of the brain's neuronal network and the cosmic web in <i>Frontiers in Physics</i> (2020). Across more than <b>27 orders of magnitude</b> of scale: similar node counts (10¹⁰–10¹¹), similar connections per node, similar clustering — and about <b>three-quarters of each system's mass/energy in an apparently passive component</b> (brain: 77–78% water; universe: ~73% dark energy). Published estimates put both networks' memory in the same petabyte class — brain ≈ <b>2.5 PB</b>, cosmic web ≈ <b>4.3 PB</b>. <b>Provenance, pinned honestly:</b> the brain figure is an extrapolation the paper quotes from earlier work (Bartol et al., 2015) — a "factoid," in the authors' spirit, not their measurement. And their caution rides with the pin: entirely different physical processes — gravity there, electrochemistry here — can self-organize into similar networks. The paper claims structure, not thought. This board never drifts it toward "the universe is a brain."</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>And in a brain, the cog is real.</b> Endel Tulving named the awareness of subjective time <b>chronesthesia</b>; Schacter, Addis &amp; Buckner (<i>Nature Reviews Neuroscience</i>, 2007) showed remembering the past and imagining the future run on the same core network — the brain reuses stored pieces to construct futures that haven't happened. In the one neuron web we can test, holding past, present and future in a single view is one piece of machinery.</span></div>
+
+  <h3>THE TWO PICTURES — THE MORNING'S EVIDENCE, SHOWN</h3>
+  <div class="pic">
+    <div class="frame"><img data-shards="media/morning-web-00.b64.txt" data-mime="image/jpeg" alt="The cosmic web and a slime-mold model of it, side by side"></div>
+    <p class="cap"><b>◈ PICTURE A — THE UNIVERSAL WEB.</b> "Cosmic Web and Slime Mold" (2020): the universe's filament structure (left) against a slime-mold algorithm's model of it, traced across some 37,000 galaxies (right). Two webs, found by utterly different processes, wearing the same shape. <b>Credit:</b> NASA, ESA, and J. Burchett and O. Elek (UC Santa Cruz) · <b>Public domain</b> · via Wikimedia Commons.</p>
+  </div>
+  <div class="pic">
+    <div class="frame"><img data-shards="media/morning-neuron-00.b64.txt" data-mime="image/jpeg" alt="Cajal's hand drawing of a Purkinje neuron from the human cerebellum, c. 1900"></div>
+    <p class="cap"><b>◈ PICTURE B — THE NEURONS.</b> A Purkinje neuron from the human cerebellum, drawn by hand by <b>Santiago Ramón y Cajal</b>, c. 1900 — the historians' evidence as much as the scientists': Cajal's drawings established the <b>neuron doctrine</b>, that the brain is made of separate cells. He shared the <b>1906 Nobel Prize</b> with Camillo Golgi — and here is the true version, not the nonsense one: they did not win it together for the same conclusion. Cajal's evidence was gathered with <b>Golgi's own stain</b>, and Golgi used his Nobel lecture to <i>reject</i> the neuron doctrine, defending his reticular theory to the end. Same prize, same stain, opposing conclusions — and the drawing above is what settled it. <b>Credit:</b> Santiago Ramón y Cajal, Cajal Institute (CSIC), Madrid · <b>Public domain</b> · via Wikimedia Commons.</p>
+  </div>
+
+  <h3>7 · THE CAPSTONE</h3>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>"SPACE ITSELF IS TIME TRAVEL."</b> His capstone — and in one direction it is not a metaphor, it is arithmetic. Light travels at a finite speed, so distance literally <i>is</i> a difference in time: the Moon as it was ~1.3 seconds ago, the Sun 8 minutes ago, Andromeda 2.5 million years ago, JWST's most distant confirmed galaxy over 13 billion years ago. Nobody has ever seen the universe as it is <i>now</i>. Every telescope is a time machine that only looks back — for information. It is the bodies that are still waiting on a door.</span></div>
+  <div class="conn">
+    <button data-open-link="tyson"><b>LOOKBACK</b> → Tyson: forward only — the rule the capstone reframes</button>
+    <button data-open-link="facts"><b>THE SHAPE EVIDENCE</b> → Scholarly: Vazza &amp; Feletti, weighed in the audit</button>
+  </div>
+
+  <h3>BASELINE EVIDENCE — THE MORNING'S LOAD-BEARING FACTS</h3>
+  <p>The checklist under the whole plot. If a line here falls, the beat above it falls with it — that's what makes it baseline:</p>
+  <div class="vrow"><span class="vtag fact">✓ 1905–08</span><span><b>Relativity kills the universal "now."</b> Einstein (1905): simultaneity is observer-dependent. Minkowski (1908): one four-dimensional spacetime — the block.</span></div>
+  <div class="vrow"><span class="vtag fact">✓ 1949</span><span><b>Gödel's rotating universe</b> — closed timelike curves inside Einstein's equations (<i>Reviews of Modern Physics</i> 21).</span></div>
+  <div class="vrow"><span class="vtag fact">✓ 1955</span><span><b>The Einstein–Besso letter, 21 March 1955.</b> Besso, Einstein's lifelong friend, had died on March 15; Einstein wrote to the family in condolence, a month before his own death: <i>"People like us, who believe in physics, know that the distinction between past, present and future is only a stubbornly persistent illusion."</i> (A viral rewording of this line circulates everywhere — Einstein never wrote it. This board prints only the verified sentence.)</span></div>
+  <div class="vrow"><span class="vtag fact">✓ 1963</span><span><b>Lorenz, "Deterministic Nonperiodic Flow"</b> — sensitive dependence; the tree mechanic's receipt. (Butterfly title: Merilees, 1972 — see beat 3.)</span></div>
+  <div class="vrow"><span class="vtag fact">✓ 1988</span><span><b>Morris, Thorne &amp; Yurtsever</b> — traversable wormholes, and a moved wormhole mouth as a time machine (<i>Physical Review Letters</i> 61:1446). The companion wormhole paper is Morris &amp; Thorne (<i>American Journal of Physics</i>).</span></div>
+  <div class="vrow"><span class="vtag fact">✓ 1999</span><span><b>Kim et al., the delayed-choice quantum eraser</b> — the past-looking pattern that <b>only sorts afterward</b>, when the records are compared. The limit stays welded: no later choice changed any past; no signal went back.</span></div>
+  <div class="vrow"><span class="vtag fact">✓ 1999</span><span><b>Barbour, <i>The End of Time</i></b> — physics with no time variable; Nows and time capsules.</span></div>
+  <div class="vrow"><span class="vtag fact">✓ 2007</span><span><b>Schacter, Addis &amp; Buckner</b> — remembering and imagining share one core network: the constructive episodic simulation.</span></div>
+  <div class="vrow"><span class="vtag fact">✓ 2020</span><span><b>Vazza &amp; Feletti</b> — the brain/cosmic-web network comparison (<i>Frontiers in Physics</i> 8:525731). Numbers verified against the paper; the memory figures carry their provenance (Bartol et al., 2015) — see beat 6.</span></div>
+  <div class="vrow"><span class="vtag fact">✓ ALWAYS</span><span><b>Lookback.</b> Light's finite speed makes every observation a look into the past — up to JWST's galaxies, seen as they were over 13 billion years ago.</span></div>
+  <p><b>The people line</b> — the historians and scientists this morning stands on: <b>Einstein · Minkowski · Gödel · Lorenz · Cajal · Barbour · Tulving · Vazza &amp; Feletti</b> — and <b>Hawking</b>, the wall.</p>
+
+  <h3>WHERE IT STANDS</h3>
+  <p>The bet is unchanged: <b>no bit of information has ever verifiably moved backward</b>, and Hawking's conjecture still guards the wall. What the morning actually added is shape, not proof: a scholarly rhyme for the save file, a tree for the line to become, a cast who cracked the door before him, a witness that reads without entering, a measured rhyme between the web in the skull and the web of everything — and a capstone that turns out to be arithmetic. This is a <b>thought experiment</b>: wild ideas and what-ifs, connected for the fun of it, checked where science can check. It closes the way his filter always closes:</p>
+  <p><b>"What connects, remains. And what lets go, arrives."</b></p>
+  <h3>CONNECTIONS</h3>
+  <div class="conn">
+    <button data-open-link="save"><b>SAVE FILES</b> → the Save File card</button>
+    <button data-open-link="scientists"><b>THE SCIENTISTS</b> → the ones who cracked time open</button>
+    <button data-open-link="question"><b>THE FULL THEORY</b> → The One-Way Signal</button>
+    <button data-open-link="locker"><b>THE LOCKER</b> → every picture and film on the board</button>
+    <button data-open-link="minecraft"><b>THE OPERATION TABLE</b> → the Minecraft statement</button>
+  </div>
+  <h3>SOURCES</h3>
+  <p class="src">Einstein (1905) · Minkowski (1908) · Gödel, Rev. Mod. Phys. 21 (1949) · Einstein to the Besso family, 21 March 1955 · Lorenz, J. Atmos. Sci. (1963); AAAS talk title by Philip Merilees (1972) · Morris, Thorne &amp; Yurtsever, Phys. Rev. Lett. 61:1446 (1988) · Kim et al., Phys. Rev. Lett. (2000; experiment 1999) · Barbour, <i>The End of Time</i> (1999) · Schacter, Addis &amp; Buckner, Nat. Rev. Neurosci. (2007) · Vazza &amp; Feletti, Front. Phys. 8:525731 (2020); Bartol et al., eLife (2015) · Images: NASA/ESA/Burchett &amp; Elek (public domain); Cajal, Cajal Institute (public domain) — both via Wikimedia Commons</p>
+</template>
+
+<template id="d-locker">
+  <h3>EVERY VISUAL ON THE BOARD, IN ONE ROOM</h3>
+  <p>Nothing on this board asks to be believed without being seen. Every picture and every film pinned anywhere on the board is shelved here — tap any frame to walk to the file it belongs to.</p>
+
+  <div class="pic">
+    <div class="frame"><img data-shards="media/morning-web-00.b64.txt" data-mime="image/jpeg" alt="The cosmic web and a slime-mold model of it"></div>
+    <p class="cap"><b>◈ PICTURE — THE UNIVERSAL WEB.</b> "Cosmic Web and Slime Mold" (2020). <b>Credit:</b> NASA, ESA, and J. Burchett and O. Elek (UC Santa Cruz) · Public domain · via Wikimedia Commons.</p>
+  </div>
+  <div class="conn"><button data-open-link="morning"><b>THE MORNING</b> → the file this picture anchors</button></div>
+
+  <div class="pic">
+    <div class="frame"><img data-shards="media/morning-neuron-00.b64.txt" data-mime="image/jpeg" alt="Cajal's drawing of a Purkinje neuron, c. 1900"></div>
+    <p class="cap"><b>◈ PICTURE — THE NEURONS.</b> A Purkinje neuron from the human cerebellum, drawn by Santiago Ramón y Cajal, c. 1900. <b>Credit:</b> Cajal Institute (CSIC), Madrid · Public domain · via Wikimedia Commons.</p>
+  </div>
+  <div class="conn"><button data-open-link="morning"><b>THE MORNING</b> → Cajal, Golgi, and the 1906 Nobel, told true</button></div>
+
+  <div class="pic">
+    <div class="frame"><img data-shards="media/pair-neuronweb-00.b64.txt" data-mime="image/jpeg" alt="A star of neurons under fluorescence microscopy"></div>
+    <p class="cap"><b>◈ PICTURE — A STAR OF NEURONS.</b> A single neuron and its web of processes, fluorescent microscopy. <b>Credit:</b> Madalena Simões-Abade · CC BY-SA 4.0 · via Wikimedia Commons.</p>
+  </div>
+  <div class="conn"><button data-open-link="save"><b>SAVE FILES</b> → the side-by-side pair, in the Save File file</button></div>
+
+  <div class="pic">
+    <div class="frame"><img data-shards="media/pair-cosmicweb-00.b64.txt" data-mime="image/jpeg" alt="Three-dimensional map of dark matter in the universe"></div>
+    <p class="cap"><b>◈ PICTURE — THE DARK-MATTER MAP.</b> "Three-Dimensional Distribution of Dark Matter in the Universe (with 3 slices of time)" (2007) — a <b>map</b>, built from the COSMOS survey's gravitational-lensing measurements, not a simulation still. <b>Credit:</b> NASA, ESA, and R. Massey (California Institute of Technology) · Public domain · via Wikimedia Commons.</p>
+  </div>
+  <div class="conn"><button data-open-link="save"><b>SAVE FILES</b> → same shape, ~10²⁷ apart — the pair, in context</button></div>
+
+  <div class="pic">
+    <div class="frame"><img data-shards="media/sci-einstein-00.b64.txt" data-mime="image/jpeg" alt="Albert Einstein, photographed in 1921"></div>
+    <p class="cap"><b>◈ PICTURE — ALBERT EINSTEIN, 1921.</b> Photographed by Ferdinand Schmutzer (1870–1928) in the year of Einstein's Nobel Prize. <b>Credit:</b> Ferdinand Schmutzer · Public domain · via Wikimedia Commons.</p>
+  </div>
+  <div class="conn"><button data-open-link="scientists"><b>THE SCIENTISTS</b> → the file this face opens</button></div>
+
+  <div class="pic">
+    <div class="frame"><img data-shards="media/sleep-eeg-00.b64.txt" data-mime="image/jpeg" alt="A human sleep EEG trace, stage 1"></div>
+    <p class="cap"><b>◈ PICTURE — STAGE 1 SLEEP, ON PAPER.</b> A human sleep EEG trace: the night shift, recorded. <b>Credit:</b> Public domain · via Wikimedia Commons.</p>
+  </div>
+  <div class="conn"><button data-open-link="sleep"><b>THE BATTERY QUESTION</b> → Isaiah's Sleep File</button></div>
+
+  <div class="pic">
+    <div class="frame"><img data-shards="media/save-spacetime-00.b64.txt" data-mime="image/png" alt="A Minkowski spacetime diagram"></div>
+    <p class="cap"><b>◈ PICTURE — SPACETIME, DRAWN.</b> A Minkowski diagram: the block, on paper. <b>Credit:</b> Simon Tyran, Vienna (Yukterez) · CC BY 4.0 · via Wikimedia Commons.</p>
+  </div>
+  <div class="conn"><button data-open-link="save"><b>SAVE FILES</b> → the block universe, in the Save File file</button></div>
+
+  <div class="pic">
+    <div class="plaque"><span class="pl-t">▶ FILM — NEIL DEGRASSE TYSON | HOT ONES GAME NIGHT</span><span class="pl-s">First We Feast · his time-travel answer at 15:20 · YouTube feiF4mTzfsU</span></div>
+    <p class="cap"><b>▶ FILM.</b> The statement the measurements back — forward only.</p>
+  </div>
+  <div class="conn"><button data-open-link="tyson"><b>TYSON</b> → watch it in his file</button></div>
+
+  <div class="pic">
+    <div class="plaque"><span class="pl-t">▶ FILM — TESLA, CHAPTER 1</span><span class="pl-s">American Experience · PBS · YouTube m_KCkAy0uIQ</span></div>
+    <p class="cap"><b>▶ FILM.</b> The rise, Wardenclyffe, and the Morgan money, from the documentary record.</p>
+  </div>
+  <div class="conn"><button data-open-link="tesla"><b>TESLA × MORGAN</b> → watch it in his file</button></div>
+
+  <div class="pic">
+    <div class="plaque"><span class="pl-t">▶ FILM — ATOMIC CLOCKS PROVE REALITY IS STRANGER THAN YOU THINK</span><span class="pl-s">NOVA · PBS · YouTube 5YZYfmAc4wY</span></div>
+    <p class="cap"><b>▶ FILM.</b> Real atomic clocks, real time dilation — the measured kind.</p>
+  </div>
+  <div class="conn"><button data-open-link="facts"><b>SCHOLARLY</b> → watch it in the audit file</button></div>
+
+  <div class="pic">
+    <div class="plaque"><span class="pl-t">▶ FILM — AMY ESKRIDGE INTERVIEW (FULL, 2020)</span><span class="pl-s">Jeremy Rys &amp; Mark Sokol · 3 h 16 min · YouTube l0O4cEIkUZc</span></div>
+    <p class="cap"><b>▶ FILM.</b> Her full interview, unedited — her account in her own context.</p>
+  </div>
+  <div class="conn"><button data-open-link="amy"><b>THE GIRL</b> → watch it in her file</button></div>
+
+  <div class="pic">
+    <div class="plaque"><span class="pl-t">▶ FILM — THE KID (THE BOARD'S OWN COPY)</span><span class="pl-s">Self-hosted on this board · watermarked @blueeyeslaughing (TikTok) / @MOTIGRESSION (Instagram) · original poster unverified</span></div>
+    <p class="cap"><b>▶ FILM.</b> Kept here so deletions can't kill it — Isaiah's own download.</p>
+  </div>
+  <div class="conn"><button data-open-link="kid"><b>THE LAST PRESIDENT</b> → watch it in his file</button></div>
+
+  <div class="pic">
+    <div class="plaque"><span class="pl-t">▶ FILM — BOB LAZAR'S 1989 INTERVIEW</span><span class="pl-s">KLAS-TV · George Knapp · 8 News Now · YouTube BoJmd2MIpOk</span></div>
+    <p class="cap"><b>▶ FILM.</b> The first telling — "containers," in the era it was said.</p>
+  </div>
+  <div class="conn"><button data-open-link="lazar"><b>LAZAR</b> → watch it in his file</button></div>
+
+  <div class="pic">
+    <div class="plaque"><span class="pl-t">▶ FILM — WHAT HAPPENS WHEN WE SLEEP?</span><span class="pl-s">The Economist · YouTube eTgNgGO_bLs</span></div>
+    <p class="cap"><b>▶ FILM.</b> The stages, the dreams, the night brain — where we go when we sleep.</p>
+  </div>
+  <div class="conn"><button data-open-link="sleep"><b>THE BATTERY QUESTION</b> → watch it in the Sleep File</button></div>
+
+  <div class="pic">
+    <div class="plaque"><span class="pl-t">▶ FILM — SOMETHING DISTURBING HAPPENS WHEN YOU SOLVE EINSTEIN'S EQUATIONS THIS WAY</span><span class="pl-s">PBS Space Time · YouTube dZaqLgezRNE</span></div>
+    <p class="cap"><b>▶ FILM.</b> Gödel's loops — the disturbing solution, walked through.</p>
+  </div>
+  <div class="conn"><button data-open-link="scientists"><b>THE SCIENTISTS</b> → watch it in their file</button></div>
+
+  <div class="pic">
+    <div class="plaque"><span class="pl-t">▶ FILM — HOW TO BACKUP &amp; RESTORE MINECRAFT JAVA EDITION WORLDS</span><span class="pl-s">The Breakdown · YouTube 5bKAo1LkOFw</span></div>
+    <p class="cap"><b>▶ FILM.</b> The operation table, demonstrated — the folder, the backups, the rewind.</p>
+  </div>
+  <div class="conn"><button data-open-link="minecraft"><b>THE OPERATION TABLE</b> → watch it in the Minecraft file</button></div>
+
+  <h3>THE RULE OF THE LOCKER</h3>
+  <p>Every visual carries its credit under its frame — author, license, source — the way the licenses require and the way this board works anyway: <b>rhymes get pinned, receipts get credited, and nothing here is borrowed without its name on it.</b></p>
+  <div class="conn">
+    <button data-open-link="morning"><b>THE MORNING</b> → the plot these pictures came from</button>
+    <button data-open-link="minecraft"><b>THE OPERATION TABLE</b> → the Minecraft statement</button>
+  </div>
+</template>
+
+<template id="d-minecraft">
+  <h3>THE STATEMENT — ISAIAH'S, AS HE SAID IT</h3>
+  <div class="vrow"><span class="vtag open">ISAIAH · SPECULATION</span><span><i>"If Earth is anything like Minecraft, then the aliens or future humans could have found a way to operate the save file function with technology similar to Godly ability."</i> His sentence is the headline of this file. What follows is the analogy mapped honestly, the weird recent evidence, the simulation argument at its real weight — and the gap, kept.</span></div>
+
+  <h3>THE ANALOGY — PIECE BY PIECE</h3>
+  <div class="vrow"><span class="vtag legend">INTERPRETATION</span><span><b>Blocks ↔ a discrete spacetime.</b> Minecraft's world is built of discrete units. <b>FACT anchor:</b> loop quantum gravity — a real research program, co-founded by Carlo Rovelli of the Scientists file — quantizes area and volume: space, in that framework, comes in smallest pieces. The mapping of game blocks onto those quanta is interpretation, tagged as one.</span></div>
+  <div class="vrow"><span class="vtag legend">INTERPRETATION</span><span><b>The save file ↔ the block + unitarity.</b> A game's save is a stored configuration of the whole world. <b>FACT anchors, already pinned on the Save File card:</b> the block universe holds all configurations laid out at once, and quantum evolution is unitary — information is never deleted, only scrambled. Stored states: real physics. A folder anyone can open: not shown.</span></div>
+  <div class="vrow"><span class="vtag legend">INTERPRETATION</span><span><b>Chunk loading ↔ lookback.</b> In Minecraft, the world renders around the player out to a distance, chunk by chunk. On this board's Pillar 2, the universe does something with the same silhouette: light's finite speed means you only ever receive the past, at a range set by distance. The rhyme is structural. It is labeled a rhyme.</span></div>
+  <div class="vrow"><span class="vtag legend">INTERPRETATION</span><span><b>Creative mode + console ↔ "Godly ability."</b> Minecraft has an operator level: creative mode, and console commands — <i>/time set</i>, <i>/gamemode</i> — an operator outside the world's rules using the world's own machinery. That is exactly the shape of his Far Shore door and his Title Question, restated in game grammar: the return technology wouldn't break the world's laws from inside; it would operate the world from a level the inhabitants never see.</span></div>
+
+  <h3>THE GAP — THE COUNTERWEIGHT, KEPT</h3>
+  <div class="vrow"><span class="vtag open">COUNTERWEIGHT</span><span><b>An analogy is a flashlight, not a receipt.</b> Minecraft's saves exist because a mind built the game to have them. Whether Earth's structure has an operator interface is precisely the unproven step — the same gap named in the Morning file and the Save File file. And the board's standing bet still stands: no bit has ever verifiably moved backward.</span></div>
+
+  <h3>THE WEIRD RECENT EVIDENCE — AI + MINECRAFT</h3>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Oasis — the world with no save file (Decart with Etched, released October 31, 2024).</b> A playable Minecraft-like world generated in real time by an AI world model, frame by frame — no game engine, and it <b>keeps no persistent world state at all: it predicts each next frame, so terrain and inventory drift and change when unobserved.</b></span></div>
+  <div class="vrow"><span class="vtag legend">INTERPRETATION</span><span><b>The board's key connection.</b> <i>A world with no file under it — only the next guessed frame. That's why it can't remember itself.</i> Set it beside Earth: our records never slip — unitarity, fossils, this board's whole archive. His Completion Filter line applies verbatim: <b>what connects, remains</b> — Oasis doesn't connect, so it doesn't remain.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Voyager (2023).</b> Wang et al. (NVIDIA, Caltech, UT Austin, Stanford, ASU) built Voyager on the MineDojo framework (arXiv:2305.16291, May 2023): a GPT-4-powered agent that lives in Minecraft and learns — writing its own skills as <b>executable code it keeps in a growing skill library</b>. Note the rhyme: it built itself a persistent library of abilities. A little save file, of what it can do.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>OpenAI VPT (2022) — a different door.</b> Video PreTraining (OpenAI, June 23, 2022): an AI pretrained on ~70,000 hours of human Minecraft video, plus a small labeled contractor dataset, learned by <b>imitation</b> — and, <b>with fine-tuning</b>, reached diamond tools. Not an agent inventing skills like Voyager; a watcher learning across recorded time. It ties straight to this board's AI-witness beat: the record, read deeply enough, teaches.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Genie 2 (Google DeepMind, announced December 4, 2024).</b> A world model that generates playable 3D worlds from a single image. One picture in; a world out.</span></div>
+
+  <h3>SIM THEORY — THE ARGUMENT, AT ITS WEIGHT</h3>
+  <div class="vrow"><span class="vtag fact">FACT (AS ARGUMENT)</span><span><b>Nick Bostrom, "Are You Living in a Computer Simulation?" (<i>Philosophical Quarterly</i> 53(211), 2003, pp. 243–255).</b> The simulation argument is a trilemma: at least one of three things must be true — civilizations go extinct before reaching simulation capability; or capable civilizations don't run ancestor simulations; or we are almost certainly living in one. <i>At least one of three things must be true — and one of the three is that we're almost certainly simulated. He never said which.</i> Tag: an <b>ARGUMENT</b>, not evidence. The board's discipline holds.</span></div>
+  <div class="vrow"><span class="vtag legend">CONNECTION</span><span><b>Wheeler's "it from bit"</b> (1989, pinned in the Scientists file): every physical thing arises from information. If the substrate is information, the simulation question stops being science fiction and becomes a filing question — which is all Bostrom ever claimed for it.</span></div>
+  <div class="vrow"><span class="vtag legend">THEORY</span><span><b>Donald Hoffman — interface theory of perception.</b> UC Irvine cognitive scientist Donald Hoffman (now professor emeritus), <i>The Case Against Reality: Why Evolution Hid the Truth from Our Eyes</i> (2019): perception is a desktop interface — icons shaped by fitness, hiding the underlying structure. His support includes the <b>Fitness-Beats-Truth theorem</b> (with Chetan Prakash), from evolutionary game simulations: organisms tuned to fitness outcompete organisms tuned to truth. Tagged: <b>his THEORY, contested</b> — other scientists dispute both the math's reach and the conclusion.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT + RHYME</span><span><b>The seed.</b> FACT about the game: a Minecraft world is generated from a <b>seed</b> — a short string that unfolds, procedurally, into an entire world — and stored as data files. INTERPRETATION, labeled: initial conditions plus laws, unfolding into a universe, is the same silhouette. A rhyme, at rhyme weight.</span></div>
+  <div class="vrow"><span class="vtag open">COUNTERWEIGHT</span><span><b>None of this shows Earth is simulated.</b> The AI worlds are evidence about <i>worlds built by minds</i> — the step to ours is the unproven one, the same gap as the parent box. The flashlight is not the receipt.</span></div>
+
+  <h3>THE INSIDE / THE OUTSIDE</h3>
+  <div class="vrow"><span class="vtag open">ISAIAH</span><span><i>"You can go back in a PC to find Minecraft Java save files."</i></span></div>
+  <div class="vrow"><span class="vtag fact">FACT (THE GAME)</span><span><b>He is literally right, and here is the folder.</b> On a Windows PC, a Java world sits in <b>%appdata%\.minecraft\saves</b> — one folder per world: <b>region files</b> (region/*.mca) holding the terrain, and <b>level.dat</b> holding the seed and the world's metadata. The game even keeps its own rollback: <b>level.dat_old</b>, the previous save, held in reserve. From outside the game you can copy the folder, restore an older backup, edit the stored world with outside tools. The world's whole history coexists as files, side by side — and an operator can re-enter an earlier state. The tutorial below is the receipt: the actual steps, demonstrated.</span></div>
+  <div class="watch">
+    <div class="frame"><iframe src="https://www.youtube.com/embed/5bKAo1LkOFw" title="How To Backup & Restore Minecraft Java Edition Worlds — The Breakdown" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    <p class="cap"><b>▶ WATCH — THE PRACTICAL RECEIPT</b> — "How To Backup &amp; Restore Minecraft Java Edition Worlds" · <b>The Breakdown</b> · <a href="https://www.youtube.com/watch?v=5bKAo1LkOFw" target="_blank" rel="noopener">open on YouTube</a><br><b>This is the operation table, demonstrated</b> — the folder, the backups, the rewind, all real, in a game.</p>
+  </div>
+  <div class="vrow"><span class="vtag open">ISAIAH</span><span><i>"From inside the game it looks time is linear."</i></span></div>
+  <div class="vrow"><span class="vtag open">ISAIAH</span><span><i>"But go behind the scenes of the operation table, and you can play rewound game time."</i> (His term — <b>the operation table</b>: the operator's table, the outside view.)</span></div>
+  <div class="vrow"><span class="vtag fact">FACT (THE GAME)</span><span><b>And the rewound state is not a picture of the past — it is a present.</b> Restoring an old save doesn't just let you <i>view</i> the earlier world. You resume playing <i>inside</i> it; the rewound state becomes the player's living present again.</span></div>
+  <div class="vrow"><span class="vtag legend">INTERPRETATION</span><span><b>The mapping.</b> Inside the game, a player lives time as a line — the day cycle never rewinds from within. Outside, there is no line at all: only stored states. Linearity, in the analogy, is what being <i>inside</i> feels like; the block is what the folder looks like. This is precisely the eternalism-versus-lived-time distinction pinned on the Save File card. And it leaves the theory's question standing in this grammar: <b>we are inside.</b> His whole board asks whether anyone — future humans, "aliens," anyone with the Godly-ability tech of this file's headline — holds the outside view of Earth's folder, or ever could.</span></div>
+  <div class="vrow"><span class="vtag legend">THE DISTINCTION</span><span><b>The final beat — READ vs LOAD.</b> Everything proven on this board is <b>READING</b>: starlight, fossils, archives, an AI reading 1893 in 2026. Reading a save is real, and it is ours. <b>LOADING</b> one — resuming play inside a past state, the rewound world becoming a living present — is the Far Shore's unproven door. The whole theory turns on the distance between those two words.</span></div>
+
+  <h3>CONNECTIONS</h3>
+  <div class="conn">
+    <button data-open-link="save"><b>SAVE FILES</b> → the Save File card: the block, the capsules, the pair of webs</button>
+    <button data-open-link="question"><b>THE FAR SHORE</b> → the full theory: the Title Question, in its own grammar</button>
+    <button data-open-link="scientists"><b>IT FROM BIT</b> → the Scientists: Wheeler, and the substrate</button>
+    <button data-open-link="morning"><b>THE MORNING</b> → the plot this statement grew out of</button>
+  </div>
+  <h3>SOURCES</h3>
+  <p class="src">Oasis: Decart &amp; Etched, released Oct 31, 2024 · Voyager: Wang et al., arXiv:2305.16291 (May 2023), built on the MineDojo framework · VPT: OpenAI, "Video PreTraining (VPT)," Jun 23, 2022 · Genie 2: Google DeepMind, Dec 4, 2024 · Bostrom, Phil. Quarterly 53(211):243–255 (2003) · Hoffman, <i>The Case Against Reality</i> (W. W. Norton, 2019); Hoffman &amp; Prakash, Fitness-Beats-Truth · Minecraft Java save layout: %appdata%\.minecraft\saves; region/*.mca; level.dat / level.dat_old · Tutorial: "How To Backup &amp; Restore Minecraft Java Edition Worlds," The Breakdown, YouTube 5bKAo1LkOFw</p>
+</template>
+
 <script>
 (function(){
   "use strict";
@@ -985,7 +1331,10 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
     question:['THE ONE-WAY SIGNAL', "Isaiah's question · the theory, its pillars, its bet"],
     signal: ['THE DISCONNECT', 'Tyson × Amy · the signal problem — Isaiah\'s string'],
     lazar:  ['BOB LAZAR — THE CONTAINERS', 'S-4 · element 115 · the briefing documents · 1989 → today'],
-    sleep:  ['THE BATTERY QUESTION — ISAIAH\'S SLEEP FILE', 'containers · REM · the night shift · his speculation, science\'s open question']
+    sleep:  ['THE BATTERY QUESTION — ISAIAH\'S SLEEP FILE', 'containers · REM · the night shift · his speculation, science\'s open question'],
+    morning: ['THE MORNING IT ALL CONNECTED', 'November 10, 2026 · the plot, the receipts, the two pictures'],
+    locker:  ['THE EVIDENCE LOCKER — PICTURES & FILM', 'every visual on the board, in one room'],
+    minecraft: ['THE OPERATION TABLE', 'Isaiah\'s Minecraft statement · speculation, in game grammar']
   };
   function openCard(id){
     var t = document.getElementById('d-' + id);
@@ -994,6 +1343,7 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
     mTitle.innerHTML = title[0] + '<small>' + title[1] + '</small>';
     mBody.innerHTML = '';
     mBody.appendChild(document.importNode(t.content, true));
+    wireShardedImages(mBody);
     overlay.classList.add('open');
     overlay.scrollTop = 0;
     document.body.style.overflow = 'hidden';
@@ -1014,6 +1364,25 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
     var b = e.target.closest('[data-open-link]');
     if(b) openCard(b.dataset.openLink);
   });
+
+  /* ============ SHARDED IMAGES ============
+     Pictures ride to the repo as base64 text shards (the publish route is
+     text-only — the kidvid pattern); rebuild them in the browser. */
+  function wireShardedImages(root){
+    root.querySelectorAll('img[data-shards]').forEach(function(img){
+      if(img.dataset.wired) return; img.dataset.wired = '1';
+      var parts = img.dataset.shards.split(',');
+      Promise.all(parts.map(function(u){ return fetch(u).then(function(r){ return r.text(); }); }))
+        .then(function(texts){
+          var b64 = texts.join('').replace(/\s+/g, '');
+          var bin = atob(b64), arr = new Uint8Array(bin.length);
+          for(var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+          img.src = URL.createObjectURL(new Blob([arr], { type: img.dataset.mime || 'image/jpeg' }));
+        })
+        .catch(function(){});
+    });
+  }
+  wireShardedImages(document);
 
   /* ============ STRING PHYSICS ============
      Verlet ropes. Real Earth gravity: 9.81 m/s^2.
@@ -1080,7 +1449,11 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
       });
     });
     lastMaxMove = mm;
-    sleeping = mm < 0.03;
+    /* Never open asleep: the first frames must DRAW once so the string
+       labels get placed, even when the pre-settle lands perfectly still
+       (shorter spans settle deader). The frame loop sleeps on its own
+       once it confirms the calm — same rest state, reached honestly. */
+    sleeping = false;
   }
   var drag = null; // {rope, idx, x, y, dx, dy}
   function step(dt, time){
