@@ -391,7 +391,7 @@
         <span class="chip no">VP Pence</span>
         <span class="chip no">Don Fum, president</span>
       </div>
-      <div class="watch tall"><div class="frame"><video controls playsinline preload="metadata" src="media/kid-last-president.mp4" onclick="event.stopPropagation()"></video></div><p class="cap"><b>▶ WATCH — THE BOARD'S OWN COPY</b> · @blueeyeslaughing (TikTok) / @MOTIGRESSION (Instagram) · full 3-min cut. Isaiah downloaded it himself and handed it over (Nov 10, 2026) so this pin survives even if the original gets deleted again. <a href="https://www.facebook.com/reel/1763644634728725/" target="_blank" rel="noopener">Facebook mirror</a> kept for provenance.</p></div>
+      <div class="watch tall"><div class="frame"><video controls playsinline preload="metadata" data-b64="media/kidvid" onclick="event.stopPropagation()"></video></div><p class="cap"><b>▶ WATCH — THE BOARD'S OWN COPY</b> · @blueeyeslaughing (TikTok) / @MOTIGRESSION (Instagram) · full 3-min cut. Isaiah downloaded it himself and handed it over (Nov 10, 2026) so this pin survives even if the original gets deleted again. <a href="https://www.facebook.com/reel/1763644634728725/" target="_blank" rel="noopener">Facebook mirror</a> kept for provenance.</p></div>
       <span class="tag mixed">RHYMES REAL — ROLES WRONG</span>
       <span class="openfile">OPEN THE FILE →</span>
     </section>
@@ -716,7 +716,7 @@ In the third book, The Last President, Don Fum uses these portals to become a co
 Ingersoll Lockwood lived on the exact same street as Nikola Tesla when he wrote this book series. At the very same time that he was living on the street with Nikola Tesla, Nikola Tesla was claiming that he invented time travel. Like, he dead-ass was saying, I'm about to make freaking time traveling portals and we're about to do it. And a little bit after, he mysteriously dies in a hotel, and all of his blueprints, all of his inventions, are in this hotel when he dies. Guess who gets sent, along with the CIA, to pick up his blueprints? John G. Trump. Trump's literal blood uncle, bro.
 It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Founder of NASA, wrote a book called Project Mars in 1953 about a man named Elon, who takes everyone to Mars. The founder of NASA, and now Trump and Tesla are working together. They got space and time. Think about a Fifth Avenue, right by Times Square. I'm telling you, dawg, this shit is a simulation, bro.</div>
   <div class="watch tall">
-    <div class="frame"><video controls playsinline preload="metadata" src="media/kid-last-president.mp4"></video></div>
+    <div class="frame"><video controls playsinline preload="metadata" data-b64="media/kidvid"></video></div>
     <p class="cap"><b>▶ WATCH — THE BOARD'S OWN COPY</b> · "KID GOES MISSING AFTER TRUTH ON TRUMP FAMILY AND ELON MUSK LEAK" · full 3-minute cut. The original is a TikTok by <b>@blueeyeslaughing</b>, cross-posted to Instagram as <b>@MOTIGRESSION</b> — both handles are burned into the video itself. It has been deleted and re-uploaded since (@rapturestone is one of the repost accounts that spread it). Isaiah downloaded it himself and handed it to this board on November 10, 2026, so the evidence plays from here even if every platform copy disappears. This is the exact full cut transcribed for this board (an earlier 90-second cut is why the first transcript ran short). Provenance mirrors: <a href="https://www.facebook.com/reel/1763644634728725/" target="_blank" rel="noopener">Facebook mirror 1</a> · <a href="https://www.facebook.com/reel/1735501944607057/" target="_blank" rel="noopener">Facebook mirror 2</a>.</p>
   </div>
   <h3>CLAIM BY CLAIM — AGAINST THE ACTUAL BOOKS</h3>
@@ -805,6 +805,27 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
     lazar:  ['BOB LAZAR — THE CONTAINERS', 'S-4 · element 115 · the briefing documents · 1989 → today'],
     sleep:  ['THE BATTERY QUESTION — ISAIAH\'S SLEEP FILE', 'containers · REM · the night shift · his speculation, science\'s open question']
   };
+  /* The board's own copy of the kid's video rides inside this repo as
+     base64 text shards (GitHub's push route carries text, not raw video) —
+     rebuilt into a playable Blob the moment the page opens. */
+  var _kidBlobUrl = null;
+  async function kidVideoUrl(){
+    if (_kidBlobUrl) return _kidBlobUrl;
+    var parts = [];
+    for (var k = 0; k < 4; k++) parts.push(await (await fetch('media/kidvid-0' + k + '.b64.txt')).text());
+    var bin = atob(parts.join('').replace(/\s+/g, ''));
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    _kidBlobUrl = URL.createObjectURL(new Blob([bytes], { type: 'video/mp4' }));
+    return _kidBlobUrl;
+  }
+  async function wireKidVideos(){
+    var vids = document.querySelectorAll('video[data-b64]:not([src])');
+    if (!vids.length) return;
+    try { var url = await kidVideoUrl(); vids.forEach(function(v){ v.src = url; }); } catch (e) {}
+  }
+  wireKidVideos();
+
   function openCard(id){
     var t = document.getElementById('d-' + id);
     if(!t) return;
@@ -815,6 +836,7 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
     overlay.classList.add('open');
     overlay.scrollTop = 0;
     document.body.style.overflow = 'hidden';
+    wireKidVideos();
   }
   function closeCard(){
     overlay.classList.remove('open');
