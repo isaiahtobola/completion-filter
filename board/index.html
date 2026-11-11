@@ -397,12 +397,22 @@
   .seg.play .dim-g{opacity:1; transition:opacity .9s ease .15s}
   .seg .beam, .seg .beam-glow{stroke-dasharray:1; stroke-dashoffset:1}
   .seg.play .beam, .seg.play .beam-glow{stroke-dashoffset:0; transition:stroke-dashoffset .7s ease}
-  .seg .fan{transform-box:view-box; transform-origin:492px 210px; opacity:0; transform:scaleX(.04)}
-  .seg.play .fan{opacity:1; transform:scaleX(1); transition:opacity .5s ease .6s, transform 1.15s ease .6s}
+  /* prism rays: one by one, in fast succession (110ms stagger, spectrum order) —
+     the gold beam lands (~.7s), then each color sweeps out of the diamond alone */
+  .seg .ray{transform-box:view-box; transform-origin:492px 210px; opacity:0; transform:scaleX(0);
+    transition:transform .22s ease, opacity .18s ease}
+  .seg.play .ray{opacity:.85; transform:scaleX(1); transition:transform .3s ease, opacity .12s ease}
+  .seg.play .ray.r1{transition-delay:.68s,.68s}
+  .seg.play .ray.r2{transition-delay:.79s,.79s}
+  .seg.play .ray.r3{transition-delay:.90s,.90s}
+  .seg.play .ray.r4{transition-delay:1.01s,1.01s}
+  .seg.play .ray.r5{transition-delay:1.12s,1.12s}
+  .seg.play .ray.r6{transition-delay:1.23s,1.23s}
+  .seg.play .ray.r7{transition-delay:1.34s,1.34s}
   .seg .gem-glow{opacity:0}
   .seg.play .gem-glow{opacity:.95; transition:opacity .3s ease .62s}
   @media (prefers-reduced-motion: reduce){
-    .seg .draw-g, .seg .fade-g, .seg .dim-g, .seg .beam, .seg .beam-glow, .seg .fan, .seg .gem-glow{transition:none !important}
+    .seg .draw-g, .seg .fade-g, .seg .dim-g, .seg .beam, .seg .beam-glow, .seg .ray, .seg .gem-glow{transition:none !important}
   }
 
   /* ---------- PC wall: the full-screen spread (desktop only) ---------- */
@@ -1669,13 +1679,25 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
       <line x1="420" y1="285" x2="164" y2="285" stroke="#ffd166" stroke-width="3" stroke-dasharray="10 8" marker-end="url(#sk2-arr)"/>
       <circle cx="600" cy="285" r="15" fill="none" stroke="#ffd166" stroke-width="1.5" opacity="0.5"/>
       <circle cx="600" cy="285" r="7" fill="#ffd166"/>
-      <g class="dim-g" fill="#241239" stroke="#f7ead1" stroke-width="2" stroke-dasharray="3 3.5">
-        <circle cx="205" cy="285" r="8"/>
-        <circle cx="275" cy="285" r="8"/>
-        <circle cx="345" cy="285" r="8"/>
-        <circle cx="445" cy="285" r="8"/>
-        <circle cx="505" cy="285" r="8"/>
-        <circle cx="560" cy="285" r="8"/>
+      <g class="dim-g">
+        <g transform="translate(1200 570) scale(-1 -1)" fill="none" stroke="#a794c9" stroke-width="2.5" stroke-dasharray="7 6" opacity="0.5">
+          <path d="M600,285 C 690,248 762,178 834,140 S 902,118 920,114"/>
+          <path d="M600,285 C 700,262 802,232 876,214 S 938,204 952,202"/>
+          <path d="M600,285 C 720,283 836,288 954,290"/>
+          <path d="M600,285 C 700,310 802,344 878,366 S 942,378 954,380"/>
+          <path d="M600,285 C 688,332 768,404 842,438 S 902,458 914,460"/>
+          <path d="M600,285 C 656,222 698,172 762,150"/>
+          <path d="M700,205 C 742,180 774,150 816,130"/>
+          <path d="M600,285 C 638,352 658,412 706,452"/>
+        </g>
+        <g fill="#241239" stroke="#f7ead1" stroke-width="2" stroke-dasharray="3 3.5">
+          <circle cx="484" cy="284" r="6.5"/>
+          <circle cx="350" cy="281" r="6.5"/>
+          <circle cx="476" cy="357" r="6.5"/>
+          <circle cx="452" cy="322" r="6.5"/>
+          <circle cx="452" cy="243" r="6.5"/>
+          <circle cx="474" cy="204" r="6.5"/>
+        </g>
       </g>
       <g class="fade-g" fill="#ffd166">
         <circle cx="716" cy="286" r="6.5"/>
@@ -1685,7 +1707,7 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
         <circle cx="748" cy="327" r="6.5"/>
         <circle cx="726" cy="366" r="6.5"/>
       </g>
-      <text x="170" y="250" font-family="'IBM Plex Mono', monospace" font-size="17" letter-spacing="1" fill="#f7ead1">PAST — DOTTED, FOR CURIOSITY</text>
+      <text x="170" y="230" font-family="'IBM Plex Mono', monospace" font-size="17" letter-spacing="1" fill="#f7ead1">PAST — DOTTED, FOR CURIOSITY</text>
       <text x="700" y="500" font-family="'IBM Plex Mono', monospace" font-size="17" letter-spacing="1" fill="#f0b73f">FUTURE — SOLID</text>
     </svg></div>
       <p class="cap"><b>◈ THE NODE LINE.</b> The same drawing, read along its spine: past nodes dotted behind the junction — undecided, his question mark drawn in — the junction itself the now, and ahead of it solid gold nodes riding the forks. The forking is the sure part; the past's shape is the open question.</p>
@@ -1709,13 +1731,13 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
         <circle class="gem-glow" cx="452" cy="210" r="10" fill="#ffd166"/>
       </g>
       <g class="fan">
-        <polygon points="492,210 950,29 950,57" fill="#ff3b30" opacity=".85"/>
-        <polygon points="492,210 950,87 950,115" fill="#ff9500" opacity=".85"/>
-        <polygon points="492,210 950,142 950,170" fill="#ffd60a" opacity=".85"/>
-        <polygon points="492,210 950,196 950,224" fill="#34c759" opacity=".85"/>
-        <polygon points="492,210 950,249 950,277" fill="#0a84ff" opacity=".85"/>
-        <polygon points="492,210 950,305 950,333" fill="#5e5ce6" opacity=".85"/>
-        <polygon points="492,210 950,363 950,391" fill="#bf5af2" opacity=".85"/>
+        <polygon class="ray r1" points="492,210 950,29 950,57" fill="#ff3b30" opacity=".85"/>
+        <polygon class="ray r2" points="492,210 950,87 950,115" fill="#ff9500" opacity=".85"/>
+        <polygon class="ray r3" points="492,210 950,142 950,170" fill="#ffd60a" opacity=".85"/>
+        <polygon class="ray r4" points="492,210 950,196 950,224" fill="#34c759" opacity=".85"/>
+        <polygon class="ray r5" points="492,210 950,249 950,277" fill="#0a84ff" opacity=".85"/>
+        <polygon class="ray r6" points="492,210 950,305 950,333" fill="#5e5ce6" opacity=".85"/>
+        <polygon class="ray r7" points="492,210 950,363 950,391" fill="#bf5af2" opacity=".85"/>
       </g>
       <text x="806" y="40" font-family="'IBM Plex Mono', monospace" font-size="15" letter-spacing="1" fill="#f7ead1">THE SPECTRUM</text>
     </svg></div>
@@ -1846,7 +1868,11 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
       master.setAttribute('aria-pressed', all ? 'true' : 'false');
     }
     segs.forEach(function(seg){
-      seg.addEventListener('click', function(){
+      if(seg.dataset.wired) return; seg.dataset.wired = '1';
+      seg.addEventListener('click', function(e){
+        /* strictly individual: this tap touches ONLY this segment's class,
+           and it stops here — it can never bubble into another control */
+        e.stopPropagation();
         seg.classList.toggle('play');
         seg.setAttribute('aria-pressed', seg.classList.contains('play') ? 'true' : 'false');
         syncMaster();
