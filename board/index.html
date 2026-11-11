@@ -77,7 +77,7 @@
   .grid{
     position:relative; z-index:2; pointer-events:none; flex:1;
     display:grid; grid-template-columns:1fr 1fr 1fr; grid-template-rows:auto auto auto auto; align-items:start; gap:104px 56px;
-    grid-template-areas:"tyson tesla facts" "save amy kid" "lazar scientists sleep" "cave . .";
+    grid-template-areas:"tyson tesla facts" "save amy kid" "lazar . scientists" "sleep . cave";
   }
   .grid .card{pointer-events:auto}
   #card-tyson{grid-area:tyson} #card-tesla{grid-area:tesla} #card-facts{grid-area:facts}
@@ -435,22 +435,76 @@
   .seg.play .dim-g{opacity:1; transition:opacity .9s ease .15s}
   .seg .beam, .seg .beam-glow{stroke-dasharray:1; stroke-dashoffset:1}
   .seg.play .beam, .seg.play .beam-glow{stroke-dashoffset:0; transition:stroke-dashoffset .7s ease}
-  /* prism rays: one by one, in fast succession (110ms stagger, spectrum order) —
-     the gold beam lands (~.7s), then each color sweeps out of the diamond alone */
-  .seg .ray{transform-box:view-box; transform-origin:492px 210px; opacity:0; transform:scaleX(0);
-    transition:transform .22s ease, opacity .18s ease}
-  .seg.play .ray{opacity:.85; transform:scaleX(1); transition:transform .3s ease, opacity .12s ease}
-  .seg.play .ray.r1{transition-delay:.68s,.68s}
-  .seg.play .ray.r2{transition-delay:.79s,.79s}
-  .seg.play .ray.r3{transition-delay:.90s,.90s}
-  .seg.play .ray.r4{transition-delay:1.01s,1.01s}
-  .seg.play .ray.r5{transition-delay:1.12s,1.12s}
-  .seg.play .ray.r6{transition-delay:1.23s,1.23s}
-  .seg.play .ray.r7{transition-delay:1.34s,1.34s}
+  /* prism rays: THIN LINES now, drawn the same way the gold beam draws —
+     stroke-dashoffset over pathLength 1 — one line at a time in succession,
+     easing out slowly (his word): the beam lands (~.7s), then each color
+     draws itself out of the diamond alone, 200ms after the one before */
+  .seg .ray{stroke-dasharray:1; stroke-dashoffset:1}
+  .seg.play .ray{stroke-dashoffset:0; transition:stroke-dashoffset 1.05s ease}
+  .seg.play .ray.r1{transition-delay:.72s}
+  .seg.play .ray.r2{transition-delay:.92s}
+  .seg.play .ray.r3{transition-delay:1.12s}
+  .seg.play .ray.r4{transition-delay:1.32s}
+  .seg.play .ray.r5{transition-delay:1.52s}
+  .seg.play .ray.r6{transition-delay:1.72s}
+  .seg.play .ray.r7{transition-delay:1.92s}
   .seg .gem-glow{opacity:0}
   .seg.play .gem-glow{opacity:.95; transition:opacity .3s ease .62s}
   @media (prefers-reduced-motion: reduce){
     .seg .draw-g, .seg .fade-g, .seg .dim-g, .seg .beam, .seg .beam-glow, .seg .ray, .seg .gem-glow{transition:none !important}
+  }
+
+  /* ---------- the cave theater: Plato, reenacted on a stage ----------
+     User-triggered only — the board's calm law holds inside files too.
+     Nothing moves until REENACT is pressed; reduced motion gets the
+     settled final composition, labelled, still. */
+  .facade svg.fart{position:absolute; inset:0; width:100%; height:100%}
+  .cavebar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:12px 0 4px}
+  .caveplay,.cavereset{
+    cursor:pointer; font-family:"IBM Plex Mono", monospace; font-size:12.5px; letter-spacing:.1em;
+    background:rgba(240,183,63,.08); color:var(--cream);
+    border:1.5px solid var(--gold); border-radius:24px; padding:10px 20px;
+  }
+  .caveplay:hover,.cavereset:hover{background:var(--gold); color:#241203}
+  .cavehint{font-family:"IBM Plex Mono", monospace; font-size:10px; letter-spacing:.08em; color:var(--faint)}
+  .actcap{
+    font-family:"IBM Plex Mono", monospace; font-size:12px; letter-spacing:.04em; line-height:1.65;
+    color:var(--cream); border-left:3px solid var(--gold); padding:2px 0 2px 12px; margin-top:10px; min-height:44px;
+  }
+  .actcap b{color:var(--yellow)}
+  .cavestage{cursor:pointer}
+  .cavestage .flame{transform-box:fill-box; transform-origin:50% 100%}
+  .cavestage.playing .flame{animation:caveflick 1.15s ease-in-out infinite}
+  @keyframes caveflick{0%,100%{transform:scaleY(1) skewX(0deg)}30%{transform:scaleY(1.07) skewX(1.6deg)}55%{transform:scaleY(.95) skewX(-1.2deg)}80%{transform:scaleY(1.04) skewX(.8deg)}}
+  .cavestage .fireglow{opacity:.10; transition:opacity 1.2s ease}
+  .cavestage.a2 .fireglow,.cavestage.a3 .fireglow,.cavestage.a4 .fireglow{opacity:.22}
+  .cavestage.playing .carriers{animation:cavewalk 9s ease-in-out infinite}
+  @keyframes cavewalk{0%,100%{transform:translateX(-26px)}50%{transform:translateX(26px)}}
+  .cavestage .cshadow{transform-box:fill-box; transform-origin:50% 50%}
+  .cavestage.playing .cshadow{animation:cavesway 6s ease-in-out infinite}
+  .cavestage.playing .cshadow.s2{animation-duration:7.5s; animation-delay:-2s}
+  .cavestage.playing .cshadow.s3{animation-duration:8.4s; animation-delay:-4s}
+  @keyframes cavesway{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.035)}}
+  .cavestage .sunrays{opacity:.55; transition:opacity 1.4s ease}
+  .cavestage.a5 .sunrays,.cavestage.a6 .sunrays{opacity:1}
+  .cavestage .oseat{transition:opacity .7s ease}
+  .cavestage .ofree{opacity:0; transition:opacity .7s ease, transform 2.3s ease; transform-box:view-box; transform:translate(706px,388px)}
+  .cavestage .ochains{transition:opacity .9s ease}
+  .cavestage.a3 .oseat,.cavestage.a4 .oseat,.cavestage.a5 .oseat,.cavestage.a6 .oseat{opacity:0}
+  .cavestage.a3 .ofree,.cavestage.a4 .ofree,.cavestage.a5 .ofree,.cavestage.a6 .ofree{opacity:1}
+  .cavestage.a3 .ochains,.cavestage.a4 .ochains,.cavestage.a5 .ochains,.cavestage.a6 .ochains{opacity:.12}
+  .cavestage.a3b .ofree{transform:translate(706px,388px) scale(-1,1)}
+  .cavestage.a4 .ofree{transform:translate(596px,346px) scale(-1,1)}
+  .cavestage.a4b .ofree{transform:translate(420px,292px) scale(-1,1)}
+  .cavestage.a5 .ofree{transform:translate(228px,232px) scale(-1,1)}
+  .cavestage.a6 .ofree{transform:translate(430px,298px) scale(1,1)}
+  .cavestage.a6b .ofree{transform:translate(668px,388px)}
+  .cavestage .oarm{transform-box:fill-box; transform-origin:0% 0%; transition:transform 1s ease .9s}
+  .cavestage.a6b .oarm{transform:rotate(-38deg)}
+  .cavestage.paused .flame,.cavestage.paused .carriers,.cavestage.paused .cshadow{animation-play-state:paused}
+  @media (prefers-reduced-motion: reduce){
+    .cavestage .flame,.cavestage .carriers,.cavestage .cshadow{animation:none !important}
+    .cavestage .ofree,.cavestage .oseat,.cavestage .ochains,.cavestage .fireglow,.cavestage .oarm,.cavestage .sunrays{transition:none !important}
   }
 
   /* ---------- PC wall: the full-screen spread (desktop only) ---------- */
@@ -513,7 +567,7 @@
       <h2>NEIL DEGRASSE TYSON | HOT ONES GAME NIGHT<small>First We Feast · his time-travel answer at 15:20</small></h2>
       <q>We can time travel in the future, but not the past… You went into everybody else's future.</q>
       <p class="note">The twin paradox, stated on a wing show — and measured in laboratories for fifty years.</p>
-      <div class="watch"><div class="frame"><iframe src="https://www.youtube.com/embed/feiF4mTzfsU?start=920" title="Neil deGrasse Tyson | Hot Ones Game Night" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
+      <div class="watch"><div class="frame facade" data-yt="feiF4mTzfsU" data-start="920" data-title="Neil deGrasse Tyson | Hot Ones Game Night" role="button" tabindex="0" aria-label="Play the film: Neil deGrasse Tyson | Hot Ones Game Night"><img class="fthumb" src="https://i.ytimg.com/vi/feiF4mTzfsU/hqdefault.jpg" alt="Still from Neil deGrasse Tyson on Hot Ones Game Night" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>HOT ONES GAME NIGHT</b> — TYSON · FIRST WE FEAST</span></div><p class="cap"><b>▶ WATCH</b> — screened right on the note: tap play to watch it here; tap anywhere else on the note and the file opens</p></div>
       <span class="tag fact">FACT</span>
       <span class="openfile">OPEN THE FILE →</span>
     </section>
@@ -525,6 +579,7 @@
       <div class="polaroid pair"><div class="ph ph-pair"><img data-shards="media/pair2-neuronweb-00.b64.txt,media/pair2-neuronweb-01.b64.txt" data-mime="image/jpeg" alt="A dense golden web of neuronal axons under confocal microscopy"><img data-shards="media/pair2-cosmicweb-00.b64.txt" data-mime="image/jpeg" alt="The cosmic web — dark-matter filaments and galaxy-cluster nodes in the Millennium Simulation"></div><span>THE TWO WEBS</span><span class="cred">AXONS — MikeRoscopy · CC BY 4.0<br>COSMIC WEB (SIMULATION) — Springel / MPI · CC BY-SA 4.0</span></div>
       <q>Time is not linear… if life has save files, like a video game, then yes — future humans can send us, or themselves, back here.</q>
       <p class="note">Isaiah's newest door, pinned Nov 10: the one-way rule may only be a rule about the line. Inside the file: the scholars who killed the universal "now," the physicist who calls his frozen Nows <b>time capsules</b> — and the counterweight, pinned at full strength.</p>
+      <div class="watch"><div class="frame facade" data-yt="CSf8i8bHIns" data-title="What is Déjà vu? — Vsauce" role="button" tabindex="0" aria-label="Play the film: What is Déjà vu? — Vsauce"><img class="fthumb" src="https://i.ytimg.com/vi/CSf8i8bHIns/hqdefault.jpg" alt="Still from Vsauce's film, What is Déjà vu?" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>WHAT IS DÉJÀ VU?</b> — VSAUCE</span></div><p class="cap"><b>▶ WATCH</b> — the feeling, explained · tap play to watch it here; tap anywhere else on the note and the file opens</p></div>
       <span class="tag mixed">SPECULATION ON SCHOLARLY FACTS</span>
       <span class="openfile">OPEN THE FILE →</span>
     </section>
@@ -540,7 +595,7 @@
         <span class="chip no">the meter quote</span>
         <span class="chip no">FBI / CIA</span>
       </div>
-      <div class="watch"><div class="frame"><iframe src="https://www.youtube.com/embed/m_KCkAy0uIQ" title="Tesla, Chapter 1 — American Experience, PBS" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div><p class="cap"><b>▶ WATCH</b> — "Tesla, Chapter 1" · American Experience · PBS</p></div>
+      <div class="watch"><div class="frame facade" data-yt="m_KCkAy0uIQ" data-title="Tesla, Chapter 1 — American Experience, PBS" role="button" tabindex="0" aria-label="Play the film: Tesla, Chapter 1 — American Experience, PBS"><img class="fthumb" src="https://i.ytimg.com/vi/m_KCkAy0uIQ/hqdefault.jpg" alt="Still from Tesla, Chapter 1 — American Experience, PBS" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>TESLA, CHAPTER 1</b> — AMERICAN EXPERIENCE · PBS</span></div><p class="cap"><b>▶ WATCH</b> — "Tesla, Chapter 1" · American Experience · PBS</p></div>
       <span class="tag mixed">FACT + KILLED LEGENDS</span>
       <span class="openfile">OPEN THE FILE →</span>
     </section>
@@ -550,7 +605,7 @@
       <div class="pillar">THE AUDIT · SCIENCE JUDGES</div>
       <h2>SCHOLARLY — MORE FACTS<small>everything learned through 2026, applied</small></h2>
       <p>Time dilation detected at <b>10 m/s</b>, across <b>33 cm</b>, within <b>1 mm</b>. Faster-than-light warp: killed. The one experiment that seemed to break the speed limit: a loose cable.</p>
-      <div class="watch"><div class="frame"><iframe src="https://www.youtube.com/embed/5YZYfmAc4wY" title="Atomic Clocks Prove Reality Is Stranger Than You Think — NOVA, PBS" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div><p class="cap"><b>▶ WATCH</b> — "Atomic Clocks Prove Reality Is Stranger Than You Think" · NOVA · PBS</p></div>
+      <div class="watch"><div class="frame facade" data-yt="5YZYfmAc4wY" data-title="Atomic Clocks Prove Reality Is Stranger Than You Think — NOVA, PBS" role="button" tabindex="0" aria-label="Play the film: Atomic Clocks Prove Reality Is Stranger Than You Think — NOVA, PBS"><img class="fthumb" src="https://i.ytimg.com/vi/5YZYfmAc4wY/hqdefault.jpg" alt="Still from the NOVA film Atomic Clocks Prove Reality Is Stranger Than You Think" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>ATOMIC CLOCKS PROVE REALITY IS STRANGER</b> — NOVA · PBS</span></div><p class="cap"><b>▶ WATCH</b> — "Atomic Clocks Prove Reality Is Stranger Than You Think" · NOVA · PBS</p></div>
       <span class="tag fact">ROUND 1 COMPLETE</span>
       <span class="openfile">OPEN THE FILE →</span>
     </section>
@@ -561,7 +616,7 @@
       <h2>"THEY ARE FROM THE FUTURE"<small>her full interview · Jeremy Rys &amp; Mark Sokol · 2020</small></h2>
       <q>They're us from the future. They are you. They are me… the ones that go underground and survive.</q>
       <p class="note">One source: her own account. No document, no test — pinned at its real weight, neither inflated nor mocked. <b>She died in 2022, ruled a suicide — twenty-nine days after writing that she never would. Her whole record is in the file.</b></p>
-      <div class="watch"><div class="frame"><iframe src="https://www.youtube.com/embed/l0O4cEIkUZc" title="Amy Eskridge Interview - Jeremy Rys and Mark Sokol (full interview, 2020)" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
+      <div class="watch"><div class="frame facade" data-yt="l0O4cEIkUZc" data-title="Amy Eskridge Interview - Jeremy Rys and Mark Sokol (full interview, 2020)" role="button" tabindex="0" aria-label="Play the film: Amy Eskridge Interview - Jeremy Rys and Mark Sokol (full interview, 2020)"><img class="fthumb" src="https://i.ytimg.com/vi/l0O4cEIkUZc/hqdefault.jpg" alt="Still from the Amy Eskridge interview with Jeremy Rys and Mark Sokol" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>AMY ESKRIDGE — THE FULL INTERVIEW</b> — RYS &amp; SOKOL · 2020</span></div><p class="cap"><b>▶ WATCH</b> — her full interview, screened right on the note: tap play to watch it here; tap anywhere else on the note and the file opens</p></div>
       <span class="tag claim">CLAIM</span>
       <span class="openfile">OPEN THE FILE →</span>
     </section>
@@ -577,7 +632,7 @@
         <span class="chip no">VP Pence</span>
         <span class="chip no">Don Fum, president</span>
       </div>
-      <div class="watch tall"><div class="frame"><video controls playsinline preload="metadata" src="media/kid-last-president.mp4" onclick="event.stopPropagation()"></video></div><p class="cap"><b>▶ WATCH — THE BOARD'S OWN COPY</b> · the surviving copies are watermarked @blueeyeslaughing (TikTok) / @MOTIGRESSION (Instagram) · full 3-min cut. Every copy in the chain is a repost, though — who posted it first is unverified. Isaiah downloaded it himself and handed it over (Nov 10, 2026) so this pin survives even if the original gets deleted again. <a href="https://www.facebook.com/reel/1763644634728725/" target="_blank" rel="noopener">Facebook mirror</a> kept for provenance.</p></div>
+      <div class="watch tall"><div class="frame facade" data-vidshards="media/kidvid-00.b64.txt,media/kidvid-01.b64.txt,media/kidvid-02.b64.txt,media/kidvid-03.b64.txt" role="button" tabindex="0" aria-label="Play the board's own copy of the kid's video"><svg class="fart" viewBox="0 0 230 409" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="230" height="409" fill="#160b26"/><g fill="rgba(240,183,63,.45)"><rect x="11" y="16" width="13" height="19" rx="3"/><rect x="206" y="16" width="13" height="19" rx="3"/><rect x="11" y="52" width="13" height="19" rx="3"/><rect x="206" y="52" width="13" height="19" rx="3"/><rect x="11" y="88" width="13" height="19" rx="3"/><rect x="206" y="88" width="13" height="19" rx="3"/><rect x="11" y="124" width="13" height="19" rx="3"/><rect x="206" y="124" width="13" height="19" rx="3"/><rect x="11" y="160" width="13" height="19" rx="3"/><rect x="206" y="160" width="13" height="19" rx="3"/><rect x="11" y="196" width="13" height="19" rx="3"/><rect x="206" y="196" width="13" height="19" rx="3"/><rect x="11" y="232" width="13" height="19" rx="3"/><rect x="206" y="232" width="13" height="19" rx="3"/><rect x="11" y="268" width="13" height="19" rx="3"/><rect x="206" y="268" width="13" height="19" rx="3"/><rect x="11" y="304" width="13" height="19" rx="3"/><rect x="206" y="304" width="13" height="19" rx="3"/><rect x="11" y="340" width="13" height="19" rx="3"/><rect x="206" y="340" width="13" height="19" rx="3"/><rect x="11" y="376" width="13" height="19" rx="3"/><rect x="206" y="376" width="13" height="19" rx="3"/></g><rect x="34" y="10" width="162" height="389" fill="none" stroke="rgba(240,183,63,.35)" stroke-width="1.5"/><g font-family="IBM Plex Mono, monospace" fill="#f0b73f" text-anchor="middle"><text x="115" y="150" font-size="58" opacity=".9">?</text><text x="115" y="228" font-size="58" opacity=".65">?</text><text x="115" y="306" font-size="58" opacity=".45">?</text></g></svg><span class="ftag">BOARD'S OWN COPY</span><span class="fplay">▶</span><span class="ftitle"><b>THE KID</b> — FULL 3-MIN CUT · SELF-HOSTED</span></div><p class="cap"><b>▶ WATCH — THE BOARD'S OWN COPY</b> · the surviving copies are watermarked @blueeyeslaughing (TikTok) / @MOTIGRESSION (Instagram) · full 3-min cut. Every copy in the chain is a repost, though — who posted it first is unverified. Isaiah downloaded it himself and handed it over (Nov 10, 2026) so this pin survives even if the original gets deleted again. <a href="https://www.facebook.com/reel/1763644634728725/" target="_blank" rel="noopener">Facebook mirror</a> kept for provenance.</p></div>
       <span class="tag mixed">RHYMES REAL — ROLES WRONG</span>
       <span class="openfile">OPEN THE FILE →</span>
     </section>
@@ -588,7 +643,7 @@
       <h2>BOB LAZAR — "CONTAINERS"<small>from his 1989 statement and early interviews</small></h2>
       <q>Any time the word 'human' came up, it was always replaced with the word 'containers.'</q>
       <p class="note">He said it in 1989, out of briefing documents he says he read at S-4. The word reached this board spliced onto the end of an Amy Eskridge compilation — an editor's cut, not her words; her claim never used it. His file carries the claim — and the record that fights it.</p>
-      <div class="watch"><div class="frame"><iframe src="https://www.youtube.com/embed/BoJmd2MIpOk" title="Bob Lazar's 1989 interview — KLAS-TV, George Knapp (8 News Now)" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div><p class="cap"><b>▶ WATCH</b> — the original era: Lazar's 1989 KLAS-TV interview with George Knapp (8 News Now's own upload). The Amy compilation's closing "containers" clip was cut from a Knapp interview of this era; the exact source upload is still being traced — this pin will name it when it's verified.</p></div>
+      <div class="watch"><div class="frame facade" data-yt="BoJmd2MIpOk" data-title="Bob Lazar's 1989 interview — KLAS-TV, George Knapp (8 News Now)" role="button" tabindex="0" aria-label="Play the film: Bob Lazar's 1989 interview — KLAS-TV, George Knapp (8 News Now)"><img class="fthumb" src="https://i.ytimg.com/vi/BoJmd2MIpOk/hqdefault.jpg" alt="Still from Bob Lazar's 1989 KLAS-TV interview with George Knapp" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>BOB LAZAR, 1989</b> — KLAS-TV · GEORGE KNAPP</span></div><p class="cap"><b>▶ WATCH</b> — the original era: Lazar's 1989 KLAS-TV interview with George Knapp (8 News Now's own upload). The Amy compilation's closing "containers" clip was cut from a Knapp interview of this era; the exact source upload is still being traced — this pin will name it when it's verified.</p></div>
       <div class="chips">
         <span class="chip ok">115: described '89, made 2003 ✓</span>
         <span class="chip ok">Los Alamos directory ✓</span>
@@ -604,7 +659,7 @@
       <div class="pillar">ISAIAH'S FILE · THE NIGHT SHIFT</div>
       <h2>THE BATTERY QUESTION — ISAIAH'S SLEEP FILE<small>containers · REM · why we wake up tired</small></h2>
       <div class="polaroid"><div class="ph"><img data-shards="media/sleep-eeg-00.b64.txt" data-mime="image/jpeg" alt="A human sleep EEG trace"></div><span>SLEEP, ON PAPER</span></div>
-      <p>Isaiah's riff: if they see us as <b>containers</b>, look at the container's schedule — built to go dark for hours every night, dreaming, and so often waking up <b>tired</b>, like something was drawn out of it.</p>
+      <q>Isaiah's riff: if they see us as <b>containers</b>, look at the container's schedule — built to go dark for hours every night, dreaming, and so often waking up <b>tired</b>, like something was drawn out of it.</q>
       <p class="note">The speculation is his. The sleep facts inside the file are measured — and the deepest one is that science still cannot say why sleep exists at all.</p>
       <div class="chips">
         <span class="chip ok">⅓ of life asleep ✓</span>
@@ -612,6 +667,7 @@
         <span class="chip mid">why sleep? — unsolved</span>
         <span class="chip mid">the harvest — his speculation</span>
       </div>
+      <div class="watch"><div class="frame facade" data-yt="eTgNgGO_bLs" data-title="What happens when we sleep? — The Economist" role="button" tabindex="0" aria-label="Play the film: What happens when we sleep? — The Economist"><img class="fthumb" src="https://i.ytimg.com/vi/eTgNgGO_bLs/hqdefault.jpg" alt="Still from The Economist's film, What happens when we sleep?" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>WHAT HAPPENS WHEN WE SLEEP?</b> — THE ECONOMIST</span></div><p class="cap"><b>▶ WATCH</b> — the measured tour of the night shift, screened right on the note: tap play to watch it here; tap anywhere else on the note and the file opens</p></div>
       <span class="tag mixed">SPECULATION ON MEASURED FACTS</span>
       <span class="openfile">OPEN THE FILE →</span>
     </section>
@@ -622,6 +678,7 @@
       <h2>THE SCIENTISTS — THE ONES WHO CRACKED TIME OPEN<small>Gödel · Wheeler · Barbour · Rovelli · Everett · Thorne · Mallett · Aharonov · Deutsch · Hawking</small></h2>
       <div class="polaroid"><div class="ph"><img data-shards="media/sci-einstein-00.b64.txt" data-mime="image/jpeg" alt="Albert Einstein, 1921"></div><span>EINSTEIN, 1921</span></div>
       <p>Every door on this board has a name and a year on it. These are the researchers who did the cracking — the loop in the equations, the choice that seems to reach back, the universe with no time in it at all — and the one great opponent whose conjecture guards the wall.</p>
+      <div class="watch"><div class="frame facade" data-yt="dZaqLgezRNE" data-title="Something Disturbing Happens When You Solve Einstein's Equations This Way — PBS Space Time" role="button" tabindex="0" aria-label="Play the film: Something Disturbing Happens When You Solve Einstein's Equations This Way — PBS Space Time"><img class="fthumb" src="https://i.ytimg.com/vi/dZaqLgezRNE/hqdefault.jpg" alt="Still from PBS Space Time's Gödel film" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>THE DISTURBING SOLUTION</b> — PBS SPACE TIME</span></div><p class="cap"><b>▶ WATCH</b> — Gödel's loops, walked through · tap play to watch it here; tap anywhere else on the note and the file opens</p></div>
       <span class="tag fact">DOCUMENTED LIVES · DOCUMENTED WORK</span>
       <span class="openfile">OPEN THE FILE →</span>
     </section>
@@ -638,7 +695,7 @@
         <span class="chip ok">the allegory ✓ Republic VII</span>
         <span class="chip mid">the lenses — his idea</span>
       </div>
-      <div class="watch"><div class="frame facade" data-yt="oYp5XuGYqqY" role="button" tabindex="0" aria-label="Play the cover film: Do we see reality as it is? — Donald Hoffman, TED"><img class="fthumb" src="https://i.ytimg.com/vi/oYp5XuGYqqY/hqdefault.jpg" alt="Still from Donald Hoffman's TED talk, Do we see reality as it is?" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>DO WE SEE REALITY AS IT IS?</b> — HOFFMAN · TED</span></div><p class="cap"><b>▶ WATCH</b> — the cover film, screened right on the note: tap play to watch it here; tap anywhere else on the note and the file opens</p></div>
+      <div class="watch"><div class="frame facade" data-yt="oYp5XuGYqqY" data-title="Cover film — Do we see reality as it is? — Donald Hoffman, TED" role="button" tabindex="0" aria-label="Play the cover film: Do we see reality as it is? — Donald Hoffman, TED"><img class="fthumb" src="https://i.ytimg.com/vi/oYp5XuGYqqY/hqdefault.jpg" alt="Still from Donald Hoffman's TED talk, Do we see reality as it is?" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>DO WE SEE REALITY AS IT IS?</b> — HOFFMAN · TED</span></div><p class="cap"><b>▶ WATCH</b> — the cover film, screened right on the note: tap play to watch it here; tap anywhere else on the note and the file opens</p></div>
       <span class="tag mixed">TEXT · THEORY · HIS IDEA</span>
       <span class="openfile">OPEN THE FILE →</span>
     </section>
@@ -662,6 +719,7 @@
       <div><b>AN EXPLORER'S NEWS</b>Receivable — always forward. Voyager 1, sent out in 1977, still reports; its signal takes nearly a full day to reach us (about 24 hours one-way). We hear its past, never its future.</div>
       <div><b>FROM THE FUTURE</b>Nothing received. Ever. So far.</div>
     </div>
+    <div class="watch" style="max-width:480px"><div class="frame facade" data-yt="yuD34tEpRFw" data-title="Time Dilation - Einstein's Theory Of Relativity Explained! — Science ABC" role="button" tabindex="0" aria-label="Play the film: Time Dilation - Einstein's Theory Of Relativity Explained! — Science ABC"><img class="fthumb" src="https://i.ytimg.com/vi/yuD34tEpRFw/hqdefault.jpg" alt="Still from Science ABC's time dilation explainer" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>TIME DILATION, EXPLAINED</b> — SCIENCE ABC</span></div><p class="cap"><b>▶ WATCH</b> — the pillars, explained · tap play to watch it here; tap anywhere else on the strip and the theory opens</p></div>
     <span class="openfile">OPEN THE FULL THEORY →</span>
   </section>
 
@@ -686,6 +744,7 @@
     <h2>THE OPERATION TABLE — A STATEMENT · ISAIAH · SPECULATION</h2>
     <p class="q">"If Earth is anything like Minecraft, then the aliens or future humans could have found a way to operate the save file function with technology similar to Godly ability."</p>
     <p class="note" style="color:var(--dim); font-size:13.5px; margin-top:7px">His sentence, pinned as the headline of its own file: the analogy mapped piece by piece, the weird recent AI evidence, the simulation argument — and the one distinction the whole theory turns on: reading a save is not loading one.</p>
+    <div class="watch" style="max-width:560px"><div class="frame facade" data-yt="5bKAo1LkOFw" data-title="How To Backup &amp; Restore Minecraft Java Edition Worlds — The Breakdown" role="button" tabindex="0" aria-label="Play the film: How To Backup &amp; Restore Minecraft Java Edition Worlds — The Breakdown"><img class="fthumb" src="https://i.ytimg.com/vi/5bKAo1LkOFw/hqdefault.jpg" alt="Still from The Breakdown's Minecraft backup and restore tutorial" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>BACKUP &amp; RESTORE MINECRAFT WORLDS</b> — THE BREAKDOWN</span></div><p class="cap"><b>▶ WATCH</b> — this is the operation table, demonstrated · tap play to watch it here; tap anywhere else on the box and the file opens</p></div>
     <span class="tag mixed">SPECULATION · IN GAME GRAMMAR</span>
     <span class="openfile">OPEN THE FILE →</span>
   </section>
@@ -1646,6 +1705,7 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
       <defs>
         <marker id="sk-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffd166"/></marker>
         <marker id="sk-arrs" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0b73f"/></marker>
+        <marker id="sk-arrc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f7ead1"/></marker>
       </defs>
       <text x="36" y="46" font-family="'IBM Plex Mono', monospace" font-size="21" letter-spacing="2" fill="#f0b73f">[ MINECRAFT SAVE ANALOGY ]</text>
       <text x="36" y="98" font-family="'IBM Plex Mono', monospace" font-size="27" letter-spacing="3" fill="#f7ead1">??? SPACE TIME</text>
@@ -1708,18 +1768,39 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
         <path d="M600,285 C 656,222 698,172 762,150" opacity="0.75"/>
         <path d="M700,205 C 742,180 774,150 816,130" opacity="0.75" marker-end="url(#sk-arrs)"/>
         <path d="M600,285 C 638,352 658,412 706,452" opacity="0.75" marker-end="url(#sk-arrs)"/>
+        <path d="M700,205 C 716,178 724,150 722,124" stroke-width="1.6" opacity="0.55"/>
+        <path d="M748,248 C 772,224 788,196 790,168" stroke-width="1.6" opacity="0.55"/>
+        <path d="M748,327 C 774,344 792,368 796,396" stroke-width="1.6" opacity="0.55"/>
+        <path d="M726,366 C 744,392 752,420 748,446" stroke-width="1.6" opacity="0.55"/>
+        <path d="M834,140 C 856,128 876,124 896,126" stroke-width="1.6" opacity="0.55"/>
+        <path d="M876,214 C 898,206 916,206 932,210" stroke-width="1.6" opacity="0.55"/>
+        <path d="M878,366 C 900,372 918,374 934,372" stroke-width="1.6" opacity="0.55"/>
+        <g fill="#ffd166" stroke="none" opacity="0.85"><circle cx="722" cy="124" r="3.5"/><circle cx="790" cy="168" r="3.5"/><circle cx="796" cy="396" r="3.5"/><circle cx="748" cy="446" r="3.5"/></g>
       </g>
-      <line x1="600" y1="285" x2="420" y2="285" stroke="#ffd166" stroke-width="3"/>
-      <line x1="420" y1="285" x2="164" y2="285" stroke="#ffd166" stroke-width="3" stroke-dasharray="10 8" marker-end="url(#sk-arr)"/>
+      <g class="draw-g">
+        <g transform="translate(1200 570) scale(-1 -1)" fill="none" stroke="#f7ead1" stroke-width="2.5" stroke-dasharray="2.5 6" stroke-linecap="round" opacity="0.8">
+          <path d="M600,285 C 690,248 762,178 834,140 S 902,118 920,114"/>
+          <path d="M600,285 C 700,262 802,232 876,214 S 938,204 952,202"/>
+          <path d="M600,285 C 720,283 836,288 954,290"/>
+          <path d="M600,285 C 700,310 802,344 878,366 S 942,378 954,380"/>
+          <path d="M600,285 C 688,332 768,404 842,438 S 902,458 914,460"/>
+          <path d="M600,285 C 656,222 698,172 762,150"/>
+          <path d="M700,205 C 742,180 774,150 816,130"/>
+          <path d="M600,285 C 638,352 658,412 706,452"/>
+          <g fill="#241239" stroke="#f7ead1" stroke-width="2" stroke-dasharray="2.5 3"><circle cx="920" cy="114" r="4.5"/><circle cx="952" cy="202" r="4.5"/><circle cx="954" cy="290" r="4.5"/><circle cx="954" cy="380" r="4.5"/><circle cx="914" cy="460" r="4.5"/><circle cx="762" cy="150" r="4.5"/><circle cx="816" cy="130" r="4.5"/><circle cx="706" cy="452" r="4.5"/></g>
+        </g>
+      </g>
+      <line x1="600" y1="285" x2="948" y2="285" stroke="#ffd166" stroke-width="3"/>
+      <line x1="600" y1="285" x2="174" y2="285" stroke="#f7ead1" stroke-width="3" stroke-dasharray="2.5 6" stroke-linecap="round" opacity="0.9" marker-end="url(#sk-arrc)"/>
       <circle cx="600" cy="285" r="15" fill="none" stroke="#ffd166" stroke-width="1.5" opacity="0.5"/>
       <circle cx="600" cy="285" r="7" fill="#ffd166"/>
       <g fill="#241239" stroke="#f7ead1" stroke-width="2" stroke-dasharray="3 3.5">
-        <circle cx="205" cy="285" r="8"/>
-        <circle cx="275" cy="285" r="8"/>
-        <circle cx="345" cy="285" r="8"/>
-        <circle cx="445" cy="285" r="8"/>
-        <circle cx="505" cy="285" r="8"/>
-        <circle cx="560" cy="285" r="8"/>
+        <circle cx="190" cy="285" r="8"/>
+        <circle cx="262" cy="285" r="8"/>
+        <circle cx="334" cy="285" r="8"/>
+        <circle cx="406" cy="285" r="8"/>
+        <circle cx="472" cy="285" r="8"/>
+        <circle cx="530" cy="285" r="8"/>
       </g>
       <g class="fade-g" fill="#ffd166">
         <circle cx="716" cy="286" r="6.5"/>
@@ -1748,18 +1829,19 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
         <path d="M404,616 C 402,630 404,644 400,656"/>
       </g>
     </svg></div>
-    <p class="cap"><b>&#9672; THE DIAGRAM.</b> His sketch, redrawn clean in plum and gold &mdash; same structure as the page: the dashed field on the left, the line that runs back into it, and the junction on the right erupting into branches. Labels in his words. His tree grows sideways: past nodes dotted (curiosity), future nodes solid &mdash; as above, so below, laid on its side. And the tree is the same shape as the spacetime-node webs &mdash; a third web, drawn by hand on a receipt: hub, filaments, forks above and below the line. The past nodes are dotted &mdash; that&rsquo;s our question mark, drawn in: is the past a linear line, or is it past saves? In his words: &ldquo;It&rsquo;s just dotted cuz I don&rsquo;t know if the past works that way.&rdquo;</p>
+    <p class="cap"><b>&#9672; THE DIAGRAM.</b> His sketch, redrawn clean in plum and gold &mdash; same structure as the page: the dashed field on the left, the line that runs back into it, and the junction on the right erupting into branches. Labels in his words. His tree grows sideways &mdash; and it is a tree, literally: a branching canopy ahead, a root system behind it, the past drawn as roots, dotted (curiosity), the future as branches, solid &mdash; as above, so below, laid on its side. And the tree is the same shape as the spacetime-node webs &mdash; a third web, drawn by hand on a receipt: hub, filaments, forks above and below the line. The past nodes are dotted &mdash; that&rsquo;s our question mark, drawn in: is the past a linear line, or is it past saves? In his words: &ldquo;It&rsquo;s just dotted cuz I don&rsquo;t know if the past works that way.&rdquo;</p>
   </div>
     <p class="seghint"><span class="h-play">▸ TAP THE DIAGRAM — PLAY ITS SPLIT</span><span class="h-reset">▸ SPLIT SHOWN — TAP TO RESET</span></p>
   </div>
   <div class="seg" data-seg="time" tabindex="0" role="button" aria-pressed="false" aria-label="Play the time diagram animation">
     <p class="subh">SEGMENT 2 — THE TIME DIAGRAM</p>
     <div class="pic">
-      <div class="frame"><svg viewBox="130 100 840 415" width="100%" style="display:block" role="img" aria-label="The time diagram from Isaiah's sketch: dotted past nodes behind the junction, solid gold future nodes forking ahead">
+      <div class="frame"><svg viewBox="130 100 840 415" width="100%" style="display:block" role="img" aria-label="The time diagram from Isaiah's sketch: the past mirrored and dotted behind the junction, solid gold future nodes forking ahead">
       <rect x="130" y="100" width="840" height="415" fill="#241239"/>
       <defs>
         <marker id="sk2-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffd166"/></marker>
         <marker id="sk2-arrs" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0b73f"/></marker>
+        <marker id="sk2-arrc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f7ead1"/></marker>
       </defs>
       <g class="draw-g" fill="none" stroke="#f0b73f" stroke-width="2.5">
         <path d="M600,285 C 690,248 762,178 834,140 S 902,118 920,114" marker-end="url(#sk2-arrs)"/>
@@ -1772,24 +1854,26 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
         <path d="M600,285 C 638,352 658,412 706,452" opacity="0.75" marker-end="url(#sk2-arrs)"/>
       
       </g>
-      <line x1="600" y1="285" x2="420" y2="285" stroke="#ffd166" stroke-width="3"/>
-      <line x1="420" y1="285" x2="164" y2="285" stroke="#ffd166" stroke-width="3" stroke-dasharray="10 8" marker-end="url(#sk2-arr)"/>
+      <line x1="600" y1="285" x2="948" y2="285" stroke="#ffd166" stroke-width="3"/>
+      <line x1="600" y1="285" x2="174" y2="285" stroke="#f7ead1" stroke-width="3" stroke-dasharray="2.5 6" stroke-linecap="round" opacity="0.9" marker-end="url(#sk2-arrc)"/>
       <circle cx="600" cy="285" r="15" fill="none" stroke="#ffd166" stroke-width="1.5" opacity="0.5"/>
       <circle cx="600" cy="285" r="7" fill="#ffd166"/>
-      <g class="dim-g">
-        <g transform="translate(1200 570) scale(-1 -1)" fill="none" stroke="#a794c9" stroke-width="2.5" stroke-dasharray="7 6" opacity="0.5">
-          <path d="M600,285 C 690,248 762,178 834,140 S 902,118 920,114"/>
-          <path d="M600,285 C 700,262 802,232 876,214 S 938,204 952,202"/>
-          <path d="M600,285 C 720,283 836,288 954,290"/>
-          <path d="M600,285 C 700,310 802,344 878,366 S 942,378 954,380"/>
-          <path d="M600,285 C 688,332 768,404 842,438 S 902,458 914,460"/>
+      <g class="draw-g">
+        <g transform="translate(1200 570) scale(-1 -1)" fill="none" stroke="#f7ead1" stroke-width="2.5" stroke-dasharray="2.5 6" stroke-linecap="round" opacity="0.85">
+          <path d="M600,285 C 690,248 762,178 834,140 S 902,118 920,114" marker-end="url(#sk2-arrc)"/>
+          <path d="M600,285 C 700,262 802,232 876,214 S 938,204 952,202" marker-end="url(#sk2-arrc)"/>
+          <path d="M600,285 C 720,283 836,288 954,290" marker-end="url(#sk2-arrc)"/>
+          <path d="M600,285 C 700,310 802,344 878,366 S 942,378 954,380" marker-end="url(#sk2-arrc)"/>
+          <path d="M600,285 C 688,332 768,404 842,438 S 902,458 914,460" marker-end="url(#sk2-arrc)"/>
           <path d="M600,285 C 656,222 698,172 762,150"/>
-          <path d="M700,205 C 742,180 774,150 816,130"/>
-          <path d="M600,285 C 638,352 658,412 706,452"/>
+          <path d="M700,205 C 742,180 774,150 816,130" marker-end="url(#sk2-arrc)"/>
+          <path d="M600,285 C 638,352 658,412 706,452" marker-end="url(#sk2-arrc)"/>
         </g>
+      </g>
+      <g class="fade-g">
         <g fill="#241239" stroke="#f7ead1" stroke-width="2" stroke-dasharray="3 3.5">
-          <circle cx="484" cy="284" r="6.5"/>
-          <circle cx="350" cy="281" r="6.5"/>
+          <circle cx="464" cy="284" r="6.5"/>
+          <circle cx="334" cy="281" r="6.5"/>
           <circle cx="476" cy="357" r="6.5"/>
           <circle cx="452" cy="322" r="6.5"/>
           <circle cx="452" cy="243" r="6.5"/>
@@ -1797,8 +1881,8 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
         </g>
       </g>
       <g class="fade-g" fill="#ffd166">
-        <circle cx="716" cy="286" r="6.5"/>
-        <circle cx="850" cy="289" r="6.5"/>
+        <circle cx="736" cy="286" r="6.5"/>
+        <circle cx="866" cy="289" r="6.5"/>
         <circle cx="724" cy="213" r="6.5"/>
         <circle cx="748" cy="248" r="6.5"/>
         <circle cx="748" cy="327" r="6.5"/>
@@ -1807,7 +1891,7 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
       <text x="170" y="230" font-family="'IBM Plex Mono', monospace" font-size="17" letter-spacing="1" fill="#f7ead1">PAST — DOTTED, FOR CURIOSITY</text>
       <text x="700" y="500" font-family="'IBM Plex Mono', monospace" font-size="17" letter-spacing="1" fill="#f0b73f">FUTURE — SOLID</text>
     </svg></div>
-      <p class="cap"><b>◈ THE NODE LINE.</b> The same drawing, read along its spine: past nodes dotted behind the junction — undecided, his question mark drawn in — the junction itself the now, and ahead of it solid gold nodes riding the forks. The forking is the sure part; the past's shape is the open question.</p>
+      <p class="cap"><b>◈ THE NODE LINE.</b> The same drawing, read along its spine: the past drawn as the future in reverse — the same forks, the same nodes, mirrored behind the junction — but dotted: undecided, his question mark drawn in. The junction itself is the now, and ahead of it solid gold nodes ride the forks. The forking is the sure part; whether the past wears the same shape is the open question.</p>
     </div>
     <p class="seghint"><span class="h-play">▸ TAP THE DIAGRAM — PLAY ITS SPLIT</span><span class="h-reset">▸ SPLIT SHOWN — TAP TO RESET</span></p>
   </div>
@@ -1827,14 +1911,14 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
         <polyline points="462,150 452,210 430,278" fill="none" stroke="#f0b73f" stroke-width="1.2" opacity=".55"/>
         <circle class="gem-glow" cx="452" cy="210" r="10" fill="#ffd166"/>
       </g>
-      <g class="fan">
-        <polygon class="ray r1" points="492,210 950,29 950,57" fill="#ff3b30" opacity=".85"/>
-        <polygon class="ray r2" points="492,210 950,87 950,115" fill="#ff9500" opacity=".85"/>
-        <polygon class="ray r3" points="492,210 950,142 950,170" fill="#ffd60a" opacity=".85"/>
-        <polygon class="ray r4" points="492,210 950,196 950,224" fill="#34c759" opacity=".85"/>
-        <polygon class="ray r5" points="492,210 950,249 950,277" fill="#0a84ff" opacity=".85"/>
-        <polygon class="ray r6" points="492,210 950,305 950,333" fill="#5e5ce6" opacity=".85"/>
-        <polygon class="ray r7" points="492,210 950,363 950,391" fill="#bf5af2" opacity=".85"/>
+      <g class="fan" fill="none" stroke-linecap="round">
+        <line class="ray r1" x1="492" y1="210" x2="950" y2="43" stroke="#ff3b30" stroke-width="5" pathLength="1"/>
+        <line class="ray r2" x1="492" y1="210" x2="950" y2="101" stroke="#ff9500" stroke-width="5" pathLength="1"/>
+        <line class="ray r3" x1="492" y1="210" x2="950" y2="156" stroke="#ffd60a" stroke-width="5" pathLength="1"/>
+        <line class="ray r4" x1="492" y1="210" x2="950" y2="210" stroke="#34c759" stroke-width="5" pathLength="1"/>
+        <line class="ray r5" x1="492" y1="210" x2="950" y2="263" stroke="#0a84ff" stroke-width="5" pathLength="1"/>
+        <line class="ray r6" x1="492" y1="210" x2="950" y2="319" stroke="#5e5ce6" stroke-width="5" pathLength="1"/>
+        <line class="ray r7" x1="492" y1="210" x2="950" y2="377" stroke="#bf5af2" stroke-width="5" pathLength="1"/>
       </g>
       <text x="806" y="40" font-family="'IBM Plex Mono', monospace" font-size="15" letter-spacing="1" fill="#f7ead1">THE SPECTRUM</text>
     </svg></div>
@@ -1899,8 +1983,38 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
   <h3>THE SOURCE — PLATO'S CAVE · THE REPUBLIC, BOOK VII (c. 375 BC)</h3>
   <p>Picture people chained since childhood inside an underground den, legs and necks fixed so they can only ever look forward, at the wall. Behind them a fire burns. Between the fire and the prisoners runs a raised way behind a low screen, and along it carriers pass, holding up statues and vessels and figures of animals — and the fire throws those objects' shadows onto the wall the prisoners face. Having never seen anything else, the prisoners take the shadows for the whole of reality: they name them, argue over them, and honour whoever is sharpest at predicting which shadow comes next. That is the setup of the oldest pin on this board — Plato's allegory of the cave, told by Socrates in Book VII of the <i>Republic</i>, written around 375 BC.</p>
   <div class="pic">
-    <div class="frame"><svg viewBox="0 0 1000 430" width="100%" style="display:block" role="img" aria-label="Diagram of Plato's cave: the sun outside, a freed prisoner climbing the slope, a fire inside, objects carried past it, chained prisoners facing a wall, and the shadows they watch"><rect width="1000" height="430" fill="#150d20"/><circle cx="84" cy="78" r="30" fill="#ffd166"/><g stroke="#ffd166" stroke-width="3" stroke-linecap="round" opacity=".85"><line x1="84" y1="30" x2="84" y2="42"/><line x1="36" y1="78" x2="48" y2="78"/><line x1="120" y1="78" x2="132" y2="78"/><line x1="50" y1="44" x2="59" y2="53"/><line x1="118" y1="44" x2="109" y2="53"/></g><polygon points="150,120 470,235 470,320 150,205" fill="#f0b73f" opacity=".05"/><polygon points="140,205 720,385 720,404 140,232" fill="#241239"/><g fill="#0d0716" stroke="#f0b73f" stroke-width="1.4"><circle cx="352" cy="238" r="10"/><path d="M343 250 h18 l4 30 6 34 h-9 l-6 -30 -6 30 h-9 l6 -34 Z"/></g><rect x="520" y="332" width="180" height="10" fill="#2b1a47"/><path d="M588 322 q-14-24 0-48 q3 14 10 19 q-2-16 3-28 q17 24 11 42 q-4 14-24 15Z" fill="#f0b73f"/><path d="M589 322 q-7-12 0-24 q8 12 4 24Z" fill="#ffd166"/><g fill="#1b1130" stroke="rgba(240,183,63,.55)" stroke-width="1.5"><circle cx="664" cy="240" r="9"/><path d="M656 251 h16 l3 26 5 33 h-8 l-4 -30 -4 30 h-8 l5 -33 Z"/><path d="M706 268 q-12 10 0 24 q4 20 2 34 h16 q-2-14 2-34 q12-14 0-24 q-10-8-20 0Z"/></g><rect x="688" y="298" width="14" height="88" fill="#2b1a47" stroke="rgba(240,183,63,.4)"/><g stroke="#f0b73f" stroke-width="2" opacity=".16"><line x1="614" y1="282" x2="905" y2="118"/><line x1="614" y1="290" x2="905" y2="222"/><line x1="614" y1="298" x2="905" y2="330"/></g><rect x="895" y="30" width="105" height="372" fill="#241239" stroke="rgba(240,183,63,.45)" stroke-width="1.5"/><path d="M922 84 q14 22 5 48 q19 8 15 36 l-26 0 q-4-28 9-36 q-9-26-3-48Z" fill="#0a0512" opacity=".95"/><path d="M928 268 q16 12 6 34 q6 24 2 44 l-24 0 q-2-20 4-44 q-6-22 12-34Z" fill="#0a0512" opacity=".95"/><g fill="#0d0716"><circle cx="747" cy="355" r="9"/><path d="M736 385 v-17 q0-10 11-10 t11 10 v17Z"/><circle cx="797" cy="355" r="9"/><path d="M786 385 v-17 q0-10 11-10 t11 10 v17Z"/><circle cx="847" cy="355" r="9"/><path d="M836 385 v-17 q0-10 11-10 t11 10 v17Z"/></g><g stroke="#8a7a5f" stroke-width="1.6" stroke-dasharray="4 3" opacity=".75" fill="none"><path d="M756 352 q60 22 122 34"/><path d="M806 352 q36 22 72 34"/><path d="M856 352 q12 20 22 34"/></g><circle cx="882" cy="390" r="5" fill="none" stroke="#8a7a5f" stroke-width="1.6"/><g font-family="IBM Plex Mono, monospace" letter-spacing="1"><text x="24" y="30" font-size="19" fill="#f7ead1">THE SUN — SEEN LAST OF ALL</text><text x="248" y="196" font-size="19" fill="#f0b73f">THE ONE WHO GOT OUT</text><text x="540" y="258" font-size="19" fill="#f7ead1">THE FIRE</text><text x="606" y="206" font-size="19" fill="#f7ead1">OBJECTS CARRIED PAST</text><text x="988" y="56" font-size="19" fill="#f7ead1" text-anchor="end">THE SHADOWS</text><text x="700" y="424" font-size="17" fill="#bdb096">THE PRISONERS</text></g></svg></div>
-    <p class="cap"><b>◈ THE CAVE, DRAWN.</b> Plato's allegory as this board draws it: the prisoners face the wall; the fire throws the shadows of carried objects; one prisoner got out, and saw the sun last of all. Drawn in plum and gold for this board — no borrowed image; the drawing is the board's own.</p>
+    <div class="frame"><div class="cavestage" role="img" aria-label="A stage for Plato's cave — press REENACT THE CAVE to watch the allegory play out: the fire, the puppet carriers, the shadows, the prisoners, and the one who got out"><svg viewBox="0 0 1000 430" width="100%" style="display:block">
+      <rect width="1000" height="430" fill="#150d20"/>
+      <circle cx="84" cy="78" r="27" fill="#ffd166"/>
+      <g class="sunrays" stroke="#ffd166" stroke-width="3" stroke-linecap="round"><line x1="84" y1="34" x2="84" y2="44"/><line x1="38" y1="78" x2="48" y2="78"/><line x1="120" y1="78" x2="130" y2="78"/><line x1="51" y1="45" x2="59" y2="53"/><line x1="117" y1="45" x2="109" y2="53"/></g>
+      <polygon points="150,120 470,235 470,320 150,205" fill="#f0b73f" opacity=".05"/>
+      <polygon points="140,205 720,385 720,404 140,232" fill="#241239"/>
+      <polygon points="140,232 720,404 720,430 140,430" fill="#1b1130"/>
+      <rect x="720" y="390" width="280" height="40" fill="#1b1130"/>
+      <g stroke="#f0b73f" stroke-width="2" opacity=".14"><line x1="614" y1="282" x2="902" y2="130"/><line x1="614" y1="292" x2="902" y2="225"/><line x1="614" y1="302" x2="902" y2="322"/></g>
+      <rect x="900" y="40" width="100" height="350" fill="#241239" stroke="rgba(240,183,63,.45)" stroke-width="1.5"/>
+      <clipPath id="cave-wallclip"><rect x="903" y="43" width="94" height="344"/></clipPath>
+      <g clip-path="url(#cave-wallclip)"><path class="cshadow s1" d="M936 74 q20 30 8 66 q26 10 20 50 l-38 0 q-6-40 12-50 q-12-36-2-66Z" fill="#0a0512" opacity=".95"/><path class="cshadow s2" d="M928 232 q22 16 8 46 q8 32 2 60 l-34 0 q-2-28 6-60 q-8-30 18-46Z" fill="#0a0512" opacity=".95"/><path class="cshadow s3" d="M940 322 q14 10 10 26 q10 14 6 30 l-28 0 q-2-16 4-30 q-6-16 8-26Z" fill="#0a0512" opacity=".9"/></g>
+      <circle class="fireglow" cx="590" cy="290" r="86" fill="#f0b73f"/>
+      <rect x="505" y="330" width="175" height="10" fill="#2b1a47"/>
+      <g class="flame"><path d="M588 330 q-15-26 0-52 q3 15 10 21 q-2-17 3-30 q18 25 12 44 q-4 15-25 17Z" fill="#f0b73f"/><path d="M589 330 q-7-13 0-26 q8 13 4 26Z" fill="#ffd166"/></g>
+      <g class="carriers" stroke="rgba(240,183,63,.6)" stroke-width="1.5"><line x1="718" y1="238" x2="718" y2="312"/><path d="M710 238 q-4-16 4-30 l10 0 q8 14 4 30 Z" fill="#0d0716"/><line x1="806" y1="244" x2="806" y2="312"/><path d="M788 244 q14-20 30-22 q-6 8-2 12 q12-2 18 4 q-14 4-20 12 q-16 2-26-6Z" fill="#0d0716"/><g fill="#1b1130" stroke="none"><circle cx="688" cy="290" r="8.5"/><circle cx="778" cy="290" r="8.5"/></g></g>
+      <rect x="636" y="300" width="248" height="38" fill="#1b1130" stroke="rgba(240,183,63,.35)"/>
+      <rect x="636" y="338" width="248" height="8" fill="#2b1a47"/>
+      <g fill="#0d0716"><circle cx="772" cy="355" r="9"/><path d="M761 388 v-17 q0-10 11-10 t11 10 v17Z"/><circle cx="838" cy="355" r="9"/><path d="M827 388 v-17 q0-10 11-10 t11 10 v17Z"/></g>
+      <g class="oseat" fill="#0d0716"><circle cx="706" cy="355" r="9"/><path d="M695 388 v-17 q0-10 11-10 t11 10 v17Z"/></g>
+      <g class="ochains" stroke="#8a7a5f" stroke-width="1.6" stroke-dasharray="4 3" opacity=".75" fill="none"><path d="M714 352 q60 22 122 34"/><path d="M780 352 q36 22 72 34"/><path d="M846 352 q12 20 22 34"/></g>
+      <circle cx="882" cy="390" r="5" fill="none" stroke="#8a7a5f" stroke-width="1.6"/>
+      <g class="ofree"><g fill="#0d0716" stroke="#f0b73f" stroke-width="1.4"><circle cx="0" cy="-56" r="9"/><path d="M-7 -46 h14 l3 24 4 22 h-7 l-4-20 -4 20 h-7 l4-22 Z"/></g><path class="oarm" d="M4 -42 L22 -30" stroke="#f0b73f" stroke-width="3" stroke-linecap="round" fill="none"/></g>
+      <g font-family="IBM Plex Mono, monospace" letter-spacing="1"><text x="24" y="28" font-size="19" fill="#f7ead1">THE SUN — SEEN LAST OF ALL</text><text x="300" y="150" font-size="19" fill="#f0b73f">THE ONE WHO GOT OUT</text><text x="505" y="250" font-size="19" fill="#f7ead1">THE FIRE</text><text x="636" y="196" font-size="19" fill="#f7ead1">THE PUPPETS — CARRIED PAST</text><text x="990" y="28" font-size="19" fill="#f7ead1" text-anchor="end">THE SHADOWS</text><text x="700" y="424" font-size="17" fill="#bdb096">THE PRISONERS</text></g>
+    </svg></div></div>
+    <p class="actcap"><b>ACT I — THE SHADOWS.</b> Chained since childhood, the prisoners face the wall — and the shadows are the whole of reality. They name them, argue over them, and honour whoever predicts which shadow comes next.</p>
+    <div class="cavebar">
+      <button class="caveplay" type="button">▶ REENACT THE CAVE</button>
+      <button class="cavereset" type="button">↺ RESET</button>
+      <span class="cavehint">NOTHING MOVES UNTIL YOU PRESS PLAY · TAP THE STAGE TO PAUSE</span>
+    </div>
+    <p class="cap"><b>◈ THE CAVE, REENACTED.</b> Plato's allegory as this board stages it: the prisoners face the wall; the fire throws the shadows of carried objects; one prisoner gets out, and sees the sun last of all. Drawn in plum and gold for this board — no borrowed image; the stage is the board's own.</p>
   </div>
   <p>Then the story turns. Free one prisoner, Socrates says, and drag him up the steep ascent into daylight: at first the glare pains him and he can see nothing; he will think the shadows he knew were truer than what he is shown. Slowly his eyes adjust — shadows first, then reflections in water, then the things themselves, then the night sky, and last of all the sun, the source of everything below. Send him back down into the den and it reverses: his eyes come back full of darkness, he fumbles among the shadows he once read fluently, and the prisoners who never left laugh at him — and conclude the climb ruins a man's sight. Every part of that summary is paraphrase, in this board's words. The sentences below are Plato's own, word for word:</p>
   <div class="words"><span class="who">PLATO — THE REPUBLIC, BOOK VII (JOWETT TRANSLATION):</span> Behold! human beings living in a underground den, which has a mouth open towards the light and reaching all along the den; here they have been from their childhood, and have their legs and necks chained so that they cannot move, and can only see before them, being prevented by the chains from turning round their heads. …
@@ -1975,6 +2089,7 @@ What we see, feel, touch, smell, hear — all of it is brain signals. All humans
     wireShardedImages(mBody);
     wireSketch(mBody);
     wireFacades(mBody);
+    wireCave(mBody);
     overlay.classList.add('open');
     overlay.scrollTop = 0;
     document.body.style.overflow = 'hidden';
@@ -2069,13 +2184,53 @@ What we see, feel, touch, smell, hear — all of it is brain signals. All humans
      tap on the note opens the file, as always. No autoplay on load;
      the wall stays calm until a detective presses play. */
   function wireFacades(root){
-    root.querySelectorAll('.facade[data-yt]').forEach(function(f){
+    root.querySelectorAll('.facade[data-yt], .facade[data-vid], .facade[data-vidshards]').forEach(function(f){
       if(f.dataset.wired) return; f.dataset.wired = '1';
       function play(e){
         e.stopPropagation();
+        if(f.dataset.vidshards){
+          /* the board's own copy, sharded: the film rides to the repo as
+             base64 text shards (the publish route is text-only); fetch the
+             shards, rebuild the Blob in the browser — the wireShardedImages
+             mechanism — and screen it in this frame. No single media file
+             is ever requested. */
+          var kv = document.createElement('video');
+          kv.setAttribute('controls', ''); kv.setAttribute('playsinline', '');
+          var shardUrls = f.dataset.vidshards.split(',');
+          f.innerHTML = '';
+          f.classList.remove('facade');
+          f.removeAttribute('role'); f.removeAttribute('tabindex'); f.removeAttribute('data-vidshards');
+          f.style.cursor = 'default';
+          f.appendChild(kv);
+          Promise.all(shardUrls.map(function(u){ return fetch(u).then(function(r){ return r.text(); }); }))
+            .then(function(texts){
+              var b64 = texts.join('').replace(/\s+/g, '');
+              var bin = atob(b64), arr = new Uint8Array(bin.length);
+              for(var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+              kv.src = URL.createObjectURL(new Blob([arr], { type: 'video/mp4' }));
+              if(kv.play) kv.play().catch(function(){});
+            })
+            .catch(function(){});
+          return;
+        }
+        if(f.dataset.vid){
+          /* the board's own copy: the self-hosted player screens in place */
+          var v = document.createElement('video');
+          v.src = f.dataset.vid;
+          v.setAttribute('controls', ''); v.setAttribute('playsinline', '');
+          f.innerHTML = '';
+          f.classList.remove('facade');
+          f.removeAttribute('role'); f.removeAttribute('tabindex'); f.removeAttribute('data-vid');
+          f.style.cursor = 'default';
+          f.appendChild(v);
+          if(v.play) v.play().catch(function(){});
+          return;
+        }
         var ifr = document.createElement('iframe');
-        ifr.src = 'https://www.youtube.com/embed/' + f.dataset.yt + '?autoplay=1&rel=0';
-        ifr.title = 'Cover film — Do we see reality as it is? — Donald Hoffman, TED';
+        var src = 'https://www.youtube.com/embed/' + f.dataset.yt + '?autoplay=1&rel=0';
+        if(f.dataset.start) src += '&start=' + f.dataset.start;
+        ifr.src = src;
+        ifr.title = f.dataset.title || 'Evidence film';
         ifr.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; picture-in-picture');
         ifr.setAttribute('allowfullscreen', '');
         ifr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
@@ -2090,6 +2245,94 @@ What we see, feel, touch, smell, hear — all of it is brain signals. All humans
     });
   }
   wireFacades(document);
+  /* ============ THE CAVE THEATER ============
+     Plato's allegory reenacted on a small stage inside the cave file.
+     User-triggered only: nothing moves until REENACT is pressed; a tap
+     on the stage pauses; reduced motion receives the final composition,
+     labelled and still, with the last caption in place. Captions track
+     the allegory's own beats, in the file's audited paraphrase. */
+  var CAVE_CAPS = [
+    '<b>ACT I — THE SHADOWS.</b> Chained since childhood, the prisoners face the wall — and the shadows are the whole of reality. They name them, argue over them, and honour whoever predicts which shadow comes next.',
+    '<b>ACT II — THE FIRE AND THE PUPPETS.</b> Behind the prisoners, unseen: a fire, and carriers passing along a raised way, holding up statues and vessels and figures. It is those objects\' shadows the prisoners have been watching all their lives.',
+    '<b>ACT III — ONE IS FREED.</b> A prisoner is loosed from his chains and made to turn toward the fire. At first the glare pains him — and he takes the shadows he knew for the truer things.',
+    '<b>ACT IV — THE CLIMB.</b> Dragged up the steep ascent into daylight, his eyes adjust by degrees: shadows first, then reflections, then the things themselves, then the night sky.',
+    '<b>ACT V — THE SUN.</b> Last of all, the sun itself — the source of the seasons and of everything below. The wall he took for the world was its third-hand copy.',
+    '<b>ACT VI — THE RETURN.</b> Sent back down, his eyes come back full of darkness; he fumbles among the shadows he once read fluently — and the prisoners who never left laugh at him, and conclude the climb ruins a man\'s sight.'
+  ];
+  function wireCave(root){
+    var stage = root.querySelector('.cavestage');
+    if(!stage || stage.dataset.wired) return; stage.dataset.wired = '1';
+    var cap = root.querySelector('.actcap'),
+        playBtn = root.querySelector('.caveplay'),
+        resetBtn = root.querySelector('.cavereset'),
+        hint = root.querySelector('.cavehint');
+    var ACTCLASSES = ['a2','a3','a3b','a4','a4b','a5','a6','a6b'];
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var timers = [], stepIdx = 0, playing = false, paused = false;
+    function setCap(i){ if(cap) cap.innerHTML = CAVE_CAPS[i]; }
+    function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+    var steps = [
+      { d: 0,    fn: function(){ setCap(0); } },
+      { d: 4800, fn: function(){ stage.classList.add('a2'); setCap(1); } },
+      { d: 4800, fn: function(){ stage.classList.add('a3'); setCap(2); } },
+      { d: 2400, fn: function(){ stage.classList.add('a3b'); } },
+      { d: 3600, fn: function(){ stage.classList.add('a4'); setCap(3); } },
+      { d: 3000, fn: function(){ stage.classList.add('a4b'); } },
+      { d: 3400, fn: function(){ stage.classList.add('a5'); setCap(4); } },
+      { d: 5400, fn: function(){ stage.classList.add('a6'); setCap(5); } },
+      { d: 3000, fn: function(){ stage.classList.add('a6b'); } },
+      { d: 3200, fn: function(){ finish(); } }
+    ];
+    function schedule(){
+      if(stepIdx >= steps.length) return;
+      var s = steps[stepIdx];
+      timers.push(setTimeout(function(){
+        if(!stage.isConnected) return;
+        s.fn(); stepIdx++; schedule();
+      }, s.d));
+    }
+    function start(){
+      resetStage();
+      playing = true; paused = false;
+      stage.classList.add('playing');
+      if(playBtn) playBtn.textContent = '❚❚ RUNNING — TAP THE STAGE TO PAUSE';
+      schedule();
+    }
+    function finish(){
+      playing = false;
+      stage.classList.remove('playing'); stage.classList.remove('paused');
+      if(playBtn) playBtn.textContent = '↺ REENACT AGAIN';
+    }
+    function applyFinal(){
+      ACTCLASSES.forEach(function(c){ stage.classList.add(c); });
+      setCap(5);
+    }
+    function resetStage(){
+      clearTimers(); stepIdx = 0; playing = false; paused = false;
+      ACTCLASSES.forEach(function(c){ stage.classList.remove(c); });
+      stage.classList.remove('playing'); stage.classList.remove('paused');
+      if(reduced){ applyFinal(); return; }
+      setCap(0);
+      if(playBtn) playBtn.textContent = '▶ REENACT THE CAVE';
+    }
+    if(playBtn) playBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(reduced) return;
+      start();
+    });
+    if(resetBtn) resetBtn.addEventListener('click', function(e){ e.stopPropagation(); resetStage(); });
+    stage.addEventListener('click', function(){
+      if(!playing) return;
+      if(paused){ paused = false; stage.classList.remove('paused'); schedule(); }
+      else { paused = true; stage.classList.add('paused'); clearTimers(); }
+    });
+    if(reduced){
+      applyFinal();
+      if(playBtn) playBtn.textContent = 'THE CAVE, SETTLED — REDUCED MOTION';
+      if(hint) hint.textContent = 'SHOWN SETTLED — REDUCED MOTION';
+    }
+  }
+
 
   /* ============ STRING PHYSICS ============
      Verlet ropes. Real Earth gravity: 9.81 m/s^2.
@@ -2108,7 +2351,7 @@ What we see, feel, touch, smell, hear — all of it is brain signals. All humans
     { id:'gate',        a:'card-tesla', b:'card-facts', t:0.50, slack:1.04, tilt:-1 },
     { id:'time',        a:'card-tyson', b:'card-tesla', t:0.42, slack:1.05, tilt:1.5 },
     { id:'notaline',    a:'card-tyson', b:'card-save',  t:0.50, slack:1.07, tilt:-1.5 },
-    { id:'capsules',    a:'card-save',  b:'card-facts', t:0.45, slack:1.05, tilt:1 },
+    { id:'capsules',    a:'card-save',  b:'card-facts', t:0.62, slack:1.05, tilt:1 },
     { id:'scientists',  a:'card-save',  b:'card-scientists', t:0.50, slack:1.06, tilt:-1 },
     { id:'signal',      a:'card-tyson', b:'card-amy',   t:0.66, slack:1.06, tilt:-1 },
     { id:'containers',  a:'card-lazar', b:'card-amy',   t:0.45, slack:1.06, tilt:1.2 },
