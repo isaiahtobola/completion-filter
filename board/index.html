@@ -76,8 +76,8 @@
   canvas#ropes.grabbing{cursor:grabbing}
   .grid{
     position:relative; z-index:2; pointer-events:none; flex:1;
-    display:grid; grid-template-columns:1fr 1fr 1fr; grid-template-rows:auto auto auto; align-items:start; gap:104px 56px;
-    grid-template-areas:"tyson tesla facts" "save amy kid" "lazar scientists sleep";
+    display:grid; grid-template-columns:1fr 1fr 1fr; grid-template-rows:auto auto auto auto; align-items:start; gap:104px 56px;
+    grid-template-areas:"tyson tesla facts" "save amy kid" "lazar scientists sleep" "cave . .";
   }
   .grid .card{pointer-events:auto}
   #card-tyson{grid-area:tyson} #card-tesla{grid-area:tesla} #card-facts{grid-area:facts}
@@ -85,6 +85,7 @@
   #card-save{grid-area:save}
   #card-scientists{grid-area:scientists}
   #card-lazar{grid-area:lazar} #card-sleep{grid-area:sleep}
+  #card-cave{grid-area:cave}
   /* Pinned by hand, not by machine: every note leans its own way,
      sits a few px off the row, pin a touch off center. */
   #card-tyson{--tilt:-2.4deg; --shift:6px;  --pinx:-7px}
@@ -96,6 +97,7 @@
   #card-kid{--tilt:-2.6deg;  --shift:5px;  --pinx:8px}
   #card-lazar{--tilt:1.8deg;  --shift:4px;  --pinx:-6px}
   #card-sleep{--tilt:-2.5deg; --shift:-4px; --pinx:7px}
+  #card-cave{--tilt:-2deg;   --shift:5px;  --pinx:-3px}
 
   .card{
     position:relative;
@@ -119,9 +121,11 @@
   #card-kid::before{transform:translateX(-50%) rotate(-3deg)}
   #card-lazar::before{transform:translateX(-50%) rotate(2deg)}
   #card-sleep::before{transform:translateX(-50%) rotate(-2.5deg)}
+  #card-cave::before{transform:translateX(-50%) rotate(2.2deg)}
   #card-tyson .pin{left:50%} #card-tesla .pin{left:46%} #card-facts .pin{left:54%}
   #card-amy .pin{left:48%} #card-kid .pin{left:52%} #card-save .pin{left:51%} #card-scientists .pin{left:49%}
   #card-lazar .pin{left:47%} #card-sleep .pin{left:53%}
+  #card-cave .pin{left:49%}
   .card::before{
     content:""; position:absolute; top:-13px; left:50%; transform:translateX(-50%) rotate(-2deg);
     width:74px; height:15px; background:rgba(255,209,102,.28);
@@ -224,6 +228,32 @@
   .watch.tall{max-width:230px; margin-left:auto; margin-right:auto}
   .watch.tall .frame{padding-top:177.78%}
   .watchlink b{color:var(--yellow)}
+  /* ---------- click-to-load evidence films on card faces ----------
+     A still exhibit until tapped: the film's frame, a gold seal for a
+     play button, a case-file title strip. The tap screens the real
+     embed in the frame's place; it does not open the file. */
+  .facade{cursor:pointer; background:radial-gradient(420px 200px at 50% 38%, rgba(240,183,63,.14), transparent 70%), #0d0716}
+  .facade .fthumb{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.82; filter:saturate(.82) contrast(1.03)}
+  .facade::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(21,13,32,.16), rgba(21,13,32,.04) 42%, rgba(21,13,32,.5)); pointer-events:none}
+  .facade .fplay{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-60%); z-index:2;
+    width:52px; height:52px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ffe9a8, var(--gold) 55%, #8a5f14);
+    border:1px solid rgba(0,0,0,.4); box-shadow:0 5px 14px rgba(0,0,0,.6);
+    color:#241203; font-size:19px; display:flex; align-items:center; justify-content:center; padding-left:3px;
+  }
+  .facade:hover .fplay{background:radial-gradient(circle at 35% 30%, #fff3c4, var(--yellow) 55%, #a8741a)}
+  .facade .ftag{
+    position:absolute; left:10px; top:8px; z-index:2;
+    font-family:"IBM Plex Mono", monospace; font-size:9.5px; letter-spacing:.18em; color:var(--yellow);
+    background:rgba(14,8,24,.82); border:1px solid rgba(240,183,63,.55); border-radius:3px; padding:2px 7px;
+  }
+  .facade .ftitle{
+    position:absolute; left:0; right:0; bottom:0; z-index:2;
+    font-family:"IBM Plex Mono", monospace; font-size:10.5px; letter-spacing:.07em; color:var(--cream);
+    background:rgba(14,8,24,.86); border-top:1px solid rgba(240,183,63,.45); padding:6px 10px;
+  }
+  .facade .ftitle b{color:var(--gold)}
   .qnote{
     position:relative; z-index:2; margin-bottom:34px; cursor:pointer;
     background:
@@ -243,11 +273,6 @@
   .qnote h2{font-family:"IBM Plex Mono", monospace; font-size:11.5px; letter-spacing:.14em; color:var(--gold); margin-bottom:7px}
   .qnote .q{font-style:italic; font-size:16.5px; line-height:1.55}
   .qnote .q b{color:var(--yellow); font-style:normal}
-  .corner{
-    position:relative; z-index:2; margin-top:18px;
-    font-family:"IBM Plex Mono", monospace; font-size:11px; color:var(--faint);
-  }
-  .corner b{color:var(--gold); letter-spacing:.1em}
   footer{
     text-align:center; margin-top:18px;
     font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--faint); line-height:1.7;
@@ -327,7 +352,6 @@
     font-family:"Newsreader", serif; font-style:italic; font-size:16.5px; line-height:1.65; color:var(--cream);
   }
   .handq .attrib{display:block; margin-top:8px; font-family:"IBM Plex Mono", monospace; font-style:normal; font-size:10.5px; letter-spacing:.08em; color:var(--gold)}
-  .handq .unc{color:var(--yellow); font-style:normal; font-family:"IBM Plex Mono", monospace; font-size:.78em; vertical-align:.08em}
   .handq .lbl{font-family:"IBM Plex Mono", monospace; font-style:normal; letter-spacing:.1em; color:var(--yellow)}
   .subh{font-family:"IBM Plex Mono", monospace; font-size:11px; letter-spacing:.14em; color:var(--gold); margin:18px 0 2px}
   .fnote{font-family:"IBM Plex Mono", monospace; font-size:10.5px; letter-spacing:.05em; color:var(--muted); line-height:1.6; margin:6px 0 2px}
@@ -432,8 +456,8 @@
   /* ---------- PC wall: the full-screen spread (desktop only) ---------- */
   @media (min-width:821px){
     body{padding:22px 0 34px}
-    .board{border-left:none; border-right:none; border-radius:0; padding:56px 60px 48px}
-    .grid{gap:168px 118px; max-width:1640px; width:100%; margin:0 auto; align-self:center}
+    .board{border-left:none; border-right:none; border-radius:0; padding:56px 72px 48px}
+    .grid{gap:105px 200px; width:100%; margin:0 auto; align-self:center}
     .card{font-size:12.5px; padding:15px 12px 10px}
     .card .note{font-size:11.5px}
     .qnote{margin-bottom:56px}
@@ -441,13 +465,14 @@
     .treenote{margin-top:88px}
   }
   @media (max-width:820px){
-    .grid{grid-template-columns:1fr; grid-template-rows:none; gap:46px; grid-template-areas:"tyson" "save" "tesla" "facts" "amy" "kid" "lazar" "sleep" "scientists"}
+    .grid{grid-template-columns:1fr; grid-template-rows:none; gap:46px; grid-template-areas:"tyson" "save" "tesla" "facts" "amy" "kid" "lazar" "sleep" "scientists" "cave"}
     .board{padding:28px 16px 20px; min-height:0}
     .modal{padding:24px 19px 20px}
     .slabel{font-size:9.5px; white-space:nowrap; max-width:none; padding:3px 7px}
     #card-tyson{--tilt:-1.2deg} #card-tesla{--tilt:1deg} #card-facts{--tilt:-.9deg}
     #card-amy{--tilt:1.1deg} #card-kid{--tilt:-1.3deg} #card-save{--tilt:1.2deg} #card-scientists{--tilt:-1deg}
     #card-lazar{--tilt:.9deg} #card-sleep{--tilt:-1.15deg}
+    #card-cave{--tilt:1.05deg}
     .card .pin{left:50% !important}
   }
 </style>
@@ -600,6 +625,23 @@
       <span class="tag fact">DOCUMENTED LIVES · DOCUMENTED WORK</span>
       <span class="openfile">OPEN THE FILE →</span>
     </section>
+
+    <section class="card" id="card-cave" data-open="cave" tabindex="0">
+      <span class="pin"></span>
+      <div class="pillar">THE OLDEST PIN · PERCEPTION ITSELF</div>
+      <h2>PLATO'S CAVE — THE LENSES<small>Plato · Republic VII · c. 375 BC · the shadows on the wall</small></h2>
+      <div class="polaroid"><div class="ph"><svg viewBox="0 0 100 80" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" role="img" aria-label="The cave in miniature: the sun at the mouth, a freed figure on the slope, a fire, prisoners, and shadows on the wall" style="display:block"><rect width="100" height="80" fill="#160b26"/><circle cx="11" cy="13" r="6" fill="#ffd166"/><g stroke="#ffd166" stroke-width="1.4" stroke-linecap="round" opacity=".85"><line x1="11" y1="2.5" x2="11" y2="5.2"/><line x1="2" y1="13" x2="4.8" y2="13"/><line x1="17.2" y1="13" x2="20" y2="13"/><line x1="4.6" y1="5.6" x2="6.8" y2="7.8"/><line x1="17.4" y1="5.6" x2="15.2" y2="7.8"/></g><path d="M2 80 L38 30 L100 30 L100 80 Z" fill="#1f1433"/><g fill="#0d0716" stroke="#f0b73f" stroke-width=".7"><circle cx="30" cy="41" r="3"/><path d="M26 59 l2.2-13 h3.6 l2.2 13 Z"/></g><path d="M55 66 q-5-8 0-16 q1 5 3.5 6.5 Q57 50 58 45 q6 8 4 14 q-1.5 6-7 7Z" fill="#f0b73f"/><path d="M55.5 66 q-2.5-4.5 0-9 q3 4.5 1.5 9Z" fill="#ffd166"/><g fill="#0d0716"><circle cx="66" cy="66" r="3.1"/><path d="M61 80 v-8.5 q0-4 5-4 t5 4 V80Z"/><circle cx="76" cy="66" r="3.1"/><path d="M71 80 v-8.5 q0-4 5-4 t5 4 V80Z"/></g><rect x="86" y="6" width="14" height="74" fill="#241239"/><path d="M90 14 q5 8 2 18 q7 3 5.5 13 l-9 0 q-1.5-10 .5-13 q-3-10 1.5-18Z" fill="#0a0512" opacity=".92"/><path d="M93 52 q4 6 1.5 13 q5 2 4 10 l-7.5 0 q-1-8 .5-10 q-2.5-7 1-13Z" fill="#0a0512" opacity=".92"/></svg></div><span>THE CAVE, DRAWN</span></div>
+      <p>Chained since childhood, facing a wall, taking the shadows for the whole of reality — Plato wrote the first file on this board around 375 BC, as a story about how far our nature is enlightened, or unenlightened.</p>
+      <q>To them, I said, the truth would be literally nothing but the shadows of the images.</q>
+      <p class="note">Isaiah's newest pin: everything seen, felt, touched, smelled, heard arrives as brain signals — Earth through lenses. Underneath sits a world that would look fundamentally different, invisible until we build machines that alter the seeing. Inside: the source, Hoffman, the machines already widening the lens — and the counterweight.</p>
+      <div class="chips">
+        <span class="chip ok">the allegory ✓ Republic VII</span>
+        <span class="chip mid">the lenses — his idea</span>
+      </div>
+      <div class="watch"><div class="frame facade" data-yt="oYp5XuGYqqY" role="button" tabindex="0" aria-label="Play the cover film: Do we see reality as it is? — Donald Hoffman, TED"><img class="fthumb" src="https://i.ytimg.com/vi/oYp5XuGYqqY/hqdefault.jpg" alt="Still from Donald Hoffman's TED talk, Do we see reality as it is?" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>DO WE SEE REALITY AS IT IS?</b> — HOFFMAN · TED</span></div><p class="cap"><b>▶ WATCH</b> — the cover film, screened right on the note: tap play to watch it here; tap anywhere else on the note and the file opens</p></div>
+      <span class="tag mixed">TEXT · THEORY · HIS IDEA</span>
+      <span class="openfile">OPEN THE FILE →</span>
+    </section>
   </div>
 
   <section class="treenote" data-open="sketch" tabindex="0">
@@ -673,9 +715,9 @@
   <span class="slabel link" data-rope="containers" data-open="lazar" tabindex="0">CONTAINERS — <span class="v v-claim">Lazar's word, spliced onto Amy's video by an editor · open the file →</span></span>
   <span class="slabel link" data-rope="battery" data-open="sleep" tabindex="0">THE BATTERY QUESTION — <span class="v v-spec">Isaiah's speculation · open the file →</span></span>
   <span class="slabel" data-rope="openq">WHY SLEEP AT ALL? — <span class="v v-fact">science's open question ✓</span></span>
+  <span class="slabel" data-rope="lenses">THE CLOCKS READ WHAT THE LENSES CAN'T — <span class="v v-fact">10 m/s · 33 cm ✓</span></span>
 
 
-  <div class="corner">prove relevance — <b>JESTER!!!!</b></div>
 </div>
 
 <footer>
@@ -895,7 +937,7 @@
     <p class="cap"><b>▶ WATCH THE EVIDENCE</b> — "Atomic Clocks Prove Reality Is Stranger Than You Think" · <b>NOVA · PBS</b> — the documented, measured kind: real atomic clocks, real time dilation, no stories · <a href="https://www.youtube.com/watch?v=5YZYfmAc4wY" target="_blank" rel="noopener">open on YouTube</a></p>
   </div>
   <h3>ROUND 1 — THE PHYSICS VERDICTS</h3>
-  <div class="vrow"><span class="vtag fact">BACKED</span><span><b>Time dilation.</b> Overwhelmingly measured — flown clocks (1971), muon storage rings (γ 29.327, lifetimes to ~0.1%), GPS (+38 µs/day, corrected by design), optical clocks at 10 m/s, 33 cm, and within a single millimetre-scale sample. Forward time travel is an engineering dial, not a speculation.</span></div>
+  <div class="vrow"><span class="vtag fact">BACKED</span><span><b>Time dilation.</b> Overwhelmingly measured — flown clocks (1971), muon storage rings (γ 29.327, lifetimes to ~0.1%), GPS (+38 µs/day, corrected by design), optical clocks at 10 m/s, 33 cm (Chou et al., <i>Science</i> 2010), and within a single millimetre-scale sample. Forward time travel is an engineering dial, not a speculation.</span></div>
   <div class="vrow"><span class="vtag killed">KILLED</span><span><b>Faster-than-light warp, as usable physics.</b> Alcubierre's 1994 metric requires negative mass-energy — early analyses put the bill beyond the mass of the observable universe; later designs shrank it only with walls a few hundred Planck lengths thick (~10⁻³³ m; popularly quoted as ≲10⁻³² m). Lentz's 2021 positive-energy version still needed hundreds of Jupiter masses for a craft 100 m in radius, and a 2022 check (Santiago–Schuster–Visser) found the positive-energy claims had only been tested for co-moving observers: generic Natário-type drives certainly violate the weak energy condition, and violate the null energy condition only under plausible subsidiary conditions. Zero experiments have produced any warp effect. A 2021 computer prediction about a Casimir-cavity structure (White et al., from a DARPA-funded institute) was hyped — first by its lead author, then by headlines — into a "warp bubble discovery"; it was neither NASA's, nor built, nor a bubble.</span></div>
   <div class="vrow"><span class="vtag open">OPEN</span><span><b>Subluminal warp — math only.</b> Bobrick &amp; Martire (2021) showed, in their framework, that slower-than-light positive-energy warp shells are constructible in principle; Fuchs et al. (2024) produced the first constant-velocity subluminal warp solution fully consistent with the geodesic transport properties of the Alcubierre metric (CQG 41:095013, 2024). But the shell must still be accelerated the ordinary way. Mathematics permits it; nothing has ever been built.</span></div>
   <div class="vrow"><span class="vtag open">OPEN</span><span><b>Closed timelike curves (past travel).</b> Real as mathematics — van Stockum (1937), Gödel (1949), Tipler's cylinder (which needs an infinite cylinder). Hawking's chronology-protection conjecture remains unproven; Kay–Radzikowski–Wald (1997) is partial support. The only laboratory contact is a 2014 photonic <i>simulation</i> of CTC logic. No evidence any CTC exists.</span></div>
@@ -906,6 +948,7 @@
   <p class="src">Honesty flags from Round 1: Eagleworks' formal closure date unverified · one Dec 2025 warp paper rests on secondary coverage · Lentz energy figures vary by source (the Göttingen press figure was used).</p>
   <h3>THE SHAPE EVIDENCE — PINNED FROM THE LITERATURE</h3>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>The brain and the cosmic web are quantitatively alike as networks.</b> Vazza &amp; Feletti, <i>Frontiers in Physics</i> (Nov 2020): the first numbers-first comparison of the human brain's neuronal network and the cosmic web of galaxies found similar node counts (10¹⁰–10¹¹ — for the cosmic web, counting galaxies at least as massive as the Milky Way), similar connections per node, clustering coefficients whose distributions peak in the same range (~0.1–0.4), and a matching progression in the distribution of density fluctuations — across more than 27 orders of magnitude of scale. Both systems keep roughly three-quarters of their mass/energy in an apparently passive component (brain: 77–78% water; universe: ~73% dark energy), and Vazza &amp; Feletti's own estimates put both networks' information capacity in the same petabyte class (~2.5 vs ~4.3 PB) — an agreement the authors themselves flag as possibly a mere coincidence. The authors' own caution rides with the pin: entirely different physical processes — gravity there, electrochemistry here — can self-organize into similar networks; the paper claims structure, not thought. Isaiah's proposed theory built on this shape is pinned in the theory file, tagged as his.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Barbour's time capsules.</b> Julian Barbour, <i>The End of Time</i> (1999): physics can be written with no time variable at all — the universe as a heap of frozen configurations he calls <b>Nows</b>, some of which contain records, fossils and memories of other Nows inside them. Barbour's own name for such a Now: a <b>time capsule</b>.</span></div>
   <h3>THE MODERN ECHOES — WHY THE OLD STORIES RHYME IN 2026</h3>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>The car company is named Tesla.</b> Tesla, Inc. — the electric car company run by Elon Musk — was founded in 2003 and named for Nikola Tesla: the man on this board whose wireless patents J.P. Morgan bought into, and whose papers John G. Trump reviewed after his death. The surname on a 1901 contract is the badge on the cars.</span></div>
   <div class="vrow"><span class="vtag fact">FACT</span><span><b>The same man digs tunnels.</b> Elon Musk announced The Boring Company in December 2016 (legally registered January 2017); its Las Vegas Loop has carried passengers through tunnels under the city since 2021. Its stated purpose is beating traffic — mundane. But stack the record: a 1949 novel by Wernher von Braun gives the leader of Mars the title "Elon," and the man who carries that name today runs a company named Tesla and a company that digs underground — the two living threads of the kid's video, in one portfolio.</span></div>
@@ -923,7 +966,7 @@
     <button data-open-link="question"><b>THE NEURON UNIVERSE</b> → Isaiah's proposed theory: what the brain-shaped web might mean</button>
   </div>
   <h3>SOURCES</h3>
-  <p class="src">Full memo: workspace/one-way-signal-audit/round1-physics.md · inventory: workspace/one-way-signal-audit/inventory.md · Modern echoes: Wired (Dec 2023) · Rushkoff, Survival of the Richest (2022) · LVCC Loop opening (Jun 2021) · Tesla, Inc. founding (2003) · Alcubierre 1994 · Bobrick &amp; Martire 2021 · Santiago, Schuster &amp; Visser 2022 · Fuchs et al. 2024 · Lesovik et al. 2019 · Ringbauer et al. 2014 · OPERA collaboration, corrected result 2012 · Vazza &amp; Feletti, "The Quantitative Comparison Between the Neuronal Network and the Cosmic Web," Frontiers in Physics 8:525731 (Nov 16, 2020), doi:10.3389/fphy.2020.525731 · Tulving, chronesthesia (2002) · Schacter, Addis &amp; Buckner, Nature Reviews Neuroscience (2007; 2012)</p>
+  <p class="src">Full memo: workspace/one-way-signal-audit/round1-physics.md · inventory: workspace/one-way-signal-audit/inventory.md · Modern echoes: Wired (Dec 2023) · Rushkoff, Survival of the Richest (2022) · LVCC Loop opening (Jun 2021) · Tesla, Inc. founding (2003) · Alcubierre 1994 · Bobrick &amp; Martire 2021 · Santiago, Schuster &amp; Visser 2022 · Fuchs et al. 2024 · Lesovik et al. 2019 · Ringbauer et al. 2014 · OPERA collaboration, corrected result 2012 · C. W. Chou et al., <i>Science</i> 329:1630 (2010), doi:10.1126/science.1192720 · Vazza &amp; Feletti, "The Quantitative Comparison Between the Neuronal Network and the Cosmic Web," Frontiers in Physics 8:525731 (Nov 16, 2020), doi:10.3389/fphy.2020.525731 · Tulving, chronesthesia (2002) · Schacter, Addis &amp; Buckner, Nature Reviews Neuroscience (2007; 2012) · Barbour, <i>The End of Time</i> (1999)</p>
 </template>
 
 <template id="d-signal">
@@ -1488,6 +1531,24 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
   <div class="conn"><button data-open-link="signal"><b>THE DISCONNECT</b> → watch it in the signal file</button></div>
 
   <div class="pic">
+    <div class="frame"><svg viewBox="0 0 1000 430" width="100%" style="display:block" role="img" aria-label="Diagram of Plato's cave: the sun outside, a freed prisoner climbing the slope, a fire inside, objects carried past it, chained prisoners facing a wall, and the shadows they watch"><rect width="1000" height="430" fill="#150d20"/><circle cx="84" cy="78" r="30" fill="#ffd166"/><g stroke="#ffd166" stroke-width="3" stroke-linecap="round" opacity=".85"><line x1="84" y1="30" x2="84" y2="42"/><line x1="36" y1="78" x2="48" y2="78"/><line x1="120" y1="78" x2="132" y2="78"/><line x1="50" y1="44" x2="59" y2="53"/><line x1="118" y1="44" x2="109" y2="53"/></g><polygon points="150,120 470,235 470,320 150,205" fill="#f0b73f" opacity=".05"/><polygon points="140,205 720,385 720,404 140,232" fill="#241239"/><g fill="#0d0716" stroke="#f0b73f" stroke-width="1.4"><circle cx="352" cy="238" r="10"/><path d="M343 250 h18 l4 30 6 34 h-9 l-6 -30 -6 30 h-9 l6 -34 Z"/></g><rect x="520" y="332" width="180" height="10" fill="#2b1a47"/><path d="M588 322 q-14-24 0-48 q3 14 10 19 q-2-16 3-28 q17 24 11 42 q-4 14-24 15Z" fill="#f0b73f"/><path d="M589 322 q-7-12 0-24 q8 12 4 24Z" fill="#ffd166"/><g fill="#1b1130" stroke="rgba(240,183,63,.55)" stroke-width="1.5"><circle cx="664" cy="240" r="9"/><path d="M656 251 h16 l3 26 5 33 h-8 l-4 -30 -4 30 h-8 l5 -33 Z"/><path d="M706 268 q-12 10 0 24 q4 20 2 34 h16 q-2-14 2-34 q12-14 0-24 q-10-8-20 0Z"/></g><rect x="688" y="298" width="14" height="88" fill="#2b1a47" stroke="rgba(240,183,63,.4)"/><g stroke="#f0b73f" stroke-width="2" opacity=".16"><line x1="614" y1="282" x2="905" y2="118"/><line x1="614" y1="290" x2="905" y2="222"/><line x1="614" y1="298" x2="905" y2="330"/></g><rect x="895" y="30" width="105" height="372" fill="#241239" stroke="rgba(240,183,63,.45)" stroke-width="1.5"/><path d="M922 84 q14 22 5 48 q19 8 15 36 l-26 0 q-4-28 9-36 q-9-26-3-48Z" fill="#0a0512" opacity=".95"/><path d="M928 268 q16 12 6 34 q6 24 2 44 l-24 0 q-2-20 4-44 q-6-22 12-34Z" fill="#0a0512" opacity=".95"/><g fill="#0d0716"><circle cx="747" cy="355" r="9"/><path d="M736 385 v-17 q0-10 11-10 t11 10 v17Z"/><circle cx="797" cy="355" r="9"/><path d="M786 385 v-17 q0-10 11-10 t11 10 v17Z"/><circle cx="847" cy="355" r="9"/><path d="M836 385 v-17 q0-10 11-10 t11 10 v17Z"/></g><g stroke="#8a7a5f" stroke-width="1.6" stroke-dasharray="4 3" opacity=".75" fill="none"><path d="M756 352 q60 22 122 34"/><path d="M806 352 q36 22 72 34"/><path d="M856 352 q12 20 22 34"/></g><circle cx="882" cy="390" r="5" fill="none" stroke="#8a7a5f" stroke-width="1.6"/><g font-family="IBM Plex Mono, monospace" letter-spacing="1"><text x="24" y="30" font-size="19" fill="#f7ead1">THE SUN — SEEN LAST OF ALL</text><text x="248" y="196" font-size="19" fill="#f0b73f">THE ONE WHO GOT OUT</text><text x="540" y="258" font-size="19" fill="#f7ead1">THE FIRE</text><text x="606" y="206" font-size="19" fill="#f7ead1">OBJECTS CARRIED PAST</text><text x="988" y="56" font-size="19" fill="#f7ead1" text-anchor="end">THE SHADOWS</text><text x="700" y="424" font-size="17" fill="#bdb096">THE PRISONERS</text></g></svg></div>
+    <p class="cap"><b>◈ PICTURE — THE CAVE, DRAWN.</b> Plato's allegory as this board draws it — the same drawing that opens the Cave file and rides its card's face in miniature. <b>Credit:</b> drawn in plum and gold for this board; no outside image, no outside licence — the drawing is the board's own.</p>
+  </div>
+  <div class="conn"><button data-open-link="cave"><b>THE CAVE</b> → the file this drawing opens</button></div>
+
+  <div class="pic">
+    <div class="plaque"><span class="pl-t">▶ FILM — DO WE SEE REALITY AS IT IS?</span><span class="pl-s">Donald Hoffman · TED · YouTube oYp5XuGYqqY</span></div>
+    <p class="cap"><b>▶ FILM.</b> The Cave file's cover film — perception as an interface, argued on the TED stage.</p>
+  </div>
+  <div class="conn"><button data-open-link="cave"><b>THE CAVE</b> → watch it at the top of the Cave file</button></div>
+
+  <div class="pic">
+    <div class="plaque"><span class="pl-t">▶ FILM — PLATO'S ALLEGORY OF THE CAVE</span><span class="pl-s">TED-Ed · Alex Gendler · YouTube 1RWOpQXTltA</span></div>
+    <p class="cap"><b>▶ FILM.</b> The oldest story on the board, explained straight — inside the Cave file.</p>
+  </div>
+  <div class="conn"><button data-open-link="cave"><b>THE CAVE</b> → watch it in the Cave file</button></div>
+
+  <div class="pic">
     <div class="plaque"><span class="pl-t">◈ SECTION — THE PATTERN: EVERYTHING MAKES A SMALLER ITSELF</span><span class="pl-s">Isaiah · in the Theory file, under the Neuron Universe</span></div>
     <p class="cap"><b>◈ SECTION.</b> Trees make baby leaves; the universe makes baby neuron-universes — his pattern, one generation past the Neuron Universe, with Smolin's published mirror and the counterweight beside it.</p>
   </div>
@@ -1530,7 +1591,7 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
   <div class="vrow"><span class="vtag open">COUNTERWEIGHT</span><span><b>None of this shows Earth is simulated.</b> The AI worlds are evidence about <i>worlds built by minds</i> — the step to ours is the unproven one, the same gap as the parent box. The flashlight is not the receipt.</span></div>
 
   <h3>THE INSIDE / THE OUTSIDE</h3>
-  <blockquote class="handq">&ldquo;The only near <span class="unc">[?]</span> somewhat visible demonstration of that, besides patterns and fractals, is your Minecraft world / character. Moves linear in game &mdash; look outside the program, and you can go back in time. Save files.&rdquo;<span class="attrib">&mdash; Isaiah, written at work</span></blockquote>
+  <blockquote class="handq">&ldquo;The only weird somewhat visible demonstration of that, besides patterns and fractals, is your Minecraft world / character. Moves linear in game &mdash; look outside the program, and you can go back in time. Save files.&rdquo;<span class="attrib">&mdash; Isaiah, written at work</span></blockquote>
   <div class="vrow"><span class="vtag open">ISAIAH</span><span><i>"You can go back in a PC to find Minecraft Java save files."</i></span></div>
   <div class="vrow"><span class="vtag fact">FACT (THE GAME)</span><span><b>He is literally right, and here is the folder.</b> On a Windows PC, a Java world sits in <b>%appdata%\.minecraft\saves</b> — one folder per world: <b>region files</b> (region/*.mca) holding the terrain, and <b>level.dat</b> holding the seed and the world's metadata. The game even keeps the previous copy of that metadata file: <b>level.dat_old</b>, held in reserve. From outside the game you can copy the folder, restore an older backup, edit the stored world with outside tools. The world's whole history coexists as files, side by side — and an operator can re-enter an earlier state. The tutorial below is the receipt: the actual steps, demonstrated.</span></div>
   <div class="watch">
@@ -1570,8 +1631,7 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
     <p class="cap"><b>&#9672; THE ORIGINAL.</b> The original &mdash; pen on a receipt and torn paper, written at work, November 10, 2026. Transcribed below.</p>
   </div>
   <p class="subh">THE TRANSCRIPTION &mdash; THE RECEIPT</p>
-  <blockquote class="handq">&ldquo;The only near <span class="unc">[?]</span> somewhat visible demonstration of that, besides patterns and fractals, is your Minecraft world / character. Moves linear in game &mdash; look outside the program, and you can go back in time. Save files.&rdquo;</blockquote>
-  <p class="fnote">One word in his hand is still being confirmed with him.</p>
+  <blockquote class="handq">&ldquo;The only weird somewhat visible demonstration of that, besides patterns and fractals, is your Minecraft world / character. Moves linear in game &mdash; look outside the program, and you can go back in time. Save files.&rdquo;</blockquote>
   <p class="subh">THE TRANSCRIPTION &mdash; THE SKETCH PAGE</p>
   <blockquote class="handq"><span class="lbl">[MINECRAFT SAVE ANALOGY]</span><br><span class="lbl">??? SPACE TIME</span> &middot; <span class="lbl">BUTTERFLY EFFECT</span><br>&ldquo;And if spacetime is reletiuite [his spelling] to the patterns of past, present and future brain thoughts, could there be a pathway to crossing those spacetimes?&rdquo;<br>&ldquo;As above, so below (does the pattern hold true?) &mdash; trees, roots, mycelium??&rdquo;<br>&ldquo;Any way to have save files?&rdquo;</blockquote>
   <h3>THE DIAGRAM — THREE WAYS OF SPLITTING</h3>
@@ -1798,7 +1858,7 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
     <button data-open-link="question"><b>THE PATTERN</b> → as above, so below: the theory file, where the pattern is pinned</button>
   </div>
   <h3>SOURCES</h3>
-  <p class="src">Isaiah's sketch — his own photograph of his own page, written at work, November 10, 2026 · transcription verified against the photograph (one word still being confirmed with him — marked [?]) · diagram redrawn clean in plum and gold from his page · the prism panel drawn for this file · his statements: November 10, 2026</p>
+  <p class="src">Isaiah's sketch — his own photograph of his own page, written at work, November 10, 2026 · transcription verified against the photograph · diagram redrawn clean in plum and gold from his page · the prism panel drawn for this file · his statements: November 10, 2026</p>
 </template>
 
 <template id="d-conspiracy">
@@ -1830,6 +1890,55 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
   <p class="src">Isaiah's words: November 10, 2026, late — after the déjà vu round · ages: universe 13.8 Gyr, Sun 4.6 Gyr (standard cosmology, as weighed in Scholarly) · Bell Labs transistor licensing program, 1952; Sony's own license, signed 1953 (effective February 1954), and the transistor radios that followed · Tupolev Tu-4: reverse-engineered from interned B-29s, first flown 1947 · the chain: Bell Labs 1947 · Kilby / Noyce 1958–59 · ARPANET 1969 (as pinned in the theory file)</p>
 </template>
 
+<template id="d-cave">
+  <p class="rate">SPECULATION RATING — <b>MIXED</b></p>
+  <div class="watch">
+    <div class="frame"><iframe src="https://www.youtube.com/embed/oYp5XuGYqqY" title="Do we see reality as it is? — Donald Hoffman, TED" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    <p class="cap"><b>▶ WATCH FIRST — THE COVER</b> — "Do we see reality as it is?" · <b>Donald Hoffman · TED (2015)</b> — a cognitive scientist argues, on stage, that evolution built our senses as an interface rather than a window: perception shaped for survival, not for truth · <a href="https://www.youtube.com/watch?v=oYp5XuGYqqY" target="_blank" rel="noopener">open on YouTube</a></p>
+  </div>
+  <h3>THE SOURCE — PLATO'S CAVE · THE REPUBLIC, BOOK VII (c. 375 BC)</h3>
+  <p>Picture people chained since childhood inside an underground den, legs and necks fixed so they can only ever look forward, at the wall. Behind them a fire burns. Between the fire and the prisoners runs a raised way behind a low screen, and along it carriers pass, holding up statues and vessels and figures of animals — and the fire throws those objects' shadows onto the wall the prisoners face. Having never seen anything else, the prisoners take the shadows for the whole of reality: they name them, argue over them, and honour whoever is sharpest at predicting which shadow comes next. That is the setup of the oldest pin on this board — Plato's allegory of the cave, told by Socrates in Book VII of the <i>Republic</i>, written around 375 BC.</p>
+  <div class="pic">
+    <div class="frame"><svg viewBox="0 0 1000 430" width="100%" style="display:block" role="img" aria-label="Diagram of Plato's cave: the sun outside, a freed prisoner climbing the slope, a fire inside, objects carried past it, chained prisoners facing a wall, and the shadows they watch"><rect width="1000" height="430" fill="#150d20"/><circle cx="84" cy="78" r="30" fill="#ffd166"/><g stroke="#ffd166" stroke-width="3" stroke-linecap="round" opacity=".85"><line x1="84" y1="30" x2="84" y2="42"/><line x1="36" y1="78" x2="48" y2="78"/><line x1="120" y1="78" x2="132" y2="78"/><line x1="50" y1="44" x2="59" y2="53"/><line x1="118" y1="44" x2="109" y2="53"/></g><polygon points="150,120 470,235 470,320 150,205" fill="#f0b73f" opacity=".05"/><polygon points="140,205 720,385 720,404 140,232" fill="#241239"/><g fill="#0d0716" stroke="#f0b73f" stroke-width="1.4"><circle cx="352" cy="238" r="10"/><path d="M343 250 h18 l4 30 6 34 h-9 l-6 -30 -6 30 h-9 l6 -34 Z"/></g><rect x="520" y="332" width="180" height="10" fill="#2b1a47"/><path d="M588 322 q-14-24 0-48 q3 14 10 19 q-2-16 3-28 q17 24 11 42 q-4 14-24 15Z" fill="#f0b73f"/><path d="M589 322 q-7-12 0-24 q8 12 4 24Z" fill="#ffd166"/><g fill="#1b1130" stroke="rgba(240,183,63,.55)" stroke-width="1.5"><circle cx="664" cy="240" r="9"/><path d="M656 251 h16 l3 26 5 33 h-8 l-4 -30 -4 30 h-8 l5 -33 Z"/><path d="M706 268 q-12 10 0 24 q4 20 2 34 h16 q-2-14 2-34 q12-14 0-24 q-10-8-20 0Z"/></g><rect x="688" y="298" width="14" height="88" fill="#2b1a47" stroke="rgba(240,183,63,.4)"/><g stroke="#f0b73f" stroke-width="2" opacity=".16"><line x1="614" y1="282" x2="905" y2="118"/><line x1="614" y1="290" x2="905" y2="222"/><line x1="614" y1="298" x2="905" y2="330"/></g><rect x="895" y="30" width="105" height="372" fill="#241239" stroke="rgba(240,183,63,.45)" stroke-width="1.5"/><path d="M922 84 q14 22 5 48 q19 8 15 36 l-26 0 q-4-28 9-36 q-9-26-3-48Z" fill="#0a0512" opacity=".95"/><path d="M928 268 q16 12 6 34 q6 24 2 44 l-24 0 q-2-20 4-44 q-6-22 12-34Z" fill="#0a0512" opacity=".95"/><g fill="#0d0716"><circle cx="747" cy="355" r="9"/><path d="M736 385 v-17 q0-10 11-10 t11 10 v17Z"/><circle cx="797" cy="355" r="9"/><path d="M786 385 v-17 q0-10 11-10 t11 10 v17Z"/><circle cx="847" cy="355" r="9"/><path d="M836 385 v-17 q0-10 11-10 t11 10 v17Z"/></g><g stroke="#8a7a5f" stroke-width="1.6" stroke-dasharray="4 3" opacity=".75" fill="none"><path d="M756 352 q60 22 122 34"/><path d="M806 352 q36 22 72 34"/><path d="M856 352 q12 20 22 34"/></g><circle cx="882" cy="390" r="5" fill="none" stroke="#8a7a5f" stroke-width="1.6"/><g font-family="IBM Plex Mono, monospace" letter-spacing="1"><text x="24" y="30" font-size="19" fill="#f7ead1">THE SUN — SEEN LAST OF ALL</text><text x="248" y="196" font-size="19" fill="#f0b73f">THE ONE WHO GOT OUT</text><text x="540" y="258" font-size="19" fill="#f7ead1">THE FIRE</text><text x="606" y="206" font-size="19" fill="#f7ead1">OBJECTS CARRIED PAST</text><text x="988" y="56" font-size="19" fill="#f7ead1" text-anchor="end">THE SHADOWS</text><text x="700" y="424" font-size="17" fill="#bdb096">THE PRISONERS</text></g></svg></div>
+    <p class="cap"><b>◈ THE CAVE, DRAWN.</b> Plato's allegory as this board draws it: the prisoners face the wall; the fire throws the shadows of carried objects; one prisoner got out, and saw the sun last of all. Drawn in plum and gold for this board — no borrowed image; the drawing is the board's own.</p>
+  </div>
+  <p>Then the story turns. Free one prisoner, Socrates says, and drag him up the steep ascent into daylight: at first the glare pains him and he can see nothing; he will think the shadows he knew were truer than what he is shown. Slowly his eyes adjust — shadows first, then reflections in water, then the things themselves, then the night sky, and last of all the sun, the source of everything below. Send him back down into the den and it reverses: his eyes come back full of darkness, he fumbles among the shadows he once read fluently, and the prisoners who never left laugh at him — and conclude the climb ruins a man's sight. Every part of that summary is paraphrase, in this board's words. The sentences below are Plato's own, word for word:</p>
+  <div class="words"><span class="who">PLATO — THE REPUBLIC, BOOK VII (JOWETT TRANSLATION):</span> Behold! human beings living in a underground den, which has a mouth open towards the light and reaching all along the den; here they have been from their childhood, and have their legs and necks chained so that they cannot move, and can only see before them, being prevented by the chains from turning round their heads. …
+To them, I said, the truth would be literally nothing but the shadows of the images.</div>
+  <p class="fnote">The quotation is verbatim from Benjamin Jowett's public-domain translation, checked character-for-character against the Project Gutenberg text (#1497) — including Jowett's "a underground den," which is how the edition prints it. The two sentences stand in different paragraphs of the dialogue, with other lines between them; the ellipsis marks that join, so they do not read as one continuous passage.</p>
+  <h3>THE STORY ITSELF, EXPLAINED</h3>
+  <div class="watch">
+    <div class="frame"><iframe src="https://www.youtube.com/embed/1RWOpQXTltA" title="Plato's Allegory of the Cave — Alex Gendler, TED-Ed" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    <p class="cap"><b>▶ WATCH THE ALLEGORY</b> — "Plato's Allegory of the Cave" · <b>TED-Ed · a lesson by Alex Gendler (2015)</b> — the ancient story itself, told straight in four and a half minutes, before this file argues with it · <a href="https://www.youtube.com/watch?v=1RWOpQXTltA" target="_blank" rel="noopener">open on YouTube</a></p>
+  </div>
+  <h3>ISAIAH'S IDEA — THE LENSES</h3>
+  <p>Isaiah's words, November 11, 2026 — carrying the standing label he puts on all of it:</p>
+  <div class="words"><span class="who">ISAIAH:</span> These are just my thoughts, mixed with other humans' thoughts. I'm not claiming these are real theories — but they are my ideas.
+What we see, feel, touch, smell, hear — all of it is brain signals. All humans are looking at a version of Earth through, literally, lenses. Take the lenses away, and there is still an underlying code — a world underneath — that would look fundamentally different from anything we perceive. But it's impossible for us to perceive it… until humans create machines that can alter our vision.</div>
+  <div class="vrow"><span class="vtag open">SPECULATION</span><span><b>Where the idea stands.</b> The first half is close to textbook: the senses do transduce the world into neural signals, and the brain's picture is a construction, not a photograph. The reach is the second half — that what sits under the construction is a "code" that would look like something, and that a machine could one day hand us the un-lensed view. What would test it: a machine that shows a human something no native lens was built to show, and a report of it that survives the Scholarly file. Until then the idea is pinned as his — at his own stated weight, no heavier.</span></div>
+  <h3>THE SCIENCE BRIDGE</h3>
+  <div class="vrow"><span class="vtag legend">THEORY</span><span><b>Donald Hoffman — perception as an interface.</b> UC Irvine cognitive scientist (now professor emeritus), author of <i>The Case Against Reality: Why Evolution Hid the Truth from Our Eyes</i> (2019) and of the TED talk at the top of this file: evolution shaped our senses the way an engineer shapes a desktop — icons tuned to fitness, hiding the machinery underneath. His support includes the <b>Fitness-Beats-Truth theorem</b> (with Chetan Prakash), from evolutionary game simulations: organisms tuned only to fitness outcompete organisms tuned to truth. Tagged here exactly as in the Operation Table file: <b>his THEORY, contested</b> — other scientists dispute both the simulations' reach and the conclusion.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>1969: seeing through the skin.</b> Paul Bach-y-Rita and colleagues reported in <i>Nature</i> ("Vision substitution by tactile image projection," <i>Nature</i> 221:963–964) a machine that fed a camera's picture to a 20×20 array of vibrating stimulators against a blind person's back. With practice the users — including people blind from birth — recognized objects, judged perspective and distance, and flinched when a ball was thrown at the camera: the image arrived as touch and was read by the brain as a kind of sight. The first working proof, in a laboratory, that the brain will take a world through a channel it was never born with — a lens swapped by machine, in 1969.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Instruments already widen the lens.</b> Thermal cameras draw the infrared we cannot see; ultraviolet photography shows what bees navigate by — flowers carry ultraviolet "nectar guides," landing-strip patterns painted in a colour no unaided human eye has ever seen. Every instrument ever built is the same confession: the native senses are a subset, and the rest of the spectrum was there the whole time, unread.</span></div>
+  <div class="vrow"><span class="vtag fact">DOCUMENTED</span><span><b>Neil Harbisson — a man who hears colour.</b> Born with achromatopsia — he saw the world only in greys — the artist had an antenna osseointegrated into his skull, permanently, in 2004; Britain let it appear in his passport photograph the same year, an official recognition that the device is part of him. The antenna turns light frequencies into vibrations he hears through his skull — including infrared and ultraviolet, colours beyond every natural human lens. What he perceives is his own report; the implant, its date, and its official recognition are documented fact. He calls himself a cyborg artist. This board calls him the cave story with a pulse: a human who changed his lens, on purpose, and now reports a wider wall.</span></div>
+  <div class="conn">
+    <button data-open-link="minecraft"><b>HOFFMAN, IN FULL</b> → the Operation Table: interface theory where the board first pinned it</button>
+  </div>
+  <h3>THE COUNTERWEIGHT</h3>
+  <div class="vrow"><span class="vtag open">COUNTERWEIGHT</span><span><b>An interface is not a lie, and a filter is not a fabrication.</b> Plato's shadows are cast by real objects; likewise a perceptual interface, if that is what the senses are, is caused by the world at every point — its distortions are systematic, shared by every human ever tested, and correctable by instruments, which is exactly how we know about them. Mainstream neuroscience's working picture is narrower than Hoffman's and narrower than Isaiah's: the brain constructs a model of the world, constrained hard by the senses — wrong in details, never a free invention. And there is a trap inside the "underlying code" framing itself: anything a future machine showed us would still arrive through a channel, rendered for a brain — a new lens, not the abolition of lenses. The honest residue is real but modest: our picture is partial, instrument-extendable, and has been surprised before. Partial is not the same as false, and "we cannot see it yet" is not evidence about what it looks like.</span></div>
+  <h3>WHY THE STRING RUNS TO THE CLOCKS</h3>
+  <p>The Scholarly file's atomic clocks are the cave argument built out of light and caesium: in 2010, optical clocks registered time itself running at different rates across a height difference of <b>33 centimetres</b> and at speeds of <b>10 metres per second</b> (Chou et al., <i>Science</i> 2010 — weighed in the Scholarly file). No human sense has ever felt either difference, yet both are sitting inside every ordinary day. The senses report one time; the clocks report several. That is a machine perceiving what the lenses cannot — Plato's climb, done with instruments instead of chains and sunlight. The string runs from the cave to the clocks because the clocks are this board's proof that the wall can, in places, already be read through.</p>
+  <h3>CONNECTIONS</h3>
+  <div class="conn">
+    <button data-open-link="facts"><b>THE CLOCKS</b> → Scholarly: the audit — time at 10 m/s and 33 cm, measured</button>
+    <button data-open-link="minecraft"><b>HOFFMAN</b> → the Operation Table: interface theory, simulation, and the view from inside</button>
+    <button data-open-link="sketch"><b>THE PRISM</b> → Isaiah's Sketch: light split by the medium it passed through</button>
+    <button data-open-link="question"><b>THE THEORY</b> → the One-Way Signal: the question this cave hangs under</button>
+  </div>
+  <h3>SOURCES</h3>
+  <p class="src">Plato, <i>The Republic</i>, Book VII (written c. 375 BC), trans. Benjamin Jowett (public domain) — Project Gutenberg #1497; quotation verified character-for-character against that text · TED-Ed, "Plato's Allegory of the Cave," lesson by Alex Gendler (2015), YouTube 1RWOpQXTltA · Hoffman, "Do we see reality as it is?", TED (2015), YouTube oYp5XuGYqqY · Hoffman, <i>The Case Against Reality: Why Evolution Hid the Truth from Our Eyes</i> (W. W. Norton, 2019); Hoffman &amp; Prakash, Fitness-Beats-Truth · Bach-y-Rita, Collins, Saunders, White &amp; Scadden, "Vision substitution by tactile image projection," <i>Nature</i> 221(5184):963–964 (1969), doi:10.1038/221963a0 · Harbisson: antenna osseointegrated 2004; UK passport-photo recognition 2004; born with achromatopsia · Chou et al., <i>Science</i> (2010), as weighed in the Scholarly file · both video IDs verified with yt-dlp against the channels' own uploads, November 11, 2026</p>
+</template>
+
 <script>
 (function(){
   "use strict";
@@ -1853,7 +1962,8 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
     locker:  ['THE EVIDENCE LOCKER — PICTURES & FILM', 'every visual on the board, in one room'],
     minecraft: ['THE OPERATION TABLE', 'Isaiah\'s Minecraft statement · speculation, in game grammar'],
     conspiracy: ['CONSPIRACY — BUT A THOUGHT EXPERIMENT', 'Isaiah\'s late threads · the distance door · the silicon blueprints'],
-    sketch:   ['ISAIAH\'S SKETCH — THE SIDEWAYS TREE', 'his note in his own hand · drawn at work · November 10, 2026']
+    sketch:   ['ISAIAH\'S SKETCH — THE SIDEWAYS TREE', 'his note in his own hand · drawn at work · November 10, 2026'],
+    cave:     ['PLATO\'S CAVE — THE LENSES', 'Plato · Republic VII · c. 375 BC · the oldest pin on the board — perception itself']
   };
   function openCard(id){
     var t = document.getElementById('d-' + id);
@@ -1864,6 +1974,7 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
     mBody.appendChild(document.importNode(t.content, true));
     wireShardedImages(mBody);
     wireSketch(mBody);
+    wireFacades(mBody);
     overlay.classList.add('open');
     overlay.scrollTop = 0;
     document.body.style.overflow = 'hidden';
@@ -1951,6 +2062,35 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
   }
   wireShardedImages(document);
 
+  /* ============ CLICK-TO-LOAD EVIDENCE FILMS (card faces) ============
+     A facade is a still exhibit — frame, thumbnail, gold seal, title
+     strip — until tapped. The tap screens the real embed inside the
+     same frame and goes no further: the file does not open. Any other
+     tap on the note opens the file, as always. No autoplay on load;
+     the wall stays calm until a detective presses play. */
+  function wireFacades(root){
+    root.querySelectorAll('.facade[data-yt]').forEach(function(f){
+      if(f.dataset.wired) return; f.dataset.wired = '1';
+      function play(e){
+        e.stopPropagation();
+        var ifr = document.createElement('iframe');
+        ifr.src = 'https://www.youtube.com/embed/' + f.dataset.yt + '?autoplay=1&rel=0';
+        ifr.title = 'Cover film — Do we see reality as it is? — Donald Hoffman, TED';
+        ifr.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; picture-in-picture');
+        ifr.setAttribute('allowfullscreen', '');
+        ifr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+        f.innerHTML = '';
+        f.classList.remove('facade');
+        f.removeAttribute('role'); f.removeAttribute('tabindex'); f.removeAttribute('data-yt');
+        f.style.cursor = 'default';
+        f.appendChild(ifr);
+      }
+      f.addEventListener('click', play);
+      f.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); play(e); } });
+    });
+  }
+  wireFacades(document);
+
   /* ============ STRING PHYSICS ============
      Verlet ropes. Real Earth gravity: 9.81 m/s^2.
      Board scale: 90 canvas px = 1 metre, so g = 882.9 px/s^2.
@@ -1972,8 +2112,9 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
     { id:'scientists',  a:'card-save',  b:'card-scientists', t:0.50, slack:1.06, tilt:-1 },
     { id:'signal',      a:'card-tyson', b:'card-amy',   t:0.66, slack:1.06, tilt:-1 },
     { id:'containers',  a:'card-lazar', b:'card-amy',   t:0.45, slack:1.06, tilt:1.2 },
-    { id:'battery',     a:'card-sleep', b:'card-amy',   t:0.55, slack:1.06, tilt:-1 },
-    { id:'openq',       a:'card-sleep', b:'card-facts', t:0.50, slack:1.05, tilt:1.5 }
+    { id:'battery',     a:'card-sleep', b:'card-lazar', t:0.55, slack:1.06, tilt:-1 },
+    { id:'openq',       a:'card-sleep', b:'card-facts', t:0.50, slack:1.05, tilt:1.5 },
+    { id:'lenses',      a:'card-cave',  b:'card-facts', t:0.30, slack:1.06, tilt:1 }
   ];
   var ropes = [], W = 0, H = 0, DPR = 1;
 
