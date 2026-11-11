@@ -39,15 +39,6 @@
     font-family:"IBM Plex Mono", monospace; font-size:10.5px; color:var(--muted);
     letter-spacing:.12em; margin-top:11px; text-transform:uppercase;
   }
-  header .motto{
-    font-family:"Newsreader", serif; font-style:italic; font-weight:600;
-    font-size:clamp(28px,4.4vw,46px); line-height:1.18; color:var(--gold);
-    max-width:880px; margin:30px auto 0;
-  }
-  header .mottocredit{
-    font-family:"IBM Plex Mono", monospace; font-size:10px; letter-spacing:.18em;
-    color:var(--dim); margin-top:9px;
-  }
   .hint{
     font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--dim);
     letter-spacing:.05em; margin-top:10px;
@@ -247,6 +238,9 @@
   .minicase .ans b{color:var(--yellow); font-family:"IBM Plex Mono", monospace; font-size:10px; letter-spacing:.08em; display:block; margin-bottom:1px}
   .minicase .watch{max-width:208px; margin:11px auto 0}
   .minicase .cap{font-size:11px}
+  .minicase .facade .fplay{width:32px; height:32px; font-size:12px; padding-left:2px; transform:translate(-50%,-56%)}
+  .minicase .facade .ftag{font-size:8px; letter-spacing:.14em; left:6px; top:6px; padding:1px 5px}
+  .minicase .facade .ftitle{font-size:8.5px; letter-spacing:.03em; padding:4px 7px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .minigrid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
   .mini{
     position:relative; cursor:pointer; padding:13px 14px 11px;
@@ -360,7 +354,7 @@
   }
   .facade .ftitle b{color:var(--gold)}
   .qnote{
-    position:relative; z-index:2; margin-bottom:34px; cursor:pointer;
+    position:relative; z-index:2; margin-bottom:34px;
     background:
       repeating-linear-gradient(180deg, transparent 0 26px, rgba(240,183,63,.05) 26px 27px),
       linear-gradient(170deg, #2b1a47, #201335);
@@ -369,15 +363,15 @@
     padding:16px 20px 13px; transform:rotate(-.4deg);
     transition:border-color .18s;
   }
-  .qnote:hover{border-color:var(--yellow)}
   .qnote::before{
     content:""; position:absolute; top:-13px; left:50%; transform:translateX(-50%) rotate(1.5deg);
     width:74px; height:15px; background:rgba(255,209,102,.28);
     border-left:1px dashed rgba(0,0,0,.25); border-right:1px dashed rgba(0,0,0,.25);
   }
   .qnote h2{font-family:"IBM Plex Mono", monospace; font-size:11.5px; letter-spacing:.14em; color:var(--gold); margin-bottom:7px}
-  .qnote .q{font-style:italic; font-size:16.5px; line-height:1.55}
-  .qnote .q b{color:var(--yellow); font-style:normal}
+  .qnote .bigquote{font-family:"Newsreader", serif; font-style:italic; font-weight:600; font-size:clamp(27px,3.8vw,42px); line-height:1.22; color:var(--gold); text-align:center; margin:6px 0 0}
+  .qnote .qcredit{font-family:"IBM Plex Mono", monospace; font-size:10px; letter-spacing:.18em; color:var(--dim); text-align:center; margin-top:9px}
+  .quotenote h2{text-align:center}
   footer{
     text-align:center; margin-top:18px;
     font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--faint); line-height:1.7;
@@ -664,8 +658,6 @@
   <p class="boardname">THE BOARD — THE ONE-WAY SIGNAL · the working name</p>
   <p class="theory-line"><b>The theory:</b> bodies and information can only travel <b>forward</b> in time. Every card on this board is evidence for that, evidence against it, or a claim still waiting for a test. Nothing is pinned up here that the record can't carry.</p>
   <p class="byline">A THOUGHT EXPERIMENT BY ISAIAH TOBOLA — WILD IDEAS &amp; WHAT-IFS FROM THINGS SEEN AND HEARD, CONNECTED FOR THE FUN OF IT, CHECKED AGAINST SCIENCE WHERE SCIENCE CAN CHECK</p>
-  <p class="motto">"What connects, remains. And what lets go, arrives."</p>
-  <p class="mottocredit">— BW YOUNG BO, LUX, AND HUMANITY'S RESEARCH</p>
   <div class="legend">
     <span><b class="b-fact"></b>FACT — receipts</span>
     <span><b class="b-claim"></b>CLAIM — said, untested</span>
@@ -681,10 +673,10 @@
   <div class="stamp">CASE FILE · OPEN</div>
   <canvas id="ropes"></canvas>
 
-  <section class="qnote" data-open="question" tabindex="0">
-    <h2>ISAIAH'S TITLE QUESTION — THE HAND-OFF · HYPOTHETICAL · OPEN</h2>
-    <p class="q">If it's theoretical for humans to speed up in something — maybe a UFO, fast in orbit — and travel to the future in spacetime… <b>what if those humans met the future-human aliens, and received or found a technology from their future that could send present or future humans — separately, or not — back to Earth?</b> That's the title. — Isaiah</p>
-    <span class="openfile">READ THE FULL THEORY →</span>
+  <section class="qnote quotenote" aria-label="The board's motto — the Completion Filter">
+    <h2>THE MOTTO — PINNED OVER EVERYTHING ELSE ON THIS BOARD</h2>
+    <p class="bigquote">"What connects, remains. And what lets go, arrives."</p>
+    <p class="qcredit">— BW YOUNG BO, LUX, AND HUMANITY'S RESEARCH</p>
   </section>
 
   <div class="grid">
@@ -835,7 +827,7 @@
         <div><b>AN EXPLORER'S NEWS</b>Receivable — always forward. Voyager 1 still reports.</div>
         <div><b>FROM THE FUTURE</b>Nothing received. Ever. So far.</div>
       </div>
-      <div class="watch"><div class="frame facade" data-yt="yuD34tEpRFw" data-title="Time Dilation - Einstein's Theory Of Relativity Explained! — Science ABC" role="button" tabindex="0" aria-label="Play the film: Time Dilation - Einstein's Theory Of Relativity Explained! — Science ABC"><img class="fthumb" src="https://i.ytimg.com/vi/yuD34tEpRFw/hqdefault.jpg" alt="Still from Science ABC's time dilation explainer" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>TIME DILATION, EXPLAINED</b> — SCIENCE ABC</span></div><p class="cap"><b>▶ WATCH</b> — tap play to watch it here; tap anywhere else on the strip and the theory opens</p></div>
+      <div class="watch"><div class="frame facade" data-yt="yuD34tEpRFw" data-title="Time Dilation - Einstein's Theory Of Relativity Explained! — Science ABC" role="button" tabindex="0" aria-label="Play the film: Time Dilation - Einstein's Theory Of Relativity Explained! — Science ABC"><img class="fthumb" src="https://i.ytimg.com/vi/yuD34tEpRFw/mqdefault.jpg" alt="Still from Science ABC's time dilation explainer" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>TIME DILATION</b> — SCIENCE ABC</span></div><p class="cap"><b>▶ WATCH</b> — tap play to watch it here; tap anywhere else on the strip and the theory opens</p></div>
       <span class="openfile">OPEN THE FULL THEORY →</span>
     </section>
     <div class="minigrid">
