@@ -839,6 +839,108 @@
   body[data-theme] .modal{background:linear-gradient(175deg, var(--panel2), var(--panel))}
   body[data-theme] .modal .words{background:var(--bg)}
 
+  /* ================= SEASONAL DIAGRAM THEMING (Nov 11) =================
+     Isaiah's order: "we want the diagram of Plato's Cave to match the
+     themes of season... go through every diagram." -- plus his
+     ADDENDUM (04:03 PT): diagrams do NOT simply inherit the board
+     theme; they follow a TWO-ROLE mapping, built only from the theme
+     layer's existing seasonal values:
+       NORMAL:    plum background role, yellow/gold light role
+                  (unchanged -- every rule below needs data-theme).
+       CHRISTMAS: background role -> GREEN (the layer's green family:
+                  panels #0d2416 / #12331e, deep #07160c); light role
+                  -> RED (the layer's red family: #ff5a4d lit fills,
+                  strokes and glows).
+       HALLOWEEN: "for the diagram sake" diagrams run ORANGE + WHITE:
+                  background role -> ORANGE (burnt-orange mixes of the
+                  layer's #ff8c1a into its panel browns #17100b /
+                  #211710 -- a mix of existing values, no new hue);
+                  light role -> WHITE (the layer's cream-white
+                  #ffe8d1): prisoners, masters, rays and lit
+                  highlights all go white on the orange ground.
+     The light role covers every yellow/gold part: the figures, the
+     sun and its rays, diagram lines/nodes, labels, frames, the prism
+     beam. The masters' GLOW follows the light role too: at Christmas
+     its standing red (#c14a36) already reads as the red light role
+     and is left alone; at Halloween the glow stops and the motif
+     halos are overridden to cream-white.
+     EXEMPT, by design -- no selector below can reach them:
+       * the FIRE (flame paths + fireglow circle) stays fire-warm in
+         every theme (at Christmas it sits naturally beside the red
+         light role, but it is NOT shifted -- it stays its own
+         orange-gold flame colours);
+       * the SHADOWS on the wall (#0a0512) stay shadow-dark;
+       * the prism SPECTRUM rays (.ray) keep their rainbow;
+       * the string canvas yarn (#c14a36, drawn in JS) stays red --
+         the Halloween glow override targets SVG stops/fills only,
+         never the canvas;
+       * every licensed IMAGE (Minkowski diagram in the Save file,
+         neuron / cosmic webs, EEG, Cajal, the sketch photo, film
+         stills) is a picture, not a drawing -- never recolored. */
+  body[data-theme="halloween"]{
+    --diag:#ffe8d1; --diag-node:#ffe8d1;
+    --diag-bg:color-mix(in srgb, #ff8c1a 50%, #17100b);
+    --diag-bg2:color-mix(in srgb, #ff8c1a 34%, #211710);
+    --diag-deep:color-mix(in srgb, #ff8c1a 24%, #0a0605);
+    --diag-a10:rgba(255,232,209,.10); --diag-a25:rgba(255,232,209,.25);
+    --diag-a35:rgba(255,232,209,.35); --diag-a40:rgba(255,232,209,.40);
+    --diag-a45:rgba(255,232,209,.45); --diag-a50:rgba(255,232,209,.50);
+    --diag-a55:rgba(255,232,209,.55); --diag-a60:rgba(255,232,209,.60);
+  }
+  body[data-theme="xmas"]{
+    --diag:#ff5a4d; --diag-node:#ff5a4d;
+    --diag-bg:#0d2416; --diag-bg2:#12331e; --diag-deep:#07160c;
+    --diag-a10:rgba(255,90,77,.10); --diag-a25:rgba(255,90,77,.25);
+    --diag-a35:rgba(255,90,77,.35); --diag-a40:rgba(255,90,77,.40);
+    --diag-a45:rgba(255,90,77,.45); --diag-a50:rgba(255,90,77,.50);
+    --diag-a55:rgba(255,90,77,.55); --diag-a60:rgba(255,90,77,.60);
+  }
+  /* background role: plum grounds take the seasonal diagram grounds */
+  body[data-theme] svg [fill="#241239"]{fill:var(--diag-bg)}
+  body[data-theme] svg [fill="#150d20"]{fill:var(--diag-bg2)}
+  body[data-theme] svg [fill="#160b26"]{fill:var(--diag-bg2)}
+  body[data-theme] svg [fill="#2b1a47"],
+  body[data-theme] svg [fill="#1f1433"],
+  body[data-theme] svg [fill="#1b1130"]{fill:var(--diag-bg2)}
+  /* dark silhouettes (the freed prisoner, the puppets) stay dark,
+     shifted to the season's diagram deep -- they are not the shadows */
+  body[data-theme] svg [fill="#0d0716"]{fill:var(--diag-deep)}
+  /* light role, line work: frames, rays, arrowheads, sunbeam wedge */
+  body[data-theme] svg [stroke="#f0b73f"]{stroke:var(--diag)}
+  body[data-theme] svg polygon[fill="#f0b73f"]{fill:var(--diag)}
+  body[data-theme] svg marker path[fill="#f0b73f"]{fill:var(--diag)}
+  body[data-theme] svg [stroke="rgba(240,183,63,.25)"]{stroke:var(--diag-a25)}
+  body[data-theme] svg [stroke="rgba(240,183,63,.35)"]{stroke:var(--diag-a35)}
+  body[data-theme] svg [stroke="rgba(240,183,63,.4)"]{stroke:var(--diag-a40)}
+  body[data-theme] svg [stroke="rgba(240,183,63,.45)"]{stroke:var(--diag-a45)}
+  body[data-theme] svg [stroke="rgba(240,183,63,.5)"]{stroke:var(--diag-a50)}
+  body[data-theme] svg [stroke="rgba(240,183,63,.55)"]{stroke:var(--diag-a55)}
+  body[data-theme] svg [stroke="rgba(240,183,63,.6)"]{stroke:var(--diag-a60)}
+  body[data-theme] svg [fill="rgba(240,183,63,.10)"]{fill:var(--diag-a10)}
+  body[data-theme] svg [fill="rgba(240,183,63,.45)"]{fill:var(--diag-a45)}
+  /* light role, lit fills: the sun, the figures (prisoners + masters,
+     stage, static drawing and card-face motif), leaves and future
+     nodes, the prism beam and its gem -- circles and groups only, so
+     the fire's inner flame (a path) can never be caught */
+  body[data-theme] svg circle[fill="#ffd166"]{fill:var(--diag-node)}
+  body[data-theme] svg g[fill="#ffd166"]{fill:var(--diag-node)}
+  body[data-theme] svg [stroke="#ffd166"]{stroke:var(--diag-node)}
+  body[data-theme] svg marker path[fill="#ffd166"]{fill:var(--diag-node)}
+  /* the masters' glow at Halloween goes white with the light role
+     (SVG gradient stops + motif halos only; the JS yarn is untouched).
+     At Christmas the same red IS the light role -- no rule needed. */
+  body[data-theme="halloween"] svg stop{stop-color:#ffe8d1}
+  body[data-theme="halloween"] svg [fill="#c14a36"]{fill:#ffe8d1}
+  /* creams stay cream, in the season's cream; dotted past stays dotted
+     (dasharray is a separate attribute and is never touched) */
+  body[data-theme] svg [stroke="#f7ead1"]{stroke:var(--cream)}
+  body[data-theme] svg marker path[fill="#f7ead1"]{fill:var(--cream)}
+  /* diagram labels follow the light role */
+  body[data-theme] svg text[fill="#f0b73f"]{fill:var(--diag)}
+  body[data-theme] svg text[fill="#ffd166"]{fill:var(--diag-node)}
+  body[data-theme] svg text[fill="#f7ead1"]{fill:var(--cream)}
+  body[data-theme] svg text[fill="#bdb096"]{fill:var(--dim)}
+
   /* ================= MENUS (Nov 11) =================
      Isaiah: "add a menu button to it that lets us go to home, login,
      sea etc off board." The board takes the Completion Filter pages'
