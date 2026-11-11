@@ -39,6 +39,15 @@
     font-family:"IBM Plex Mono", monospace; font-size:10.5px; color:var(--muted);
     letter-spacing:.12em; margin-top:11px; text-transform:uppercase;
   }
+  header .motto{
+    font-family:"Newsreader", serif; font-style:italic; font-weight:600;
+    font-size:clamp(28px,4.4vw,46px); line-height:1.18; color:var(--gold);
+    max-width:880px; margin:30px auto 0;
+  }
+  header .mottocredit{
+    font-family:"IBM Plex Mono", monospace; font-size:10px; letter-spacing:.18em;
+    color:var(--dim); margin-top:9px;
+  }
   .hint{
     font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--dim);
     letter-spacing:.05em; margin-top:10px;
@@ -77,7 +86,7 @@
   .grid{
     position:relative; z-index:2; pointer-events:none; flex:1;
     display:grid; grid-template-columns:1fr 1fr 1fr; grid-template-rows:auto auto auto auto; align-items:start; gap:104px 56px;
-    grid-template-areas:"tyson tesla facts" "save amy kid" "lazar . scientists" "sleep sketch cave";
+    grid-template-areas:"tyson tesla facts" "save amy kid" "lazar mid scientists" "sleep sketch cave";
   }
   .grid .card{pointer-events:auto}
   #card-tyson{grid-area:tyson} #card-tesla{grid-area:tesla} #card-facts{grid-area:facts}
@@ -217,6 +226,72 @@
      and stand together — the page ends on this compact block. */
   .band{position:relative; z-index:2; display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-top:56px; align-items:start}
   .band .case{margin-top:0}
+  /* ---------- the middle stack: the CASE + four minis, filling row 3's
+     empty middle cell (Isaiah, Nov 11) — the wide strip and the bottom
+     band retired; their contents live here now, miniaturized ---------- */
+  .gapstack{grid-area:mid; display:flex; flex-direction:column; gap:20px; pointer-events:none; min-width:0}
+  .gapstack>*{pointer-events:auto}
+  .minicase{
+    position:relative; cursor:pointer; transform:rotate(.3deg);
+    background:
+      repeating-linear-gradient(180deg, transparent 0 26px, rgba(240,183,63,.05) 26px 27px),
+      linear-gradient(170deg, #2b1a47, #201335);
+    border:1.5px dashed rgba(255,209,102,.75); border-radius:4px;
+    outline:1px solid rgba(255,209,102,.22); outline-offset:3px;
+    padding:14px 16px 12px; transition:border-color .18s;
+  }
+  .minicase:hover{border-color:var(--yellow)}
+  .minicase h2{font-family:"IBM Plex Mono", monospace; font-size:11.5px; letter-spacing:.12em; color:var(--gold); margin-bottom:6px}
+  .minicase .q{font-style:italic; font-size:14.5px; line-height:1.35}
+  .minicase .ans{display:flex; flex-direction:column; gap:6px; margin-top:9px; font-size:13px; line-height:1.35}
+  .minicase .ans b{color:var(--yellow); font-family:"IBM Plex Mono", monospace; font-size:10px; letter-spacing:.08em; display:block; margin-bottom:1px}
+  .minicase .watch{max-width:208px; margin:11px auto 0}
+  .minicase .cap{font-size:11px}
+  .minigrid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .mini{
+    position:relative; cursor:pointer; padding:13px 14px 11px;
+    background:
+      repeating-linear-gradient(180deg, transparent 0 26px, rgba(240,183,63,.05) 26px 27px),
+      linear-gradient(170deg, var(--panel2), var(--panel));
+    border:1.5px solid var(--gold); border-radius:4px;
+    outline:1px solid rgba(240,183,63,.28); outline-offset:3px;
+    transition:border-color .18s;
+  }
+  .mini:hover{border-color:var(--yellow)}
+  .mini[data-open="morning"]{transform:rotate(-.5deg)}
+  .mini[data-open="locker"]{transform:rotate(.45deg)}
+  .mini[data-open="minecraft"]{transform:rotate(-.4deg)}
+  .mini[data-open="conspiracy"]{transform:rotate(.5deg)}
+  .mini h3{font-family:"IBM Plex Mono", monospace; font-size:10.5px; letter-spacing:.1em; color:var(--gold); line-height:1.45; margin-bottom:6px}
+  .mini p{font-size:12.5px; line-height:1.4; color:var(--cream)}
+  .mini .openfile{margin-top:8px; font-size:9.5px}
+  .mini .pin{
+    position:absolute; top:-9px; left:49%; transform:translateX(-50%);
+    width:16px; height:16px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ffe9a8, var(--gold) 55%, #8a5f14);
+    box-shadow:0 3px 6px rgba(0,0,0,.6); border:1px solid rgba(0,0,0,.35); z-index:3;
+  }
+  @media (max-width:760px){ .minigrid{gap:12px} .minicase .watch{max-width:200px} }
+  @media (min-width:761px){
+    .gapstack{gap:16px}
+    .minicase{padding:12px 14px 10px}
+    .minicase .q{font-size:14px}
+    .minicase .ans{gap:5px; margin-top:8px; font-size:12.5px}
+    .minicase .watch{max-width:192px; margin-top:9px}
+    .minigrid{gap:14px}
+    .mini{padding:11px 12px 9px}
+    .mini h3{margin-bottom:5px}
+    .mini p{font-size:12px; line-height:1.35}
+    .mini .openfile{margin-top:6px}
+  }
+  @media (min-width:761px) and (max-width:1500px){
+    .gapstack{gap:14px}
+    .minicase .q{font-size:13.5px}
+    .minicase .ans{font-size:12px}
+    .minicase .watch{max-width:170px}
+    .minigrid{gap:12px}
+    .mini p{font-size:11.5px}
+  }
   .case .pin{
     position:absolute; top:-10px; left:49%; transform:translateX(-50%);
     width:19px; height:19px; border-radius:50%;
@@ -568,7 +643,7 @@
     .treenote{margin-top:88px}
   }
   @media (max-width:820px){
-    .grid{grid-template-columns:1fr; grid-template-rows:none; gap:46px; grid-template-areas:"tyson" "save" "tesla" "facts" "amy" "kid" "lazar" "sleep" "sketch" "scientists" "cave"}
+    .grid{grid-template-columns:1fr; grid-template-rows:none; gap:46px; grid-template-areas:"tyson" "save" "tesla" "facts" "amy" "kid" "lazar" "mid" "sleep" "sketch" "scientists" "cave"}
     .board{padding:28px 16px 20px; min-height:0}
     .modal{padding:24px 19px 20px}
     .slabel{font-size:9.5px; white-space:nowrap; max-width:none; padding:3px 7px}
@@ -589,6 +664,8 @@
   <p class="boardname">THE BOARD — THE ONE-WAY SIGNAL · the working name</p>
   <p class="theory-line"><b>The theory:</b> bodies and information can only travel <b>forward</b> in time. Every card on this board is evidence for that, evidence against it, or a claim still waiting for a test. Nothing is pinned up here that the record can't carry.</p>
   <p class="byline">A THOUGHT EXPERIMENT BY ISAIAH TOBOLA — WILD IDEAS &amp; WHAT-IFS FROM THINGS SEEN AND HEARD, CONNECTED FOR THE FUN OF IT, CHECKED AGAINST SCIENCE WHERE SCIENCE CAN CHECK</p>
+  <p class="motto">"What connects, remains. And what lets go, arrives."</p>
+  <p class="mottocredit">— BW YOUNG BO, LUX, AND HUMANITY'S RESEARCH</p>
   <div class="legend">
     <span><b class="b-fact"></b>FACT — receipts</span>
     <span><b class="b-claim"></b>CLAIM — said, untested</span>
@@ -749,6 +826,42 @@
       <span class="tag mixed">TEXT · THEORY · HIS IDEA</span>
       <span class="openfile">OPEN THE FILE →</span>
     </section>
+  <div class="gapstack" id="gapstack">
+    <section class="minicase" data-open="question" tabindex="0" aria-label="The Case — Isaiah's question. Opens the full theory.">
+      <h2>THE CASE — ISAIAH'S QUESTION</h2>
+      <p class="q">Could time travel actually exist — and could we receive information from a sent-out explorer?</p>
+      <div class="ans">
+        <div><b>FORWARD TRAVEL</b>Exists. Measured.</div>
+        <div><b>AN EXPLORER'S NEWS</b>Receivable — always forward. Voyager 1 still reports.</div>
+        <div><b>FROM THE FUTURE</b>Nothing received. Ever. So far.</div>
+      </div>
+      <div class="watch"><div class="frame facade" data-yt="yuD34tEpRFw" data-title="Time Dilation - Einstein's Theory Of Relativity Explained! — Science ABC" role="button" tabindex="0" aria-label="Play the film: Time Dilation - Einstein's Theory Of Relativity Explained! — Science ABC"><img class="fthumb" src="https://i.ytimg.com/vi/yuD34tEpRFw/hqdefault.jpg" alt="Still from Science ABC's time dilation explainer" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>TIME DILATION, EXPLAINED</b> — SCIENCE ABC</span></div><p class="cap"><b>▶ WATCH</b> — tap play to watch it here; tap anywhere else on the strip and the theory opens</p></div>
+      <span class="openfile">OPEN THE FULL THEORY →</span>
+    </section>
+    <div class="minigrid">
+      <section class="mini" data-open="morning" tabindex="0" aria-label="The Morning It All Connected — November 10, 2026. Opens the file.">
+        <h3>THE MORNING IT ALL CONNECTED — NOVEMBER 10, 2026</h3>
+        <p>One morning, one question — "TIME IS NOT LINEAR."</p>
+        <span class="openfile">READ THE FULL PLOT →</span>
+      </section>
+      <section class="mini" data-open="locker" tabindex="0" aria-label="The Evidence Locker — pictures and film. Opens the locker.">
+        <h3>THE EVIDENCE LOCKER — PICTURES &amp; FILM</h3>
+        <p>Every picture and every film on this board, in one locker.</p>
+        <span class="openfile">OPEN THE LOCKER →</span>
+      </section>
+      <section class="mini" id="case-minecraft" data-open="minecraft" tabindex="0" aria-label="The Operation Table — the Minecraft file. Opens the file.">
+        <span class="pin"></span>
+        <h3>THE OPERATION TABLE — THE MINECRAFT FILE</h3>
+        <p>The one distinction the theory turns on: "reading a save is not loading one."</p>
+        <span class="openfile">OPEN THE FILE →</span>
+      </section>
+      <section class="mini" data-open="conspiracy" tabindex="0" aria-label="Conspiracy — but a thought experiment. Opens the file.">
+        <h3>CONSPIRACY — BUT A THOUGHT EXPERIMENT</h3>
+        <p>"a one way signal to the future" — his newest thought, pinned whole.</p>
+        <span class="openfile">OPEN THE FILE →</span>
+      </section>
+    </div>
+  </div>
     <div class="midstack">
     <section class="card" id="card-sketch" data-open="sketch" tabindex="0">
       <span class="pin"></span>
@@ -767,57 +880,8 @@
     </div>
   </div>
 
-  <section class="case" data-open="question" tabindex="0">
-    <h2>THE CASE — ISAIAH'S QUESTION</h2>
-    <p class="q">Could time travel actually exist — and could we receive information from a sent-out explorer?</p>
-    <div class="ans">
-      <div><b>FORWARD TRAVEL</b>Exists. Measured. Small today, unlimited in principle.</div>
-      <div><b>AN EXPLORER'S NEWS</b>Receivable — always forward. Voyager 1, sent out in 1977, still reports; its signal takes nearly a full day to reach us (about 24 hours one-way). We hear its past, never its future.</div>
-      <div><b>FROM THE FUTURE</b>Nothing received. Ever. So far.</div>
-    </div>
-    <div class="watch" style="max-width:480px"><div class="frame facade" data-yt="yuD34tEpRFw" data-title="Time Dilation - Einstein's Theory Of Relativity Explained! — Science ABC" role="button" tabindex="0" aria-label="Play the film: Time Dilation - Einstein's Theory Of Relativity Explained! — Science ABC"><img class="fthumb" src="https://i.ytimg.com/vi/yuD34tEpRFw/hqdefault.jpg" alt="Still from Science ABC's time dilation explainer" loading="lazy"><span class="ftag">EVIDENCE FILM</span><span class="fplay">▶</span><span class="ftitle"><b>TIME DILATION, EXPLAINED</b> — SCIENCE ABC</span></div><p class="cap"><b>▶ WATCH</b> — the pillars, explained · tap play to watch it here; tap anywhere else on the strip and the theory opens</p></div>
-    <span class="openfile">OPEN THE FULL THEORY →</span>
-  </section>
 
-  <div class="band">
-  <section class="case" data-open="morning" tabindex="0">
-    <h2>THE MORNING IT ALL CONNECTED — NOVEMBER 10, 2026</h2>
-    <p class="q">One morning, one question — "TIME IS NOT LINEAR" — and by 11 AM it had grown a tree, a cast of scientists, two pictures, and a universe shaped like a brain.</p>
-    <div class="ans">
-      <div><b>SAVE FILES</b>If time isn't a line, life may keep saves — and the pieces might already be findable.</div>
-      <div><b>SAVE NODES</b>Time moves like a tree. The forks are where the saves would sit.</div>
-      <div><b>THE CAPSTONE</b>SPACE ITSELF IS TIME TRAVEL — distance is a difference in time.</div>
-    </div>
-    <span class="openfile">READ THE FULL PLOT →</span>
-  </section>
 
-  <section class="case" data-open="locker" tabindex="0">
-    <h2>THE EVIDENCE LOCKER — PICTURES &amp; FILM</h2>
-    <p class="q">Every picture and every film on this board, in one locker — the webs, the neuron, the faces, the footage. Nothing on the board asks to be believed without being seen.</p>
-    <span class="openfile">OPEN THE LOCKER →</span>
-  </section>
-
-  <section class="case" id="case-minecraft" data-open="minecraft" tabindex="0">
-    <span class="pin"></span>
-    <h2>THE OPERATION TABLE — A STATEMENT · ISAIAH · SPECULATION</h2>
-    <p class="q">"If Earth is anything like Minecraft, then the aliens or future humans could have found a way to operate the save file function with technology similar to Godly ability."</p>
-    <p class="note" style="color:var(--dim); font-size:13.5px; margin-top:7px">His sentence, pinned as the headline of its own file: the analogy mapped piece by piece, the weird recent AI evidence, the simulation argument — and the one distinction the whole theory turns on: reading a save is not loading one.</p>
-    <span class="tag mixed">SPECULATION · IN GAME GRAMMAR</span>
-    <span class="openfile">OPEN THE FILE →</span>
-  </section>
-
-  <section class="case" data-open="conspiracy" tabindex="0">
-    <h2>CONSPIRACY — BUT A THOUGHT EXPERIMENT</h2>
-    <p class="q">"a one way signal to the future"</p>
-    <div class="ans">
-      <div><b>THE ONE-WAY QUESTION</b>One-way for us, now — but can anyone honestly say what the future end of that journey can do? His newest thought, pinned whole.</div>
-      <div><b>WHAT THE RECORD HOLDS</b>Lookback time and a fully signed paper trail — the evidence stays. The two theories that leaned on it are retired, by his word.</div>
-      <div><b>THE RULES</b>Conspiracies, held as thought experiments: checked where science can check, defended as fact never.</div>
-    </div>
-    <span class="tag mixed">SPECULATION · THOUGHT-EXPERIMENT RULES</span>
-    <span class="openfile">OPEN THE FILE →</span>
-  </section>
-  </div>
 
   <span class="slabel" data-rope="underground">UNDERGROUND — <span class="v v-fact">said in both ✓</span></span>
   <span class="slabel" data-rope="papers">JOHN G. TRUMP <span class="v v-fact">✓</span></span>
