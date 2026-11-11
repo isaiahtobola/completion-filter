@@ -648,11 +648,256 @@
     #card-cave{--tilt:1.05deg}
     .card .pin{left:50% !important}
   }
+
+  /* ================= BOARD THEME LAYER (Nov 11) =================
+     Isaiah's order: "same theming — if it's on Halloween or Christmas
+     colors, make it match for the new board." The board now dresses
+     for the season exactly like the Completion Filter pages: the same
+     palette values, the same body[data-theme] mechanism, the same
+     season gate in the script below. Only the DRESSING changes —
+     masthead, the motto note, cards, tape, pins, modal chrome, the
+     mini stack, chips and buttons. Evidence content never moves:
+     no text, photo, video, string or rating is touched, and the
+     evidence colors that mean something — the KILLED red, the LEGEND
+     lavender, the CASE FILE stamp, the red yarn itself — hold in
+     every costume, the way the family's semantic reds always have. */
+  /* ---- halloween: the CF variable system, board cut ---- */
+  body[data-theme="halloween"]{
+    --bg:#0a0605; --panel:#17100b; --panel2:#211710;
+    --gold:#ffa53a; --yellow:#ffa53a;
+    --cream:#ffe8d1; --dim:#d9b48f; --faint:#b08d5f;
+    background:radial-gradient(1200px 700px at 50% 25%, #17100b 0%, var(--bg) 62%), var(--bg);
+  }
+  body[data-theme="halloween"] .board{
+    border-color:#3a2410;
+    background:
+      radial-gradient(rgba(255,140,26,.055) 1px, transparent 1.4px) 0 0/14px 14px,
+      radial-gradient(rgba(0,0,0,.20) 1px, transparent 1.4px) 7px 7px/14px 14px,
+      radial-gradient(900px 520px at 50% 40%, rgba(255,140,26,.05), transparent 70%),
+      linear-gradient(165deg, #211710, #0a0605);
+    box-shadow:0 30px 80px rgba(0,0,0,.55), inset 0 0 0 2px rgba(255,140,26,.45), inset 0 0 60px rgba(0,0,0,.5);
+  }
+  body[data-theme="halloween"] .card,
+  body[data-theme="halloween"] .mcstack,
+  body[data-theme="halloween"] .mini,
+  body[data-theme="halloween"] .treenote{
+    background:
+      repeating-linear-gradient(180deg, transparent 0 26px, rgba(255,140,26,.05) 26px 27px),
+      linear-gradient(170deg, var(--panel2), var(--panel));
+    outline-color:rgba(255,140,26,.28);
+  }
+  body[data-theme="halloween"] .minicase,
+  body[data-theme="halloween"] .case,
+  body[data-theme="halloween"] .qnote{
+    background:
+      repeating-linear-gradient(180deg, transparent 0 26px, rgba(255,140,26,.05) 26px 27px),
+      linear-gradient(170deg, #17100b, #120b06);
+    outline-color:rgba(255,165,58,.22);
+  }
+  body[data-theme="halloween"] .minicase,
+  body[data-theme="halloween"] .case{border-color:rgba(255,165,58,.75)}
+  body[data-theme="halloween"] .qnote{border-color:rgba(255,165,58,.8)}
+  body[data-theme="halloween"] .card::before,
+  body[data-theme="halloween"] .qnote::before,
+  body[data-theme="halloween"] .treenote::before{background:rgba(255,165,58,.28)}
+  body[data-theme="halloween"] .card .pin,
+  body[data-theme="halloween"] .mini .pin,
+  body[data-theme="halloween"] .case .pin,
+  body[data-theme="halloween"] .facade .fplay{
+    background:radial-gradient(circle at 35% 30%, #ffe8d1, #ffa53a 55%, #ff8c1a);
+  }
+  body[data-theme="halloween"] .card h2,
+  body[data-theme="halloween"] .treenote h2{border-bottom-color:rgba(255,140,26,.35)}
+  body[data-theme="halloween"] .tag.fact{background:rgba(255,140,26,.16)}
+  body[data-theme="halloween"] .vtag.fact{background:rgba(255,140,26,.18)}
+  body[data-theme="halloween"] .handq{background:rgba(255,140,26,.06)}
+  body[data-theme="halloween"] .rate{border-color:rgba(255,140,26,.55)}
+  body[data-theme="halloween"] .slabel{background:rgba(10,6,5,.88); border-color:rgba(255,140,26,.6)}
+  body[data-theme="halloween"] .watch .frame,
+  body[data-theme="halloween"] .pic .frame,
+  body[data-theme="halloween"] .modal .frame{border-color:rgba(255,140,26,.55)}
+  body[data-theme="halloween"] .facade{
+    background:radial-gradient(420px 200px at 50% 38%, rgba(255,140,26,.14), transparent 70%), #0a0605;
+  }
+  body[data-theme="halloween"] .facade::after{
+    background:linear-gradient(180deg, rgba(23,16,11,.16), rgba(23,16,11,.04) 42%, rgba(23,16,11,.5));
+  }
+  body[data-theme="halloween"] .facade .ftag{background:rgba(10,6,5,.82); border-color:rgba(255,140,26,.55)}
+  body[data-theme="halloween"] .facade .ftitle{background:rgba(10,6,5,.86); border-top-color:rgba(255,140,26,.45)}
+  body[data-theme="halloween"] .plaque{
+    background:radial-gradient(420px 200px at 50% 40%, rgba(255,140,26,.12), transparent 70%), #0a0605;
+  }
+  body[data-theme="halloween"] .watchlink{border-color:rgba(255,165,58,.75); background:rgba(255,140,26,.07)}
+  body[data-theme="halloween"] .watchlink:hover{background:rgba(255,140,26,.15)}
+  body[data-theme="halloween"] .chip{border-color:rgba(255,232,209,.3)}
+  body[data-theme="halloween"] .tag.claim{background:rgba(255,232,209,.1); border-color:rgba(255,232,209,.5)}
+  body[data-theme="halloween"] .vtag.claim{background:rgba(255,232,209,.1); border-color:rgba(255,232,209,.5)}
+  body[data-theme="halloween"] .vrow{border-bottom-color:rgba(255,232,209,.14)}
+  body[data-theme="halloween"] .overlay{background:rgba(10,6,5,.8)}
+  body[data-theme="halloween"] .modal h3{border-bottom-color:rgba(255,140,26,.3)}
+  body[data-theme="halloween"] .x{border-color:rgba(255,140,26,.6)}
+  body[data-theme="halloween"] .conn button{background:#0a0605; border-color:rgba(255,140,26,.55)}
+  body[data-theme="halloween"] .masterplay,
+  body[data-theme="halloween"] .caveplay,
+  body[data-theme="halloween"] .cavereset{background:rgba(255,140,26,.08)}
+  /* filled accent buttons take dark words, as on the CF pages */
+  body[data-theme="halloween"] .masterplay:hover,
+  body[data-theme="halloween"] .caveplay:hover,
+  body[data-theme="halloween"] .cavereset:hover,
+  body[data-theme="halloween"] .x:hover,
+  body[data-theme="halloween"] .conn button:hover{background:#ff8c1a; color:#171106}
+  body[data-theme="halloween"] .conn button:hover b{color:#171106}
+
+  /* ---- christmas: the CF variable system, board cut ---- */
+  body[data-theme="xmas"]{
+    --bg:#07160c; --panel:#0d2416; --panel2:#12331e;
+    --gold:#ff5a4d; --yellow:#ff5a4d;
+    --cream:#ffefe0; --dim:#a8c9ae; --faint:#7ba886;
+    background:radial-gradient(1200px 700px at 50% 25%, #0d2416 0%, var(--bg) 62%), var(--bg);
+  }
+  body[data-theme="xmas"] .board{
+    border-color:#1d4a2c;
+    background:
+      radial-gradient(rgba(217,54,54,.055) 1px, transparent 1.4px) 0 0/14px 14px,
+      radial-gradient(rgba(0,0,0,.20) 1px, transparent 1.4px) 7px 7px/14px 14px,
+      radial-gradient(900px 520px at 50% 40%, rgba(217,54,54,.05), transparent 70%),
+      linear-gradient(165deg, #12331e, #07160c);
+    box-shadow:0 30px 80px rgba(0,0,0,.55), inset 0 0 0 2px rgba(217,54,54,.45), inset 0 0 60px rgba(0,0,0,.5);
+  }
+  body[data-theme="xmas"] .card,
+  body[data-theme="xmas"] .mcstack,
+  body[data-theme="xmas"] .mini,
+  body[data-theme="xmas"] .treenote{
+    background:
+      repeating-linear-gradient(180deg, transparent 0 26px, rgba(217,54,54,.05) 26px 27px),
+      linear-gradient(170deg, var(--panel2), var(--panel));
+    outline-color:rgba(217,54,54,.28);
+  }
+  body[data-theme="xmas"] .minicase,
+  body[data-theme="xmas"] .case,
+  body[data-theme="xmas"] .qnote{
+    background:
+      repeating-linear-gradient(180deg, transparent 0 26px, rgba(217,54,54,.05) 26px 27px),
+      linear-gradient(170deg, #0d2416, #081a0f);
+    outline-color:rgba(255,90,77,.22);
+  }
+  body[data-theme="xmas"] .minicase,
+  body[data-theme="xmas"] .case{border-color:rgba(255,90,77,.75)}
+  body[data-theme="xmas"] .qnote{border-color:rgba(255,90,77,.8)}
+  body[data-theme="xmas"] .card::before,
+  body[data-theme="xmas"] .qnote::before,
+  body[data-theme="xmas"] .treenote::before{background:rgba(255,90,77,.28)}
+  body[data-theme="xmas"] .card .pin,
+  body[data-theme="xmas"] .mini .pin,
+  body[data-theme="xmas"] .case .pin,
+  body[data-theme="xmas"] .facade .fplay{
+    background:radial-gradient(circle at 35% 30%, #ffefe0, #ff5a4d 55%, #d93636);
+  }
+  body[data-theme="xmas"] .card h2,
+  body[data-theme="xmas"] .treenote h2{border-bottom-color:rgba(217,54,54,.35)}
+  body[data-theme="xmas"] .tag.fact{background:rgba(217,54,54,.16)}
+  body[data-theme="xmas"] .vtag.fact{background:rgba(217,54,54,.18)}
+  body[data-theme="xmas"] .handq{background:rgba(217,54,54,.06)}
+  body[data-theme="xmas"] .rate{border-color:rgba(217,54,54,.55)}
+  body[data-theme="xmas"] .slabel{background:rgba(7,22,12,.88); border-color:rgba(217,54,54,.6)}
+  body[data-theme="xmas"] .watch .frame,
+  body[data-theme="xmas"] .pic .frame,
+  body[data-theme="xmas"] .modal .frame{border-color:rgba(217,54,54,.55)}
+  body[data-theme="xmas"] .facade{
+    background:radial-gradient(420px 200px at 50% 38%, rgba(217,54,54,.14), transparent 70%), #07160c;
+  }
+  body[data-theme="xmas"] .facade::after{
+    background:linear-gradient(180deg, rgba(13,36,22,.16), rgba(13,36,22,.04) 42%, rgba(13,36,22,.5));
+  }
+  body[data-theme="xmas"] .facade .ftag{background:rgba(7,22,12,.82); border-color:rgba(217,54,54,.55)}
+  body[data-theme="xmas"] .facade .ftitle{background:rgba(7,22,12,.86); border-top-color:rgba(217,54,54,.45)}
+  body[data-theme="xmas"] .plaque{
+    background:radial-gradient(420px 200px at 50% 40%, rgba(217,54,54,.12), transparent 70%), #07160c;
+  }
+  body[data-theme="xmas"] .watchlink{border-color:rgba(255,90,77,.75); background:rgba(217,54,54,.07)}
+  body[data-theme="xmas"] .watchlink:hover{background:rgba(217,54,54,.15)}
+  body[data-theme="xmas"] .chip{border-color:rgba(255,239,224,.3)}
+  body[data-theme="xmas"] .tag.claim{background:rgba(255,239,224,.1); border-color:rgba(255,239,224,.5)}
+  body[data-theme="xmas"] .vtag.claim{background:rgba(255,239,224,.1); border-color:rgba(255,239,224,.5)}
+  body[data-theme="xmas"] .vrow{border-bottom-color:rgba(255,239,224,.14)}
+  body[data-theme="xmas"] .overlay{background:rgba(7,22,12,.8)}
+  body[data-theme="xmas"] .modal h3{border-bottom-color:rgba(217,54,54,.3)}
+  body[data-theme="xmas"] .x{border-color:rgba(217,54,54,.6)}
+  body[data-theme="xmas"] .conn button{background:#07160c; border-color:rgba(217,54,54,.55)}
+  body[data-theme="xmas"] .masterplay,
+  body[data-theme="xmas"] .caveplay,
+  body[data-theme="xmas"] .cavereset{background:rgba(217,54,54,.08)}
+  /* xmas red is deep: filled accent buttons take cream words (CF rule) */
+  body[data-theme="xmas"] .masterplay:hover,
+  body[data-theme="xmas"] .caveplay:hover,
+  body[data-theme="xmas"] .cavereset:hover,
+  body[data-theme="xmas"] .x:hover,
+  body[data-theme="xmas"] .conn button:hover{background:#d93636; color:#ffefe0}
+  body[data-theme="xmas"] .conn button:hover b{color:#ffefe0}
+
+  /* ---- both costumes: the modal takes the panel gradient ---- */
+  body[data-theme] .modal{background:linear-gradient(175deg, var(--panel2), var(--panel))}
+  body[data-theme] .modal .words{background:var(--bg)}
+
+  /* ================= MENUS (Nov 11) =================
+     Isaiah: "add a menu button to it that lets us go to home, login,
+     sea etc off board." The board takes the Completion Filter pages'
+     MENUS pattern whole — one pill in the masthead, a drop-down of
+     the main site's rooms by their ?room= deep links, same labels,
+     same order as the CF menu (BW Ocean rides at the bottom, as it
+     does there). Cut in the board's dress: IBM Plex Mono, the
+     board's 1.5px border weight and panel radius. It lives in the
+     masthead, above the board itself — the ropes and cards never
+     feel it. And it dresses for the season with everything else,
+     on the CF pages' own nav values. */
+  .bnav{position:relative; text-align:left; font-family:"IBM Plex Mono", monospace; margin-bottom:18px}
+  .bnav-btn{
+    background:#2a1745; color:var(--yellow); border:1.5px solid var(--gold); border-radius:999px;
+    padding:8px 17px; font-family:inherit; font-size:12.5px; letter-spacing:.14em; cursor:pointer;
+    box-shadow:0 8px 24px rgba(0,0,0,.45);
+  }
+  .bnav-btn:hover{background:#3a2260}
+  .bnav-menu{
+    position:absolute; left:0; top:calc(100% + 8px); z-index:210; min-width:250px;
+    background:#241239; border:1.5px solid var(--gold); border-radius:8px; padding:8px;
+    box-shadow:0 18px 44px rgba(0,0,0,.55);
+  }
+  .bnav-menu[hidden]{display:none}
+  .bnav-menu a{
+    display:block; color:var(--cream); text-decoration:none; padding:8px 12px;
+    border-radius:4px; font-size:13px; letter-spacing:.04em;
+  }
+  .bnav-menu a:hover{background:#3a2260; color:var(--yellow)}
+  body[data-theme="halloween"] .bnav-btn{background:#17100b; color:#ffa53a; border-color:#ff8c1a}
+  body[data-theme="halloween"] .bnav-btn:hover{background:#211710}
+  body[data-theme="halloween"] .bnav-menu{background:#120b06; border-color:#ff8c1a}
+  body[data-theme="halloween"] .bnav-menu a{color:#ffe8d1}
+  body[data-theme="halloween"] .bnav-menu a:hover{background:#211710; color:#ffa53a}
+  body[data-theme="xmas"] .bnav-btn{background:#0d2416; color:#ff5a4d; border-color:#d93636}
+  body[data-theme="xmas"] .bnav-btn:hover{background:#12331e}
+  body[data-theme="xmas"] .bnav-menu{background:#081a0f; border-color:#d93636}
+  body[data-theme="xmas"] .bnav-menu a{color:#ffefe0}
+  body[data-theme="xmas"] .bnav-menu a:hover{background:#12331e; color:#ff5a4d}
 </style>
 </head>
 <body>
 
 <header>
+  <div class="bnav">
+    <button type="button" class="bnav-btn" id="bwMenusBtn" aria-haspopup="true" aria-expanded="false">MENUS &#9662;</button>
+    <div class="bnav-menu" id="bwMenusMenu" hidden>
+      <a href="https://bwyoungbo.com/?room=home">Home — Broken World</a>
+      <a href="https://bwyoungbo.com/?room=login">Login</a>
+      <a href="https://bwyoungbo.com/?room=welcome">Welcome</a>
+      <a href="https://bwyoungbo.com/?room=sea">The Sea</a>
+      <a href="https://bwyoungbo.com/?room=hub">The Hub</a>
+      <a href="https://bwyoungbo.com/?room=join">Join</a>
+      <a href="https://bwyoungbo.com/?room=files">File Share</a>
+      <a href="https://bwyoungbo.com/?room=kintsugi">Kintsugi</a>
+      <a href="https://bwyoungbo.com/?room=buildlog">Build Log</a>
+      <a href="https://isaiahtobola.github.io/bw-ocean/">BW Ocean — the museum</a>
+    </div>
+  </div>
   <h1 class="maintitle">UFO Conspiracy Hypothetical Versus Science</h1>
   <p class="epigraph">If it's theoretical for humans to speed up in something — maybe a UFO, fast in orbit, and travel to the future in spacetime — what if those humans met future human aliens and received, or found, a technology from their future that could send present or future humans, separate or not, back to Earth?</p>
   <p class="boardname">THE BOARD — THE ONE-WAY SIGNAL · the working name</p>
@@ -2660,14 +2905,57 @@ What we see, feel, touch, smell, hear — all of it is brain signals. All humans
 })();
 </script>
 <script>
-/* ===== THEME CARRY-OVER (Nov 11) — board adoption only =====
-   The board wears no holiday costume of its own — plum & gold is its
-   case-file look year-round — but it shares this origin's localStorage
-   with the Completion Filter pages. A ?theme=normal|halloween|
-   christmas arriving here (the main site's theme rides the link,
-   because bwyoungbo.com's localStorage can't cross origins) is
-   adopted into bw-theme so the family state stays one thread. */
+/* ===== THEME CARRY-OVER (Nov 11) — board adoption =====
+   The board shares this origin's localStorage with the Completion
+   Filter pages. A ?theme=normal|halloween|christmas arriving here
+   (the main site's theme rides the link, because bwyoungbo.com's
+   localStorage can't cross origins) is adopted into bw-theme so the
+   family state stays one thread. The apply step below then dresses
+   the board from that state — see the BOARD THEME LAYER. */
 (function(){try{var m={'normal':'','halloween':'halloween','christmas':'xmas'};var c=new URLSearchParams(window.location.search).get('theme');if(c!==null&&Object.prototype.hasOwnProperty.call(m,c)){localStorage.setItem('bw-theme',m[c]);}}catch(e){}})();
+/* ===== BOARD THEME LAYER (Nov 11) — the board dresses too =====
+   Isaiah's order: "same theming — if it's on Halloween or Christmas
+   colors, make it match for the new board." The stored bw-theme
+   (adopted above, or set by the CF pages on this origin) is read,
+   validated, and put through the family's SEASON GATE — the same
+   seasonOpen() the CF pages use: themes exist Sep 30 -> Jan 1 only.
+   Out of season a leftover holiday theme falls back to normal and
+   the storage is cleaned, exactly as the CF pages clean it. In
+   season, body[data-theme] carries the costume (the CSS layer
+   above). Plum & gold is the law of the rest of the year. */
+(function(){
+  "use strict";
+  var THEMES = ['', 'halloween', 'xmas'];
+  function seasonOpen(){
+    var n = new Date(), m = n.getMonth(), d = n.getDate();
+    return (m > 8 || (m === 8 && d >= 30)) || (m === 0 && d <= 1);
+  }
+  var theme = '';
+  try{ theme = localStorage.getItem('bw-theme') || ''; }catch(e){}
+  if(THEMES.indexOf(theme) < 0) theme = '';
+  if(!seasonOpen()) theme = '';
+  if(theme) document.body.setAttribute('data-theme', theme);
+  else document.body.removeAttribute('data-theme');
+  try{ localStorage.setItem('bw-theme', theme); }catch(e){}
+})();
+/* ===== BOARD MENUS (Nov 11) — the CF pattern =====
+   The masthead pill opens the family's MENUS: the main site's
+   rooms by their ?room= deep links, same labels and order as the
+   Completion Filter pages' menu. The button toggles it; a click
+   anywhere off the menu closes it — the CF wiring, kept. */
+(function(){
+  var btn = document.getElementById('bwMenusBtn'), menu = document.getElementById('bwMenusMenu');
+  if(!btn || !menu) return;
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = menu.hidden;
+    menu.hidden = !open;
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.bnav')){ menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
+  });
+})();
 </script>
 </body>
 </html>
