@@ -294,6 +294,20 @@
     return (m > 8 || (m === 8 && d >= 30)) || (m === 0 && d <= 1);
   }
   var theme = '';
+  /* THEME CARRY-OVER (Nov 11, his order): the main site keeps its
+     theme in bwyoungbo.com's localStorage, which this origin can
+     never read -- so the theme rides the link as ?theme=normal|
+     halloween|christmas. A valid param is adopted into this origin's
+     bw-theme just before the read below; the season law further down
+     still decides what may actually show, so a stale holiday param
+     out of season lands as normal, exactly like the main site. */
+  try{
+    var carryMap = {'normal':'', 'halloween':'halloween', 'christmas':'xmas'};
+    var carry = new URLSearchParams(window.location.search).get('theme');
+    if(carry !== null && Object.prototype.hasOwnProperty.call(carryMap, carry)){
+      localStorage.setItem('bw-theme', carryMap[carry]);
+    }
+  }catch(e){}
   try{ theme = localStorage.getItem('bw-theme') || ''; }catch(e){}
   if(THEMES.indexOf(theme) < 0) theme = '';
   if(!seasonOpen()) theme = '';
