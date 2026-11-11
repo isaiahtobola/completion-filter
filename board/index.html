@@ -78,15 +78,15 @@
   #card-lazar{grid-area:lazar} #card-sleep{grid-area:sleep}
   /* Pinned by hand, not by machine: every note leans its own way,
      sits a few px off the row, pin a touch off center. */
-  #card-tyson{--tilt:-1.6deg; --shift:6px;  --tape:-7deg; --pinx:-7px}
-  #card-tesla{--tilt:1.2deg;  --shift:-5px; --tape:4deg;  --pinx:6px}
-  #card-facts{--tilt:-0.9deg; --shift:8px;  --tape:-4deg; --pinx:4px}
-  #card-amy{--tilt:1.5deg;   --shift:-6px; --tape:6deg;  --pinx:-5px}
-  #card-save{--tilt:1.3deg;  --shift:-3px; --tape:5deg;  --pinx:5px}
-  #card-scientists{--tilt:-1.2deg; --shift:3px; --tape:-5deg; --pinx:-4px}
-  #card-kid{--tilt:-1.3deg;  --shift:5px;  --tape:-5deg; --pinx:8px}
-  #card-lazar{--tilt:1.1deg;  --shift:4px;  --tape:5deg;  --pinx:-6px}
-  #card-sleep{--tilt:-1.4deg; --shift:-4px; --tape:-6deg; --pinx:7px}
+  #card-tyson{--tilt:-2.4deg; --shift:6px;  --pinx:-7px}
+  #card-tesla{--tilt:1.9deg;  --shift:-5px; --pinx:6px}
+  #card-facts{--tilt:-1.7deg; --shift:8px;  --pinx:4px}
+  #card-amy{--tilt:2.3deg;   --shift:-6px; --pinx:-5px}
+  #card-save{--tilt:2deg;  --shift:-3px; --pinx:5px}
+  #card-scientists{--tilt:-2.2deg; --shift:3px; --pinx:-4px}
+  #card-kid{--tilt:-2.6deg;  --shift:5px;  --pinx:8px}
+  #card-lazar{--tilt:1.8deg;  --shift:4px;  --pinx:-6px}
+  #card-sleep{--tilt:-2.5deg; --shift:-4px; --pinx:7px}
 
   .card{
     position:relative;
@@ -101,9 +101,6 @@
     transform:rotate(var(--tilt, 0deg)) translateY(var(--shift, 0px));
     transition:transform .18s, border-color .18s, box-shadow .18s;
   }
-  #card-tyson{--tilt:-2.4deg} #card-tesla{--tilt:1.9deg} #card-facts{--tilt:-1.7deg}
-  #card-amy{--tilt:2.3deg} #card-kid{--tilt:-2.6deg} #card-save{--tilt:2deg} #card-scientists{--tilt:-2.2deg}
-  #card-lazar{--tilt:1.8deg} #card-sleep{--tilt:-2.5deg}
   #card-tyson::before{transform:translateX(-50%) rotate(-4deg)}
   #card-tesla::before{transform:translateX(-50%) rotate(2.5deg)}
   #card-facts::before{transform:translateX(-50%) rotate(-1deg)}
@@ -173,6 +170,11 @@
     transform:rotate(.35deg);
   }
   .case:hover{border-color:var(--yellow)}
+  /* Each wide box leans its own way, like the notes above it. */
+  .case[data-open="morning"]{transform:rotate(-.3deg)}
+  .case[data-open="locker"]{transform:rotate(.22deg)}
+  .case[data-open="minecraft"]{transform:rotate(-.38deg)}
+  .case[data-open="conspiracy"]{transform:rotate(.3deg)}
   .case h2{font-family:"IBM Plex Mono", monospace; font-size:12.5px; letter-spacing:.12em; color:var(--gold); margin-bottom:8px}
   .case .q{font-style:italic; font-size:16.5px}
   .case .ans{display:flex; flex-wrap:wrap; gap:8px 34px; margin-top:11px; font-size:14.5px}
@@ -521,6 +523,18 @@
     <p class="q">"If Earth is anything like Minecraft, then the aliens or future humans could have found a way to operate the save file function with technology similar to Godly ability."</p>
     <p class="note" style="color:var(--dim); font-size:13.5px; margin-top:7px">His sentence, pinned as the headline of its own file: the analogy mapped piece by piece, the weird recent AI evidence, the simulation argument — and the one distinction the whole theory turns on: reading a save is not loading one.</p>
     <span class="tag mixed">SPECULATION · IN GAME GRAMMAR</span>
+    <span class="openfile">OPEN THE FILE →</span>
+  </section>
+
+  <section class="case" data-open="conspiracy" tabindex="0">
+    <h2>CONSPIRACY — BUT A THOUGHT EXPERIMENT</h2>
+    <p class="q">"Info can come from past or future because it would just be distance."</p>
+    <div class="ans">
+      <div><b>THE DISTANCE DOOR</b>Maybe the Far Shore was never a <i>when</i>. Maybe it's a <i>where</i> — and distance does the time travel for free.</div>
+      <div><b>THE SILICON BLUEPRINTS</b>His oldest suspicion, given its own file: what if the chips arrived early — and why the paper trail says they didn't.</div>
+      <div><b>THE RULES</b>Conspiracies, held as thought experiments: checked where science can check, defended as fact never.</div>
+    </div>
+    <span class="tag mixed">SPECULATION · THOUGHT-EXPERIMENT RULES</span>
     <span class="openfile">OPEN THE FILE →</span>
   </section>
 
@@ -1233,6 +1247,12 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
   <div class="conn"><button data-open-link="save"><b>SAVE FILES</b> → the block universe, in the Save File file</button></div>
 
   <div class="pic">
+    <div class="frame"><img data-shards="media/sketch-00.b64.txt" data-mime="image/jpeg" alt="Isaiah's handwritten sketch of the Minecraft save analogy, on a receipt and torn paper"></div>
+    <p class="cap"><b>&#9672; PICTURE &mdash; ISAIAH'S SKETCH, IN HIS OWN HAND.</b> The Minecraft Save Analogy, drawn at work: the dashed spacetime field, the line going back, the butterfly branching. Pen on a receipt and torn paper, November 10, 2026. <b>Credit:</b> Isaiah Tobola &mdash; the board's author; his own photograph of his own page.</p>
+  </div>
+  <div class="conn"><button data-open-link="minecraft"><b>THE OPERATION TABLE</b> &rarr; the sketch, transcribed + diagrammed, in the Minecraft file</button></div>
+
+  <div class="pic">
     <div class="plaque"><span class="pl-t">▶ FILM — WHAT IS DÉJÀ VU?</span><span class="pl-s">Vsauce · YouTube CSf8i8bHIns</span></div>
     <p class="cap"><b>▶ FILM.</b> The save that reads itself — the familiarity glitch, explained; the brain-side exhibit in the Save File file.</p>
   </div>
@@ -1291,12 +1311,6 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
     <p class="cap"><b>▶ FILM.</b> The operation table, demonstrated — the folder, the backups, the rewind.</p>
   </div>
   <div class="conn"><button data-open-link="minecraft"><b>THE OPERATION TABLE</b> → watch it in the Minecraft file</button></div>
-
-  <div class="pic">
-    <div class="frame"><img data-shards="media/sketch-00.b64.txt" data-mime="image/jpeg" alt="Isaiah's handwritten sketch of the Minecraft save analogy, on a receipt and torn paper"></div>
-    <p class="cap"><b>&#9672; PICTURE &mdash; ISAIAH'S SKETCH, IN HIS OWN HAND.</b> The Minecraft Save Analogy, drawn at work: the dashed spacetime field, the line going back, the butterfly branching. Pen on a receipt and torn paper, November 10, 2026. <b>Credit:</b> Isaiah Tobola &mdash; the board's author; his own photograph of his own page.</p>
-  </div>
-  <div class="conn"><button data-open-link="minecraft"><b>THE OPERATION TABLE</b> &rarr; the sketch, transcribed + diagrammed, in the Minecraft file</button></div>
 
   <h3>THE RULE OF THE LOCKER</h3>
   <p>Every visual carries its credit under its frame — author, license, source — the way the licenses require and the way this board works anyway: <b>rhymes get pinned, receipts get credited, and nothing here is borrowed without its name on it.</b></p>
@@ -1480,6 +1494,34 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
   <p class="src">Oasis: Decart &amp; Etched, released Oct 31, 2024 · Voyager: Wang et al., arXiv:2305.16291 (May 2023), built on the MineDojo framework · VPT: OpenAI, "Video PreTraining (VPT)," Jun 23, 2022 · Genie 2: Google DeepMind, Dec 4, 2024 · Bostrom, Phil. Quarterly 53(211):243–255 (2003) · Hoffman, <i>The Case Against Reality</i> (W. W. Norton, 2019); Hoffman &amp; Prakash, Fitness-Beats-Truth · Minecraft Java save layout: %appdata%\.minecraft\saves; region/*.mca; level.dat / level.dat_old · Tutorial: "How To Backup &amp; Restore Minecraft Java Edition Worlds," The Breakdown, YouTube 5bKAo1LkOFw</p>
 </template>
 
+<template id="d-conspiracy">
+  <div class="vrow"><span class="vtag open">THE GENRE</span><span><b>Two conspiracies live in this file — held the way this board holds everything.</b> They are conspiracies, and they are thought experiments: wild ideas and what-ifs from things seen and heard, connected for the fun of it, checked against science where science can check, and <b>never defended as fact</b>. Each thread gets his words first, then the receipts, then the counterweight at full strength. That order is not negotiable; it is the board.</span></div>
+
+  <h3>THE DISTANCE DOOR — ISAIAH, TONIGHT</h3>
+  <div class="vrow"><span class="vtag open">ISAIAH · TONIGHT</span><span><i>"Stars, light-years… if a planet is FAR FAR away with future humans, backwards doesn't matter — it's still spacetime travel."</i> And, minutes later: <i>"Info can come from past or future because it would just be distance."</i> His own tag for the whole thread rides at the end of it, like a signature: <i>"True as far as we know…"</i></span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>Lookback — distance is a time offset.</b> Light takes time, so every signal ever received arrives from its sender's past into the receiver's present (Pillar 2, pinned in the theory file). The Moon is seen as it was ~1.3 seconds ago; the Sun, 8 minutes; Andromeda, 2.5 million years. We receive other epochs every clear night — no machine, no paradox. Information crossing spacetime is not the theory's hope; it is the sky's routine.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>The head start — how a "future" can be somebody's present.</b> The universe is 13.8 billion years old; our Sun is 4.6 billion. Stars older than the Sun have had billions of years more runway — worlds around them could host civilizations at stages that, for Earth, are still future. Their light, arriving here tonight, would show us exactly that: a developmental stage Earth's own future might reach — information from a future <i>stage</i>, emitted in that sender's past and traveling legally forward the whole way. Their tomorrow can hang in our sky.</span></div>
+  <div class="vrow"><span class="vtag legend">INTERPRETATION</span><span><b>His step, tagged as his: the Far Shore may be a WHERE, not a WHEN.</b> Every earlier version of the hypothesis strained at direction — how does anything get <i>back</i>? The distance door dissolves the strain instead of breaking it: a signal never has to travel backward to land in a different epoch than the one it left. It only has to travel far. Backwards doesn't matter, because reception across light-years is already reception across time.</span></div>
+  <div class="vrow"><span class="vtag open">COUNTERWEIGHT</span><span><b>THE WALL — at full strength, because the door only means anything against it.</b> Nothing has ever arrived from <i>our</i> future. Every signal on record was emitted inside a past light cone and arrived forward; no message has ever been received before it was sent — that is the theory's bet, and this door does not touch it. Distance moves the window: it lets us sample other epochs and other stages, civilizations ahead of us and behind us. It does not break the one-way rule, and it does not deliver our own future to us. What it changes is the map, not the law. And his tag stands as the wall's honest height: <i>true as far as we know…</i></span></div>
+  <div class="conn">
+    <button data-open-link="question"><b>THE FAR SHORE</b> → the full theory: the hypothesis this door re-aims</button>
+    <button data-open-link="tyson"><b>LOOKBACK</b> → Tyson: "you went into <i>everybody else's</i> future" — distance, as a difference in time</button>
+  </div>
+
+  <h3>THE SILICON BLUEPRINTS — ISAIAH'S HYPOTHETICAL</h3>
+  <div class="vrow"><span class="vtag open">ISAIAH · SPECULATION</span><span><i>"Maybe modern technology is from the future and we never knew it — like the blueprints for silicon, and the chips that make computers."</i> Stated November 10, 2026. A first sketch of this thought is already pinned inside the theory file — "How do we know nothing came back?" — and it gets its full section here, at his order.</span></div>
+  <div class="vrow"><span class="vtag fact">FACT</span><span><b>The legal rhyme — technology really does arrive "from the future," between cultures.</b> In 1952, Bell Labs licensed the transistor to the world — and Sony built an empire on the license: engineers in one country received, ready-made, a technology that was years of their own future. The Soviet Union reverse-engineered the interned B-29 into the Tupolev Tu-4, rivet for rivet. Ideas cross distance and land in places where they are effectively early. Between human cultures, "tech from a more advanced elsewhere" is not a conspiracy — it is the documented normal. His hypothetical asks whether the same thing could ever happen between <i>epochs</i>.</span></div>
+  <div class="vrow"><span class="vtag open">COUNTERWEIGHT</span><span><b>The paper trail — the one archive a leak could not survive, fully signed.</b> The silicon chain is the most documented in the history of technology: the transistor at Bell Labs, December 1947 (Bardeen, Brattain, Shockley); the integrated circuit in 1958–59 (Kilby at Texas Instruments, Noyce at Fairchild); ARPANET's first nodes in 1969. Every step carries a name, a date, a notebook, a patent — and a priority fight. If a blueprint had been handed to us, this is exactly where the hand-off would leave a gap: an orphan invention with no parents. There isn't one. The chain shows people, not parcels.</span></div>
+  <div class="vrow"><span class="vtag legend">INTERPRETATION</span><span><b>Why the idea won't die — his line, paraphrase-tagged.</b> If the far shore ever did reach back, the one delivery you would expect is the enabling stack itself: the technology that builds the machines that build the door. A leak would have to hide inside the best-documented chain ever kept — which is either exactly why it isn't there, or exactly where it would be put. Pinned as interpretation: it is a shape the suspicion takes, not a trace anyone has found.</span></div>
+  <div class="conn">
+    <button data-open-link="question"><b>HIS COUNTERPOINT</b> → the theory file: where this thought was first pinned, with its counterweight</button>
+    <button data-open-link="scientists"><b>IT FROM BIT</b> → the Scientists: Wheeler — information as the substrate the blueprints would be written in</button>
+  </div>
+
+  <h3>SOURCES</h3>
+  <p class="src">Isaiah's words: November 10, 2026, late — after the déjà vu round · ages: universe 13.8 Gyr, Sun 4.6 Gyr (standard cosmology, as weighed in Scholarly) · Bell Labs transistor licensing program, 1952; Sony's license and the transistor radios that followed · Tupolev Tu-4: reverse-engineered from interned B-29s, first flown 1947 · the chain: Bell Labs 1947 · Kilby / Noyce 1958–59 · ARPANET 1969 (as pinned in the theory file)</p>
+</template>
+
 <script>
 (function(){
   "use strict";
@@ -1501,7 +1543,8 @@ It gets even deeper, though. Wernher von Braun, Nazi scientist, by the way. Foun
     sleep:  ['THE BATTERY QUESTION — ISAIAH\'S SLEEP FILE', 'containers · REM · the night shift · his speculation, science\'s open question'],
     morning: ['THE MORNING IT ALL CONNECTED', 'November 10, 2026 · the plot, the receipts, the two pictures'],
     locker:  ['THE EVIDENCE LOCKER — PICTURES & FILM', 'every visual on the board, in one room'],
-    minecraft: ['THE OPERATION TABLE', 'Isaiah\'s Minecraft statement · speculation, in game grammar']
+    minecraft: ['THE OPERATION TABLE', 'Isaiah\'s Minecraft statement · speculation, in game grammar'],
+    conspiracy: ['CONSPIRACY — BUT A THOUGHT EXPERIMENT', 'Isaiah\'s late threads · the distance door · the silicon blueprints']
   };
   function openCard(id){
     var t = document.getElementById('d-' + id);
