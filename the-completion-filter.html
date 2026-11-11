@@ -432,7 +432,23 @@
         .branch { transition: none; }
       }
     </style>
-  </head>
+  
+<style>
+/* DIAGRAM SEASONAL PALETTES (Nov 11, Addendum 2 — Isaiah): two-role mapping.
+   Background role (dead branches, ground line, labels, panel) already rides
+   this file's theme vars — Halloween --ink-faint #b08d5f (orange family),
+   Christmas --ink-faint #7ba886 / --ink-soft #a8c9ae (green family). Light
+   role (the completed bolt, source node, gold labels — gold in normal) ->
+   Halloween WHITE (cream family) below; Christmas already lands on the red
+   light role via --accent #d93636 / --accent-bright #ff5a4d. Theme-scoped
+   only: normal plum-and-gold is pixel-identical. Page-level zap light stays
+   gold per the standing bolt ruling — it is outside this diagram. */
+body[data-theme="halloween"] .diagram-wrap .branch.main{stroke:#ffe8d1}
+body[data-theme="halloween"] .diagram-wrap.filtered .branch.main{stroke:#ffffff; filter:drop-shadow(0 0 6px #ffe8d1)}
+body[data-theme="halloween"] .diagram-wrap .node{fill:#ffe8d1}
+body[data-theme="halloween"] .diagram-wrap .svg-label.gold{fill:#ffe8d1}
+</style>
+</head>
   <body>
 <div class="cf-top">
   <div class="cf-top-row">

@@ -417,7 +417,176 @@
         .petal { transform: none; }
       }
     </style>
-  </head>
+  <style>
+/* ============================================================
+   DIAGRAM SEASONAL PALETTES — Addendum 2 (Isaiah, 2026-11-11)
+   Diagrams follow a two-role mapping, NOT the plain page theme:
+     NORMAL    : plum background, yellow/gold light (unchanged —
+                 every rule below is scoped to body[data-theme],
+                 so normal mode is pixel-identical).
+     CHRISTMAS : background role -> GREEN (this file's Christmas
+                 green family); light role (gold/yellow in normal)
+                 -> RED (#d93636 / #ff5a4d family).
+     HALLOWEEN : background role -> ORANGE (#ff8c1a family);
+                 light role -> WHITE (cream-white #ffe8d1 family).
+   Exemptions kept: the six Infinity Stones keep their identity
+   colors (p3 .stone untouched; demo #stones Mind-Stone guarded);
+   fire warmth (p3 flames/embers stay warm orange at Halloween);
+   shadow darkness; rainbow spectrum (none in these files);
+   page-level CF bolt light outside diagrams stays gold.
+   ============================================================ */
+
+/* ---------- P3: lightning diagrams (.diagram) ---------- */
+body[data-theme="halloween"] .diagram{background:#ff8c1a;border-color:#3a2410}
+body[data-theme="xmas"] .diagram{background:#0d2416}
+body[data-theme="halloween"] .diagram .diagram-note{color:#211710}
+body[data-theme="halloween"] .diagram-controls .btn{background:#17100b;color:#ffe8d1;border-color:#17100b}
+body[data-theme="halloween"] .diagram .cloud{fill:#ffa53a}
+body[data-theme="halloween"] .diagram .leader-path{stroke:#3a2410}
+body[data-theme="halloween"] .diagram .leader-path.gold-leader{stroke:#ffe8d1}
+body[data-theme="halloween"] .diagram .channel-path{stroke:#211710}
+body[data-theme="halloween"] .diagram .streamer-path{stroke:#ffe8d1}
+body[data-theme="halloween"] .diagram .return-path{stroke:#ffe8d1;filter:drop-shadow(0 0 7px rgba(255,232,209,.85))}
+body[data-theme="halloween"] .diagram .node{fill:#ffe8d1}
+body[data-theme="halloween"] .diagram .dim-node{fill:#3a2410}
+body[data-theme="halloween"] .diagram .ground-line{stroke:#3a2410}
+body[data-theme="halloween"] .diagram .offshoot{stroke:#3a2410}
+body[data-theme="halloween"] .diagram .chain-node{fill:#ff8c1a;stroke:#211710}
+body[data-theme="halloween"] .diagram .chain-node.lit{fill:#ffe8d1;stroke:#fff6dd;filter:drop-shadow(0 0 6px rgba(255,232,209,.95))}
+body[data-theme="halloween"] .diagram .flash{fill:#ffe8d1}
+body[data-theme="halloween"] .diagram .svg-label{fill:#17100b}
+body[data-theme="halloween"] .diagram .svg-label.gold{fill:#ffe8d1}
+body[data-theme="halloween"] .diagram .svg-label.bright{fill:#ffe8d1}
+body[data-theme="halloween"] .diagram .svg-label.name{fill:#17100b}
+body[data-theme="halloween"] .diagram .svg-label.sub{fill:#3a2410}
+/* ---------- P3: section art + hero art (toggle .fx scenes) ---------- */
+body[data-theme="halloween"] .section-art{background:#ff8c1a}
+body[data-theme="xmas"] .section-art{background:#0d2416}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#17121f" i]{fill:#17100b}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#17121f" i][width="1200" i],
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#17121f" i][width="1440" i]{fill:#ff8c1a}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#211a2d" i]{fill:#ffa53a}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#1e1728" i]{fill:#ffa53a}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#221b2c" i]{fill:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#100b16" i]{fill:#211710}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#0c0812" i]{fill:#211710}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#231b2d" i]{fill:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#150e1c" i]{fill:#211710}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#1d1725" i]{fill:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#3a3342" i]{fill:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#2c2534" i]{fill:#211710}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#4c4654" i]{fill:#b08d5f}
+body[data-theme="halloween"] :is(.section-art,.hero) [fill="#37313f" i]{fill:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) [stroke="#575061" i]{stroke:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) [stroke="#37313f" i]{stroke:#211710}
+body[data-theme="halloween"] :is(.section-art,.hero) [stroke="#17121f" i]{stroke:#17100b}
+body[data-theme="halloween"] :is(.section-art,.hero) .to-gold{fill:#b08d5f}
+body[data-theme="halloween"] :is(.section-art,.hero) .to-gold.on{fill:#ffe8d1;filter:drop-shadow(0 0 6px rgba(255,232,209,.85))}
+body[data-theme="halloween"] :is(.section-art,.hero) .to-bright{fill:#b08d5f}
+body[data-theme="halloween"] :is(.section-art,.hero) .to-bright.on{fill:#ffe8d1;filter:drop-shadow(0 0 7px rgba(255,232,209,.9))}
+body[data-theme="halloween"] :is(.section-art,.hero) .to-cream{fill:#b08d5f}
+body[data-theme="halloween"] :is(.section-art,.hero) .to-cream.on{fill:#ffe8d1;filter:drop-shadow(0 0 5px rgba(255,232,209,.8))}
+body[data-theme="halloween"] :is(.section-art,.hero) .to-deepgold{fill:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) .to-deepgold.on{fill:#d9b48f}
+body[data-theme="halloween"] :is(.section-art,.hero) .to-tower{fill:#17100b}
+body[data-theme="halloween"] :is(.section-art,.hero) .to-tower.on{fill:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) .plate{fill:#b08d5f}
+body[data-theme="halloween"] :is(.section-art,.hero) .plate.on{fill:#ffe8d1}
+body[data-theme="halloween"] :is(.section-art,.hero) .plate-dk{fill:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) .plate-dk.on{fill:#d9b48f}
+body[data-theme="halloween"] :is(.section-art,.hero) .log{fill:#211710}
+body[data-theme="halloween"] :is(.section-art,.hero) .log.on{fill:#b08d5f}
+body[data-theme="halloween"] :is(.section-art,.hero) .groove{stroke:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) .groove.on{stroke:#d9b48f}
+body[data-theme="halloween"] :is(.section-art,.hero) .stroke-gold{stroke:#b08d5f}
+body[data-theme="halloween"] :is(.section-art,.hero) .stroke-gold.on{stroke:#ffe8d1;filter:drop-shadow(0 0 6px rgba(255,232,209,.85))}
+body[data-theme="halloween"] :is(.section-art,.hero) .stroke-bright{stroke:#b08d5f}
+body[data-theme="halloween"] :is(.section-art,.hero) .stroke-bright.on{stroke:#ffe8d1;filter:drop-shadow(0 0 8px rgba(255,232,209,.9))}
+body[data-theme="halloween"] :is(.section-art,.hero) .stroke-bark{stroke:#211710}
+body[data-theme="halloween"] :is(.section-art,.hero) .stroke-bark.on{stroke:#b08d5f}
+body[data-theme="halloween"] :is(.section-art,.hero) .branch{stroke:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) .branch.on{stroke:#d9b48f}
+body[data-theme="halloween"] :is(.section-art,.hero) .branch-ash{stroke:#211710}
+body[data-theme="halloween"] :is(.section-art,.hero) .branch-ash.on{stroke:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) .shimmer{stroke:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) .shimmer.on{stroke:#d9b48f}
+body[data-theme="halloween"] :is(.section-art,.hero) .ringc{stroke:#211710}
+body[data-theme="halloween"] :is(.section-art,.hero) .ringc.on{stroke:#3a2410}
+body[data-theme="halloween"] :is(.section-art,.hero) .rail{stroke:#b08d5f}
+body[data-theme="halloween"] :is(.section-art,.hero) .rail.on{stroke:#ffe8d1;filter:drop-shadow(0 0 7px rgba(255,232,209,.8))}
+body[data-theme="halloween"] :is(.section-art,.hero) .petal{fill:#b08d5f}
+body[data-theme="halloween"] :is(.section-art,.hero) .petal.on{fill:#ffe8d1;filter:drop-shadow(0 0 5px rgba(255,232,209,.9))}
+body[data-theme="halloween"] :is(.section-art,.hero) .petal.b.on{fill:#ffe8d1}
+body[data-theme="halloween"] :is(.section-art,.hero) .glow-soft{fill:#ffe8d1}
+body[data-theme="halloween"] :is(.section-art,.hero) .beam{fill:#ffe8d1}
+body[data-theme="halloween"] :is(.section-art,.hero) .beam-core{fill:#fff6dd}
+body[data-theme="halloween"] :is(.section-art,.hero) .ray{stroke:#ffe8d1}
+/* fire warmth exemption at Halloween: flames/embers stay warm orange */
+body[data-theme="halloween"] :is(.section-art,.hero) .fx.flame.on{fill:#ffa53a;filter:drop-shadow(0 0 7px rgba(255,165,58,.9))}
+body[data-theme="halloween"] :is(.section-art,.hero) .fx.ember.on{fill:#ffa53a}
+/* NOTE: .stone (the Gauntlet's six stones) intentionally NOT themed — identity exemption. */
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#17121f" i]{fill:#07160c}
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#17121f" i][width="1200" i],
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#17121f" i][width="1440" i]{fill:#0d2416}
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#211a2d" i]{fill:#12331e}
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#1e1728" i]{fill:#12331e}
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#221b2c" i]{fill:#1d4a2c}
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#100b16" i]{fill:#07160c}
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#0c0812" i]{fill:#07160c}
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#231b2d" i]{fill:#12331e}
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#150e1c" i]{fill:#07160c}
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#1d1725" i]{fill:#0d2416}
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#3a3342" i]{fill:#1d4a2c}
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#2c2534" i]{fill:#0d2416}
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#4c4654" i]{fill:#1d4a2c}
+body[data-theme="xmas"] :is(.section-art,.hero) [fill="#37313f" i]{fill:#12331e}
+body[data-theme="xmas"] :is(.section-art,.hero) [stroke="#575061" i]{stroke:#1d4a2c}
+body[data-theme="xmas"] :is(.section-art,.hero) [stroke="#37313f" i]{stroke:#0d2416}
+body[data-theme="xmas"] :is(.section-art,.hero) [stroke="#17121f" i]{stroke:#07160c}
+body[data-theme="xmas"] :is(.section-art,.hero) .to-gold{fill:#1d4a2c}
+body[data-theme="xmas"] :is(.section-art,.hero) .to-gold.on{fill:#d93636;filter:drop-shadow(0 0 6px rgba(217,54,54,.85))}
+body[data-theme="xmas"] :is(.section-art,.hero) .to-bright{fill:#1d4a2c}
+body[data-theme="xmas"] :is(.section-art,.hero) .to-bright.on{fill:#ff5a4d;filter:drop-shadow(0 0 7px rgba(255,90,77,.9))}
+body[data-theme="xmas"] :is(.section-art,.hero) .to-cream{fill:#1d4a2c}
+body[data-theme="xmas"] :is(.section-art,.hero) .to-cream.on{fill:#ffefe0;filter:drop-shadow(0 0 5px rgba(255,239,224,.8))}
+body[data-theme="xmas"] :is(.section-art,.hero) .to-deepgold{fill:#0d2416}
+body[data-theme="xmas"] :is(.section-art,.hero) .to-deepgold.on{fill:#d93636}
+body[data-theme="xmas"] :is(.section-art,.hero) .to-tower{fill:#07160c}
+body[data-theme="xmas"] :is(.section-art,.hero) .to-tower.on{fill:#12331e}
+body[data-theme="xmas"] :is(.section-art,.hero) .plate{fill:#1d4a2c}
+body[data-theme="xmas"] :is(.section-art,.hero) .plate.on{fill:#d93636}
+body[data-theme="xmas"] :is(.section-art,.hero) .plate-dk{fill:#12331e}
+body[data-theme="xmas"] :is(.section-art,.hero) .plate-dk.on{fill:#d93636}
+body[data-theme="xmas"] :is(.section-art,.hero) .log{fill:#0d2416}
+body[data-theme="xmas"] :is(.section-art,.hero) .log.on{fill:#12331e}
+body[data-theme="xmas"] :is(.section-art,.hero) .groove{stroke:#0d2416}
+body[data-theme="xmas"] :is(.section-art,.hero) .groove.on{stroke:#07160c}
+body[data-theme="xmas"] :is(.section-art,.hero) .stroke-gold{stroke:#1d4a2c}
+body[data-theme="xmas"] :is(.section-art,.hero) .stroke-gold.on{stroke:#d93636;filter:drop-shadow(0 0 6px rgba(217,54,54,.85))}
+body[data-theme="xmas"] :is(.section-art,.hero) .stroke-bright{stroke:#1d4a2c}
+body[data-theme="xmas"] :is(.section-art,.hero) .stroke-bright.on{stroke:#ff5a4d;filter:drop-shadow(0 0 8px rgba(255,90,77,.9))}
+body[data-theme="xmas"] :is(.section-art,.hero) .stroke-bark{stroke:#0d2416}
+body[data-theme="xmas"] :is(.section-art,.hero) .stroke-bark.on{stroke:#12331e}
+body[data-theme="xmas"] :is(.section-art,.hero) .branch{stroke:#12331e}
+body[data-theme="xmas"] :is(.section-art,.hero) .branch.on{stroke:#d93636}
+body[data-theme="xmas"] :is(.section-art,.hero) .branch-ash{stroke:#0d2416}
+body[data-theme="xmas"] :is(.section-art,.hero) .branch-ash.on{stroke:#07160c}
+body[data-theme="xmas"] :is(.section-art,.hero) .shimmer{stroke:#0d2416}
+body[data-theme="xmas"] :is(.section-art,.hero) .shimmer.on{stroke:#ff5a4d}
+body[data-theme="xmas"] :is(.section-art,.hero) .ringc{stroke:#0d2416}
+body[data-theme="xmas"] :is(.section-art,.hero) .ringc.on{stroke:#1d4a2c}
+body[data-theme="xmas"] :is(.section-art,.hero) .rail{stroke:#1d4a2c}
+body[data-theme="xmas"] :is(.section-art,.hero) .rail.on{stroke:#d93636;filter:drop-shadow(0 0 7px rgba(217,54,54,.8))}
+body[data-theme="xmas"] :is(.section-art,.hero) .petal{fill:#1d4a2c}
+body[data-theme="xmas"] :is(.section-art,.hero) .petal.on{fill:#d93636;filter:drop-shadow(0 0 5px rgba(217,54,54,.9))}
+body[data-theme="xmas"] :is(.section-art,.hero) .petal.b.on{fill:#ff5a4d}
+body[data-theme="xmas"] :is(.section-art,.hero) .glow-soft{fill:#d93636}
+body[data-theme="xmas"] :is(.section-art,.hero) .beam{fill:#d93636}
+body[data-theme="xmas"] :is(.section-art,.hero) .beam-core{fill:#ff5a4d}
+body[data-theme="xmas"] :is(.section-art,.hero) .ray{stroke:#ff5a4d}
+
+</style>
+</head>
   <body>
 <div class="cf-top">
   <div class="cf-top-row">

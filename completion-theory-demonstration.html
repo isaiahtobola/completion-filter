@@ -396,7 +396,82 @@
         .score-num { transition: transform 0.25s ease; }
       }
     </style>
-  </head>
+  <style>
+/* ============================================================
+   DIAGRAM SEASONAL PALETTES — Addendum 2 (Isaiah, 2026-11-11)
+   Diagrams follow a two-role mapping, NOT the plain page theme:
+     NORMAL    : plum background, yellow/gold light (unchanged —
+                 every rule below is scoped to body[data-theme],
+                 so normal mode is pixel-identical).
+     CHRISTMAS : background role -> GREEN (this file's Christmas
+                 green family); light role (gold/yellow in normal)
+                 -> RED (#d93636 / #ff5a4d family).
+     HALLOWEEN : background role -> ORANGE (#ff8c1a family);
+                 light role -> WHITE (cream-white #ffe8d1 family).
+   Exemptions kept: the six Infinity Stones keep their identity
+   colors — the Mind Stone is gold (#ffd23f) in normal, so a
+   high-specificity guard below re-asserts it inside #stones;
+   Vader/Emperor saber red (#ff2015) and portal fire (#ff5e00)
+   are untouched; near-white gleams (#fff3c4/#fff8dc/#ffd9d4)
+   stay cream-white in both seasons; shadow darkness kept.
+   The page-level bolt zap (.cfz-bolt / bolt layer) stays gold.
+   ============================================================ */
+
+/* ---------- DEMO story diagrams (.stage svg) ---------- */
+body[data-theme="halloween"] .stage{background:#ff8c1a}
+body[data-theme="halloween"] .stage figcaption{color:#211710}
+body[data-theme="xmas"] .stage{background:#0d2416}
+body[data-theme="halloween"] .stage [fill="#17061d" i]{fill:#211710}
+body[data-theme="halloween"] .stage [fill="#24102f" i]{fill:#3a2410}
+body[data-theme="halloween"] .stage [fill="#3d1850" i]{fill:#3a2410}
+body[data-theme="halloween"] .stage [fill="#2a0e33" i]{fill:#17100b}
+body[data-theme="halloween"] .stage [fill="#ffd23f" i]{fill:#ffe8d1}
+body[data-theme="halloween"] .stage [fill="#f5b301" i]{fill:#ffe8d1}
+body[data-theme="halloween"] .stage [fill="#ffdf6b" i]{fill:#ffe8d1}
+body[data-theme="halloween"] .stage [fill="#d99a00" i]{fill:#d9b48f}
+body[data-theme="halloween"] .stage [fill="#b57e00" i]{fill:#b08d5f}
+body[data-theme="halloween"] .stage [fill="#8a5c00" i]{fill:#3a2410}
+body[data-theme="halloween"] .stage [fill="#c9930a" i]{fill:#ffe8d1}
+body[data-theme="halloween"] .stage [fill="#ffe9a8" i]{fill:#ffe8d1}
+body[data-theme="halloween"] .stage [stroke="#ffd23f" i]{stroke:#ffe8d1}
+body[data-theme="halloween"] .stage [stroke="#f5b301" i]{stroke:#ffe8d1}
+body[data-theme="halloween"] .stage [stroke="#d99a00" i]{stroke:#d9b48f}
+body[data-theme="halloween"] .stage [stroke="#8a5c00" i]{stroke:#3a2410}
+body[data-theme="halloween"] .stage [stroke="#b57e00" i]{stroke:#b08d5f}
+body[data-theme="halloween"] .stage [stroke="#3d1850" i]{stroke:#3a2410}
+body[data-theme="halloween"] .stage .node-label{fill:#ffe8d1}
+body[data-theme="halloween"] .stage .node-sub{fill:#d9b48f}
+body[data-theme="halloween"] .stage .label-plate{fill:#211710;stroke:#d9b48f}
+body[data-theme="halloween"] #bugCaption,body[data-theme="halloween"] #swCaption,body[data-theme="halloween"] #egCaption,body[data-theme="halloween"] #foCaption,body[data-theme="halloween"] #jCaption{fill:#ffe8d1!important}
+body[data-theme="xmas"] .stage [fill="#17061d" i]{fill:#07160c}
+body[data-theme="xmas"] .stage [fill="#24102f" i]{fill:#12331e}
+body[data-theme="xmas"] .stage [fill="#3d1850" i]{fill:#12331e}
+body[data-theme="xmas"] .stage [fill="#2a0e33" i]{fill:#07160c}
+body[data-theme="xmas"] .stage [fill="#ffd23f" i]{fill:#ff5a4d}
+body[data-theme="xmas"] .stage [fill="#f5b301" i]{fill:#d93636}
+body[data-theme="xmas"] .stage [fill="#ffdf6b" i]{fill:#ff5a4d}
+body[data-theme="xmas"] .stage [fill="#d99a00" i]{fill:#d93636}
+body[data-theme="xmas"] .stage [fill="#b57e00" i]{fill:#d93636}
+body[data-theme="xmas"] .stage [fill="#8a5c00" i]{fill:#07160c}
+body[data-theme="xmas"] .stage [fill="#c9930a" i]{fill:#d93636}
+body[data-theme="xmas"] .stage [fill="#ffe9a8" i]{fill:#ff5a4d}
+body[data-theme="xmas"] .stage [stroke="#ffd23f" i]{stroke:#ff5a4d}
+body[data-theme="xmas"] .stage [stroke="#f5b301" i]{stroke:#d93636}
+body[data-theme="xmas"] .stage [stroke="#d99a00" i]{stroke:#d93636}
+body[data-theme="xmas"] .stage [stroke="#8a5c00" i]{stroke:#07160c}
+body[data-theme="xmas"] .stage [stroke="#b57e00" i]{stroke:#d93636}
+body[data-theme="xmas"] .stage [stroke="#3d1850" i]{stroke:#1d4a2c}
+body[data-theme="xmas"] .stage .node-label{fill:#ffefe0}
+body[data-theme="xmas"] .stage .node-sub{fill:#a8c9ae}
+body[data-theme="xmas"] .stage .label-plate{fill:#07160c;stroke:#d93636}
+body[data-theme="xmas"] #bugCaption,body[data-theme="xmas"] #swCaption,body[data-theme="xmas"] #egCaption,body[data-theme="xmas"] #foCaption,body[data-theme="xmas"] #jCaption{fill:#ffefe0!important}
+/* STONES EXEMPTION GUARD: the Mind Stone's identity color is the
+   same gold the light-role rules above recolor — re-assert it. */
+body[data-theme="halloween"] #stones [fill="#ffd23f" i]{fill:#ffd23f}
+body[data-theme="xmas"] #stones [fill="#ffd23f" i]{fill:#ffd23f}
+
+</style>
+</head>
   <body>
     <div class="wrap">
 <div class="cf-top">

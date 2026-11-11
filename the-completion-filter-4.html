@@ -341,7 +341,97 @@
         * { transition: none !important; }
       }
     </style>
-  </head>
+  <style>
+/* ============================================================
+   DIAGRAM SEASONAL PALETTES — Addendum 2 (Isaiah, 2026-11-11)
+   Diagrams follow a two-role mapping, NOT the plain page theme:
+     NORMAL    : plum background, yellow/gold light (unchanged —
+                 every rule below is scoped to body[data-theme],
+                 so normal mode is pixel-identical).
+     CHRISTMAS : background role -> GREEN (this file's Christmas
+                 green family); light role (gold/yellow in normal)
+                 -> RED (#d93636 / #ff5a4d family).
+     HALLOWEEN : background role -> ORANGE (#ff8c1a family);
+                 light role -> WHITE (cream-white #ffe8d1 family).
+   Exemptions kept: shadow darkness; the teal patina/vegetation
+   color #4fb3a5 is left untouched (semantic, already green);
+   the hero art's central bolt keeps its gold — it is the page's
+   CF bolt emblem (standing bolt ruling), while bolts INSIDE the
+   figure diagrams and labs below do shift with the light role.
+   ============================================================ */
+
+/* ---------- P4 hero art: sky/ground/stars theme; central bolt stays gold ---------- */
+body[data-theme="halloween"] .hero [fill="#150d20" i]{fill:#ff8c1a}
+body[data-theme="halloween"] .hero [fill="#291b44" i]{fill:#ffa53a}
+body[data-theme="halloween"] .hero [fill="#3a2560" i]{fill:#ffa53a}
+body[data-theme="halloween"] .hero [fill="#0d0716" i]{fill:#211710}
+body[data-theme="halloween"] .hero [stroke="#3a2560" i]{stroke:#3a2410}
+body[data-theme="halloween"] .hero [fill="#ffd166" i]{fill:#ffe8d1}
+body[data-theme="xmas"] .hero [fill="#150d20" i]{fill:#0d2416}
+body[data-theme="xmas"] .hero [fill="#291b44" i]{fill:#12331e}
+body[data-theme="xmas"] .hero [fill="#3a2560" i]{fill:#1d4a2c}
+body[data-theme="xmas"] .hero [fill="#0d0716" i]{fill:#07160c}
+body[data-theme="xmas"] .hero [stroke="#3a2560" i]{stroke:#1d4a2c}
+body[data-theme="xmas"] .hero [fill="#ffd166" i]{fill:#ff5a4d}
+/* ---------- P4 figure diagrams (branching bolt + Wardenclyffe) ---------- */
+body[data-theme="halloween"] figure.diagram{background:#ff8c1a}
+body[data-theme="halloween"] figure.diagram figcaption{color:#211710}
+body[data-theme="xmas"] figure.diagram{background:#0d2416}
+body[data-theme="halloween"] figure.diagram [fill="#2b2140" i]{fill:#ffa53a}
+body[data-theme="halloween"] figure.diagram [stroke="#4a3a68" i]{stroke:#3a2410}
+body[data-theme="halloween"] figure.diagram [stroke="#8a7bb5" i]{stroke:#3a2410}
+body[data-theme="halloween"] figure.diagram [fill="#8a7bb5" i]{fill:#3a2410}
+body[data-theme="halloween"] figure.diagram [fill="#bdb2e0" i]{fill:#3a2410}
+body[data-theme="halloween"] figure.diagram [fill="#ece5d5" i]{fill:#17100b}
+body[data-theme="halloween"] figure.diagram [fill="#ffd166" i]{fill:#ffe8d1}
+body[data-theme="halloween"] figure.diagram [stroke="#ffd166" i]{stroke:#ffe8d1}
+body[data-theme="halloween"] figure.diagram [fill="#a86e0a" i]{fill:#d9b48f}
+body[data-theme="halloween"] figure.diagram [fill="#241a33" i]{fill:#3a2410}
+body[data-theme="halloween"] figure.diagram [fill="#17121f" i]{fill:#17100b}
+body[data-theme="halloween"] figure.diagram [stroke="#c9bfa8" i]{stroke:#ffe8d1}
+body[data-theme="xmas"] figure.diagram [fill="#2b2140" i]{fill:#12331e}
+body[data-theme="xmas"] figure.diagram [stroke="#4a3a68" i]{stroke:#1d4a2c}
+body[data-theme="xmas"] figure.diagram [stroke="#8a7bb5" i]{stroke:#7ba886}
+body[data-theme="xmas"] figure.diagram [fill="#8a7bb5" i]{fill:#7ba886}
+body[data-theme="xmas"] figure.diagram [fill="#bdb2e0" i]{fill:#a8c9ae}
+body[data-theme="xmas"] figure.diagram [fill="#ece5d5" i]{fill:#ffefe0}
+body[data-theme="xmas"] figure.diagram [fill="#ffd166" i]{fill:#d93636}
+body[data-theme="xmas"] figure.diagram [stroke="#ffd166" i]{stroke:#d93636}
+body[data-theme="xmas"] figure.diagram [fill="#a86e0a" i]{fill:#d93636}
+body[data-theme="xmas"] figure.diagram [fill="#241a33" i]{fill:#12331e}
+body[data-theme="xmas"] figure.diagram [fill="#17121f" i]{fill:#07160c}
+body[data-theme="xmas"] figure.diagram [stroke="#c9bfa8" i]{stroke:#ffefe0}
+/* ---------- P4 inventor glyph icons ---------- */
+body[data-theme="halloween"] .person .glyph [stroke="#ffd166" i]{stroke:#ffe8d1}
+body[data-theme="xmas"] .person .glyph [stroke="#ffd166" i]{stroke:#d93636}
+/* ---------- P4 interactive labs (family tree + lightning) ---------- */
+body[data-theme="halloween"] .lab svg{background:#ff8c1a}
+body[data-theme="xmas"] .lab svg{background:#0d2416}
+body[data-theme="halloween"] .lab [stroke="#ffd166" i]{stroke:#ffe8d1}
+body[data-theme="halloween"] .lab [fill="#ffd166" i]{fill:#ffe8d1}
+body[data-theme="halloween"] .lab [stroke="#ece5d5" i]{stroke:#ffe8d1}
+body[data-theme="halloween"] .lab [fill="#bdb2e0" i]{fill:#3a2410}
+body[data-theme="halloween"] .lab [fill="#8a7bb5" i]{fill:#3a2410}
+body[data-theme="halloween"] .lab [fill="#2b2140" i]{fill:#ffa53a}
+body[data-theme="halloween"] .lab [stroke="#4a3a68" i]{stroke:#3a2410}
+body[data-theme="halloween"] .lab [stroke="#8a7bb5" i]{stroke:#3a2410}
+body[data-theme="halloween"] .lab [stroke="#c9bfa8" i]{stroke:#ffe8d1}
+body[data-theme="halloween"] .lab [fill="#c9bfa8" i]{fill:#ffe8d1}
+body[data-theme="halloween"] .lab #ltReturn{filter:drop-shadow(0 0 6px rgba(255,232,209,.9))!important}
+body[data-theme="xmas"] .lab [stroke="#ffd166" i]{stroke:#d93636}
+body[data-theme="xmas"] .lab [fill="#ffd166" i]{fill:#d93636}
+body[data-theme="xmas"] .lab [stroke="#ece5d5" i]{stroke:#ffefe0}
+body[data-theme="xmas"] .lab [fill="#bdb2e0" i]{fill:#a8c9ae}
+body[data-theme="xmas"] .lab [fill="#8a7bb5" i]{fill:#7ba886}
+body[data-theme="xmas"] .lab [fill="#2b2140" i]{fill:#12331e}
+body[data-theme="xmas"] .lab [stroke="#4a3a68" i]{stroke:#1d4a2c}
+body[data-theme="xmas"] .lab [stroke="#8a7bb5" i]{stroke:#7ba886}
+body[data-theme="xmas"] .lab [stroke="#c9bfa8" i]{stroke:#ffefe0}
+body[data-theme="xmas"] .lab [fill="#c9bfa8" i]{fill:#ffefe0}
+body[data-theme="xmas"] .lab #ltReturn{filter:drop-shadow(0 0 6px rgba(217,54,54,.9))!important}
+
+</style>
+</head>
   <body>
 <div class="cf-top">
   <div class="cf-top-row">

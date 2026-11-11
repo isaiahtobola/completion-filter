@@ -535,7 +535,112 @@
         .door-stage * { transition: none !important; animation: none !important; }
       }
     </style>
-  </head>
+  
+<style>
+/* DIAGRAM SEASONAL PALETTES (Nov 11, Addendum 2 — Isaiah): diagrams follow a
+   two-role mapping, NOT the page palette wholesale. Background role (scene
+   grounds, frames, clouds, figure lines, doors/chains at rest) -> Halloween
+   ORANGE family / Christmas GREEN family. Light role (everything gold in
+   normal: bolt, glows, beams, lit figures, door light) -> Halloween WHITE
+   (cream family) / Christmas RED (#d93636 family). Every hex below is copied
+   from this file's own [data-theme] blocks; rules are theme-scoped only, so
+   normal plum-and-gold is pixel-identical. Page-level zap light (.cfz-*)
+   stays gold per the standing bolt ruling — it is outside the diagrams. */
+/* ---- hero bolt diagram (SVG 0): violet sky/ground = background role ---- */
+body[data-theme="halloween"] .hero-img rect[fill="#150d20"]{fill:#211710}
+body[data-theme="halloween"] .hero-img ellipse[fill="#291b44"]{fill:#3a2410}
+body[data-theme="halloween"] .hero-img ellipse[fill="#3a2560"]{fill:#b08d5f}
+body[data-theme="halloween"] .hero-img path[fill="#0d0716"]{fill:#17100b}
+body[data-theme="xmas"] .hero-img rect[fill="#150d20"]{fill:#0d2416}
+body[data-theme="xmas"] .hero-img ellipse[fill="#291b44"]{fill:#12331e}
+body[data-theme="xmas"] .hero-img ellipse[fill="#3a2560"]{fill:#1d4a2c}
+body[data-theme="xmas"] .hero-img path[fill="#0d0716"]{fill:#07160c}
+/* hero bolt + feeders + sparks = diagram-internal light role */
+body[data-theme="halloween"] .hero-img g[stroke="#f0b73f"]{stroke:#ffe8d1}
+body[data-theme="halloween"] .hero-img path[fill="#f0b73f"]{fill:#ffe8d1}
+body[data-theme="halloween"] .hero-img circle[fill="#ffd166"]{fill:#ffffff}
+body[data-theme="xmas"] .hero-img g[stroke="#f0b73f"]{stroke:#d93636}
+body[data-theme="xmas"] .hero-img path[fill="#f0b73f"]{fill:#d93636}
+body[data-theme="xmas"] .hero-img circle[fill="#ffd166"]{fill:#ff5a4d}
+/* ---- exhibits 01-04 (SVG 1-4): lit state is the light role ---- */
+body[data-theme="halloween"] .exhibit.lit .xp-main{stroke:#ffe8d1; filter:drop-shadow(0 0 6px #ffe8d1)}
+body[data-theme="halloween"] .exhibit.lit .xp-mid{stroke:#ffe8d1}
+body[data-theme="halloween"] .exhibit.lit .xp-faint{stroke:#ffe8d1}
+body[data-theme="halloween"] .exhibit.lit .xp-shape{stroke:#ffe8d1}
+body[data-theme="halloween"] .exhibit.lit .xp-node{fill:#ffe8d1}
+body[data-theme="halloween"] .exhibit.lit .xp-bolt{fill:#ffffff; filter:drop-shadow(0 0 9px #ffe8d1)}
+body[data-theme="halloween"] .exhibit.lit .xp-dot{fill:#ffffff}
+body[data-theme="halloween"] .exhibit.lit .exhibit-state{color:#ffe8d1}
+/* (xmas lit already lands on the red light role via --accent #d93636 /
+   --accent-bright #ff5a4d, and rest lines on green --ink-faint #7ba886.) */
+/* ---- strike diagram (SVG 5): streamers/return stroke/labels = light role ---- */
+body[data-theme="halloween"] #strikeSvg .streamer-path{stroke:#ffe8d1}
+body[data-theme="halloween"] #strikeSvg .return-path{stroke:#ffffff; filter:drop-shadow(0 0 7px #ffe8d1)}
+body[data-theme="halloween"] #strikeSvg .node{fill:#ffe8d1}
+body[data-theme="halloween"] #strikeSvg .badge{fill:#ffe8d1}
+body[data-theme="halloween"] #strikeSvg .flash{fill:#ffe8d1}
+body[data-theme="halloween"] #strikeSvg .svg-label.gold{fill:#ffe8d1}
+body[data-theme="halloween"] #strikeSvg .svg-label.bright{fill:#ffffff}
+/* ---- Pixar door scenes (SVG 6 single door, SVG 7 door conveyor/chain) ---- */
+/* scene grounds + frames = background role */
+body[data-theme="halloween"] .door-stage svg rect[fill="#17121f"]{fill:#211710}
+body[data-theme="halloween"] .door-stage svg rect[fill="#1e1629"]{fill:#3a2410}
+body[data-theme="halloween"] .door-stage svg rect[fill="#120d1a"]{fill:#17100b}
+body[data-theme="halloween"] .door-stage svg rect[fill="#2e2438"]{fill:#3a2410}
+body[data-theme="halloween"] .door-stage svg rect[fill="#241a33"]{fill:#17100b}
+body[data-theme="halloween"] .door-stage svg rect[fill="#2b2138"]{fill:#3a2410}
+body[data-theme="halloween"] .door-stage svg rect[fill="#0d0913"]{fill:#17100b}
+body[data-theme="halloween"] .door-stage svg circle[fill="#3a3442"]{fill:#17100b}
+body[data-theme="xmas"] .door-stage svg rect[fill="#17121f"]{fill:#0d2416}
+body[data-theme="xmas"] .door-stage svg rect[fill="#1e1629"]{fill:#12331e}
+body[data-theme="xmas"] .door-stage svg rect[fill="#120d1a"]{fill:#07160c}
+body[data-theme="xmas"] .door-stage svg rect[fill="#2e2438"]{fill:#1d4a2c}
+body[data-theme="xmas"] .door-stage svg rect[fill="#241a33"]{fill:#07160c}
+body[data-theme="xmas"] .door-stage svg rect[fill="#2b2138"]{fill:#1d4a2c}
+body[data-theme="xmas"] .door-stage svg rect[fill="#0d0913"]{fill:#07160c}
+body[data-theme="xmas"] .door-stage svg circle[fill="#3a3442"]{fill:#07160c}
+/* doors + chain/hangers + wheels at rest = background-role shades */
+body[data-theme="halloween"] .dd-body{fill:#ff8c1a}
+body[data-theme="halloween"] .dd-inset{fill:#ffa53a}
+body[data-theme="halloween"] .dd-knob{fill:#ffe8d1}
+body[data-theme="halloween"] .dd-hang{stroke:#d9b48f}
+body[data-theme="halloween"] .dd-wheel{fill:#ffa53a}
+body[data-theme="halloween"] .dd-frame{fill:#3a2410}
+body[data-theme="xmas"] .dd-body{fill:#7ba886}
+body[data-theme="xmas"] .dd-inset{fill:#a8c9ae}
+body[data-theme="xmas"] .dd-knob{fill:#ffefe0}
+body[data-theme="xmas"] .dd-hang{stroke:#a8c9ae}
+body[data-theme="xmas"] .dd-wheel{fill:#1d4a2c}
+body[data-theme="xmas"] .dd-frame{fill:#12331e}
+/* doors lit (.on) = light role */
+body[data-theme="halloween"] .door-stage.on .dd-body{fill:#ffe8d1}
+body[data-theme="halloween"] .door-stage.on .dd-inset{fill:#ffffff}
+body[data-theme="halloween"] .door-stage.on .dd-knob{fill:#ffffff}
+body[data-theme="halloween"] .door-stage.on .dd-hang{stroke:#ffe8d1}
+body[data-theme="halloween"] .door-stage.on .dd-wheel{fill:#ffe8d1}
+body[data-theme="halloween"] .door-stage.on .door-state{color:#ffe8d1; border-color:rgba(255,232,209,.65)}
+body[data-theme="halloween"] .door-stage.on .sd-door-g{filter:drop-shadow(0 0 12px #ffe8d1)}
+body[data-theme="xmas"] .door-stage.on .dd-body{fill:#d93636}
+body[data-theme="xmas"] .door-stage.on .dd-inset{fill:#ff5a4d}
+body[data-theme="xmas"] .door-stage.on .dd-knob{fill:#ffefe0}
+body[data-theme="xmas"] .door-stage.on .dd-hang{stroke:#d93636}
+body[data-theme="xmas"] .door-stage.on .dd-wheel{fill:#ff5a4d}
+body[data-theme="xmas"] .door-stage.on .door-state{color:#ff5a4d; border-color:rgba(217,54,54,.65)}
+body[data-theme="xmas"] .door-stage.on .sd-door-g{filter:drop-shadow(0 0 12px #d93636)}
+/* single-door light: beams, spill, glow, seep, rays = light role */
+body[data-theme="halloween"] .door-stage svg polygon[fill="#fff7e0"]{fill:#ffe8d1}
+body[data-theme="halloween"] .door-stage svg polygon[fill="#ffeec2"]{fill:#ffe8d1}
+body[data-theme="halloween"] .door-stage svg ellipse[fill="#ffe9a8"]{fill:#ffe8d1}
+body[data-theme="halloween"] .door-stage svg rect[fill="#fff6dd"]{fill:#ffe8d1}
+body[data-theme="halloween"] .door-stage svg rect[stroke="#ffe9a8"]{stroke:#ffe8d1}
+body[data-theme="xmas"] .door-stage svg polygon[fill="#fff7e0"]{fill:#d93636}
+body[data-theme="xmas"] .door-stage svg polygon[fill="#ffffff"]{fill:#ff5a4d}
+body[data-theme="xmas"] .door-stage svg polygon[fill="#ffeec2"]{fill:#d93636}
+body[data-theme="xmas"] .door-stage svg ellipse[fill="#ffe9a8"]{fill:#ff5a4d}
+body[data-theme="xmas"] .door-stage svg rect[fill="#fff6dd"]{fill:#d93636}
+body[data-theme="xmas"] .door-stage svg rect[stroke="#ffe9a8"]{stroke:#ff5a4d}
+</style>
+</head>
   <body>
 <div class="cf-top">
   <div class="cf-top-row">
