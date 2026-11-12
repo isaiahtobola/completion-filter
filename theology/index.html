@@ -2022,7 +2022,7 @@
           });
           /* Paragraph at a time: group the letters by their text block.
              Inside a block, letter i lights at i*step; the block's cycle is
-             the whole sweep plus a 2.4s rest, so the glow always reaches the
+             the whole sweep plus a 4.8s rest, so the glow always reaches the
              block's last letter before the cycle can begin again. */
           var blockSel = 'p, blockquote, h1, h2, h3, cite, .name, .bench-k, .bench-v, button, .page-count, .seq-count, .sig-attr';
           var blocks = [];
@@ -2037,8 +2037,8 @@
             var letters = blockLetters[bi];
             var n = letters.length;
             if (!n) { return; }
-            var step = Math.min(0.085, 20 / n);
-            block.style.setProperty('--cycle', (n * step + 2.4).toFixed(2) + 's');
+            var step = Math.min(0.17, 40 / n);
+            block.style.setProperty('--cycle', (n * step + 4.8).toFixed(2) + 's');
             letters.forEach(function (sp, i) {
               sp.style.setProperty('--d', (i * step).toFixed(3) + 's');
             });
