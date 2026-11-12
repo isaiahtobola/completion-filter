@@ -660,16 +660,6 @@
         font-size: 0.85rem; font-style: italic; font-weight: 300;
         line-height: 1.55; color: var(--text-muted); margin: 6px 2px 0;
       }
-      /* Direct link under each player — reaches the film even where the
-         embedded player cannot load (e.g. the book opened as a file). */
-      .video-watch { margin: 9px 2px 0; font-size: 0.8rem; letter-spacing: 0.05em; }
-      .video-watch a {
-        color: var(--gold); text-decoration: none;
-        border-bottom: 1px solid var(--gold-faint); padding-bottom: 1px;
-      }
-      .video-watch a:hover, .video-watch a:focus-visible {
-        color: var(--gold-bright); border-bottom-color: var(--gold);
-      }
 
       /* Letterspaced panel headings: the heading text rides in one inner
          span (.htext) so it stays a single flex item next to the trailing
@@ -691,31 +681,6 @@
       .seq-slide svg .lbl rect { fill: #1e122e; stroke: #c9a04a; stroke-width: 1; }
       .seq-slide svg .lbl text { fill: #ffd166; font-size: 10px; letter-spacing: 0.08em; }
       .seq-slide svg .leader { stroke: #c9a04a; stroke-width: 0.75; opacity: 0.6; fill: none; }
-
-      /* Video thumbnail facades */
-      .video-thumb {
-        position: absolute; inset: 0; width: 100%; height: 100%;
-        padding: 0; border: 0; background: #000; cursor: pointer; display: block;
-      }
-      .video-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-      .video-thumb .video-play {
-        position: absolute; left: 50%; top: 50%;
-        transform: translate(-50%, -50%);
-        width: 56px; height: 56px; border-radius: 50%;
-        background: rgba(21, 13, 32, 0.85);
-        border: 2px solid var(--gold);
-        transition: background 0.2s ease, transform 0.2s ease;
-      }
-      .video-thumb .video-play::after {
-        content: ""; position: absolute; left: 50%; top: 50%;
-        transform: translate(-38%, -50%);
-        border-style: solid; border-width: 9px 0 9px 15px;
-        border-color: transparent transparent transparent var(--gold-bright);
-      }
-      .video-thumb:hover .video-play, .video-thumb:focus-visible .video-play {
-        background: rgba(42, 26, 63, 0.92);
-      }
-      .video-thumb:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 2px; }
 
       /* Per-part true-speed motion (visible stage only) */
       @media (prefers-reduced-motion: no-preference) {
@@ -1630,21 +1595,18 @@
             <div class="video-grid">
           <div class="video-card">
             <div class="video-embed"><iframe src="https://www.youtube.com/embed/_23akTZbKPA" title="Mitochondrial dynamics - Label-free 3D Live Cell Imaging" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
-            <p class="video-watch"><a href="https://www.youtube.com/watch?v=_23akTZbKPA" target="_blank" rel="noopener">Watch on YouTube</a></p>
             <h3 class="video-title">Mitochondrial dynamics - Label-free 3D Live Cell Imaging</h3>
             <p class="video-channel">Tomocube Inc.</p>
             <p class="video-note">Real label-free live-cell footage of mitochondria moving, fusing, and splitting.</p>
           </div>
           <div class="video-card">
             <div class="video-embed"><iframe src="https://www.youtube.com/embed/yAvyIO2v0Pw" title="Visualizing mitochondrial trafficking in neurons with Nanolive imaging" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
-            <p class="video-watch"><a href="https://www.youtube.com/watch?v=yAvyIO2v0Pw" target="_blank" rel="noopener">Watch on YouTube</a></p>
             <h3 class="video-title">Visualizing mitochondrial trafficking in neurons with Nanolive imaging</h3>
             <p class="video-channel">Nanolive</p>
             <p class="video-note">Real microscope footage — mitochondria riding along living neurons, hauled by the porters of Sequence IV.</p>
           </div>
           <div class="video-card">
             <div class="video-embed"><iframe src="https://www.youtube.com/embed/m9Y3pKlvspg" title="3D EM reconstruction of mitochondria in multiple neuropils in mouse hippocampi" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
-            <p class="video-watch"><a href="https://www.youtube.com/watch?v=m9Y3pKlvspg" target="_blank" rel="noopener">Watch on YouTube</a></p>
             <h3 class="video-title">3D EM reconstruction of mitochondria in multiple neuropils in mouse hippocampi</h3>
             <p class="video-channel">Mayo Clinic</p>
             <p class="video-note">An electron-microscope 3D reconstruction — the powerhouse, mapped in fine detail.</p>
@@ -1724,19 +1686,16 @@
             <div class="video-grid">
           <div class="video-card">
             <div class="video-embed"><iframe src="https://www.youtube.com/embed/NbA89YbWoL8" title="Official 11 Year Time-Lapse Movie of One World Trade Center" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
-            <p class="video-watch"><a href="https://www.youtube.com/watch?v=NbA89YbWoL8" target="_blank" rel="noopener">Watch on YouTube</a></p>
             <h3 class="video-title">Official 11 Year Time-Lapse Movie of One World Trade Center</h3>
             <p class="video-channel">EarthCam</p>
           </div>
           <div class="video-card">
             <div class="video-embed"><iframe src="https://www.youtube.com/embed/XuV8r-1cejs" title="Time-lapse construction of Alfords Point Bridge Duplication by Eon-FX" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
-            <p class="video-watch"><a href="https://www.youtube.com/watch?v=XuV8r-1cejs" target="_blank" rel="noopener">Watch on YouTube</a></p>
             <h3 class="video-title">Time-lapse construction of Alfords Point Bridge Duplication by Eon-FX</h3>
             <p class="video-channel">theedgeeonfx</p>
           </div>
           <div class="video-card">
             <div class="video-embed"><iframe src="https://www.youtube.com/embed/BOm8zglY6HU" title="Colossal Construction of the Golden Gate Bridge | Modern Marvels (S2, E6) | Full Episode" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
-            <p class="video-watch"><a href="https://www.youtube.com/watch?v=BOm8zglY6HU" target="_blank" rel="noopener">Watch on YouTube</a></p>
             <h3 class="video-title">Colossal Construction of the Golden Gate Bridge | Modern Marvels (S2, E6) | Full Episode</h3>
             <p class="video-channel">HISTORY</p>
             <p class="video-note">(full documentary — 45 min)</p>
@@ -1811,21 +1770,18 @@
             <div class="video-grid">
           <div class="video-card">
             <div class="video-embed"><iframe src="https://www.youtube.com/embed/jgJKaP0Sj5U" title="Killer T cell attacking cancer" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
-            <p class="video-watch"><a href="https://www.youtube.com/watch?v=jgJKaP0Sj5U" target="_blank" rel="noopener">Watch on YouTube</a></p>
             <h3 class="video-title">Killer T cell attacking cancer</h3>
             <p class="video-channel">Cambridge University</p>
             <p class="video-note">The famous real footage — a killer T cell at work on a cancer cell.</p>
           </div>
           <div class="video-card">
             <div class="video-embed"><iframe src="https://www.youtube.com/embed/XdN5GdNB6EU" title="Human white blood cell chasing a bacterium captured through a microscope" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
-            <p class="video-watch"><a href="https://www.youtube.com/watch?v=XdN5GdNB6EU" target="_blank" rel="noopener">Watch on YouTube</a></p>
             <h3 class="video-title">Human white blood cell chasing a bacterium captured through a microscope</h3>
             <p class="video-channel">David Rogers — Vanderbilt University</p>
             <p class="video-note">The classic microscope film by David Rogers — the patrol, chasing its prey.</p>
           </div>
           <div class="video-card">
             <div class="video-embed"><iframe src="https://www.youtube.com/embed/dO8P9Qzhv2s" title="Red blood cells flowing through a capillary network in rat skeletal muscle | 2025 Nikon Small World" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
-            <p class="video-watch"><a href="https://www.youtube.com/watch?v=dO8P9Qzhv2s" target="_blank" rel="noopener">Watch on YouTube</a></p>
             <h3 class="video-title">Red blood cells flowing through a capillary network in rat skeletal muscle | 2025 Nikon Small World</h3>
             <p class="video-channel">Nikon Microscope Solutions</p>
           </div>
@@ -1899,19 +1855,16 @@
             <div class="video-grid">
           <div class="video-card">
             <div class="video-embed"><iframe src="https://www.youtube.com/embed/dm-iT4xsCZA" title="Kinesin Walking Animation | 3D Molecular Motor with Cargo" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
-            <p class="video-watch"><a href="https://www.youtube.com/watch?v=dm-iT4xsCZA" target="_blank" rel="noopener">Watch on YouTube</a></p>
             <h3 class="video-title">Kinesin Walking Animation | 3D Molecular Motor with Cargo</h3>
             <p class="video-channel">Thom Leach</p>
           </div>
           <div class="video-card">
             <div class="video-embed"><iframe src="https://www.youtube.com/embed/OzGQmqbjHQA" title="Kinesin vs Dynein | The Tiny Motor Proteins That Power Your Cells" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
-            <p class="video-watch"><a href="https://www.youtube.com/watch?v=OzGQmqbjHQA" target="_blank" rel="noopener">Watch on YouTube</a></p>
             <h3 class="video-title">Kinesin vs Dynein | The Tiny Motor Proteins That Power Your Cells</h3>
             <p class="video-channel">BioMinute: Life Unlocked</p>
           </div>
           <div class="video-card">
             <div class="video-embed"><iframe src="https://www.youtube.com/embed/ilgdFvit49Y" title="Kinesin Motor Protein 3D Animation (with Labels)" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
-            <p class="video-watch"><a href="https://www.youtube.com/watch?v=ilgdFvit49Y" target="_blank" rel="noopener">Watch on YouTube</a></p>
             <h3 class="video-title">Kinesin Motor Protein 3D Animation (with Labels)</h3>
             <p class="video-channel">Professor Chimp</p>
           </div>
