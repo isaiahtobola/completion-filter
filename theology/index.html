@@ -643,6 +643,39 @@
         position: absolute; inset: 0; width: 100%; height: 100%;
         border: 0; display: block;
       }
+      /* Tap-to-play cover: the player is born from the reader's own tap,
+         already playing — a cold embed's pre-play surface never gets the tap. */
+      .video-cover {
+        position: absolute; inset: 0; width: 100%; height: 100%;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+        background:
+          radial-gradient(ellipse 85% 70% at 50% 38%, rgba(240, 183, 63, 0.13) 0%, transparent 62%),
+          linear-gradient(180deg, #241536 0%, #150d20 100%);
+        border: 0; margin: 0; padding: 16px;
+        color: var(--gold-bright);
+        font-family: inherit;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .video-cover-ring {
+        width: 68px; height: 68px; border-radius: 50%;
+        border: 1.5px solid var(--gold);
+        background: rgba(21, 13, 32, 0.72);
+        box-shadow: 0 0 0 5px rgba(240, 183, 63, 0.10), 0 0 26px rgba(240, 183, 63, 0.28), inset 0 0 14px rgba(240, 183, 63, 0.16);
+        display: flex; align-items: center; justify-content: center;
+        transition: box-shadow 0.25s ease, background 0.25s ease;
+      }
+      .video-cover-ring svg { width: 30px; height: 30px; margin-left: 3px; display: block; }
+      .video-cover-label {
+        font-size: 0.68rem; font-weight: 600;
+        letter-spacing: 0.3em; text-transform: uppercase;
+        color: var(--gold);
+      }
+      .video-cover:hover .video-cover-ring, .video-cover:focus-visible .video-cover-ring {
+        background: rgba(42, 26, 63, 0.9);
+        box-shadow: 0 0 0 6px rgba(240, 183, 63, 0.14), 0 0 34px rgba(240, 183, 63, 0.42), inset 0 0 16px rgba(240, 183, 63, 0.22);
+      }
+      .video-cover:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: -2px; }
       .video-title {
         font-size: 0.95rem; font-weight: 500; line-height: 1.45;
         color: var(--text); margin: 12px 2px 5px;
@@ -1594,19 +1627,19 @@
             <p class="video-evidence-note">Real mitochondria, filmed through real microscopes — moving, fusing, and splitting inside living cells.</p>
             <div class="video-grid">
           <div class="video-card">
-            <div class="video-embed"><iframe src="https://www.youtube.com/embed/_23akTZbKPA" title="Mitochondrial dynamics - Label-free 3D Live Cell Imaging" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+            <div class="video-embed"><button type="button" class="video-cover" data-yt="_23akTZbKPA" aria-label="Play video: Mitochondrial dynamics - Label-free 3D Live Cell Imaging"><span class="video-cover-ring" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 5.2v13.6c0 .9 1 1.5 1.8 1L20 13a1.15 1.15 0 0 0 0-2L10.3 4.2c-.8-.5-1.8.1-1.8 1z" fill="currentColor"/></svg></span><span class="video-cover-label" aria-hidden="true">Tap to play</span></button></div>
             <h3 class="video-title">Mitochondrial dynamics - Label-free 3D Live Cell Imaging</h3>
             <p class="video-channel">Tomocube Inc.</p>
             <p class="video-note">Real label-free live-cell footage of mitochondria moving, fusing, and splitting.</p>
           </div>
           <div class="video-card">
-            <div class="video-embed"><iframe src="https://www.youtube.com/embed/yAvyIO2v0Pw" title="Visualizing mitochondrial trafficking in neurons with Nanolive imaging" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+            <div class="video-embed"><button type="button" class="video-cover" data-yt="yAvyIO2v0Pw" aria-label="Play video: Visualizing mitochondrial trafficking in neurons with Nanolive imaging"><span class="video-cover-ring" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 5.2v13.6c0 .9 1 1.5 1.8 1L20 13a1.15 1.15 0 0 0 0-2L10.3 4.2c-.8-.5-1.8.1-1.8 1z" fill="currentColor"/></svg></span><span class="video-cover-label" aria-hidden="true">Tap to play</span></button></div>
             <h3 class="video-title">Visualizing mitochondrial trafficking in neurons with Nanolive imaging</h3>
             <p class="video-channel">Nanolive</p>
             <p class="video-note">Real microscope footage — mitochondria riding along living neurons, hauled by the porters of Sequence IV.</p>
           </div>
           <div class="video-card">
-            <div class="video-embed"><iframe src="https://www.youtube.com/embed/m9Y3pKlvspg" title="3D EM reconstruction of mitochondria in multiple neuropils in mouse hippocampi" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+            <div class="video-embed"><button type="button" class="video-cover" data-yt="m9Y3pKlvspg" aria-label="Play video: 3D EM reconstruction of mitochondria in multiple neuropils in mouse hippocampi"><span class="video-cover-ring" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 5.2v13.6c0 .9 1 1.5 1.8 1L20 13a1.15 1.15 0 0 0 0-2L10.3 4.2c-.8-.5-1.8.1-1.8 1z" fill="currentColor"/></svg></span><span class="video-cover-label" aria-hidden="true">Tap to play</span></button></div>
             <h3 class="video-title">3D EM reconstruction of mitochondria in multiple neuropils in mouse hippocampi</h3>
             <p class="video-channel">Mayo Clinic</p>
             <p class="video-note">An electron-microscope 3D reconstruction — the powerhouse, mapped in fine detail.</p>
@@ -1685,17 +1718,17 @@
             <p class="video-evidence-note">Humans building — the same pattern one floor up, caught on camera across years.</p>
             <div class="video-grid">
           <div class="video-card">
-            <div class="video-embed"><iframe src="https://www.youtube.com/embed/NbA89YbWoL8" title="Official 11 Year Time-Lapse Movie of One World Trade Center" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+            <div class="video-embed"><button type="button" class="video-cover" data-yt="NbA89YbWoL8" aria-label="Play video: Official 11 Year Time-Lapse Movie of One World Trade Center"><span class="video-cover-ring" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 5.2v13.6c0 .9 1 1.5 1.8 1L20 13a1.15 1.15 0 0 0 0-2L10.3 4.2c-.8-.5-1.8.1-1.8 1z" fill="currentColor"/></svg></span><span class="video-cover-label" aria-hidden="true">Tap to play</span></button></div>
             <h3 class="video-title">Official 11 Year Time-Lapse Movie of One World Trade Center</h3>
             <p class="video-channel">EarthCam</p>
           </div>
           <div class="video-card">
-            <div class="video-embed"><iframe src="https://www.youtube.com/embed/XuV8r-1cejs" title="Time-lapse construction of Alfords Point Bridge Duplication by Eon-FX" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+            <div class="video-embed"><button type="button" class="video-cover" data-yt="XuV8r-1cejs" aria-label="Play video: Time-lapse construction of Alfords Point Bridge Duplication by Eon-FX"><span class="video-cover-ring" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 5.2v13.6c0 .9 1 1.5 1.8 1L20 13a1.15 1.15 0 0 0 0-2L10.3 4.2c-.8-.5-1.8.1-1.8 1z" fill="currentColor"/></svg></span><span class="video-cover-label" aria-hidden="true">Tap to play</span></button></div>
             <h3 class="video-title">Time-lapse construction of Alfords Point Bridge Duplication by Eon-FX</h3>
             <p class="video-channel">theedgeeonfx</p>
           </div>
           <div class="video-card">
-            <div class="video-embed"><iframe src="https://www.youtube.com/embed/BOm8zglY6HU" title="Colossal Construction of the Golden Gate Bridge | Modern Marvels (S2, E6) | Full Episode" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+            <div class="video-embed"><button type="button" class="video-cover" data-yt="BOm8zglY6HU" aria-label="Play video: Colossal Construction of the Golden Gate Bridge | Modern Marvels (S2, E6) | Full Episode"><span class="video-cover-ring" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 5.2v13.6c0 .9 1 1.5 1.8 1L20 13a1.15 1.15 0 0 0 0-2L10.3 4.2c-.8-.5-1.8.1-1.8 1z" fill="currentColor"/></svg></span><span class="video-cover-label" aria-hidden="true">Tap to play</span></button></div>
             <h3 class="video-title">Colossal Construction of the Golden Gate Bridge | Modern Marvels (S2, E6) | Full Episode</h3>
             <p class="video-channel">HISTORY</p>
             <p class="video-note">(full documentary — 45 min)</p>
@@ -1769,19 +1802,19 @@
             <p class="video-evidence-note">Real blood under the microscope — red cells on the river, white cells on patrol.</p>
             <div class="video-grid">
           <div class="video-card">
-            <div class="video-embed"><iframe src="https://www.youtube.com/embed/jgJKaP0Sj5U" title="Killer T cell attacking cancer" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+            <div class="video-embed"><button type="button" class="video-cover" data-yt="jgJKaP0Sj5U" aria-label="Play video: Killer T cell attacking cancer"><span class="video-cover-ring" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 5.2v13.6c0 .9 1 1.5 1.8 1L20 13a1.15 1.15 0 0 0 0-2L10.3 4.2c-.8-.5-1.8.1-1.8 1z" fill="currentColor"/></svg></span><span class="video-cover-label" aria-hidden="true">Tap to play</span></button></div>
             <h3 class="video-title">Killer T cell attacking cancer</h3>
             <p class="video-channel">Cambridge University</p>
             <p class="video-note">The famous real footage — a killer T cell at work on a cancer cell.</p>
           </div>
           <div class="video-card">
-            <div class="video-embed"><iframe src="https://www.youtube.com/embed/XdN5GdNB6EU" title="Human white blood cell chasing a bacterium captured through a microscope" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+            <div class="video-embed"><button type="button" class="video-cover" data-yt="XdN5GdNB6EU" aria-label="Play video: Human white blood cell chasing a bacterium captured through a microscope"><span class="video-cover-ring" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 5.2v13.6c0 .9 1 1.5 1.8 1L20 13a1.15 1.15 0 0 0 0-2L10.3 4.2c-.8-.5-1.8.1-1.8 1z" fill="currentColor"/></svg></span><span class="video-cover-label" aria-hidden="true">Tap to play</span></button></div>
             <h3 class="video-title">Human white blood cell chasing a bacterium captured through a microscope</h3>
             <p class="video-channel">David Rogers — Vanderbilt University</p>
             <p class="video-note">The classic microscope film by David Rogers — the patrol, chasing its prey.</p>
           </div>
           <div class="video-card">
-            <div class="video-embed"><iframe src="https://www.youtube.com/embed/dO8P9Qzhv2s" title="Red blood cells flowing through a capillary network in rat skeletal muscle | 2025 Nikon Small World" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+            <div class="video-embed"><button type="button" class="video-cover" data-yt="dO8P9Qzhv2s" aria-label="Play video: Red blood cells flowing through a capillary network in rat skeletal muscle | 2025 Nikon Small World"><span class="video-cover-ring" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 5.2v13.6c0 .9 1 1.5 1.8 1L20 13a1.15 1.15 0 0 0 0-2L10.3 4.2c-.8-.5-1.8.1-1.8 1z" fill="currentColor"/></svg></span><span class="video-cover-label" aria-hidden="true">Tap to play</span></button></div>
             <h3 class="video-title">Red blood cells flowing through a capillary network in rat skeletal muscle | 2025 Nikon Small World</h3>
             <p class="video-channel">Nikon Microscope Solutions</p>
           </div>
@@ -1854,17 +1887,17 @@
             <p class="video-evidence-note">Isaiah&rsquo;s own three picks — the little porters, caught walking.</p>
             <div class="video-grid">
           <div class="video-card">
-            <div class="video-embed"><iframe src="https://www.youtube.com/embed/dm-iT4xsCZA" title="Kinesin Walking Animation | 3D Molecular Motor with Cargo" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+            <div class="video-embed"><button type="button" class="video-cover" data-yt="dm-iT4xsCZA" aria-label="Play video: Kinesin Walking Animation | 3D Molecular Motor with Cargo"><span class="video-cover-ring" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 5.2v13.6c0 .9 1 1.5 1.8 1L20 13a1.15 1.15 0 0 0 0-2L10.3 4.2c-.8-.5-1.8.1-1.8 1z" fill="currentColor"/></svg></span><span class="video-cover-label" aria-hidden="true">Tap to play</span></button></div>
             <h3 class="video-title">Kinesin Walking Animation | 3D Molecular Motor with Cargo</h3>
             <p class="video-channel">Thom Leach</p>
           </div>
           <div class="video-card">
-            <div class="video-embed"><iframe src="https://www.youtube.com/embed/OzGQmqbjHQA" title="Kinesin vs Dynein | The Tiny Motor Proteins That Power Your Cells" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+            <div class="video-embed"><button type="button" class="video-cover" data-yt="OzGQmqbjHQA" aria-label="Play video: Kinesin vs Dynein | The Tiny Motor Proteins That Power Your Cells"><span class="video-cover-ring" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 5.2v13.6c0 .9 1 1.5 1.8 1L20 13a1.15 1.15 0 0 0 0-2L10.3 4.2c-.8-.5-1.8.1-1.8 1z" fill="currentColor"/></svg></span><span class="video-cover-label" aria-hidden="true">Tap to play</span></button></div>
             <h3 class="video-title">Kinesin vs Dynein | The Tiny Motor Proteins That Power Your Cells</h3>
             <p class="video-channel">BioMinute: Life Unlocked</p>
           </div>
           <div class="video-card">
-            <div class="video-embed"><iframe src="https://www.youtube.com/embed/ilgdFvit49Y" title="Kinesin Motor Protein 3D Animation (with Labels)" loading="lazy" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+            <div class="video-embed"><button type="button" class="video-cover" data-yt="ilgdFvit49Y" aria-label="Play video: Kinesin Motor Protein 3D Animation (with Labels)"><span class="video-cover-ring" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 5.2v13.6c0 .9 1 1.5 1.8 1L20 13a1.15 1.15 0 0 0 0-2L10.3 4.2c-.8-.5-1.8.1-1.8 1z" fill="currentColor"/></svg></span><span class="video-cover-label" aria-hidden="true">Tap to play</span></button></div>
             <h3 class="video-title">Kinesin Motor Protein 3D Animation (with Labels)</h3>
             <p class="video-channel">Professor Chimp</p>
           </div>
@@ -2011,6 +2044,28 @@
             });
           });
         })();
+
+        /* Video evidence: the player is born from the reader's tap, already
+           playing, so the tap lands on a live player on this page — never on
+           a cold embed's pre-play surface, which routes taps out to YouTube.
+           The iframe keeps the evidence board's exact form (standard
+           youtube.com host, its allow list, its referrer setting); the only
+           additions ride in the src: autoplay from the tap's own gesture,
+           playsinline so iPhone keeps playback on the page, rel=0. */
+        Array.prototype.forEach.call(document.querySelectorAll('.video-cover'), function (cover) {
+          cover.addEventListener('click', function () {
+            var id = cover.getAttribute('data-yt');
+            if (!id) { return; }
+            var ifr = document.createElement('iframe');
+            ifr.setAttribute('src', 'https://www.youtube.com/embed/' + id + '?autoplay=1&playsinline=1&rel=0');
+            ifr.setAttribute('title', cover.getAttribute('aria-label').replace(/^Play video: /, ''));
+            ifr.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; picture-in-picture');
+            ifr.setAttribute('allowfullscreen', '');
+            ifr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+            cover.parentNode.replaceChild(ifr, cover);
+            if (ifr.focus) { ifr.focus(); }
+          });
+        });
 
         show(0);
 
