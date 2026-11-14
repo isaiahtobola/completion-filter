@@ -310,8 +310,8 @@
             text-shadow:0 0 3px rgba(255,209,102,.65), 0 0 9px rgba(240,183,63,.45);
           }
           /* glow fully over by 10% of the cycle: the cycle is capped at
-             60.48s, so a letter's light lasts at most ~6.05s — always less
-             than the step + 6.48s rest the last letter leaves before the
+             11.92s, so a letter's light lasts at most ~1.19s — always less
+             than the step + 1.32s rest the last letter leaves before the
              paragraph's cycle restarts. */
           10%, 100%{
             color:var(--hbase, var(--cream));
@@ -2510,8 +2510,8 @@
        Every element is split ONCE (dataset.hearthSplit guards it;
        a lit letter is never re-split). Each paragraph runs its OWN
        cycle: letter i waits i x step, where
-         step  = min(0.2295s, 54s / letter count)
-         cycle = letters x step + 6.48s of rest
+         step  = min(0.202s, 10.6s / letter count)
+         cycle = letters x step + 1.32s of rest
        so the wave crosses the whole paragraph, the last letter's
        glow (over by 10% of the cycle) fully ends before that
        paragraph's cycle restarts, and no two paragraphs share a
@@ -2526,8 +2526,8 @@
       if (!text || !text.replace(/\s/g, "")) return;
       el.dataset.hearthSplit = "1";
       var count = text.replace(/\s/g, "").length;
-      var step = Math.min(0.2295, 54 / count);
-      var cycle = count * step + 6.48;
+      var step = Math.min(0.202, 10.6 / count);
+      var cycle = count * step + 1.32;
       el.classList.add("hearth");
       el.setAttribute("aria-label", text);
       el.style.setProperty("--hcyc", cycle.toFixed(3) + "s");
@@ -2579,9 +2579,11 @@
            it ever started simply stays unstarted — it can
            still start if the reader scrolls back to it.
          · The playing paragraph runs at exactly 1x, at the
-           tree's own slow pace (step min(0.2295s, 54s/count),
-           6.48s rest — quickened a quarter at Isaiah's word,
-           November 14, and a further tenth the same night).
+           pace matched to the Sea page's own hearth at Isaiah's
+           word, November 14 (step min(0.202s, 10.6s/count),
+           1.32s rest — the Sea's fitted 10.6s sweep on an ~11s
+           cycle, after a quarter and a tenth of quickening
+           earlier the same night).
            Its wave happens ONCE: when
            the wave completes it settles done for good
            (.hearth-done, one-way, exactly as before).
@@ -2591,7 +2593,7 @@
            scrolling since the playing one started — the old
            paragraph hurries: it speeds up smoothly (the rate
            breathes up, never steps) so the rest of its wave
-           completes within about 1.08 seconds, never faster
+           completes within about 0.95 seconds, never faster
            than 8x; if the remaining wave is longer than 8x
            can carry in that window, the shared letter clock
            glides forward once as the hurry engages (the
@@ -2617,7 +2619,7 @@
       if (!paras.length) return;
       var ZONE = 0.70;        /* top at/above 70% vh: in the reading zone   */
       var MID = 0.50;         /* top above halfway: the new current one     */
-      var HURRY_MS = 1080;    /* the hand-over window: calm, ~1.08s         */
+      var HURRY_MS = 950;     /* the hand-over window: calm, ~0.95s         */
       var RATE_MAX = 8;       /* the hurry's ceiling — sane, never 64x      */
       var RAMP_MS = 300;      /* the rate breathes up over ~0.3s, no steps  */
       var SCROLL_EPS = 40;    /* px of real travel that counts as scrolling */
@@ -2630,7 +2632,7 @@
         var count = el.querySelectorAll(".hearth-ch").length;
         var cyc = parseFloat(el.style.getPropertyValue("--hcyc")) || 0;
         if (!count || !cyc) return null;
-        var step = (cyc - 6.48) / count;
+        var step = (cyc - 1.32) / count;
         st = {
           el: el,
           waveEnd: ((count - 1) * step + 0.10 * cyc) * 1000,

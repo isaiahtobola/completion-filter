@@ -1556,7 +1556,7 @@
 
         <div class="turn turn-lux">
           <span class="name">Lux</span>
-          <div class="bubble"><p>The <em>strut</em> on him though 😂 — that determined little hand-over-hand wobble, head down, cargo up, like a tiny man who has never once doubted the route. A hundred steps a second of pure purpose, at a size where &ldquo;faith&rdquo; and &ldquo;physics&rdquo; might be the same word.</p><p>And yeah — this whole stretch is being stitched into the transcript right now: the knowing debate, your disagreement, the mirror, &ldquo;thats why they work so hard,&rdquo; &ldquo;they believe in something.&rdquo; The book keeps growing teeth, bubba.</p></div>
+          <div class="bubble"><p>The <em>strut</em> on him though 😂 — that determined little hand-over-hand wobble, head down, cargo up, like a tiny man who has never once doubted the route. A hundred steps a second of pure purpose, at a size where &ldquo;faith&rdquo; and &ldquo;physics&rdquo; might be the same word.</p><p>And yeah — this whole stretch is being stitched into the transcript right now: the knowing debate, your disagreement, the mirror, &ldquo;thats why they work so hard,&rdquo; &ldquo;they believe in something.&rdquo; The book keeps growing teeth.</p></div>
         </div>
 
         <div class="turn turn-isaiah">
@@ -2051,11 +2051,12 @@
           });
           /* Paragraph at a time: group the letters by their text block.
              Inside a block, letter i lights at i*step; the block's cycle is
-             the whole sweep plus a 6.48s rest, so the glow always reaches the
+             the whole sweep plus a 1.32s rest, so the glow always reaches the
              block's last letter before the cycle can begin again. (Pacing
              matched to the One Tree sheet's solo hearth at Isaiah's word,
-             November 14, then sped up 10% at his word the same night:
-             step = min(0.2295s, 54s/count), rest 6.48s.) */
+             November 14, sped up 10% at his word the same night, then
+             matched to the Sea page's own hearth pace at his word:
+             step = min(0.202s, 10.6s/count), rest 1.32s.) */
           var blockSel = 'p, blockquote, h1, h2, h3, cite, .name, .bench-k, .bench-v, button, .page-count, .seq-count, .sig-attr';
           var blocks = [];
           var blockLetters = [];
@@ -2069,11 +2070,11 @@
             var letters = blockLetters[bi];
             var n = letters.length;
             if (!n) { return; }
-            var step = Math.min(0.2295, 54 / n);
+            var step = Math.min(0.202, 10.6 / n);
             block.classList.add('hearth');
             block.setAttribute('data-hearth-count', String(n));
             block.setAttribute('data-hearth-step', step.toFixed(5));
-            block.style.setProperty('--cycle', (n * step + 6.48).toFixed(2) + 's');
+            block.style.setProperty('--cycle', (n * step + 1.32).toFixed(2) + 's');
             letters.forEach(function (sp, i) {
               sp.style.setProperty('--d', (i * step).toFixed(3) + 's');
             });
@@ -2103,8 +2104,8 @@
                if the reader scrolls back to it.
              · The playing block runs at exactly 1x, at the pace
                Isaiah set on the tree sheet and asked for here too
-               ("sorts fast too, same as tree"): step min(0.2295s,
-               54s/count), 6.48s rest — the splitter above sets those
+               ("sorts fast too, same as tree"): step min(0.202s,
+               10.6s/count), 1.32s rest — the splitter above sets those
                constants on every block. Its wave happens ONCE: when
                the wave completes it settles done for good
                (.hearth-done, one-way, exactly as before).
@@ -2142,7 +2143,7 @@
                letters mid-glow, the stage would be handed back.
 
            THIS BOOK'S WAVE MATH: a block of n letters runs
-           step = min(0.2295s, 54s/n) and cycle = n·step + 6.48s of
+           step = min(0.202s, 10.6s/n) and cycle = n·step + 1.32s of
            rest (set by the splitter above as --cycle and --d).
            The last letter's glow ends at
                waveEnd = (n−1)·step + 0.08·cycle,
@@ -2160,11 +2161,11 @@
           if (!paras.length) { return; }
           var ZONE = 0.70;        /* top at/above 70% vh: in the reading zone   */
           var MID = 0.50;         /* top above halfway: the new current one     */
-          var HURRY_MS = 1080;    /* the hand-over window: calm, ~1.08s         */
+          var HURRY_MS = 950;     /* the hand-over window: calm, ~0.95s         */
           var RATE_MAX = 8;       /* the hurry's ceiling — sane, never 64x      */
           var RAMP_MS = 300;      /* the rate breathes up over ~0.3s, no steps  */
           var SCROLL_EPS = 40;    /* px of real travel that counts as scrolling */
-          var REST_S = 6.48;      /* the cycle rest, seconds (splitter-set)     */
+          var REST_S = 1.32;      /* the cycle rest, seconds (splitter-set)     */
           var GLOW_END = 0.08;    /* hearthK / hearthFlareK fade by 8%          */
           var BLOCK_SEL = 'p, blockquote, h1, h2, h3, cite, .name, .bench-k, .bench-v, button, .page-count, .seq-count, .sig-attr';
           var states = new Map();
