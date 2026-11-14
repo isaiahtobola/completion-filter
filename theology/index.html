@@ -596,15 +596,16 @@
         }
       }
 
-      /* ---------- Reading gate + finish race (added layer) ----------
+      /* ---------- Solo hearth (added layer) ----------
          The hearth fire no longer runs just because a block exists.
          These rules sit AFTER the original hearth rules above and
          override them inside the animation layer only: a block's
-         letters stay still until the reading gate (bottom script)
-         lights the block with .hearth-on, and rest for good once
-         the finish race settles it with .hearth-done. The original
-         keyframes, cycle and per-letter delays are untouched, and
-         under reduced motion none of this applies at all. */
+         letters stay still until the solo hearth (bottom script)
+         lights the block with .hearth-on — one block at a time —
+         and rest for good once it settles with .hearth-done. The
+         original keyframes, cycle and per-letter delays are
+         untouched, and under reduced motion none of this applies
+         at all. */
       @media (prefers-reduced-motion: no-preference) {
         .book-page.active .hearth-letter, .pager .hearth-letter { animation: none; }
         .book-page.active .turn-isaiah .bubble .hearth-letter,
@@ -2050,8 +2051,11 @@
           });
           /* Paragraph at a time: group the letters by their text block.
              Inside a block, letter i lights at i*step; the block's cycle is
-             the whole sweep plus a 4.8s rest, so the glow always reaches the
-             block's last letter before the cycle can begin again. */
+             the whole sweep plus a 6.48s rest, so the glow always reaches the
+             block's last letter before the cycle can begin again. (Pacing
+             matched to the One Tree sheet's solo hearth at Isaiah's word,
+             November 14, then sped up 10% at his word the same night:
+             step = min(0.2295s, 54s/count), rest 6.48s.) */
           var blockSel = 'p, blockquote, h1, h2, h3, cite, .name, .bench-k, .bench-v, button, .page-count, .seq-count, .sig-attr';
           var blocks = [];
           var blockLetters = [];
@@ -2065,224 +2069,106 @@
             var letters = blockLetters[bi];
             var n = letters.length;
             if (!n) { return; }
-            var step = Math.min(0.17, 40 / n);
+            var step = Math.min(0.2295, 54 / n);
             block.classList.add('hearth');
             block.setAttribute('data-hearth-count', String(n));
             block.setAttribute('data-hearth-step', step.toFixed(5));
-            block.style.setProperty('--cycle', (n * step + 4.8).toFixed(2) + 's');
+            block.style.setProperty('--cycle', (n * step + 6.48).toFixed(2) + 's');
             letters.forEach(function (sp, i) {
               sp.style.setProperty('--d', (i * step).toFixed(3) + 's');
             });
           });
-          /* the gate and the finish race below work from this list:
+          /* the solo hearth below works from this list:
              every split block, in document order, constants and all */
           window.__theoHearthBlocks = blocks.slice();
         })();
 
         /* ============================================================
-           THE READING GATE — ported from the One Tree sheet (Pass 5),
-           adapted to this book. The hearth no longer starts just
-           because a block exists. Each split block waits dark until
-           its words reach the reader's eye level: the zone from the
-           top of the screen down to the line at 70% of the viewport
-           height. A block already inside that zone when its book
-           page becomes visible lights at once — top of page counts
-           as reading. One below the line waits for the scroll to
-           bring it up. The trigger is one-way: once awake, a block
-           keeps its own normal cycle for good. The wave itself is
-           untouched — same per-letter step (min(0.17s, 40s/count)),
-           same 4.8s rest — and because the CSS animation only runs
-           under .hearth-on, it begins at the block's first letter
-           at the moment of the trigger and walks to its end. Blocks
-           on a hidden book page (display:none — no layout box), or
-           inside a sequence slide that is not showing, never
-           pre-trigger: nothing lights until the words are actually
-           there to be read. Under reduced motion none of this
-           matters — the letters sit static.
-           ============================================================ */
-        (function () {
-          var hearthWatch = (window.__theoHearthBlocks || []).slice();
-          if (!hearthWatch.length) { return; }
-          var hearthIO = null;
-          function lightHearth(el) {
-            if (el.classList.contains('hearth-on')) { return true; }
-            if (!el.getClientRects().length) { return false; }
-            var cs = window.getComputedStyle(el);
-            if (cs.display === 'none' || cs.visibility === 'hidden') { return false; }
-            var r = el.getBoundingClientRect();
-            if (r.top <= window.innerHeight * 0.7 + 1) {
-              el.classList.add('hearth-on');
-              if (hearthIO) { hearthIO.unobserve(el); }
-              return true;
-            }
-            return false;
-          }
-          function sweepHearth() {
-            for (var i = hearthWatch.length - 1; i >= 0; i--) {
-              if (lightHearth(hearthWatch[i])) { hearthWatch.splice(i, 1); }
-            }
-          }
-          if ('IntersectionObserver' in window) {
-            hearthIO = new IntersectionObserver(function (entries) {
-              entries.forEach(function (en) {
-                if (en.isIntersecting) { lightHearth(en.target); }
-              });
-            }, { root: null, rootMargin: '0px 0px -30% 0px', threshold: 0 });
-            hearthWatch.slice().forEach(function (el) { hearthIO.observe(el); });
-          } else {
-            /* no observer support: fall back to the old always-on fire */
-            hearthWatch.forEach(function (el) { el.classList.add('hearth-on'); });
-            hearthWatch.length = 0;
-            return;
-          }
-          /* The sweep catches what intersection alone cannot: page
-             turns and sequence-stage changes reveal blocks that are
-             already inside the zone, and they light on arrival. */
-          var sweepQueued = false;
-          function queueSweep() {
-            if (sweepQueued) { return; }
-            sweepQueued = true;
-            requestAnimationFrame(function () { sweepQueued = false; sweepHearth(); });
-          }
-          window.addEventListener('scroll', queueSweep, { passive: true });
-          window.addEventListener('resize', queueSweep);
-          if ('MutationObserver' in window) {
-            new MutationObserver(queueSweep).observe(document.body, {
-              attributes: true, attributeFilter: ['class', 'hidden'], subtree: true
-            });
-          }
-          sweepHearth();
-        })();
+           THE SOLO HEARTH — Isaiah's final word on the word-glow
+           (November 14, 2026), replacing the reading gate + finish
+           race pair, ported from the One Tree sheet. His report on
+           the race here too: several blocks could glow at once. So
+           now the fire is a single flame with a queue:
 
-        /* ============================================================
-           THE FINISH RACE, v2 — Isaiah's law, ported from the One
-           Tree sheet and re-derived on THIS book's own constants:
-           the glow always finishes the paragraph before the reader
-           scrolls past it, and the reader gets to WATCH it finish.
-             · the race begins the moment a lit block's top edge
-               rises above HALFWAY up the screen;
-             · it is calibrated to land the wave's last letter at
-               the moment the block's BOTTOM reaches 44% of the
-               viewport height — the end still plainly on screen.
-           The speed is a smooth EXPONENTIAL coupled to position:
-           every tiny fraction of upward scroll makes it a little
-           faster. Each frame, for each racing block, the steepness
-           k is re-solved from that block's own remaining wave W,
-           the runway D left to the finish line, and the reader's
-           current scroll speed v (a 600ms window estimate), so
-           that a pure exponential starting at the rate the block
-           is already running,
+             · ONE block glows at a time. Ever. A block may start
+               only when it stands in the reading zone — its top at
+               or above the line at 70% of the viewport height, some
+               part of it still on screen, actually visible (not on
+               a hidden book page, not inside a sequence slide that
+               is not showing) — and no other block is mid-glow.
+             · Blocks that reach the zone while one is playing WAIT,
+               fully dark, in document order. The queue is patient:
+               a block scrolled completely past before it ever
+               started simply stays unstarted — it can still start
+               if the reader scrolls back to it.
+             · The playing block runs at exactly 1x, at the pace
+               Isaiah set on the tree sheet and asked for here too
+               ("sorts fast too, same as tree"): step min(0.2295s,
+               54s/count), 6.48s rest — the splitter above sets those
+               constants on every block. Its wave happens ONCE: when
+               the wave completes it settles done for good
+               (.hearth-done, one-way, exactly as before).
+             · THE CALM HAND-OVER: if the reader scrolls and a new
+               block becomes the current one — the queue head risen
+               to mid-screen (top above halfway) after real scrolling
+               since the playing one started — the old block hurries:
+               it speeds up smoothly (the rate breathes up, never
+               steps) so the rest of its wave completes within about
+               1.08 seconds, never faster than 8x; if the remaining
+               wave is longer than 8x can carry in that window, the
+               shared letter clock glides forward once as the hurry
+               engages (the reader's eye has already left for the new
+               block) so the visible sweep still lands inside the
+               window. Only when the old block is fully done does
+               the new one start, at 1x.
+             · A playing block scrolled completely off screen settles
+               on the spot — it never lingers mid-glow where nobody
+               can see it.
+             · A block whose book page is turned away from (or whose
+               sequence slide is changed away from) hands the stage
+               back unstarted: its wave never finished, so it simply
+               waits dark again like any other block.
+             · Scroll travel is measured on the window itself, never
+               on a block's rect — this book's page-turn entrance
+               settles every rect upward a few px, and layout shift
+               is not the reader scrolling (the lesson the finish
+               race learned the hard way on this book).
+             · Two small robustness notes for this book: the page
+               count and the stage counts rewrite their own text as
+               pages and stages turn, which wipes their letter spans
+               before the fire ever reaches them; such a block is
+               skipped — it never takes the stage and never stalls
+               the queue — and if a playing block ever lost its
+               letters mid-glow, the stage would be handed back.
 
-               rate(s) = r0 · e^(k·s),   ∫ rate ds / v = W  on [0, D],
-
-           spends the whole wave exactly as the bottom reaches the
-           line. The rate is re-anchored at the block's current
-           rate every frame, so the applied speed itself never
-           jumps — only its steepness breathes — and the finish
-           point stays put. Travel is credited at most 48px per
-           frame, so a jump scroll ramps the speed smoothly.
-           Planning runs against a reader a third faster than the
-           smoothed measurement (vPlan = v̂ × 1.3, capped 3000): a
-           late finish is the failure this pass exists to kill, an
-           early one still lands mid-screen. The ceiling is 64x,
-           a cap, not a stage. One frame at those speeds can carry
-           the shared clock clean over the rest window after a
-           wave, so a wrap of the clock past the round's end while
-           racing counts as the wave completing. The emergency net
-           is pure backup: a flick that throws a block's bottom
-           within 56px of leaving gets a final ~150ms sweep, and
-           one thrown clean off screen completes on the spot — it
-           never leaves mid-glow. Finishes are recorded in
-           data-hearth-finish as "curve" (the net records "snap"),
-           with finish geometry in data-hearth-finish-bottom/-top
-           as fractions of the viewport height.
-           FINISHED is one-way, like the gate: .hearth-done stops
-           the cycle for good, and because a completed wave leaves
-           every letter at its resting color (the glow is over by
-           8% of each letter's cycle), the settle is invisible;
-           scrolling back never restarts it. A block parked at eye
-           level — top still below halfway — keeps exactly 1x and
-           its normal cycle. Unlit blocks are unaffected. Under
-           reduced motion no letter animation exists to hurry.
            THIS BOOK'S WAVE MATH: a block of n letters runs
-           step = min(0.17s, 40s/n) and cycle = n·step + 4.8s of
+           step = min(0.2295s, 54s/n) and cycle = n·step + 6.48s of
            rest (set by the splitter above as --cycle and --d).
            The last letter's glow ends at
                waveEnd = (n−1)·step + 0.08·cycle,
            because hearthK / hearthFlareK have fully faded by 8%
            of the cycle — that, not the Tree's 10%, is where this
            book's wave lands.
+
+           Under reduced motion the CSS defines no letter animation
+           at all; the engine then just lights blocks as they reach
+           the zone, as the old gate did — the words sit static
+           either way.
            ============================================================ */
         (function () {
-          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
-          var RACE_TOP = 0.50;        /* top above halfway: the race begins    */
-          var FINISH_BOTTOM = 0.44;   /* bottom at 44% vh: the wave lands      */
-          var RATE_MAX = 64;          /* the exponential's ceiling             */
-          var SNAP_PX = 56;           /* bottom this close to gone: sweep      */
-          var SNAP_ANIM_MS = 9600;    /* wave left after a snap: 9.6s of clock
-                                         at 64x ≈ a final 150ms sweep          */
-          var TRAVEL_FRAME = 48;      /* max travel credited to the law / frame.
-                                         ADAPTATION FROM THE TREE: travel is
-                                         credited from the window's own scroll
-                                         movement, never from a block's rect —
-                                         this book's page-turn entrance settles
-                                         every rect upward a few px, and layout
-                                         shift is not the reader scrolling */
-          var REST_S = 4.8;           /* this book's cycle rest, seconds        */
-          var GLOW_END = 0.08;        /* hearthK / hearthFlareK fade by 8%      */
+          var paras = (window.__theoHearthBlocks || []).slice();
+          if (!paras.length) { return; }
+          var ZONE = 0.70;        /* top at/above 70% vh: in the reading zone   */
+          var MID = 0.50;         /* top above halfway: the new current one     */
+          var HURRY_MS = 1080;    /* the hand-over window: calm, ~1.08s         */
+          var RATE_MAX = 8;       /* the hurry's ceiling — sane, never 64x      */
+          var RAMP_MS = 300;      /* the rate breathes up over ~0.3s, no steps  */
+          var SCROLL_EPS = 40;    /* px of real travel that counts as scrolling */
+          var REST_S = 6.48;      /* the cycle rest, seconds (splitter-set)     */
+          var GLOW_END = 0.08;    /* hearthK / hearthFlareK fade by 8%          */
           var BLOCK_SEL = 'p, blockquote, h1, h2, h3, cite, .name, .bench-k, .bench-v, button, .page-count, .seq-count, .sig-attr';
           var states = new Map();
-          var scrollTravel = 0;       /* credited upward scroll, px (<=48/frame) */
-          var lastSY = null;
-
-          /* ---- the reader's scroll speed: a 600ms window estimate ---- */
-          var velSamples = [];
-          var velSmooth = 220;        /* a reading-pace prior */
-          function updateVelocity(now) {
-            var y = window.scrollY || window.pageYOffset || 0;
-            velSamples.push([now, y]);
-            var cutoff = now - 600;
-            while (velSamples.length > 2 && velSamples[0][0] < cutoff) { velSamples.shift(); }
-            if (velSamples.length > 1) {
-              var first = velSamples[0];
-              var last = velSamples[velSamples.length - 1];
-              var dt = (last[0] - first[0]) / 1000;
-              var dy = last[1] - first[1];
-              if (dt > 0.05 && dy > 0) {
-                velSmooth = dy / dt;
-              } else if (dy <= 0) {
-                velSmooth = Math.max(60, velSmooth * 0.95);
-              }
-            }
-            if (velSmooth < 60) { velSmooth = 60; }
-            if (velSmooth > 3000) { velSmooth = 3000; }
-          }
-
-          /* ---- the exponential solve ----
-             flown(k) = the wave-seconds a pure exponential
-             r0·e^(k·s), scrolled at speed v, spends over runway D.
-             Continuous and strictly increasing in k, so bisection
-             finds the one steepness that spends exactly W. */
-          function flown(k, r0, D, v) {
-            if (Math.abs(k) < 1e-9) { return r0 * D / v; }
-            return r0 * (Math.exp(k * D) - 1) / (k * v);
-          }
-          function solveK(r0, D, W, v) {
-            if (D <= 0 || W <= 0) { return 0; }
-            var lo, hi, mid, i;
-            if (flown(0, r0, D, v) >= W) {
-              /* even a flat rate spends the wave early: the root
-                 sits at k <= 0, a decaying exponential */
-              lo = -0.05; hi = 0;
-              if (flown(lo, r0, D, v) > W) { return lo; }
-              for (i = 0; i < 40; i++) { mid = (lo + hi) / 2; if (flown(mid, r0, D, v) < W) { lo = mid; } else { hi = mid; } }
-              return (lo + hi) / 2;
-            }
-            lo = 0; hi = 0.02;
-            while (flown(hi, r0, D, v) < W && hi < 1.6) { hi *= 2; }
-            for (i = 0; i < 40; i++) { mid = (lo + hi) / 2; if (flown(mid, r0, D, v) < W) { lo = mid; } else { hi = mid; } }
-            return (lo + hi) / 2;
-          }
+          var current = null;     /* the one block mid-glow, or null            */
 
           /* a block's own letters only — a letter belongs to the
              innermost block around it, exactly as the splitter
@@ -2305,14 +2191,12 @@
               letters: letters,
               waveEnd: ((count - 1) * step + GLOW_END * cyc) * 1000,
               cycleMs: cyc * 1000,
+              anims: null,
               rate: 1,
-              anchorRate: 1,
-              anchorB: 0,
-              anchorTravel: null,
-              k: 0,
-              path: 'curve',
+              hurrying: false,
+              hurryRate: 1,
               lastWIn: null,
-              anims: null
+              startY: 0           /* scrollY when this block started          */
             };
             states.set(el, st);
             return st;
@@ -2326,144 +2210,223 @@
           }
           /* every letter of a block shares one clock — same cycle
              start, the delays live in the timing model — so the
-             first letter's time inside its own round tells how
-             much of the wave is left */
-          function waveLeftMs(st) {
+             first letter's time inside its own round tells where
+             the wave stands */
+          function waveIn(st) {
             if (!st.anims || !st.anims.length) { return null; }
             var ct = st.anims[0].currentTime;
             if (ct == null) { return null; }
-            var roundStart = Math.floor(ct / st.cycleMs) * st.cycleMs;
-            return st.waveEnd - (ct - roundStart);
+            return ct - Math.floor(ct / st.cycleMs) * st.cycleMs;
           }
           function setRate(st, rate) {
-            if (Math.abs(rate - st.rate) < 0.01) { return; }
+            if (Math.abs(rate - st.rate) < 0.005) { return; }
             st.rate = rate;
-            st.el.setAttribute('data-hearth-rate', rate.toFixed(2));
+            st.el.dataset.hearthRate = rate.toFixed(2);
             if (st.anims) {
               st.anims.forEach(function (a) {
                 try { a.playbackRate = rate; } catch (e) {}
               });
             }
           }
-          function finish(st, path, r, vh) {
+          /* visibility + position facts about one block, or null
+             when it has no boxes at all (a hidden book page, or a
+             sequence slide that is not showing) */
+          function viewOf(el) {
+            if (!el.getClientRects().length) { return null; }
+            var cs = window.getComputedStyle(el);
+            if (cs.display === 'none' || cs.visibility === 'hidden') { return { hidden: true }; }
+            return { hidden: false, r: el.getBoundingClientRect() };
+          }
+          function eligible(el, vh) {
+            var v = viewOf(el);
+            if (!v || v.hidden) { return false; }
+            return v.r.top <= vh * ZONE + 1 && v.r.bottom > 0;
+          }
+          function settle(st, path) {
+            var vh = window.innerHeight;
+            var r = st.el.getBoundingClientRect();
             st.el.classList.add('hearth-done');
-            st.el.setAttribute('data-hearth-finish', path);
-            if (r) {
-              st.el.setAttribute('data-hearth-finish-bottom', (r.bottom / vh).toFixed(3));
-              st.el.setAttribute('data-hearth-finish-top', (r.top / vh).toFixed(3));
+            st.el.dataset.hearthFinish = path;
+            if (r && vh) {
+              st.el.dataset.hearthFinishBottom = (r.bottom / vh).toFixed(3);
+              st.el.dataset.hearthFinishTop = (r.top / vh).toFixed(3);
             }
             if (st.anims) {
               st.anims.forEach(function (a) {
                 try { a.playbackRate = 1; } catch (e) {}
               });
             }
+            st.rate = 1; st.hurrying = false; st.hurryRate = 1;
+            if (current === st) { current = null; }
           }
+          function release(st) {
+            /* the stage was taken away (page turn, slide change):
+               the block never finished, so it waits dark again */
+            st.el.classList.remove('hearth-on');
+            st.rate = 1; st.hurrying = false; st.hurryRate = 1;
+            st.lastWIn = null; st.anims = null;
+            if (current === st) { current = null; }
+          }
+          function startPara(st) {
+            st.el.classList.add('hearth-on');
+            st.el.dataset.hearthRate = '1.00';
+            st.anims = null; st.rate = 1;
+            st.hurrying = false; st.hurryRate = 1; st.lastWIn = null;
+            st.startY = window.scrollY || window.pageYOffset || 0;
+            current = st;
+          }
+          function engageHurry(st) {
+            var wIn = waveIn(st);
+            if (wIn === null) { return; }
+            var W = st.waveEnd - wIn;
+            if (W <= 0) { settle(st, 'natural'); return; }
+            st.hurrying = true;
+            if (W <= HURRY_MS) { st.hurryRate = 1; return; }  /* lands on its own inside the window */
+            var need = W / HURRY_MS;
+            if (need > RATE_MAX) {
+              /* glide the shared clock forward once, so what is
+                 left fits the window at the capped rate */
+              var jump = W - RATE_MAX * HURRY_MS;
+              st.anims.forEach(function (a) {
+                try { a.currentTime = (a.currentTime || 0) + jump; } catch (e) {}
+              });
+              st.lastWIn = null;
+              need = RATE_MAX;
+            }
+            st.hurryRate = need;
+          }
+
+          /* ---------- reduced motion: the old gate, unchanged ---------- */
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            var litAll = function () {
+              var vh = window.innerHeight;
+              paras.forEach(function (el) {
+                if (!el.classList.contains('hearth-on') && eligible(el, vh)) {
+                  el.classList.add('hearth-on');
+                }
+              });
+            };
+            var rmQueued = false;
+            var rmSweep = function () {
+              if (rmQueued) { return; }
+              rmQueued = true;
+              requestAnimationFrame(function () { rmQueued = false; litAll(); });
+            };
+            window.addEventListener('scroll', rmSweep, { passive: true });
+            window.addEventListener('resize', rmSweep);
+            if ('MutationObserver' in window) {
+              new MutationObserver(rmSweep).observe(document.body, {
+                attributes: true, attributeFilter: ['class', 'hidden'], subtree: true
+              });
+            }
+            litAll();
+            return;
+          }
+
+          /* ---------- the solo engine ---------- */
+          var lastFrame = null;
           function frame(now) {
             requestAnimationFrame(frame);
-            updateVelocity(now || 0);
-            var syNow = window.scrollY || window.pageYOffset || 0;
-            if (lastSY === null) { lastSY = syNow; }
-            var syDelta = syNow - lastSY;
-            lastSY = syNow;
-            if (syDelta > 0) { scrollTravel += Math.min(syDelta, TRAVEL_FRAME); }
-            var lit = document.querySelectorAll('.hearth.hearth-on:not(.hearth-done)');
-            if (!lit.length) { return; }
+            var dt = lastFrame === null ? 16 : Math.min(100, now - lastFrame);
+            lastFrame = now;
             var vh = window.innerHeight;
-            var raceLine = vh * RACE_TOP;
-            var finishLine = vh * FINISH_BOTTOM;
-            lit.forEach(function (el) {
-              var st = stateFor(el);
-              if (!st || !el.getClientRects().length) { return; }
-              var r = el.getBoundingClientRect();
-              /* refresh the animation handles if they were recreated
-                 (page turns toggle display, which restarts CSS anims) */
-              if (!st.anims || !st.anims.length || st.anims[0].playState === 'idle') {
-                st.anims = animsOf(st);
-                if (!st.anims.length) { return; }
-                st.rate = 1; st.anchorRate = 1; st.k = 0; st.path = 'curve';
-                st.anchorTravel = scrollTravel; st.anchorB = scrollTravel; st.lastWIn = null;
-              }
-              if (r.bottom <= 0) {
-                /* already gone: the round completes on the spot —
-                   it simply never leaves mid-glow */
-                var left0 = waveLeftMs(st);
-                if (left0 !== null && left0 > 0) {
+            var y = window.scrollY || window.pageYOffset || 0;
+
+            /* --- mind the playing block --- */
+            if (current) {
+              var st = current;
+              var v = viewOf(st.el);
+              if (!v || v.hidden) {
+                release(st);
+              } else if (v.r.bottom <= 0 || v.r.top >= vh) {
+                /* scrolled clean away mid-glow: settle on the spot */
+                var wIn0 = waveIn(st);
+                if (wIn0 !== null && st.waveEnd - wIn0 > 0 && st.anims) {
+                  var adv = st.waveEnd - wIn0 + 1;
                   st.anims.forEach(function (a) {
-                    try { a.currentTime = (a.currentTime || 0) + left0 + 1; } catch (e) {}
+                    try { a.currentTime = (a.currentTime || 0) + adv; } catch (e) {}
                   });
                 }
-                finish(st, 'snap', r, vh);
-                return;
-              }
-              if (r.top >= raceLine) {
-                /* eye level: exact base speed, normal cycle */
-                if (st.rate !== 1) { setRate(st, 1); }
-                st.anchorRate = 1; st.k = 0;
-                st.anchorTravel = scrollTravel; st.anchorB = scrollTravel; st.lastWIn = null;
-                return;
-              }
-              /* ---- racing ---- */
-              var ct = st.anims[0].currentTime;
-              if (ct == null) { return; }
-              var roundStart = Math.floor(ct / st.cycleMs) * st.cycleMs;
-              var wIn = ct - roundStart;
-              if (st.lastWIn !== null && wIn < st.lastWIn - st.cycleMs * 0.5) {
-                /* the clock wrapped past the round's end between
-                   frames. At racing speeds one frame can carry it
-                   clean over the narrow rest window that follows
-                   the wave, so the wrap itself is the proof the
-                   wave completed — waiting to land inside the
-                   window would restart the round instead of
-                   finishing it. */
-                finish(st, r.bottom <= SNAP_PX ? 'snap' : st.path, r, vh);
-                return;
-              }
-              var left = st.waveEnd - wIn;
-              if (left <= 0) { finish(st, st.path, r, vh); return; }
-              if (r.bottom <= SNAP_PX) {
-                /* emergency sweep: what is left of the wave plays
-                   out in a final ~150ms — a fast finish, not a cut */
-                if (left > SNAP_ANIM_MS) {
-                  var jump = left - SNAP_ANIM_MS;
-                  st.anims.forEach(function (a) {
-                    try { a.currentTime = (a.currentTime || 0) + jump; } catch (e) {}
-                  });
+                settle(st, 'offscreen');
+              } else if (!ownLetters(st.el).length) {
+                /* the block's own letters are gone (a live count
+                   rewrote its text): hand the stage back — armor
+                   for a case the counts reach before the fire does */
+                release(st);
+              } else {
+                /* refresh the animation handles if they were
+                   recreated (page turns toggle display, which
+                   restarts CSS animations) */
+                if (!st.anims || !st.anims.length || st.anims[0].playState === 'idle') {
+                  st.anims = animsOf(st);
+                  st.rate = 1; st.hurrying = false; st.hurryRate = 1; st.lastWIn = null;
                 }
-                if (st.rate !== RATE_MAX) { setRate(st, RATE_MAX); }
-                st.path = 'snap';
-                /* keep the wrap watch armed at the post-jump clock */
-                st.lastWIn = st.waveEnd - Math.min(left, SNAP_ANIM_MS);
-                return;
+                if (st.anims && st.anims.length) {
+                  var wIn = waveIn(st);
+                  if (wIn !== null) {
+                    if (st.lastWIn !== null && wIn < st.lastWIn - st.cycleMs * 0.5) {
+                      /* the shared clock wrapped past the round's
+                         end: the wave completed */
+                      settle(st, st.hurrying ? 'hurry' : 'natural');
+                    } else if (wIn >= st.waveEnd) {
+                      settle(st, st.hurrying ? 'hurry' : 'natural');
+                    } else {
+                      st.lastWIn = wIn;
+                      if (!st.hurrying) {
+                        /* displacement: the queue head has risen to
+                           mid-screen on real scroll travel since this
+                           block started — hand the stage over. Blocks
+                           with no letters of their own (the live
+                           counts) can never take the stage, so they
+                           cannot call for the hand-over either */
+                        var head = null;
+                        for (var i = 0; i < paras.length; i++) {
+                          var p = paras[i];
+                          if (p === st.el || p.classList.contains('hearth-done')) { continue; }
+                          if (!stateFor(p)) { continue; }
+                          if (eligible(p, vh)) { head = p; break; }
+                        }
+                        if (head && Math.abs(y - st.startY) >= SCROLL_EPS) {
+                          var hv = viewOf(head);
+                          if (hv && !hv.hidden && hv.r.top <= vh * MID + 1) { engageHurry(st); }
+                        }
+                      }
+                      if (st.hurrying && st.hurryRate > 1) {
+                        /* breathe the rate up toward the target —
+                           continuous, never a step */
+                        var stepUp = (RATE_MAX - 1) * (dt / RAMP_MS);
+                        setRate(st, Math.min(st.hurryRate, st.rate + stepUp));
+                      } else if (st.rate !== 1) {
+                        setRate(st, 1);
+                      }
+                    }
+                  }
+                }
               }
-              st.path = 'curve';
-              /* credited travel: the reader's own scroll, capped at
-                 TRAVEL_FRAME px per frame, so a jump scroll ramps
-                 the speed smoothly instead of stepping it */
-              if (st.anchorTravel === null) { st.anchorTravel = scrollTravel; st.anchorB = scrollTravel; }
-              /* the rate the standing law has reached after the
-                 travel credited since the anchor; re-anchoring here
-                 keeps the applied speed continuous while k below
-                 is re-solved */
-              var rNow = st.anchorRate * Math.exp(st.k * (scrollTravel - st.anchorB));
-              if (rNow < 1) { rNow = 1; }
-              if (rNow > RATE_MAX) { rNow = RATE_MAX; }
-              var D = r.bottom - finishLine;
-              /* plan against a reader a third faster than the
-                 smoothed measurement: a late finish (the end gone
-                 before the glow lands) is the failure this whole
-                 pass exists to kill, while an early one still lands
-                 mid-screen — so estimation lag is spent on the
-                 watchable side */
-              var vPlan = Math.min(velSmooth * 1.3, 3000);
-              st.k = solveK(rNow, D > 24 ? D : 24, left / 1000, vPlan);
-              st.anchorB = scrollTravel;
-              st.anchorRate = rNow;
-              setRate(st, rNow);
-              st.lastWIn = wIn;
-            });
+            }
+
+            /* --- fill an empty stage --- */
+            if (!current) {
+              for (var j = 0; j < paras.length; j++) {
+                var el = paras[j];
+                if (el.classList.contains('hearth-done')) { continue; }
+                if (eligible(el, vh)) {
+                  var nst = stateFor(el);
+                  /* a block with no letters of its own (the live
+                     counts) is skipped — the queue walks past it to
+                     the next block that can actually glow */
+                  if (nst) { startPara(nst); break; }
+                }
+              }
+            }
           }
           requestAnimationFrame(frame);
         })();
+
+
+
+
+
 
         /* Video evidence: the player is born from the reader's tap, already
            playing, so the tap lands on a live player on this page — never on
