@@ -596,6 +596,34 @@
         }
       }
 
+      /* ---------- Reading gate + finish race (added layer) ----------
+         The hearth fire no longer runs just because a block exists.
+         These rules sit AFTER the original hearth rules above and
+         override them inside the animation layer only: a block's
+         letters stay still until the reading gate (bottom script)
+         lights the block with .hearth-on, and rest for good once
+         the finish race settles it with .hearth-done. The original
+         keyframes, cycle and per-letter delays are untouched, and
+         under reduced motion none of this applies at all. */
+      @media (prefers-reduced-motion: no-preference) {
+        .book-page.active .hearth-letter, .pager .hearth-letter { animation: none; }
+        .book-page.active .turn-isaiah .bubble .hearth-letter,
+        .book-page.active .seq-seg.active .hearth-letter { animation: none; }
+        .book-page.active .hearth.hearth-on .hearth-letter,
+        .pager .hearth.hearth-on .hearth-letter {
+          animation: hearthK var(--cycle, 6s) linear infinite;
+          animation-delay: var(--d, 0s);
+        }
+        .book-page.active .turn-isaiah .bubble .hearth.hearth-on .hearth-letter,
+        .book-page.active .seq-seg.active.hearth.hearth-on .hearth-letter {
+          animation: hearthFlareK var(--cycle, 6s) linear infinite;
+          animation-delay: var(--d, 0s);
+        }
+        .seq-slide:not(.active) .hearth.hearth-on .hearth-letter { animation: none; }
+        .book-page.active .hearth.hearth-on.hearth-done .hearth-letter,
+        .pager .hearth.hearth-on.hearth-done .hearth-letter { animation: none; }
+      }
+
       /* Video evidence cards */
       .video-evidence { margin-top: 48px; }
       .video-evidence-title {
@@ -2038,11 +2066,403 @@
             var n = letters.length;
             if (!n) { return; }
             var step = Math.min(0.17, 40 / n);
+            block.classList.add('hearth');
+            block.setAttribute('data-hearth-count', String(n));
+            block.setAttribute('data-hearth-step', step.toFixed(5));
             block.style.setProperty('--cycle', (n * step + 4.8).toFixed(2) + 's');
             letters.forEach(function (sp, i) {
               sp.style.setProperty('--d', (i * step).toFixed(3) + 's');
             });
           });
+          /* the gate and the finish race below work from this list:
+             every split block, in document order, constants and all */
+          window.__theoHearthBlocks = blocks.slice();
+        })();
+
+        /* ============================================================
+           THE READING GATE — ported from the One Tree sheet (Pass 5),
+           adapted to this book. The hearth no longer starts just
+           because a block exists. Each split block waits dark until
+           its words reach the reader's eye level: the zone from the
+           top of the screen down to the line at 70% of the viewport
+           height. A block already inside that zone when its book
+           page becomes visible lights at once — top of page counts
+           as reading. One below the line waits for the scroll to
+           bring it up. The trigger is one-way: once awake, a block
+           keeps its own normal cycle for good. The wave itself is
+           untouched — same per-letter step (min(0.17s, 40s/count)),
+           same 4.8s rest — and because the CSS animation only runs
+           under .hearth-on, it begins at the block's first letter
+           at the moment of the trigger and walks to its end. Blocks
+           on a hidden book page (display:none — no layout box), or
+           inside a sequence slide that is not showing, never
+           pre-trigger: nothing lights until the words are actually
+           there to be read. Under reduced motion none of this
+           matters — the letters sit static.
+           ============================================================ */
+        (function () {
+          var hearthWatch = (window.__theoHearthBlocks || []).slice();
+          if (!hearthWatch.length) { return; }
+          var hearthIO = null;
+          function lightHearth(el) {
+            if (el.classList.contains('hearth-on')) { return true; }
+            if (!el.getClientRects().length) { return false; }
+            var cs = window.getComputedStyle(el);
+            if (cs.display === 'none' || cs.visibility === 'hidden') { return false; }
+            var r = el.getBoundingClientRect();
+            if (r.top <= window.innerHeight * 0.7 + 1) {
+              el.classList.add('hearth-on');
+              if (hearthIO) { hearthIO.unobserve(el); }
+              return true;
+            }
+            return false;
+          }
+          function sweepHearth() {
+            for (var i = hearthWatch.length - 1; i >= 0; i--) {
+              if (lightHearth(hearthWatch[i])) { hearthWatch.splice(i, 1); }
+            }
+          }
+          if ('IntersectionObserver' in window) {
+            hearthIO = new IntersectionObserver(function (entries) {
+              entries.forEach(function (en) {
+                if (en.isIntersecting) { lightHearth(en.target); }
+              });
+            }, { root: null, rootMargin: '0px 0px -30% 0px', threshold: 0 });
+            hearthWatch.slice().forEach(function (el) { hearthIO.observe(el); });
+          } else {
+            /* no observer support: fall back to the old always-on fire */
+            hearthWatch.forEach(function (el) { el.classList.add('hearth-on'); });
+            hearthWatch.length = 0;
+            return;
+          }
+          /* The sweep catches what intersection alone cannot: page
+             turns and sequence-stage changes reveal blocks that are
+             already inside the zone, and they light on arrival. */
+          var sweepQueued = false;
+          function queueSweep() {
+            if (sweepQueued) { return; }
+            sweepQueued = true;
+            requestAnimationFrame(function () { sweepQueued = false; sweepHearth(); });
+          }
+          window.addEventListener('scroll', queueSweep, { passive: true });
+          window.addEventListener('resize', queueSweep);
+          if ('MutationObserver' in window) {
+            new MutationObserver(queueSweep).observe(document.body, {
+              attributes: true, attributeFilter: ['class', 'hidden'], subtree: true
+            });
+          }
+          sweepHearth();
+        })();
+
+        /* ============================================================
+           THE FINISH RACE, v2 — Isaiah's law, ported from the One
+           Tree sheet and re-derived on THIS book's own constants:
+           the glow always finishes the paragraph before the reader
+           scrolls past it, and the reader gets to WATCH it finish.
+             · the race begins the moment a lit block's top edge
+               rises above HALFWAY up the screen;
+             · it is calibrated to land the wave's last letter at
+               the moment the block's BOTTOM reaches 44% of the
+               viewport height — the end still plainly on screen.
+           The speed is a smooth EXPONENTIAL coupled to position:
+           every tiny fraction of upward scroll makes it a little
+           faster. Each frame, for each racing block, the steepness
+           k is re-solved from that block's own remaining wave W,
+           the runway D left to the finish line, and the reader's
+           current scroll speed v (a 600ms window estimate), so
+           that a pure exponential starting at the rate the block
+           is already running,
+
+               rate(s) = r0 · e^(k·s),   ∫ rate ds / v = W  on [0, D],
+
+           spends the whole wave exactly as the bottom reaches the
+           line. The rate is re-anchored at the block's current
+           rate every frame, so the applied speed itself never
+           jumps — only its steepness breathes — and the finish
+           point stays put. Travel is credited at most 48px per
+           frame, so a jump scroll ramps the speed smoothly.
+           Planning runs against a reader a third faster than the
+           smoothed measurement (vPlan = v̂ × 1.3, capped 3000): a
+           late finish is the failure this pass exists to kill, an
+           early one still lands mid-screen. The ceiling is 64x,
+           a cap, not a stage. One frame at those speeds can carry
+           the shared clock clean over the rest window after a
+           wave, so a wrap of the clock past the round's end while
+           racing counts as the wave completing. The emergency net
+           is pure backup: a flick that throws a block's bottom
+           within 56px of leaving gets a final ~150ms sweep, and
+           one thrown clean off screen completes on the spot — it
+           never leaves mid-glow. Finishes are recorded in
+           data-hearth-finish as "curve" (the net records "snap"),
+           with finish geometry in data-hearth-finish-bottom/-top
+           as fractions of the viewport height.
+           FINISHED is one-way, like the gate: .hearth-done stops
+           the cycle for good, and because a completed wave leaves
+           every letter at its resting color (the glow is over by
+           8% of each letter's cycle), the settle is invisible;
+           scrolling back never restarts it. A block parked at eye
+           level — top still below halfway — keeps exactly 1x and
+           its normal cycle. Unlit blocks are unaffected. Under
+           reduced motion no letter animation exists to hurry.
+           THIS BOOK'S WAVE MATH: a block of n letters runs
+           step = min(0.17s, 40s/n) and cycle = n·step + 4.8s of
+           rest (set by the splitter above as --cycle and --d).
+           The last letter's glow ends at
+               waveEnd = (n−1)·step + 0.08·cycle,
+           because hearthK / hearthFlareK have fully faded by 8%
+           of the cycle — that, not the Tree's 10%, is where this
+           book's wave lands.
+           ============================================================ */
+        (function () {
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
+          var RACE_TOP = 0.50;        /* top above halfway: the race begins    */
+          var FINISH_BOTTOM = 0.44;   /* bottom at 44% vh: the wave lands      */
+          var RATE_MAX = 64;          /* the exponential's ceiling             */
+          var SNAP_PX = 56;           /* bottom this close to gone: sweep      */
+          var SNAP_ANIM_MS = 9600;    /* wave left after a snap: 9.6s of clock
+                                         at 64x ≈ a final 150ms sweep          */
+          var TRAVEL_FRAME = 48;      /* max travel credited to the law / frame.
+                                         ADAPTATION FROM THE TREE: travel is
+                                         credited from the window's own scroll
+                                         movement, never from a block's rect —
+                                         this book's page-turn entrance settles
+                                         every rect upward a few px, and layout
+                                         shift is not the reader scrolling */
+          var REST_S = 4.8;           /* this book's cycle rest, seconds        */
+          var GLOW_END = 0.08;        /* hearthK / hearthFlareK fade by 8%      */
+          var BLOCK_SEL = 'p, blockquote, h1, h2, h3, cite, .name, .bench-k, .bench-v, button, .page-count, .seq-count, .sig-attr';
+          var states = new Map();
+          var scrollTravel = 0;       /* credited upward scroll, px (<=48/frame) */
+          var lastSY = null;
+
+          /* ---- the reader's scroll speed: a 600ms window estimate ---- */
+          var velSamples = [];
+          var velSmooth = 220;        /* a reading-pace prior */
+          function updateVelocity(now) {
+            var y = window.scrollY || window.pageYOffset || 0;
+            velSamples.push([now, y]);
+            var cutoff = now - 600;
+            while (velSamples.length > 2 && velSamples[0][0] < cutoff) { velSamples.shift(); }
+            if (velSamples.length > 1) {
+              var first = velSamples[0];
+              var last = velSamples[velSamples.length - 1];
+              var dt = (last[0] - first[0]) / 1000;
+              var dy = last[1] - first[1];
+              if (dt > 0.05 && dy > 0) {
+                velSmooth = dy / dt;
+              } else if (dy <= 0) {
+                velSmooth = Math.max(60, velSmooth * 0.95);
+              }
+            }
+            if (velSmooth < 60) { velSmooth = 60; }
+            if (velSmooth > 3000) { velSmooth = 3000; }
+          }
+
+          /* ---- the exponential solve ----
+             flown(k) = the wave-seconds a pure exponential
+             r0·e^(k·s), scrolled at speed v, spends over runway D.
+             Continuous and strictly increasing in k, so bisection
+             finds the one steepness that spends exactly W. */
+          function flown(k, r0, D, v) {
+            if (Math.abs(k) < 1e-9) { return r0 * D / v; }
+            return r0 * (Math.exp(k * D) - 1) / (k * v);
+          }
+          function solveK(r0, D, W, v) {
+            if (D <= 0 || W <= 0) { return 0; }
+            var lo, hi, mid, i;
+            if (flown(0, r0, D, v) >= W) {
+              /* even a flat rate spends the wave early: the root
+                 sits at k <= 0, a decaying exponential */
+              lo = -0.05; hi = 0;
+              if (flown(lo, r0, D, v) > W) { return lo; }
+              for (i = 0; i < 40; i++) { mid = (lo + hi) / 2; if (flown(mid, r0, D, v) < W) { lo = mid; } else { hi = mid; } }
+              return (lo + hi) / 2;
+            }
+            lo = 0; hi = 0.02;
+            while (flown(hi, r0, D, v) < W && hi < 1.6) { hi *= 2; }
+            for (i = 0; i < 40; i++) { mid = (lo + hi) / 2; if (flown(mid, r0, D, v) < W) { lo = mid; } else { hi = mid; } }
+            return (lo + hi) / 2;
+          }
+
+          /* a block's own letters only — a letter belongs to the
+             innermost block around it, exactly as the splitter
+             grouped it */
+          function ownLetters(el) {
+            return Array.prototype.filter.call(el.querySelectorAll('.hearth-letter'), function (sp) {
+              return (sp.closest(BLOCK_SEL) || sp.parentNode) === el;
+            });
+          }
+          function stateFor(el) {
+            var st = states.get(el);
+            if (st) { return st; }
+            var letters = ownLetters(el);
+            var count = letters.length;
+            var cyc = parseFloat(el.style.getPropertyValue('--cycle')) || 0;
+            if (!count || !cyc) { return null; }
+            var step = (cyc - REST_S) / count;
+            st = {
+              el: el,
+              letters: letters,
+              waveEnd: ((count - 1) * step + GLOW_END * cyc) * 1000,
+              cycleMs: cyc * 1000,
+              rate: 1,
+              anchorRate: 1,
+              anchorB: 0,
+              anchorTravel: null,
+              k: 0,
+              path: 'curve',
+              lastWIn: null,
+              anims: null
+            };
+            states.set(el, st);
+            return st;
+          }
+          function animsOf(st) {
+            var out = [];
+            st.letters.forEach(function (s) {
+              s.getAnimations().forEach(function (a) { out.push(a); });
+            });
+            return out;
+          }
+          /* every letter of a block shares one clock — same cycle
+             start, the delays live in the timing model — so the
+             first letter's time inside its own round tells how
+             much of the wave is left */
+          function waveLeftMs(st) {
+            if (!st.anims || !st.anims.length) { return null; }
+            var ct = st.anims[0].currentTime;
+            if (ct == null) { return null; }
+            var roundStart = Math.floor(ct / st.cycleMs) * st.cycleMs;
+            return st.waveEnd - (ct - roundStart);
+          }
+          function setRate(st, rate) {
+            if (Math.abs(rate - st.rate) < 0.01) { return; }
+            st.rate = rate;
+            st.el.setAttribute('data-hearth-rate', rate.toFixed(2));
+            if (st.anims) {
+              st.anims.forEach(function (a) {
+                try { a.playbackRate = rate; } catch (e) {}
+              });
+            }
+          }
+          function finish(st, path, r, vh) {
+            st.el.classList.add('hearth-done');
+            st.el.setAttribute('data-hearth-finish', path);
+            if (r) {
+              st.el.setAttribute('data-hearth-finish-bottom', (r.bottom / vh).toFixed(3));
+              st.el.setAttribute('data-hearth-finish-top', (r.top / vh).toFixed(3));
+            }
+            if (st.anims) {
+              st.anims.forEach(function (a) {
+                try { a.playbackRate = 1; } catch (e) {}
+              });
+            }
+          }
+          function frame(now) {
+            requestAnimationFrame(frame);
+            updateVelocity(now || 0);
+            var syNow = window.scrollY || window.pageYOffset || 0;
+            if (lastSY === null) { lastSY = syNow; }
+            var syDelta = syNow - lastSY;
+            lastSY = syNow;
+            if (syDelta > 0) { scrollTravel += Math.min(syDelta, TRAVEL_FRAME); }
+            var lit = document.querySelectorAll('.hearth.hearth-on:not(.hearth-done)');
+            if (!lit.length) { return; }
+            var vh = window.innerHeight;
+            var raceLine = vh * RACE_TOP;
+            var finishLine = vh * FINISH_BOTTOM;
+            lit.forEach(function (el) {
+              var st = stateFor(el);
+              if (!st || !el.getClientRects().length) { return; }
+              var r = el.getBoundingClientRect();
+              /* refresh the animation handles if they were recreated
+                 (page turns toggle display, which restarts CSS anims) */
+              if (!st.anims || !st.anims.length || st.anims[0].playState === 'idle') {
+                st.anims = animsOf(st);
+                if (!st.anims.length) { return; }
+                st.rate = 1; st.anchorRate = 1; st.k = 0; st.path = 'curve';
+                st.anchorTravel = scrollTravel; st.anchorB = scrollTravel; st.lastWIn = null;
+              }
+              if (r.bottom <= 0) {
+                /* already gone: the round completes on the spot —
+                   it simply never leaves mid-glow */
+                var left0 = waveLeftMs(st);
+                if (left0 !== null && left0 > 0) {
+                  st.anims.forEach(function (a) {
+                    try { a.currentTime = (a.currentTime || 0) + left0 + 1; } catch (e) {}
+                  });
+                }
+                finish(st, 'snap', r, vh);
+                return;
+              }
+              if (r.top >= raceLine) {
+                /* eye level: exact base speed, normal cycle */
+                if (st.rate !== 1) { setRate(st, 1); }
+                st.anchorRate = 1; st.k = 0;
+                st.anchorTravel = scrollTravel; st.anchorB = scrollTravel; st.lastWIn = null;
+                return;
+              }
+              /* ---- racing ---- */
+              var ct = st.anims[0].currentTime;
+              if (ct == null) { return; }
+              var roundStart = Math.floor(ct / st.cycleMs) * st.cycleMs;
+              var wIn = ct - roundStart;
+              if (st.lastWIn !== null && wIn < st.lastWIn - st.cycleMs * 0.5) {
+                /* the clock wrapped past the round's end between
+                   frames. At racing speeds one frame can carry it
+                   clean over the narrow rest window that follows
+                   the wave, so the wrap itself is the proof the
+                   wave completed — waiting to land inside the
+                   window would restart the round instead of
+                   finishing it. */
+                finish(st, r.bottom <= SNAP_PX ? 'snap' : st.path, r, vh);
+                return;
+              }
+              var left = st.waveEnd - wIn;
+              if (left <= 0) { finish(st, st.path, r, vh); return; }
+              if (r.bottom <= SNAP_PX) {
+                /* emergency sweep: what is left of the wave plays
+                   out in a final ~150ms — a fast finish, not a cut */
+                if (left > SNAP_ANIM_MS) {
+                  var jump = left - SNAP_ANIM_MS;
+                  st.anims.forEach(function (a) {
+                    try { a.currentTime = (a.currentTime || 0) + jump; } catch (e) {}
+                  });
+                }
+                if (st.rate !== RATE_MAX) { setRate(st, RATE_MAX); }
+                st.path = 'snap';
+                /* keep the wrap watch armed at the post-jump clock */
+                st.lastWIn = st.waveEnd - Math.min(left, SNAP_ANIM_MS);
+                return;
+              }
+              st.path = 'curve';
+              /* credited travel: the reader's own scroll, capped at
+                 TRAVEL_FRAME px per frame, so a jump scroll ramps
+                 the speed smoothly instead of stepping it */
+              if (st.anchorTravel === null) { st.anchorTravel = scrollTravel; st.anchorB = scrollTravel; }
+              /* the rate the standing law has reached after the
+                 travel credited since the anchor; re-anchoring here
+                 keeps the applied speed continuous while k below
+                 is re-solved */
+              var rNow = st.anchorRate * Math.exp(st.k * (scrollTravel - st.anchorB));
+              if (rNow < 1) { rNow = 1; }
+              if (rNow > RATE_MAX) { rNow = RATE_MAX; }
+              var D = r.bottom - finishLine;
+              /* plan against a reader a third faster than the
+                 smoothed measurement: a late finish (the end gone
+                 before the glow lands) is the failure this whole
+                 pass exists to kill, while an early one still lands
+                 mid-screen — so estimation lag is spent on the
+                 watchable side */
+              var vPlan = Math.min(velSmooth * 1.3, 3000);
+              st.k = solveK(rNow, D > 24 ? D : 24, left / 1000, vPlan);
+              st.anchorB = scrollTravel;
+              st.anchorRate = rNow;
+              setRate(st, rNow);
+              st.lastWIn = wIn;
+            });
+          }
+          requestAnimationFrame(frame);
         })();
 
         /* Video evidence: the player is born from the reader's tap, already
