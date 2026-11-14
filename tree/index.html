@@ -2633,51 +2633,127 @@
     })();
 
     /* ============================================================
-       THE FINISH RACE — Isaiah's law: the glow always finishes
-       the paragraph before the reader scrolls past it. A lit
-       paragraph that keeps travelling up enters the HURRY ZONE
-       when its top edge rises above the line at 87.5% of the
-       viewport height measured from the bottom — the top 12.5%
-       of the screen, inside his 85-90% band. There its letters
-       are hurried at an EXPONENTIAL rate,
+       THE FINISH RACE, v2 — Isaiah's law: the glow always
+       finishes the paragraph before the reader scrolls past it,
+       and the reader gets to WATCH it finish. His live phone
+       test of v1 is the verdict this answers: v1 waited until a
+       paragraph was already in the top sliver before hurrying,
+       so for the long paragraphs the words "were up off screen
+       already" by the time the glow completed. So the race now
+       starts EARLY and aims at the paragraph's END:
+         · it begins the moment a lit paragraph's top edge rises
+           above HALFWAY up the screen;
+         · it is calibrated to land the wave's last letter at
+           the moment the paragraph's BOTTOM reaches 44% of the
+           viewport height — the middle band, the end still
+           plainly on screen, the last sentence lit where the
+           reader can watch it happen. (The line sits a touch
+           above the band's centre on purpose: a reader who
+           starts scrolling from rest accelerates into the race,
+           and the allowance keeps the landing inside the band.)
+       The speed is a smooth EXPONENTIAL coupled to position:
+       every tiny fraction of upward scroll makes it a little
+       faster, no steps, no thresholds inside the race. The law
+       is a receding-horizon exponential — each frame, for each
+       racing paragraph, the steepness k is re-solved from that
+       paragraph's own remaining wave W, the runway D left to
+       the finish line, and the reader's current scroll speed v
+       (a 600ms window estimate), so that a pure exponential
+       starting at the rate the paragraph is already running,
 
-           rate = 16 ^ p
+           rate(s) = r0 · e^(k·s),   ∫ rate ds / v = W  on [0, D],
 
-       where p is the paragraph's exit progress: 0 at the hurry
-       line, 1 when its bottom would leave the top of the screen.
-       At the zone's edge the rate is 1x; a quarter out it is 2x;
-       halfway, 4x; three quarters, 8x; at the very edge of gone,
-       the 16x cap — the curve steepens as the paragraph leaves,
-       chasing the scroll. The rate drives every letter animation
-       of the paragraph uniformly (WAAPI playbackRate), so the
-       wave keeps its shape and simply runs faster.
-       A safety net guards fast flick-scrolls: once a paragraph's
-       bottom comes within 10% of the viewport height from the
-       top it is driven straight to the cap, and once within
-       56px of leaving, its clock is advanced so the remaining
-       wave fits inside a final ~150ms sweep — a fast finish,
-       never a cut. If a paragraph is somehow already gone with
-       its wave unfinished, the round is completed on the spot
-       (it is off-screen; it simply never leaves mid-glow).
-       When the wave completes inside the zone, the paragraph is
-       FINISHED: .hearth-done stops its cycle for good — and
-       because a completed wave leaves every letter back at its
-       resting color, the settle is invisible. One-way, like the
-       gate: scrolling back never restarts a finished paragraph.
-       A paragraph parked at eye level never hurries — its rate
-       stays exactly 1x, the base constants untouched — and if
-       it never enters the zone it keeps its normal cycle.
-       Unlit paragraphs are unaffected. Under reduced motion no
-       letter animation exists, so there is nothing to hurry.
+       spends the whole wave exactly as the bottom reaches the
+       line. The rate is re-anchored at the paragraph's current
+       rate every frame, so the applied speed itself never
+       jumps — only its steepness breathes as the reader speeds
+       up or slows down, and the finish point stays put. Travel
+       is credited at most 48px per frame, so even a jump scroll
+       ramps the speed smoothly instead of stepping it.
+       A paragraph whose wave is long for its runway pushes the
+       exponential against the 64x ceiling; the ceiling is a
+       cap, not a stage — when it binds, the finish lands as
+       early as the math allows, still on screen, still a sweep
+       the eye can follow. And because one frame at those speeds
+       can carry the shared clock clean over the narrow rest
+       window after a wave, a wrap of the clock past the round's
+       end counts as the wave completing — the finish never
+       depends on landing inside the window. The v1 emergency net remains as pure
+       backup: a flick that throws a paragraph's bottom within
+       56px of leaving gets a final ~150ms sweep, and one thrown
+       clean off screen completes on the spot — it never leaves
+       mid-glow. In a reading scroll neither fires: the curve
+       delivers the finish, recorded in data-hearth-finish as
+       "curve" (the net records "snap"), with the finish
+       geometry kept in data-hearth-finish-bottom / -top as
+       fractions of the viewport height.
+       FINISHED is one-way, like the gate: .hearth-done stops
+       the cycle for good, and because a completed wave leaves
+       every letter at its resting color, the settle is
+       invisible; scrolling back never restarts it. A paragraph
+       parked at eye level — top still below halfway — keeps
+       exactly 1x and its normal cycle. Unlit paragraphs are
+       unaffected. Under reduced motion no letter animation
+       exists, so there is nothing to hurry.
        ============================================================ */
     (function(){
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      var HURRY_TOP = 0.125;   /* top edge above the 87.5%-from-bottom line */
-      var CAP_LINE  = 0.10;    /* bottom within 10% vh of the top -> cap   */
-      var SNAP_PX   = 56;      /* bottom this close to gone -> final sweep */
-      var RATE_MAX  = 16;      /* exponential cap                          */
-      var SNAP_ANIM_MS = 2400; /* wave left after a snap: 2.4s at 16x      */
+      var RACE_TOP = 0.50;        /* top above halfway: the race begins    */
+      var FINISH_BOTTOM = 0.44;   /* bottom at 44% vh: the wave lands      */
+      var RATE_MAX = 64;          /* the exponential's ceiling             */
+      var SNAP_PX = 56;           /* bottom this close to gone: sweep      */
+      var SNAP_ANIM_MS = 9600;    /* wave left after a snap: 9.6s at 64x   */
+      var TRAVEL_FRAME = 48;      /* max travel credited to the law / frame */
       var states = new Map();
+
+      /* ---- the reader's scroll speed: a 600ms window estimate ---- */
+      var velSamples = [];
+      var velSmooth = 220;        /* a reading-pace prior */
+      function updateVelocity(now){
+        var y = window.scrollY || window.pageYOffset || 0;
+        velSamples.push([now, y]);
+        var cutoff = now - 600;
+        while (velSamples.length > 2 && velSamples[0][0] < cutoff) velSamples.shift();
+        if (velSamples.length > 1){
+          var first = velSamples[0];
+          var last = velSamples[velSamples.length - 1];
+          var dt = (last[0] - first[0]) / 1000;
+          var dy = last[1] - first[1];
+          if (dt > 0.05 && dy > 0){
+            velSmooth = dy / dt;
+          } else if (dy <= 0){
+            velSmooth = Math.max(60, velSmooth * 0.95);
+          }
+        }
+        if (velSmooth < 60) velSmooth = 60;
+        if (velSmooth > 3000) velSmooth = 3000;
+      }
+
+      /* ---- the exponential solve ----
+         flown(k) = the wave-seconds a pure exponential
+         r0·e^(k·s), scrolled at speed v, spends over runway D.
+         Continuous and strictly increasing in k, so bisection
+         finds the one steepness that spends exactly W. */
+      function flown(k, r0, D, v){
+        if (Math.abs(k) < 1e-9) return r0 * D / v;
+        return r0 * (Math.exp(k * D) - 1) / (k * v);
+      }
+      function solveK(r0, D, W, v){
+        if (D <= 0 || W <= 0) return 0;
+        var lo, hi, mid, i;
+        if (flown(0, r0, D, v) >= W){
+          /* even a flat rate spends the wave early: the root
+             sits at k <= 0, a decaying exponential */
+          lo = -0.05; hi = 0;
+          if (flown(lo, r0, D, v) > W) return lo;
+          for (i = 0; i < 40; i++){ mid = (lo + hi) / 2; if (flown(mid, r0, D, v) < W) lo = mid; else hi = mid; }
+          return (lo + hi) / 2;
+        }
+        lo = 0; hi = 0.02;
+        while (flown(hi, r0, D, v) < W && hi < 1.6) hi *= 2;
+        for (i = 0; i < 40; i++){ mid = (lo + hi) / 2; if (flown(mid, r0, D, v) < W) lo = mid; else hi = mid; }
+        return (lo + hi) / 2;
+      }
 
       function stateFor(el){
         var st = states.get(el);
@@ -2691,7 +2767,12 @@
           waveEnd: ((count - 1) * step + 0.10 * cyc) * 1000,
           cycleMs: cyc * 1000,
           rate: 1,
+          anchorRate: 1,
+          anchorB: 0,
+          travelB: null,
+          k: 0,
           path: "curve",
+          lastWIn: null,
           anims: null
         };
         states.set(el, st);
@@ -2704,14 +2785,16 @@
         });
         return out;
       }
-      /* every letter of a paragraph shares one clock — same start,
-         the delays live in the timing model — so the first letter's
-         animation tells the paragraph's time within its cycle */
-      function waveDone(st){
-        if (!st.anims || !st.anims.length) return false;
+      /* every letter of a paragraph shares one clock — same
+         start, the delays live in the timing model — so the
+         first letter's time inside its own round tells how
+         much of the wave is left */
+      function waveLeftMs(st){
+        if (!st.anims || !st.anims.length) return null;
         var ct = st.anims[0].currentTime;
-        if (ct == null) return false;
-        return (ct % st.cycleMs) >= st.waveEnd - 1;
+        if (ct == null) return null;
+        var roundStart = Math.floor(ct / st.cycleMs) * st.cycleMs;
+        return st.waveEnd - (ct - roundStart);
       }
       function setRate(st, rate){
         if (Math.abs(rate - st.rate) < 0.01) return;
@@ -2721,19 +2804,25 @@
           try { a.playbackRate = rate; } catch (e) {}
         });
       }
-      function finish(st, path){
+      function finish(st, path, r, vh){
         st.el.classList.add("hearth-done");
         st.el.dataset.hearthFinish = path;
+        if (r){
+          st.el.dataset.hearthFinishBottom = (r.bottom / vh).toFixed(3);
+          st.el.dataset.hearthFinishTop = (r.top / vh).toFixed(3);
+        }
         if (st.anims) st.anims.forEach(function(a){
           try { a.playbackRate = 1; } catch (e) {}
         });
       }
-      function frame(){
+      function frame(now){
         requestAnimationFrame(frame);
+        updateVelocity(now || 0);
         var lit = document.querySelectorAll(".hearth.hearth-on:not(.hearth-done)");
         if (!lit.length) return;
         var vh = window.innerHeight;
-        var hurryLine = vh * HURRY_TOP;
+        var raceLine = vh * RACE_TOP;
+        var finishLine = vh * FINISH_BOTTOM;
         lit.forEach(function(el){
           var st = stateFor(el);
           if (!st || !el.getClientRects().length) return;
@@ -2743,48 +2832,90 @@
           if (!st.anims || !st.anims.length || st.anims[0].playState === "idle"){
             st.anims = animsOf(el);
             if (!st.anims.length) return;
+            st.rate = 1; st.anchorRate = 1; st.k = 0; st.path = "curve";
+            st.travelB = r.bottom; st.anchorB = r.bottom; st.lastWIn = null;
           }
           if (r.bottom <= 0){
-            /* already gone: the round completes on the spot */
-            if (!waveDone(st)){
-              var ct0 = st.anims[0].currentTime || 0;
-              var jump0 = (st.waveEnd + 1) - (ct0 % st.cycleMs);
+            /* already gone: the round completes on the spot —
+               it simply never leaves mid-glow */
+            var left0 = waveLeftMs(st);
+            if (left0 !== null && left0 > 0){
               st.anims.forEach(function(a){
-                try { a.currentTime = (a.currentTime || 0) + jump0; } catch (e) {}
+                try { a.currentTime = (a.currentTime || 0) + left0 + 1; } catch (e) {}
               });
             }
-            finish(st, "snap");
+            finish(st, "snap", r, vh);
             return;
           }
-          var p = 0;
-          if (r.top < hurryLine){
-            p = (hurryLine - r.top) / (hurryLine + r.height);
-            if (p > 1) p = 1;
-          }
-          if (p <= 0){
+          if (r.top >= raceLine){
             /* eye level: exact base speed, normal cycle */
             if (st.rate !== 1) setRate(st, 1);
+            st.anchorRate = 1; st.k = 0;
+            st.travelB = r.bottom; st.anchorB = r.bottom; st.lastWIn = null;
             return;
           }
-          /* inside the hurry zone */
-          if (waveDone(st)){ finish(st, st.path); return; }
-          var rate = Math.pow(RATE_MAX, p);
-          var path = "curve";
-          if (r.bottom <= vh * CAP_LINE){ rate = RATE_MAX; path = "cap"; }
+          /* ---- racing ---- */
+          var ct = st.anims[0].currentTime;
+          if (ct == null) return;
+          var roundStart = Math.floor(ct / st.cycleMs) * st.cycleMs;
+          var wIn = ct - roundStart;
+          if (st.lastWIn !== null && wIn < st.lastWIn - st.cycleMs * 0.5){
+            /* the clock wrapped past the round's end between
+               frames. At racing speeds one frame can carry it
+               clean over the narrow rest window that follows
+               the wave (under a second of clock for the longest
+               paragraphs), so the wrap itself is the proof the
+               wave completed — waiting to land inside the window
+               would restart the round instead of finishing it. */
+            finish(st, r.bottom <= SNAP_PX ? "snap" : st.path, r, vh);
+            return;
+          }
+          var left = st.waveEnd - wIn;
+          if (left <= 0){ finish(st, st.path, r, vh); return; }
           if (r.bottom <= SNAP_PX){
-            var ct = st.anims[0].currentTime || 0;
-            var remaining = st.waveEnd - (ct % st.cycleMs);
-            if (remaining > SNAP_ANIM_MS){
-              var jump = remaining - SNAP_ANIM_MS;
+            /* emergency sweep: what is left of the wave plays
+               out in a final ~150ms — a fast finish, not a cut */
+            if (left > SNAP_ANIM_MS){
+              var jump = left - SNAP_ANIM_MS;
               st.anims.forEach(function(a){
                 try { a.currentTime = (a.currentTime || 0) + jump; } catch (e) {}
               });
             }
-            rate = RATE_MAX;
-            path = "snap";
+            if (st.rate !== RATE_MAX) setRate(st, RATE_MAX);
+            st.path = "snap";
+            /* keep the wrap watch armed at the post-jump clock */
+            st.lastWIn = st.waveEnd - Math.min(left, SNAP_ANIM_MS);
+            return;
           }
-          st.path = path;
-          setRate(st, rate);
+          st.path = "curve";
+          /* credited travel: the law's processed position chases
+             the paragraph's real bottom at most TRAVEL_FRAME px
+             per frame, so a jump scroll ramps the speed smoothly
+             instead of stepping it */
+          if (st.travelB === null) st.travelB = r.bottom;
+          var gap = st.travelB - r.bottom;
+          if (gap > TRAVEL_FRAME) st.travelB = r.bottom + TRAVEL_FRAME;
+          else if (gap < -TRAVEL_FRAME) st.travelB = r.bottom - TRAVEL_FRAME;
+          else st.travelB = r.bottom;
+          /* the rate the standing law has reached at the
+             processed position; re-anchoring here keeps the
+             applied speed continuous while k below is re-solved */
+          var rNow = st.anchorRate * Math.exp(st.k * (st.anchorB - st.travelB));
+          if (rNow < 1) rNow = 1;
+          if (rNow > RATE_MAX) rNow = RATE_MAX;
+          var D = r.bottom - finishLine;
+          /* plan against a reader a third faster than the
+             smoothed measurement: a late finish (the end gone
+             before the glow lands) is the failure this whole
+             pass exists to kill, while an early one still lands
+             mid-screen — so estimation lag is spent on the
+             watchable side */
+          var vPlan = Math.min(velSmooth * 1.3, 3000);
+          st.k = solveK(rNow, D > 24 ? D : 24, left / 1000, vPlan);
+          st.anchorB = st.travelB;
+          st.anchorRate = rNow;
+          setRate(st, rNow);
+          st.lastWIn = wIn;
         });
       }
       requestAnimationFrame(frame);
