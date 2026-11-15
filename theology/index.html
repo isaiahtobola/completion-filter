@@ -1110,7 +1110,17 @@
         @keyframes pagePrev { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: none; } }
       }
     </style>
-  </head>
+  <style>
+/* Riding glow (Nov 15, ported from the main site): glide a mouse,
+   pen or finger across the text and the letter under it flares to
+   the hearth's own peak gold for a moment, then cools. It rides ON
+   TOP of the solo hearth — the hearth's queue, pacing and keyframes
+   are untouched; .on is a separate, pointer-lit state, and the
+   !important lets the flare show even mid-animation. */
+.hearth-letter{transition:color .9s ease, text-shadow .9s ease}
+.hearth-letter.on{color:#fff3c4 !important; text-shadow:0 0 4px rgba(255,209,102,.95), 0 0 12px rgba(240,183,63,.75), 0 0 24px rgba(240,140,40,.45) !important; transition-duration:.08s}
+</style>
+</head>
   <body>
     <main class="page">
 
@@ -2521,5 +2531,32 @@
         });
       })();
     </script>
-  </body>
+  <script>
+/* Riding glow — the main site's Living Text trail, ported Nov 15.
+   This book's hearth splitter already wrapped every letter; this
+   layer only listens. Whichever letter sits under the pointer —
+   mouse, pen or finger — catches the hearth-gold for 1.1 seconds,
+   then cools. Touch hit-tests are throttled so scrolling and page
+   swipes stay smooth. The solo hearth itself is untouched. */
+(function(){
+  var SEL = '.hearth-letter';
+  function light(ch){
+    if(!ch) return;
+    ch.classList.add('on');
+    if(ch._coolT) clearTimeout(ch._coolT);
+    ch._coolT = setTimeout(function(){ ch.classList.remove('on'); }, 1100);
+  }
+  var lastCh = null, lastHit = 0;
+  document.addEventListener('pointermove', function(e){
+    var now = Date.now();
+    if(e.pointerType === 'touch' && now - lastHit < 50) return;
+    lastHit = now;
+    var t = document.elementFromPoint(e.clientX, e.clientY);
+    var ch = (t && typeof t.closest === 'function') ? t.closest(SEL) : null;
+    if(ch && ch !== lastCh) light(ch);
+    lastCh = ch;
+  }, {passive:true});
+})();
+</script>
+</body>
 </html>

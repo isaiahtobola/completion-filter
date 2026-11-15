@@ -981,6 +981,16 @@
   body[data-theme="xmas"] .bnav-menu a{color:#ffefe0}
   body[data-theme="xmas"] .bnav-menu a:hover{background:#12331e; color:#ff5a4d}
 </style>
+<style>
+/* Riding glow (Nov 15, ported from the main site's Living Text):
+   every letter is wrapped once (below), and the letter under a
+   mouse, pen or finger catches the page's own light for a moment,
+   then cools. Colors come from this page's own palette variables,
+   so the glow follows the season like everything else here. */
+.hl-w{white-space:nowrap}
+.hl-ch{transition:color .9s ease, text-shadow .9s ease}
+.hl-ch.on{color:var(--yellow, #ffd166); text-shadow:0 0 12px var(--gold, rgba(240,183,63,.8)); transition-duration:.08s}
+</style>
 </head>
 <body>
 
@@ -3057,6 +3067,93 @@ What we see, feel, touch, smell, hear — all of it is brain signals. All humans
   document.addEventListener('click', function(e){
     if(!e.target.closest('.bnav')){ menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
   });
+})();
+</script>
+<script>
+/* Riding glow — the main site's Living Text, ported Nov 15. Text
+   is split into letter spans once (words kept whole so lines wrap
+   exactly as before), and the letter under a mouse, pen or finger
+   lights for 1.1 seconds, then cools. Text rendered later is split
+   by the watcher. Touch hit-tests are throttled so a scroll stays
+   smooth. Nothing else on the page changes. */
+(function(){
+  var SKIP = 'script, style, noscript, textarea, input, select, svg, canvas, iframe, video, pre, code, [contenteditable], .hl-w, .hl-ch';
+  function litSkip(node){
+    var p = node.parentNode;
+    if(!p || typeof p.closest !== 'function') return true;
+    return !!p.closest(SKIP);
+  }
+  function splitTextNode(node){
+    if(litSkip(node)) return;
+    var parent = node.parentNode;
+    var text = node.nodeValue;
+    if(!text || !text.trim()) return;
+    var frag = document.createDocumentFragment();
+    text.split(/(\s+)/).forEach(function(part){
+      if(!part) return;
+      if(/^\s+$/.test(part)){ frag.appendChild(document.createTextNode(part)); return; }
+      var w = document.createElement('span'); w.className = 'hl-w';
+      for(var i = 0; i < part.length; i++){
+        var c = document.createElement('span'); c.className = 'hl-ch'; c.textContent = part[i];
+        w.appendChild(c);
+      }
+      frag.appendChild(w);
+    });
+    /* a bare text node inside a flex/grid row counts as ONE item —
+       wrap the whole run in one span so the row keeps its shape */
+    var disp = '';
+    try{ disp = getComputedStyle(parent).display; }catch(e){}
+    if(/flex|grid/.test(disp)){
+      var wrap = document.createElement('span'); wrap.className = 'hl-wrap';
+      wrap.appendChild(frag); parent.replaceChild(wrap, node);
+    } else {
+      parent.replaceChild(frag, node);
+    }
+  }
+  function splitDeep(root){
+    if(!root || !root.querySelector) return;
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(n){
+        if(!n.nodeValue || !n.nodeValue.trim() || litSkip(n)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodes = [];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(splitTextNode);
+  }
+  function lightLetter(ch){
+    if(!ch) return;
+    ch.classList.add('on');
+    if(ch._coolT) clearTimeout(ch._coolT);
+    ch._coolT = setTimeout(function(){ ch.classList.remove('on'); }, 1100);
+  }
+  var SCOPE = 'body';
+  function splitScopes(){
+    document.querySelectorAll(SCOPE).forEach(function(el){ splitDeep(el); });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', splitScopes);
+  else splitScopes();
+  if('MutationObserver' in window && document.body){
+    var mo = new MutationObserver(function(muts){
+      muts.forEach(function(m){
+        m.addedNodes.forEach(function(n){
+          if(n.nodeType === 1 && typeof n.closest === 'function' && n.closest(SCOPE) && !n.closest('.hl-w')) splitDeep(n);
+        });
+      });
+    });
+    mo.observe(document.body, {childList:true, subtree:true});
+  }
+  var lastCh = null, lastHit = 0;
+  document.addEventListener('pointermove', function(e){
+    var now = Date.now();
+    if(e.pointerType === 'touch' && now - lastHit < 50) return;
+    lastHit = now;
+    var t = document.elementFromPoint(e.clientX, e.clientY);
+    var ch = (t && typeof t.closest === 'function') ? t.closest('.hl-ch') : null;
+    if(ch && ch !== lastCh) lightLetter(ch);
+    lastCh = ch;
+  }, {passive:true});
 })();
 </script>
 </body>
