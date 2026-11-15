@@ -640,7 +640,14 @@
     .grid{grid-template-columns:1fr; grid-template-rows:none; gap:46px; grid-template-areas:"tyson" "save" "tesla" "facts" "amy" "kid" "lazar" "mid" "sleep" "sketch" "scientists" "cave"}
     .board{padding:28px 16px 20px; min-height:0}
     .modal{padding:24px 19px 20px}
-    .slabel{font-size:9.5px; white-space:nowrap; max-width:none; padding:3px 7px}
+    /* Mobile fit (Nov 15, his phone check): string labels are
+       centered on their rope's midpoint and could not wrap, so
+       the long ones (418px at this size) hung off the board's
+       right edge and their tails were cut off. They now cap at
+       a phone-fitting width and wrap to a second line; the
+       placement code reads each label's live size, so it
+       re-centers and re-lifts them on its own. */
+    .slabel{font-size:9.5px; white-space:normal; max-width:min(300px, calc(100vw - 24px)); padding:3px 7px}
     #card-tyson{--tilt:-1.2deg} #card-tesla{--tilt:1deg} #card-facts{--tilt:-.9deg}
     #card-amy{--tilt:1.1deg} #card-kid{--tilt:-1.3deg} #card-save{--tilt:1.2deg} #card-scientists{--tilt:-1deg}
     #card-lazar{--tilt:.9deg} #card-sleep{--tilt:-1.15deg} #card-sketch{--tilt:1.1deg}

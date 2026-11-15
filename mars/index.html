@@ -1140,6 +1140,23 @@
    !important lets the flare show even mid-animation. */
 .hearth-ch{transition:color .9s ease, text-shadow .9s ease}
 .hearth-ch.on{color:#fff3c4 !important; text-shadow:0 0 4px rgba(255,209,102,.95), 0 0 12px rgba(240,183,63,.75), 0 0 24px rgba(240,140,40,.45) !important; transition-duration:.08s}
+/* Mobile fit (Nov 15, his phone check): two clashes at phone
+   width. (1) The fixed side arrows float mid-screen over the
+   text column — at 390px there is no side margin for them, so
+   they covered the first letters of lines and quote
+   attributions; on phones they step aside, and every page
+   still ends with its in-flow pager (Prev / page count /
+   Next). Desktop keeps the arrows. (2) Long page labels
+   (.label) are one flex row of hearth letters that cannot
+   wrap: "Lux — Before the Conversation" ran to x=634 on a
+   390px screen, its tail cut off — and the overflow stretched
+   the page's measured width, which pushed the next side-arrow
+   off-screen entirely. Labels now wrap to a second line. */
+@media (max-width: 719px) {
+  .side-arrow { display: none; }
+  .label { flex-wrap: wrap; row-gap: 3px; }
+  .label::after { min-width: 36px; }
+}
 </style>
 </head>
   <body>
