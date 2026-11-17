@@ -829,6 +829,25 @@
         color: var(--gold);
       }
 
+      /* Fractal reflection — Isaiah's line on the front page */
+      .fractal-note {
+        text-align: center;
+        max-width: 900px;
+        margin: 0 auto 50px;
+        padding: 6px 12px 2px;
+      }
+      .fractal-note blockquote {
+        margin: 0;
+        font-size: clamp(1.18rem, 4vw, 1.5rem);
+        font-style: italic;
+        font-weight: 400;
+        line-height: 1.65;
+        color: var(--text);
+      }
+      .fractal-note blockquote::before { content: "“"; color: var(--gold); }
+      .fractal-note blockquote::after { content: "”"; color: var(--gold); }
+      .fractal-note .sig-attr { margin-top: 16px; }
+
       /* From the Bench — measured numbers under each demonstration */
       .bench {
         margin-top: 28px;
@@ -1119,16 +1138,6 @@
    !important lets the flare show even mid-animation. */
 .hearth-letter{transition:color .9s ease, text-shadow .9s ease}
 .hearth-letter.on{color:#fff3c4 !important; text-shadow:0 0 4px rgba(255,209,102,.95), 0 0 12px rgba(240,183,63,.75), 0 0 24px rgba(240,140,40,.45) !important; transition-duration:.08s}
-/* Mobile fit (Nov 15, his phone check): the fixed side arrows
-   float mid-screen over the text column on phones — at 390px
-   there is no side margin for them to sit in, so they covered
-   the first letters of lines and quote attributions (the "I" of
-   an ISAIAH attribution sat under the prev arrow). On phones
-   the arrows step aside; every page still ends with its in-flow
-   pager (Prev / page count / Next). Desktop keeps the arrows. */
-@media (max-width: 719px) {
-  .side-arrow { display: none; }
-}
 </style>
 </head>
   <body>
@@ -1143,6 +1152,11 @@
 
       <div class="sig-quote">
         <blockquote>Science tells us more about god than religion</blockquote>
+        <p class="sig-attr">— Isaiah Tobola (BW Young Bo)</p>
+      </div>
+
+      <div class="fractal-note">
+        <blockquote>Could it be that God is consciousness and inner present in all Layers of the fractals of life, part of our creator split into all of us as a way to continue creation and energy? Is it possible that The fractions of God all stem from One whole and that each branch and leaf of the trees of reality are just the universe experiencing itself? The Micro world, Earth World, and the Macro world share energy and electricity. Maybe the shape of lightning and trees is not only a clue but also the embodiment of God&rsquo;s fractionalization in shape or symbol -</blockquote>
         <p class="sig-attr">— Isaiah Tobola (BW Young Bo)</p>
       </div>
 
@@ -2091,6 +2105,14 @@
             var n = letters.length;
             if (!n) { return; }
             var step = Math.min(0.202, 10.6 / n);
+            /* The fractal reflection on the front page is a long quote:
+               the 10.6s sweep cap squeezed its 448 letters to ~0.024s
+               apiece — eight times faster than the signature quote
+               above it, whose letters step at the full 0.202s. At
+               Isaiah's word it keeps the same per-letter pace as the
+               other quotes (0.202s), so its wave crosses at reading
+               speed and simply takes as long as the quote takes. */
+            if (block.closest && block.closest('.fractal-note')) { step = 0.202; }
             block.classList.add('hearth');
             block.setAttribute('data-hearth-count', String(n));
             block.setAttribute('data-hearth-step', step.toFixed(5));
