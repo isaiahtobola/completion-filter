@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:,">
+<title>The Number 7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#150d20; --panel:#1f1433; --panel2:#251a3d; --gold:#f0b73f; --yellow:#ffd166; --cream:#f7ead1; --muted:#cbb8d6; --line:rgba(240,183,63,.28);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--cream);font-family:"Spectral",Georgia,serif;line-height:1.6;overflow-x:hidden}
+a{color:var(--yellow)}
+button{min-height:44px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 64px}
+.hero{padding:56px 0 28px;text-align:center;border-bottom:1px solid var(--line)}
+.back-sea{display:inline-block;margin:0 0 20px;padding:9px 18px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--gold);text-decoration:none;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase}
+.back-sea:hover{background:var(--panel2);color:var(--yellow)}
+.kicker{letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-size:.78rem;font-weight:700}
+.hero-num{font-family:"Cinzel",serif;font-size:clamp(7rem,22vw,13rem);line-height:.9;color:var(--gold);text-shadow:0 0 60px rgba(240,183,63,.35);margin:6px 0 0}
+.hero h1{font-family:"Cinzel",serif;font-size:clamp(1.9rem,5vw,3.2rem);margin:10px 0 8px;letter-spacing:.04em;color:var(--cream)}
+.hero p{max-width:640px;margin:0 auto;color:var(--muted);font-size:1.08rem}
+.hero p strong{color:var(--yellow)}
+.rule{width:72px;height:2px;background:var(--gold);margin:26px auto 0;opacity:.9}
+
+/* book pages */
+.page{display:none}
+.page.active{display:block;animation:pageIn .35s ease}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.page .section{margin-top:0}
+.book-nav{padding:22px 0 0}
+.book-label{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;text-align:center}
+.page-indicator{text-align:center;font-family:"Cinzel",serif;color:var(--cream);font-size:1rem;margin:6px 0 4px}
+.page-indicator span{color:var(--muted);font-family:"Spectral",Georgia,serif;font-size:.92rem}
+.page-tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 0;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.page-tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:8px 13px;cursor:pointer;font-family:inherit;font-size:.88rem;line-height:1.2}
+.page-tab b{font-family:"Cinzel",serif;color:var(--gold);font-weight:700;margin-right:5px}
+.page-tab.active{background:var(--gold);color:#1a0f05;font-weight:700;border-color:var(--gold)}
+.page-tab.active b{color:#1a0f05}
+.begin-row{margin-top:28px;text-align:center}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:34px;padding-top:20px;border-top:1px solid var(--line)}
+.pager-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:transparent;color:var(--cream);border:1px solid var(--line);font-family:"Cinzel",serif;font-weight:700;letter-spacing:.03em;padding:12px 18px;border-radius:999px;cursor:pointer;font-size:.92rem;max-width:46%}
+.pager-btn.primary{background:var(--gold);color:#1a0f05;border-color:var(--gold)}
+.pager-btn:disabled{opacity:.35;cursor:default}
+.pager-btn span.label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pager-mid{text-align:center;color:var(--muted);font-size:.85rem;white-space:nowrap}
+.pager-mid b{color:var(--gold);font-family:"Cinzel",serif}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.dots button{width:36px;height:36px;min-height:36px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--muted);font-family:"Cinzel",serif;font-size:.82rem;cursor:pointer;padding:0}
+.dots button.active{background:var(--gold);color:#1a0f05;border-color:var(--gold);font-weight:800}
+.closing-page .closing{margin-top:8px}
+.closing-page-head{margin-bottom:18px}
+
+/* dice */
+.section{margin-top:44px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-num{font-family:"Cinzel",serif;color:var(--gold);font-size:1rem;border:1px solid var(--line);width:36px;height:36px;display:grid;place-items:center;border-radius:50%;flex:0 0 auto}
+h2{font-family:"Cinzel",serif;font-size:clamp(1.45rem,3.5vw,2rem);margin:0;color:var(--cream);letter-spacing:.02em}
+.lede{color:var(--muted);max-width:700px;margin:8px 0 20px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}
+.dice-stage{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;max-width:560px;margin:6px auto 18px;text-align:center}
+.die{width:118px;height:118px;margin:0 auto;background:linear-gradient(145deg,#2c1e4a,#1f1433);border:2px solid var(--gold);border-radius:18px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);padding:14px;gap:4px;transition:transform .35s}
+.die.rolling{transform:rotate(12deg) scale(.94)}
+.pip{width:18px;height:18px;border-radius:50%;background:var(--gold);place-self:center;opacity:0}
+.pip.on{opacity:1}
+.pip.dim{background:var(--yellow);opacity:0}
+.pip.dim.on{opacity:.55}
+.plus{font-family:"Cinzel",serif;font-size:2rem;color:var(--gold)}
+.die-label{font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+.equation{text-align:center;font-family:"Cinzel",serif;font-size:1.5rem;color:var(--yellow);margin:4px 0 16px}
+.equation span{color:var(--cream)}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#1a0f05;border:none;font-family:"Cinzel",serif;font-weight:700;letter-spacing:.06em;padding:12px 26px;border-radius:999px;cursor:pointer;font-size:.95rem}
+.btn:active{transform:scale(.98)}
+.center{text-align:center}
+.pairs{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+.pair-chip{border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:8px 14px;cursor:pointer;color:var(--cream);font-family:inherit;font-size:.95rem;min-height:44px}
+.pair-chip.active{background:var(--gold);color:#1a0f05;font-weight:700;border-color:var(--gold)}
+.combos{margin-top:22px;border-top:1px solid var(--line);padding-top:18px;text-align:center}
+.combos-label{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.combos-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+.combos-row span{border:1px solid var(--line);background:var(--panel2);border-radius:8px;padding:6px 12px;font-family:"Cinzel",serif;color:var(--cream);font-size:.95rem}
+.combos-note{color:var(--muted);max-width:620px;margin:14px auto 0;font-size:.97rem}
+.roll-two{margin-top:28px;border-top:1px solid var(--line);padding-top:24px;text-align:center}
+.roll-two h3{font-family:"Cinzel",serif;font-size:1.35rem;margin:0;color:var(--cream);letter-spacing:.02em}
+.roll-two .roll-sub{color:var(--muted);max-width:600px;margin:8px auto 0;font-size:.99rem}
+.roll-two .roll-sub strong{color:var(--yellow)}
+.two-stage{display:grid;grid-template-columns:1fr auto 1fr auto auto;align-items:center;gap:14px;max-width:620px;margin:20px auto 8px;text-align:center}
+.total-box{width:96px;height:118px;border:2px dashed var(--gold);border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(240,183,63,.08)}
+.total-box span:first-child{font-family:"Cinzel",serif;font-size:2.6rem;line-height:1;color:var(--yellow)}
+.total-box .total-label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+.two-result{text-align:center;font-family:"Cinzel",serif;font-size:1.25rem;color:var(--cream);min-height:1.6em;margin:6px 0 14px}
+.two-result.hit{color:var(--yellow)}
+.combos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:620px;margin:20px auto 0}
+.combo-tile{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:14px 8px 12px;text-align:center;transition:border-color .2s,background .2s}
+.combo-tile .combo-eq{font-family:"Cinzel",serif;font-size:1.3rem;color:var(--cream);line-height:1}
+.combo-tile .combo-eq b{color:var(--gold);font-weight:700}
+.combo-tile .combo-sum{display:block;margin-top:6px;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.combo-tile.active{border-color:var(--gold);background:rgba(240,183,63,.16);box-shadow:0 0 0 1px var(--gold)}
+.combo-tile.active .combo-eq{color:var(--yellow)}
+
+
+/* sins virtues */
+.flip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.flip{display:block;width:100%;perspective:800px;height:184px;cursor:pointer;background:none;border:none;padding:0;font-family:inherit;text-align:left}
+.flip-inner{display:block;position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+.flip.flipped .flip-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid var(--line)}
+.face.front{background:linear-gradient(120deg,#f2a7c3 0%,#a7d8f2 28%,#c9b8f5 52%,#f5e3a1 76%,#a8e6c9 100%);color:#241433;border-color:#efe2ff;box-shadow:0 0 18px rgba(167,216,242,.55),inset 0 1px 0 rgba(255,255,255,.5)}
+.face.front .word{color:#241433;text-shadow:none}
+.face.front .tag{color:#241433;opacity:.75}
+.face.front .hint{color:#241433;opacity:.85}
+.face.back{background:linear-gradient(145deg,#2c1e4a,#1f1433 58%,#251a3d);transform:rotateY(180deg);border-color:var(--gold);box-shadow:inset 0 1px 0 rgba(240,183,63,.18)}
+.face .tag{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;opacity:.75}
+.face .word{font-family:"Cinzel",serif;font-size:1.25rem;line-height:1.15;color:var(--cream)}
+.face.back .word{color:var(--yellow)}
+.face .hint{font-size:.78rem;color:var(--muted)}
+.face.back .hint{color:var(--gold)}
+.face .desc{font-size:.85rem;color:var(--muted);line-height:1.35}
+.face.front .desc{color:#241433;opacity:.9}
+.note{margin-top:16px;background:rgba(240,183,63,.08);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.note strong{color:var(--yellow)}
+
+/* grids */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.item{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.item h3{margin:0 0 6px;font-family:"Cinzel",serif;font-size:1.05rem;color:var(--yellow);font-weight:700}
+.item p{margin:0;color:var(--muted);font-size:.97rem}
+.item p strong{color:var(--cream)}
+.big7{font-family:"Cinzel",serif;color:var(--gold);font-size:2rem;line-height:1;float:right;margin-left:10px}
+.rainbow{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:14px 0 4px}
+.rainbow i{flex:1}
+.ph{display:flex;gap:3px;margin-top:12px}
+.ph i{flex:1;height:22px;border-radius:4px;background:#3a2a55;display:grid;place-items:center;font-size:.65rem;font-style:normal;color:var(--muted)}
+.ph i.mid{background:var(--gold);color:#1a0f05;font-weight:800}
+.week{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.week span{border:1px solid var(--line);border-radius:999px;padding:5px 10px;font-size:.8rem;color:var(--muted)}
+.week span b{color:var(--yellow)}
+.credit{display:block;margin-top:10px;font-size:.78rem;color:#a68fc0;letter-spacing:.02em}
+.credit b{color:var(--gold);font-weight:600}
+.idea{margin-top:26px;background:rgba(240,183,63,.08);border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted)}
+.idea strong{color:var(--yellow)}
+
+/* closing */
+.closing{margin-top:48px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:32px 22px}
+.closing blockquote{font-size:clamp(1.3rem,3.5vw,1.8rem);line-height:1.35;margin:0 auto;max-width:620px;font-style:italic;color:var(--cream)}
+.closing blockquote em{color:var(--gold);font-style:italic}
+.closing p{color:var(--muted);max-width:560px;margin:14px auto 0}
+footer{text-align:center;color:#8f7aa3;font-size:.85rem;margin-top:28px}
+@media(max-width:560px){
+  .pager{flex-wrap:wrap}
+  .pager-mid{order:-1;width:100%}
+  .pager-btn{flex:1;max-width:none;padding:12px 10px;font-size:.85rem}
+  .page-tabs{gap:6px}
+  .page-tab{font-size:.82rem;padding:8px 10px}
+  .hero{padding-top:36px}
+  .dice-stage{gap:8px}
+  .die{width:96px;height:96px;padding:11px}
+  .pip{width:14px;height:14px}
+  .flip-grid{grid-template-columns:1fr 1fr}
+  .flip{height:172px}
+  .two-stage{gap:8px;grid-template-columns:1fr auto 1fr auto auto}
+  .total-box{width:72px;height:96px}
+  .total-box span:first-child{font-size:2rem}
+  .combos-grid{grid-template-columns:1fr 1fr}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="book-nav" aria-label="Pages">
+    <div class="book-label">The Number Seven · A Book in Eight Pages</div>
+    <div class="page-indicator" id="pageIndicator" aria-live="polite">Page 1 of 8 <span>— Cover</span></div>
+    <div class="page-tabs" id="pageTabs" role="group" aria-label="Choose a page">
+      <button class="page-tab active" type="button" data-page="0"><b>·</b>Cover</button>
+      <button class="page-tab" type="button" data-page="1"><b>1</b>The Dice Law</button>
+      <button class="page-tab" type="button" data-page="2"><b>2</b>Sins &amp; Virtues</button>
+      <button class="page-tab" type="button" data-page="3"><b>3</b>Nature &amp; Science</button>
+      <button class="page-tab" type="button" data-page="4"><b>4</b>The Human Map</button>
+      <button class="page-tab" type="button" data-page="5"><b>5</b>Mind &amp; Math</button>
+      <button class="page-tab" type="button" data-page="6"><b>6</b>The Old World</button>
+      <button class="page-tab" type="button" data-page="7"><b>✦</b>The Last Word</button>
+    </div>
+  </nav>
+
+  <header class="hero page active" id="page-cover" data-title="Cover">
+    <a class="back-sea" href="https://bwyoungbo.com/">← Back to the Sea</a>
+    <div class="kicker">A pattern, hiding in plain sight</div>
+    <div class="hero-num" aria-hidden="true">7</div>
+    <h1>The Number Seven</h1>
+    <p>The number 7 doesn't only appear in dice combinations. <strong>It shows up everywhere</strong> — in the seven sins and seven virtues, in the seven colors of light, in the bones of the body, across the continents and seas of Earth, in the seven days of the week, and in the seven notes of music. Start with the dice, then keep looking.</p>
+    <div class="rule"></div>
+    <div class="idea"><strong>The idea behind this page is Isaiah Tobola's (BW Young Bo).</strong> Gathering the number 7 from across everything on Earth he could find — dice, light, bone, air, sky, story — and laying it all on one page was his hunt and his call. Lux found the facts below and checked them; the connecting was his.</div>
+    <div class="begin-row"><button class="btn" type="button" data-goto="1">Begin — Page 1 · The Dice Law →</button></div>
+  </header>
+
+  <!-- 01 DICE -->
+  <section class="section page" id="page-dice" data-title="The Dice Law" aria-labelledby="dice-h">
+    <div class="sec-head"><span class="sec-num">1</span><h2 id="dice-h">The Dice Law</h2></div>
+    <p class="lede">On a standard die, opposite faces always add up to 7. It has been built that way for thousands of years — so any two sides you can't see at once balance each other out. Turn it over and check: the underside always answers the top. One die carries <strong>3 pairs</strong> that make 7. With two dice there are <strong>6 combos</strong> that land on 7 — more ways than any other total. Below, they are simply shown in order, one by one.</p>
+
+    <div class="card">
+      <div class="dice-stage">
+        <div>
+          <div class="die" id="dieTop" aria-label="Top face of the die"></div>
+          <div class="die-label">You see</div>
+        </div>
+        <div class="plus">+</div>
+        <div>
+          <div class="die" id="dieBottom" aria-label="Bottom face of the die"></div>
+          <div class="die-label">Hidden underneath</div>
+        </div>
+      </div>
+      <div class="equation" id="equation">1 <span>+</span> 6 <span>=</span> 7</div>
+      <div class="center"><button class="btn" id="rollBtn" type="button">Show next pair →</button></div>
+      <div class="pairs" role="group" aria-label="Choose an opposite pair">
+        <button class="pair-chip active" data-top="1" type="button">1 ↔ 6</button>
+        <button class="pair-chip" data-top="2" type="button">2 ↔ 5</button>
+        <button class="pair-chip" data-top="3" type="button">3 ↔ 4</button>
+      </div>
+      <div class="roll-two" aria-labelledby="roll-two-h">
+        <h3 id="roll-two-h">Two Dice — The Six Combos, In Order</h3>
+        <p class="roll-sub">Here are the <strong>six combinations</strong> that land on 7, demonstrated in order: start at <strong>1 + 6</strong>, then 2 + 5, and so on, until you reach the last combo, <strong>6 + 1</strong> — then it starts over at 1 + 6 and runs through them again. Because the dice are separate, 3 + 4 and 4 + 3 count as two different combos. No other total has as many ways in.</p>
+
+        <div class="two-stage">
+          <div>
+            <div class="die" id="dieA" aria-label="First die"></div>
+            <div class="die-label">Die one</div>
+          </div>
+          <div class="plus">+</div>
+          <div>
+            <div class="die" id="dieB" aria-label="Second die"></div>
+            <div class="die-label">Die two</div>
+          </div>
+          <div class="plus">=</div>
+          <div class="total-box" aria-label="Total of the roll"><span id="twoTotal">7</span><span class="total-label">Total</span></div>
+        </div>
+        <div class="two-result hit" id="twoResult">1 + 6 = 7 — combo 1 of 6.</div>
+        <div class="center"><button class="btn" id="rollTwoBtn" type="button">Next combo — 2 + 5 →</button></div>
+
+        <div class="combos-label" style="margin-top:22px">The 6 combos, in order</div>
+        <div class="combos-grid" id="combosGrid" role="list" aria-label="The six two-dice combinations that make 7">
+          <div class="combo-tile active" data-a="1" data-b="6" role="listitem"><span class="combo-eq">1 <b>+</b> 6</span><span class="combo-sum">= 7</span></div>
+          <div class="combo-tile" data-a="2" data-b="5" role="listitem"><span class="combo-eq">2 <b>+</b> 5</span><span class="combo-sum">= 7</span></div>
+          <div class="combo-tile" data-a="3" data-b="4" role="listitem"><span class="combo-eq">3 <b>+</b> 4</span><span class="combo-sum">= 7</span></div>
+          <div class="combo-tile" data-a="4" data-b="3" role="listitem"><span class="combo-eq">4 <b>+</b> 3</span><span class="combo-sum">= 7</span></div>
+          <div class="combo-tile" data-a="5" data-b="2" role="listitem"><span class="combo-eq">5 <b>+</b> 2</span><span class="combo-sum">= 7</span></div>
+          <div class="combo-tile" data-a="6" data-b="1" role="listitem"><span class="combo-eq">6 <b>+</b> 1</span><span class="combo-sum">= 7</span></div>
+        </div>
+        <p class="combos-note"><strong style="color:var(--cream)">6 of the 36</strong> possible rolls land on 7 — the single most likely roll in any dice game. Step through them above, in order, from 1 + 6 all the way to 6 + 1. But 7 doesn't stop at the dice table. Keep looking, and it turns up in places that have nothing to do with dice at all.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 SINS / VIRTUES -->
+  <section class="section page" id="page-sins" data-title="Seven Sins, Seven Virtues" aria-labelledby="flip-h">
+    <div class="sec-head"><span class="sec-num">2</span><h2 id="flip-h">Seven Sins, Seven Virtues</h2></div>
+    <p class="lede">Another place the number 7 appears: the seven deadly sins, and the seven heavenly virtues that stand opposite them. Each sin is paired with its opposing virtue. Tap any card to see the virtue that answers it.</p>
+
+    <div class="flip-grid" id="flipGrid"></div>
+
+    <div class="note">
+      <strong>Look at wrath.</strong> Its opposite is <strong>patience</strong> — the very one added to the discipline list by hand: no lust, no wrath, no pride, no sloth, no soda… and patience, standing right there across from wrath, where it has always been.
+    </div>
+  </section>
+
+  <!-- 03 NATURE -->
+  <section class="section page" id="page-nature" data-title="Seven in Nature &amp; Science" aria-labelledby="nature-h">
+    <div class="sec-head"><span class="sec-num">3</span><h2 id="nature-h">Seven in Nature &amp; Science</h2></div>
+    <p class="lede">Not just games and old books. The natural world keeps landing on seven — in light, in bone, in the air itself.</p>
+
+    <div class="grid">
+      <article class="item"><span class="big7">7</span><h3>Colors in the rainbow</h3><p>Newton split sunlight into <strong>red, orange, yellow, green, blue, indigo, violet</strong> — seven bands, then the spectrum loops.</p><div class="rainbow" aria-hidden="true"><i style="background:#e63946"></i><i style="background:#f4842b"></i><i style="background:#ffd166"></i><i style="background:#4caf6d"></i><i style="background:#3a7bd5"></i><i style="background:#4b3a8f"></i><i style="background:#8e44ad"></i></div><span class="credit">Credit: <b>Isaac Newton</b> — Opticks, 1704, where he divided the spectrum into seven colors.</span></article>
+
+      <article class="item"><span class="big7">7</span><h3>Neck bones in (almost) every mammal</h3><p>You, a mouse, a whale, a giraffe — nearly every mammal on Earth has exactly <strong>7 cervical vertebrae</strong>, no matter how long the neck grows.</p></article>
+
+      <article class="item"><span class="big7">7</span><h3>pH 7 — the neutral point</h3><p>Pure water sits at <strong>pH 7</strong>: the exact middle of the acid–base scale. Not one side or the other. Balance, measured.</p><div class="ph" aria-hidden="true"><i>0</i><i>2</i><i>4</i><i class="mid">7</i><i>10</i><i>12</i><i>14</i></div></article>
+
+      <article class="item"><span class="big7">7</span><h3>Nitrogen is element 7</h3><p>Atomic number <strong>7</strong> — and nitrogen makes up about <strong>78% of the air</strong> you're breathing right now. The commonest thing around you is a seven.</p></article>
+
+      <article class="item"><span class="big7">7</span><h3>Days in a moon phase</h3><p>The moon's cycle breaks into <strong>4 phases of roughly 7 days</strong> each. That rhythm is where the seven-day week comes from.</p><div class="week" aria-hidden="true"><span>🌑 New</span><span>🌓 <b>~7 days</b></span><span>🌕 Full</span><span>🌗 <b>~7 days</b></span></div></article>
+
+      <article class="item"><span class="big7">7</span><h3>Base units of measurement</h3><p>There are exactly <strong>7 SI base units</strong> — metre, kilogram, second, ampere, kelvin, mole, candela. Every measurement humans make is built from these seven.</p><span class="credit">Credit: <b>BIPM</b> — the International Bureau of Weights and Measures, keeper of the SI standard.</span></article>
+
+      <article class="item"><span class="big7">7</span><h3>Rows in the periodic table</h3><p>The periodic table has <strong>7 periods</strong> — seven rows, and every known element sits in one of them.</p></article>
+
+      <article class="item"><span class="big7">7</span><h3>Crystal systems</h3><p>Every crystal on Earth grows in one of exactly <strong>7 crystal systems</strong> — from cubes to triclinic. Seven shapes hold all of them.</p><span class="credit">Credit: <b>crystallography</b> — the standard classification of crystal structure.</span></article>
+
+      <article class="item"><span class="big7">7</span><h3>The classical planets</h3><p>Ancient astronomy counted <strong>7 classical planets</strong> — Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn: the seven lights that visibly wander the sky. The names of the weekdays descend from them.</p><span class="credit">Credit: <b>ancient astronomy</b> — the seven wandering lights of the pre-telescope sky.</span></article>
+
+      <article class="item"><span class="big7">7</span><h3>The Seven Sisters</h3><p>The Pleiades star cluster is known as the <strong>Seven Sisters</strong> — seven stars traditionally picked out by the naked eye, named for the sisters of Greek myth.</p><span class="credit">Credit: <b>Greek myth</b> — the Pleiades, daughters of Atlas.</span></article>
+    </div>
+  </section>
+
+  <!-- 04 HUMAN MAP -->
+  <section class="section page" id="page-map" data-title="Seven on the Human Map" aria-labelledby="map-h">
+    <div class="sec-head"><span class="sec-num">4</span><h2 id="map-h">Seven on the Human Map</h2></div>
+    <p class="lede">And when humans drew their own map of the world, they reached for seven again and again.</p>
+
+    <div class="grid">
+      <article class="item"><span class="big7">7</span><h3>Continents &amp; seas</h3><p><strong>7 continents</strong> on the globe, and the old sailor's count of the <strong>7 seas</strong> — the whole world, divided by sevens.</p></article>
+      <article class="item"><span class="big7">7</span><h3>Days of the week</h3><p>Born from the moon's phases and kept by basically <strong>every culture on the planet</strong>. Seven days, then it starts again.</p></article>
+      <article class="item"><span class="big7">7</span><h3>Notes in the scale</h3><p><strong>Do, re, mi, fa, sol, la, ti</strong> — seven notes, and the eighth is the first one again, an octave higher. Music itself is a loop of seven.</p></article>
+      <article class="item"><span class="big7">7</span><h3>Openings in the head</h3><p>The old anatomy riddle: <strong>2 eyes, 2 ears, 2 nostrils, 1 mouth</strong>. Everything you take in from the world comes through seven doors.</p></article>
+    </div>
+  </section>
+
+  <!-- 05 MIND & MATH -->
+  <section class="section page" id="page-mind" data-title="Seven in Mind &amp; Math" aria-labelledby="mind-h">
+    <div class="sec-head"><span class="sec-num">5</span><h2 id="mind-h">Seven in Mind &amp; Math</h2></div>
+    <p class="lede">Seven turns up inside the mind itself — and in the numbers mathematicians can't leave alone.</p>
+
+    <div class="grid">
+      <article class="item"><span class="big7">7</span><h3>The mind holds about seven</h3><p>Working memory holds roughly <strong>7 items at once, plus or minus two</strong> — the famous limit on how much a person can juggle in their head. Later research puts the core closer to 4, and Miller himself suspected the cultural sevens around him were coincidence.</p><span class="credit">Credit: <b>George A. Miller</b>, “The Magical Number Seven, Plus or Minus Two,” Psychological Review, 1956; revisited by <b>Nelson Cowan</b>, 2001.</span></article>
+
+      <article class="item"><span class="big7">7</span><h3>The world's favourite number</h3><p>In an online poll of more than <strong>44,000 people</strong>, 7 was the world's favourite number — about <strong>9.7%</strong> picked it, ahead of 3 and 8. One reason offered: of the numbers 2 through 10, 7 is the only one that is neither a multiple nor a factor of any other in the group. It stands alone.</p><span class="credit">Credit: <b>Alex Bellos</b> — favourite-number poll, published in Alex Through the Looking-Glass, 2014.</span></article>
+
+      <article class="item"><span class="big7">7</span><h3>A prime number</h3><p><strong>7 is prime</strong> — divisible only by 1 and itself. It can't be built out of smaller whole numbers multiplied together; it just is what it is.</p></article>
+
+      <article class="item"><span class="big7">7</span><h3>The Seven Bridges of Königsberg</h3><p>The city of Königsberg had <strong>7 bridges</strong>, and people wondered: could you walk a route crossing each bridge exactly once? The answer was no — and proving it founded a whole branch of mathematics.</p><span class="credit">Credit: <b>Leonhard Euler</b>, 1736 — the problem that founded graph theory.</span></article>
+    </div>
+  </section>
+
+  <!-- 06 OLD WORLD -->
+  <section class="section page" id="page-old" data-title="Seven in the Old World" aria-labelledby="old-h">
+    <div class="sec-head"><span class="sec-num">6</span><h2 id="old-h">Seven in the Old World</h2></div>
+    <p class="lede">Long before dice tables and laboratories, the old world was already counting in sevens — in its cities, its wonders, and its sacred books.</p>
+
+    <div class="grid">
+      <article class="item"><span class="big7">7</span><h3>Rome's seven hills</h3><p>Rome was built on <strong>7 hills</strong> — the Palatine, Aventine, Capitoline, Quirinal, Viminal, Esquiline, and Caelian. The eternal city starts with a seven.</p></article>
+
+      <article class="item"><span class="big7">7</span><h3>Wonders of the Ancient World</h3><p>The famous list names <strong>7 Wonders</strong> — the Great Pyramid, the Hanging Gardens, the statues, temples, tomb, and lighthouse the ancient world agreed were unmatched.</p><span class="credit">Credit: <b>Hellenic travellers' lists</b> — the Seven Wonders tradition of the ancient Greek world.</span></article>
+
+      <article class="item"><span class="big7">7</span><h3>Sevens in the sacred texts</h3><p>Genesis tells of creation in six days and <strong>rest on the seventh</strong>. The menorah has <strong>7 branches</strong>. Catholic tradition counts <strong>7 sacraments</strong>. And Revelation runs on sevens — <strong>7 churches, 7 seals, 7 trumpets</strong>.</p><span class="credit">Credit: <b>Genesis, the menorah of the Temple, Catholic tradition, and the Book of Revelation</b>.</span></article>
+
+      <article class="item"><span class="big7">7</span><h3>Seven chakras</h3><p>Hindu tradition maps the body with <strong>7 chakras</strong> — seven energy centers running from the base of the spine to the crown of the head.</p><span class="credit">Credit: <b>Hindu tradition</b> — the seven-chakra system.</span></article>
+
+      <article class="item"><span class="big7">7</span><h3>Sevens in folklore</h3><p>Snow White was taken in by <strong>7 dwarfs</strong>, and breaking a mirror is said to bring <strong>7 years of bad luck</strong>. Even the stories we tell children count in sevens.</p><span class="credit">Credit: <b>folklore &amp; pop culture</b> — the Grimms' Snow White and the broken-mirror superstition.</span></article>
+    </div>
+  </section>
+
+  <!-- 07 CLOSING -->
+  <section class="page closing-page" id="page-closing" data-title="The Last Word" aria-labelledby="closing-h">
+    <div class="sec-head closing-page-head"><span class="sec-num">✦</span><h2 id="closing-h">The Last Word</h2></div>
+  <div class="closing">
+    <blockquote>“The number 7 doesn't stop at the dice. It keeps appearing — in light, in the body, across the Earth, in the week, and in music — <em>the same number, again and again</em>.”</blockquote>
+    <p>And here is the honest part: <strong style="color:var(--cream)">none of these things are related to each other.</strong> The dice didn't cause the rainbow. The rainbow has nothing to do with neck bones, the sins have nothing to do with the week, and pH 7 never met a musical note. None of them cause or connect to one another — the only thread running through all of them is the number itself. Seven, appearing again and again. Recurrence, not relation.</p>
+    <p>But it sure is odd that many of these systems — such as our bones, the prism of colors, and the moon cycle — operate using the number 7. Whether created by God or an accidental chaos, it sure is great mathematics and planning on the part of the universe.</p>
+  </div>
+    <div class="begin-row"><button class="btn" type="button" data-goto="0">↺ Back to the Cover</button></div>
+  </section>
+
+  <nav class="pager" aria-label="Turn the page">
+    <button class="pager-btn" id="prevBtn" type="button"><span aria-hidden="true">←</span><span class="label" id="prevLabel">Previous</span></button>
+    <div class="pager-mid" id="pagerMid"><b>Page 1</b> of 8</div>
+    <button class="pager-btn primary" id="nextBtn" type="button"><span class="label" id="nextLabel">Next</span><span aria-hidden="true">→</span></button>
+  </nav>
+  <div class="dots" id="pageDots" role="group" aria-label="Go to page"></div>
+
+  <footer>The Number 7 · Broken World · plum &amp; gold<br>Idea &amp; hunt: Isaiah Tobola (BW Young Bo) · Facts found &amp; checked by Lux</footer>
+</div>
+
+<script>
+(function(){
+  // ---- Book pagination: one segment per page ----
+  var PAGE_IDS=["page-cover","page-dice","page-sins","page-nature","page-map","page-mind","page-old","page-closing"];
+  var PAGE_TITLES=["Cover","The Dice Law","Seven Sins, Seven Virtues","Seven in Nature & Science","Seven on the Human Map","Seven in Mind & Math","Seven in the Old World","The Last Word"];
+  var PAGE_HASH=["cover","dice","sins-virtues","nature-science","human-map","mind-math","old-world","closing"];
+  var pages=[]; PAGE_IDS.forEach(function(id){var el=document.getElementById(id); if(el) pages.push(el);});
+  var tabs=document.querySelectorAll(".page-tab");
+  var indicator=document.getElementById("pageIndicator");
+  var pagerMid=document.getElementById("pagerMid");
+  var prevBtn=document.getElementById("prevBtn"), nextBtn=document.getElementById("nextBtn");
+  var prevLabel=document.getElementById("prevLabel"), nextLabel=document.getElementById("nextLabel");
+  var dotsWrap=document.getElementById("pageDots");
+  var current=0;
+  var dotBtns=[];
+  pages.forEach(function(_,i){
+    var d=document.createElement("button");
+    d.type="button"; d.textContent=String(i+1);
+    d.setAttribute("aria-label","Go to page "+(i+1)+" of "+pages.length+": "+PAGE_TITLES[i]);
+    d.addEventListener("click",function(){showPage(i,true);});
+    dotsWrap.appendChild(d); dotBtns.push(d);
+  });
+  function showPage(i,focus){
+    if(i<0) i=0; if(i>pages.length-1) i=pages.length-1;
+    current=i;
+    pages.forEach(function(p,pi){p.classList.toggle("active",pi===i);});
+    tabs.forEach(function(t,ti){t.classList.toggle("active",ti===i); if(ti===i){t.setAttribute("aria-current","page");}else{t.removeAttribute("aria-current");}});
+    dotBtns.forEach(function(d,di){d.classList.toggle("active",di===i);});
+    indicator.innerHTML="Page "+(i+1)+" of "+pages.length+" <span>— "+PAGE_TITLES[i]+"</span>";
+    pagerMid.innerHTML="<b>Page "+(i+1)+"</b> of "+pages.length+" · "+PAGE_TITLES[i];
+    prevBtn.disabled=(i===0); nextBtn.disabled=(i===pages.length-1);
+    prevLabel.textContent=(i===0)?"Previous":PAGE_TITLES[i-1];
+    nextLabel.textContent=(i===pages.length-1)?"Next":PAGE_TITLES[i+1];
+    try{history.replaceState(null,"","#"+PAGE_HASH[i]);}catch(e){}
+    window.scrollTo(0,0);
+    if(focus){
+      var h=pages[i].querySelector("h1,h2");
+      if(h){h.setAttribute("tabindex","-1"); h.focus({preventScroll:true});}
+    }
+  }
+  tabs.forEach(function(t){t.addEventListener("click",function(){showPage(+t.dataset.page,true);});});
+  document.querySelectorAll("[data-goto]").forEach(function(b){b.addEventListener("click",function(){showPage(+b.dataset.goto,true);});});
+  prevBtn.addEventListener("click",function(){showPage(current-1,true);});
+  nextBtn.addEventListener("click",function(){showPage(current+1,true);});
+  document.addEventListener("keydown",function(e){
+    if(e.key==="ArrowRight"){showPage(current+1,true);}
+    else if(e.key==="ArrowLeft"){showPage(current-1,true);}
+  });
+  function pageFromHash(){
+    var h=(location.hash||"").replace("#","");
+    var idx=PAGE_HASH.indexOf(h);
+    return idx>=0?idx:0;
+  }
+  window.addEventListener("hashchange",function(){var i=pageFromHash(); if(i!==current) showPage(i,false);});
+  showPage(pageFromHash(),false);
+
+  // Dice pips: positions in a 3x3 grid for each face value
+  var PIPS = {1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
+  function renderDie(el, value, dim){
+    el.innerHTML = "";
+    for(var i=0;i<9;i++){
+      var s=document.createElement("span");
+      s.className="pip"+(dim?" dim":"")+(PIPS[value].indexOf(i)>=0?" on":"");
+      el.appendChild(s);
+    }
+  }
+  // One die: step through the 3 opposite pairs in order — 1↔6, 2↔5, 3↔4 — then back to the start.
+  var topEl=document.getElementById("dieTop"), botEl=document.getElementById("dieBottom"), eq=document.getElementById("equation");
+  var chips=document.querySelectorAll(".pair-chip");
+  var pairIdx=0; // index into [1,2,3]
+  function setPair(top){
+    var bottom=7-top;
+    pairIdx=top-1;
+    renderDie(topEl,top,false); renderDie(botEl,bottom,true);
+    eq.innerHTML=top+" <span>+</span> "+bottom+" <span>=</span> 7";
+    chips.forEach(function(c){c.classList.toggle("active", +c.dataset.top===top);});
+  }
+  setPair(1);
+  document.getElementById("rollBtn").addEventListener("click",function(){
+    setPair((pairIdx+1)%3 + 1);
+  });
+  chips.forEach(function(c){c.addEventListener("click",function(){setPair(+c.dataset.top);});});
+
+  // Two dice: a demonstration in order — step through the six combos
+  // 1+6, 2+5, 3+4, 4+3, 5+2, 6+1, each press advancing to the next,
+  // until the last combo; the next press starts again at 1+6.
+  var COMBOS=[[1,6],[2,5],[3,4],[4,3],[5,2],[6,1]];
+  var dieA=document.getElementById("dieA"), dieB=document.getElementById("dieB");
+  var twoTotal=document.getElementById("twoTotal"), twoResult=document.getElementById("twoResult");
+  var rollTwoBtn=document.getElementById("rollTwoBtn");
+  var comboTiles=document.querySelectorAll(".combo-tile");
+  var comboIdx=0;
+  function showCombo(i){
+    comboIdx=i;
+    var a=COMBOS[i][0], b=COMBOS[i][1];
+    renderDie(dieA,a,false); renderDie(dieB,b,false);
+    twoTotal.textContent=a+b;
+    comboTiles.forEach(function(t,ti){ t.classList.toggle("active", ti===i); });
+    twoResult.textContent=a+" + "+b+" = 7 — combo "+(i+1)+" of 6."+(i===COMBOS.length-1 ? " That's the last combo." : "");
+    twoResult.classList.add("hit");
+    rollTwoBtn.textContent = i===COMBOS.length-1
+      ? "↺ Start again — 1 + 6"
+      : "Next combo — "+COMBOS[i+1][0]+" + "+COMBOS[i+1][1]+" →";
+  }
+  showCombo(0);
+  // It runs in sequence on its own and loops: after the last combo (6+1)
+  // it starts over at 1+6 and keeps cycling through all six, in order.
+  function nextCombo(){ showCombo((comboIdx+1)%COMBOS.length); }
+  var cycleTimer=null;
+  function startCycle(){
+    if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    cycleTimer=setInterval(nextCombo, 1800);
+  }
+  function restartCycle(){
+    if(cycleTimer){ clearInterval(cycleTimer); startCycle(); }
+  }
+  startCycle();
+  rollTwoBtn.addEventListener("click",function(){
+    nextCombo();
+    restartCycle();
+  });
+  comboTiles.forEach(function(t,ti){
+    t.style.cursor="pointer";
+    t.setAttribute("title","Show this combo");
+    t.addEventListener("click",function(){ showCombo(ti); restartCycle(); });
+  });
+
+  // Sins -> Virtues flip cards
+  var PAIRS=[
+    ["Pride","Thinking you're better than everyone else","Humility","Knowing you're not better than anyone else"],
+    ["Greed","Always wanting more, never feeling like you have enough","Generosity","Giving your money, time, and things to people who need them"],
+    ["Lust","Wanting sex with no respect in it","Chastity","Keeping sex respectful, not using people"],
+    ["Envy","Being upset that someone else has something good","Kindness","Treating people well and helping them"],
+    ["Gluttony","Eating and drinking way more than your body needs","Temperance","Knowing when to stop"],
+    ["Wrath","Violence, anger, loud talking","Patience","Staying calm and waiting without blowing up"],
+    ["Sloth","Being lazy, not doing what you need to do","Diligence","Doing the work even when you don't feel like it"]
+  ];
+  var grid=document.getElementById("flipGrid");
+  PAIRS.forEach(function(p){
+    var b=document.createElement("button");
+    b.type="button"; b.className="flip";
+    b.setAttribute("aria-label", p[0]+": "+p[1]+". Tap to see its opposite virtue, "+p[2]+".");
+    b.innerHTML='<div class="flip-inner"><div class="face front"><span class="tag">Sin</span><span class="word">'+p[0]+'</span><span class="desc">'+p[1]+'</span><span class="hint">Tap to see its opposite ↻</span></div><div class="face back"><span class="tag">Virtue</span><span class="word">'+p[2]+'</span><span class="hint">'+p[3]+'</span></div></div>';
+    b.addEventListener("click",function(){b.classList.toggle("flipped");});
+    grid.appendChild(b);
+  });
+})();
+</script>
+</body>
+</html>
