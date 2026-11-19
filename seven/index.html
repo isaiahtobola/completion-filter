@@ -117,6 +117,7 @@ h2{font-family:"Cinzel",serif;font-size:clamp(1.45rem,3.5vw,2rem);margin:0;color
 .face.front .hint{color:#241433;opacity:.85}
 .face.back{background:linear-gradient(145deg,#2c1e4a,#1f1433 58%,#251a3d);transform:rotateY(180deg);border-color:var(--gold);box-shadow:inset 0 1px 0 rgba(240,183,63,.18)}
 .face .tag{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;opacity:.75}
+.face.back .tag{color:var(--gold);opacity:1;text-shadow:0 0 10px rgba(240,183,63,.9),0 0 22px rgba(240,183,63,.55),0 0 34px rgba(255,209,102,.35)}
 .face .word{font-family:"Cinzel",serif;font-size:1.25rem;line-height:1.15;color:var(--cream)}
 .face.back .word{color:var(--yellow)}
 .face .hint{font-size:.78rem;color:var(--muted)}
@@ -169,10 +170,24 @@ footer{text-align:center;color:#8f7aa3;font-size:.85rem;margin-top:28px}
   .total-box span:first-child{font-size:2rem}
   .combos-grid{grid-template-columns:1fr 1fr}
 }
+/* side arrows — PC page turning */
+.side-arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:60;width:54px;height:112px;min-height:112px;display:grid;place-items:center;background:rgba(31,20,51,.78);border:1px solid var(--line);color:var(--gold);font-family:"Cinzel",serif;font-size:2.7rem;line-height:1;cursor:pointer;opacity:.5;transition:opacity .2s ease,background .2s ease,box-shadow .2s ease;padding:0}
+.side-arrow-prev{left:14px;border-radius:14px}
+.side-arrow-next{right:14px;border-radius:14px}
+.side-arrow:hover,.side-arrow:focus-visible{opacity:1;background:rgba(240,183,63,.16);box-shadow:0 0 22px rgba(240,183,63,.35);text-shadow:0 0 14px rgba(240,183,63,.8);outline:none}
+.side-arrow:disabled{opacity:0;pointer-events:none;visibility:hidden}
+@media(max-width:767px){.side-arrow{display:none}}
+/* Solo Hearth — letter-by-letter reading glow, body prose only */
+.hearth-word{white-space:nowrap}
+.hearth-letter{transition:color .65s ease,text-shadow .65s ease}
+.hearth-letter.lit{color:var(--yellow);text-shadow:0 0 9px rgba(255,209,102,.95),0 0 20px rgba(240,183,63,.55)}
+.hearth-letter.prism-letter.lit{color:var(--hc);text-shadow:0 0 9px var(--hc),0 0 20px var(--hc)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
+<button class="side-arrow side-arrow-prev" id="sidePrev" type="button" aria-label="Previous page">‹</button>
+<button class="side-arrow side-arrow-next" id="sideNext" type="button" aria-label="Next page">›</button>
 <div class="wrap">
 
   <nav class="book-nav" aria-label="Pages">
@@ -195,7 +210,7 @@ footer{text-align:center;color:#8f7aa3;font-size:.85rem;margin-top:28px}
     <div class="kicker">A pattern, hiding in plain sight</div>
     <div class="hero-num" aria-hidden="true">7</div>
     <h1>The Number Seven</h1>
-    <p>The number 7 doesn't only appear in dice combinations. <strong>It shows up everywhere</strong> — in the seven sins and seven virtues, in the seven colors of light, in the bones of the body, across the continents and seas of Earth, in the seven days of the week, and in the seven notes of music. Start with the dice, then keep looking.</p>
+    <p>The number 7 doesn't only appear in dice combinations. <strong>It shows up everywhere</strong> — in the seven sins and seven virtues, in the seven colors of light, in the bones of the body, across the continents and seas of Earth, in the seven days of the week, and in the seven notes of the diatonic scale. Start with the dice, then keep looking.</p>
     <div class="rule"></div>
     <div class="idea"><strong>The idea behind this page is Isaiah Tobola's (BW Young Bo).</strong> Gathering the number 7 from across everything on Earth he could find — dice, light, bone, air, sky, story — and laying it all on one page was his hunt and his call. Lux found the facts below and checked them; the connecting was his.</div>
     <div class="begin-row"><button class="btn" type="button" data-goto="1">Begin — Page 1 · The Dice Law →</button></div>
@@ -204,7 +219,7 @@ footer{text-align:center;color:#8f7aa3;font-size:.85rem;margin-top:28px}
   <!-- 01 DICE -->
   <section class="section page" id="page-dice" data-title="The Dice Law" aria-labelledby="dice-h">
     <div class="sec-head"><span class="sec-num">1</span><h2 id="dice-h">The Dice Law</h2></div>
-    <p class="lede">On a standard die, opposite faces always add up to 7. It has been built that way for thousands of years — so any two sides you can't see at once balance each other out. Turn it over and check: the underside always answers the top. One die carries <strong>3 pairs</strong> that make 7. With two dice there are <strong>6 combos</strong> that land on 7 — more ways than any other total. Below, they are simply shown in order, one by one.</p>
+    <p class="lede">On a standard die, opposite faces add up to 7. It has been built that way for thousands of years — the standard convention, though never a universal one; many medieval dice paired consecutive faces instead — so any two sides you can't see at once balance each other out. Turn it over and check: the underside always answers the top. One die carries <strong>3 pairs</strong> that make 7. With two dice there are <strong>6 combos</strong> that land on 7 — more ways than any other total. Below, they are simply shown in order, one by one.</p>
 
     <div class="card">
       <div class="dice-stage">
@@ -254,7 +269,7 @@ footer{text-align:center;color:#8f7aa3;font-size:.85rem;margin-top:28px}
           <div class="combo-tile" data-a="5" data-b="2" role="listitem"><span class="combo-eq">5 <b>+</b> 2</span><span class="combo-sum">= 7</span></div>
           <div class="combo-tile" data-a="6" data-b="1" role="listitem"><span class="combo-eq">6 <b>+</b> 1</span><span class="combo-sum">= 7</span></div>
         </div>
-        <p class="combos-note"><strong style="color:var(--cream)">6 of the 36</strong> possible rolls land on 7 — the single most likely roll in any dice game. Step through them above, in order, from 1 + 6 all the way to 6 + 1. But 7 doesn't stop at the dice table. Keep looking, and it turns up in places that have nothing to do with dice at all.</p>
+        <p class="combos-note"><strong style="color:var(--cream)">6 of the 36</strong> possible rolls land on 7 — the single most likely roll with two dice. Step through them above, in order, from 1 + 6 all the way to 6 + 1. But 7 doesn't stop at the dice table. Keep looking, and it turns up in places that have nothing to do with dice at all.</p>
       </div>
     </div>
   </section>
@@ -277,25 +292,25 @@ footer{text-align:center;color:#8f7aa3;font-size:.85rem;margin-top:28px}
     <p class="lede">Not just games and old books. The natural world keeps landing on seven — in light, in bone, in the air itself.</p>
 
     <div class="grid">
-      <article class="item"><span class="big7">7</span><h3>Colors in the rainbow</h3><p>Newton split sunlight into <strong>red, orange, yellow, green, blue, indigo, violet</strong> — seven bands, then the spectrum loops.</p><div class="rainbow" aria-hidden="true"><i style="background:#e63946"></i><i style="background:#f4842b"></i><i style="background:#ffd166"></i><i style="background:#4caf6d"></i><i style="background:#3a7bd5"></i><i style="background:#4b3a8f"></i><i style="background:#8e44ad"></i></div><span class="credit">Credit: <b>Isaac Newton</b> — Opticks, 1704, where he divided the spectrum into seven colors.</span></article>
+      <article class="item"><span class="big7">7</span><h3>Colors in the rainbow</h3><p>Newton split sunlight into <strong><span class="prism-word" data-hearth-color="#ff4d4d">red</span>, <span class="prism-word" data-hearth-color="#ff9430">orange</span>, <span class="prism-word" data-hearth-color="#ffd166">yellow</span>, <span class="prism-word" data-hearth-color="#4ade80">green</span>, <span class="prism-word" data-hearth-color="#4da3ff">blue</span>, <span class="prism-word" data-hearth-color="#818cf8">indigo</span>, <span class="prism-word" data-hearth-color="#c084fc">violet</span></strong> — seven bands. Past violet the spectrum runs on into ultraviolet, and past red into infrared — it never loops back. And the spectrum itself is continuous: Newton drew the line at seven by analogy with the musical scale.</p><div class="rainbow" aria-hidden="true"><i style="background:#e63946"></i><i style="background:#f4842b"></i><i style="background:#ffd166"></i><i style="background:#4caf6d"></i><i style="background:#3a7bd5"></i><i style="background:#4b3a8f"></i><i style="background:#8e44ad"></i></div><span class="credit">Credit: <b>Isaac Newton</b> — Opticks, 1704, where he divided the spectrum into seven colors.</span></article>
 
       <article class="item"><span class="big7">7</span><h3>Neck bones in (almost) every mammal</h3><p>You, a mouse, a whale, a giraffe — nearly every mammal on Earth has exactly <strong>7 cervical vertebrae</strong>, no matter how long the neck grows.</p></article>
 
-      <article class="item"><span class="big7">7</span><h3>pH 7 — the neutral point</h3><p>Pure water sits at <strong>pH 7</strong>: the exact middle of the acid–base scale. Not one side or the other. Balance, measured.</p><div class="ph" aria-hidden="true"><i>0</i><i>2</i><i>4</i><i class="mid">7</i><i>10</i><i>12</i><i>14</i></div></article>
+      <article class="item"><span class="big7">7</span><h3>pH 7 — the neutral point</h3><p>Pure water sits at <strong>pH 7</strong> at room temperature: the exact middle of the acid–base scale. Not one side or the other. Balance, measured.</p><div class="ph" aria-hidden="true"><i>0</i><i>2</i><i>4</i><i class="mid">7</i><i>10</i><i>12</i><i>14</i></div></article>
 
       <article class="item"><span class="big7">7</span><h3>Nitrogen is element 7</h3><p>Atomic number <strong>7</strong> — and nitrogen makes up about <strong>78% of the air</strong> you're breathing right now. The commonest thing around you is a seven.</p></article>
 
-      <article class="item"><span class="big7">7</span><h3>Days in a moon phase</h3><p>The moon's cycle breaks into <strong>4 phases of roughly 7 days</strong> each. That rhythm is where the seven-day week comes from.</p><div class="week" aria-hidden="true"><span>🌑 New</span><span>🌓 <b>~7 days</b></span><span>🌕 Full</span><span>🌗 <b>~7 days</b></span></div></article>
+      <article class="item"><span class="big7">7</span><h3>Days in a moon phase</h3><p>The moon's cycle breaks into <strong>4 phases of roughly 7 days</strong> each. That rhythm helped give us the seven-day week — Babylonian moon-quarters, the Jewish Sabbath cycle, and the planetary week all fed into it.</p><div class="week" aria-hidden="true"><span>🌑 New</span><span>🌓 <b>~7 days</b></span><span>🌕 Full</span><span>🌗 <b>~7 days</b></span></div></article>
 
-      <article class="item"><span class="big7">7</span><h3>Base units of measurement</h3><p>There are exactly <strong>7 SI base units</strong> — metre, kilogram, second, ampere, kelvin, mole, candela. Every measurement humans make is built from these seven.</p><span class="credit">Credit: <b>BIPM</b> — the International Bureau of Weights and Measures, keeper of the SI standard.</span></article>
+      <article class="item"><span class="big7">7</span><h3>Base units of measurement</h3><p>There are exactly <strong>7 SI base units</strong> — metre, kilogram, second, ampere, kelvin, mole, candela. Every SI measurement humans make is built from these seven.</p><span class="credit">Credit: <b>BIPM</b> — the International Bureau of Weights and Measures, keeper of the SI standard.</span></article>
 
       <article class="item"><span class="big7">7</span><h3>Rows in the periodic table</h3><p>The periodic table has <strong>7 periods</strong> — seven rows, and every known element sits in one of them.</p></article>
 
-      <article class="item"><span class="big7">7</span><h3>Crystal systems</h3><p>Every crystal on Earth grows in one of exactly <strong>7 crystal systems</strong> — from cubes to triclinic. Seven shapes hold all of them.</p><span class="credit">Credit: <b>crystallography</b> — the standard classification of crystal structure.</span></article>
+      <article class="item"><span class="big7">7</span><h3>Crystal systems</h3><p>Every ordinary crystal on Earth grows in one of exactly <strong>7 crystal systems</strong> — quasicrystals, found in 1982, are the famous exception. The seven systems run from cubes to triclinic — seven shapes hold all of them.</p><span class="credit">Credit: <b>crystallography</b> — the standard classification of crystal structure.</span></article>
 
-      <article class="item"><span class="big7">7</span><h3>The classical planets</h3><p>Ancient astronomy counted <strong>7 classical planets</strong> — Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn: the seven lights that visibly wander the sky. The names of the weekdays descend from them.</p><span class="credit">Credit: <b>ancient astronomy</b> — the seven wandering lights of the pre-telescope sky.</span></article>
+      <article class="item"><span class="big7">7</span><h3>The classical planets</h3><p>Ancient astronomy counted <strong>7 classical planets</strong> — Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn: the seven lights that visibly wander the sky. The names of the weekdays descend from them — directly in the Romance languages; in English they arrive through Germanic gods standing in for them: Tiw for Mars, Woden for Mercury, Thor for Jupiter, Frigg for Venus.</p><span class="credit">Credit: <b>ancient astronomy</b> — the seven wandering lights of the pre-telescope sky.</span></article>
 
-      <article class="item"><span class="big7">7</span><h3>The Seven Sisters</h3><p>The Pleiades star cluster is known as the <strong>Seven Sisters</strong> — seven stars traditionally picked out by the naked eye, named for the sisters of Greek myth.</p><span class="credit">Credit: <b>Greek myth</b> — the Pleiades, daughters of Atlas.</span></article>
+      <article class="item"><span class="big7">7</span><h3>The Seven Sisters</h3><p>The Pleiades star cluster is known as the <strong>Seven Sisters</strong> — seven stars in the traditional count — though most eyes under ordinary skies pick out six; seven takes dark skies and sharp sight, named for the sisters of Greek myth.</p><span class="credit">Credit: <b>Greek myth</b> — the Pleiades, daughters of Atlas.</span></article>
     </div>
   </section>
 
@@ -305,9 +320,9 @@ footer{text-align:center;color:#8f7aa3;font-size:.85rem;margin-top:28px}
     <p class="lede">And when humans drew their own map of the world, they reached for seven again and again.</p>
 
     <div class="grid">
-      <article class="item"><span class="big7">7</span><h3>Continents &amp; seas</h3><p><strong>7 continents</strong> on the globe, and the old sailor's count of the <strong>7 seas</strong> — the whole world, divided by sevens.</p></article>
-      <article class="item"><span class="big7">7</span><h3>Days of the week</h3><p>Born from the moon's phases and kept by basically <strong>every culture on the planet</strong>. Seven days, then it starts again.</p></article>
-      <article class="item"><span class="big7">7</span><h3>Notes in the scale</h3><p><strong>Do, re, mi, fa, sol, la, ti</strong> — seven notes, and the eighth is the first one again, an octave higher. Music itself is a loop of seven.</p></article>
+      <article class="item"><span class="big7">7</span><h3>Continents &amp; seas</h3><p><strong>7 continents</strong> on the globe, by the usual count — other school traditions reckon six, five, or four, and the old sailor's count of the <strong>7 seas</strong> — the whole world, divided by sevens.</p></article>
+      <article class="item"><span class="big7">7</span><h3>Days of the week</h3><p>Born partly from the moon's phases — and spread worldwide, though Rome once kept an 8-day week and Egypt a 10-day one. Seven days, then it starts again.</p></article>
+      <article class="item"><span class="big7">7</span><h3>Notes in the scale</h3><p><strong>Do, re, mi, fa, sol, la, ti</strong> — seven notes, and the eighth is the first one again, an octave higher. Music in the do-re-mi system is a loop of seven.</p></article>
       <article class="item"><span class="big7">7</span><h3>Openings in the head</h3><p>The old anatomy riddle: <strong>2 eyes, 2 ears, 2 nostrils, 1 mouth</strong>. Everything you take in from the world comes through seven doors.</p></article>
     </div>
   </section>
@@ -336,11 +351,11 @@ footer{text-align:center;color:#8f7aa3;font-size:.85rem;margin-top:28px}
     <div class="grid">
       <article class="item"><span class="big7">7</span><h3>Rome's seven hills</h3><p>Rome was built on <strong>7 hills</strong> — the Palatine, Aventine, Capitoline, Quirinal, Viminal, Esquiline, and Caelian. The eternal city starts with a seven.</p></article>
 
-      <article class="item"><span class="big7">7</span><h3>Wonders of the Ancient World</h3><p>The famous list names <strong>7 Wonders</strong> — the Great Pyramid, the Hanging Gardens, the statues, temples, tomb, and lighthouse the ancient world agreed were unmatched.</p><span class="credit">Credit: <b>Hellenic travellers' lists</b> — the Seven Wonders tradition of the ancient Greek world.</span></article>
+      <article class="item"><span class="big7">7</span><h3>Wonders of the Ancient World</h3><p>The famous list names <strong>7 Wonders</strong> — the Great Pyramid, the Hanging Gardens, two statues, one temple, a tomb, and a lighthouse the ancient world agreed were unmatched.</p><span class="credit">Credit: <b>Hellenic travellers' lists</b> — the Seven Wonders tradition of the ancient Greek world.</span></article>
 
       <article class="item"><span class="big7">7</span><h3>Sevens in the sacred texts</h3><p>Genesis tells of creation in six days and <strong>rest on the seventh</strong>. The menorah has <strong>7 branches</strong>. Catholic tradition counts <strong>7 sacraments</strong>. And Revelation runs on sevens — <strong>7 churches, 7 seals, 7 trumpets</strong>.</p><span class="credit">Credit: <b>Genesis, the menorah of the Temple, Catholic tradition, and the Book of Revelation</b>.</span></article>
 
-      <article class="item"><span class="big7">7</span><h3>Seven chakras</h3><p>Hindu tradition maps the body with <strong>7 chakras</strong> — seven energy centers running from the base of the spine to the crown of the head.</p><span class="credit">Credit: <b>Hindu tradition</b> — the seven-chakra system.</span></article>
+      <article class="item"><span class="big7">7</span><h3>Seven chakras</h3><p>The familiar Hindu map of the body has <strong>7 chakras</strong> — older tantric systems counted anywhere from four to twelve or more; the six-plus-crown scheme behind today's seven was set down in 1577 and carried worldwide in 1919 — seven energy centers running from the base of the spine to the crown of the head.</p><span class="credit">Credit: <b>Hindu tradition</b> — the seven-chakra system.</span></article>
 
       <article class="item"><span class="big7">7</span><h3>Sevens in folklore</h3><p>Snow White was taken in by <strong>7 dwarfs</strong>, and breaking a mirror is said to bring <strong>7 years of bad luck</strong>. Even the stories we tell children count in sevens.</p><span class="credit">Credit: <b>folklore &amp; pop culture</b> — the Grimms' Snow White and the broken-mirror superstition.</span></article>
     </div>
@@ -352,7 +367,7 @@ footer{text-align:center;color:#8f7aa3;font-size:.85rem;margin-top:28px}
   <div class="closing">
     <blockquote>“The number 7 doesn't stop at the dice. It keeps appearing — in light, in the body, across the Earth, in the week, and in music — <em>the same number, again and again</em>.”</blockquote>
     <p>And here is the honest part: <strong style="color:var(--cream)">none of these things are related to each other.</strong> The dice didn't cause the rainbow. The rainbow has nothing to do with neck bones, the sins have nothing to do with the week, and pH 7 never met a musical note. None of them cause or connect to one another — the only thread running through all of them is the number itself. Seven, appearing again and again. Recurrence, not relation.</p>
-    <p>But it sure is odd that many of these systems — such as our bones, the prism of colors, and the moon cycle — operate using the number 7. Whether created by God or an accidental chaos, it sure is great mathematics and planning on the part of the universe.</p>
+    <p>But it sure is odd that many of these systems — such as our bones, the prism of colors, and the moon cycle — operate using the number 7. Whether created by God or an accidental chaos, it sure is great mathematics — planned or not.</p>
   </div>
     <div class="begin-row"><button class="btn" type="button" data-goto="0">↺ Back to the Cover</button></div>
   </section>
@@ -378,6 +393,7 @@ footer{text-align:center;color:#8f7aa3;font-size:.85rem;margin-top:28px}
   var indicator=document.getElementById("pageIndicator");
   var pagerMid=document.getElementById("pagerMid");
   var prevBtn=document.getElementById("prevBtn"), nextBtn=document.getElementById("nextBtn");
+  var sidePrev=document.getElementById("sidePrev"), sideNext=document.getElementById("sideNext");
   var prevLabel=document.getElementById("prevLabel"), nextLabel=document.getElementById("nextLabel");
   var dotsWrap=document.getElementById("pageDots");
   var current=0;
@@ -398,6 +414,10 @@ footer{text-align:center;color:#8f7aa3;font-size:.85rem;margin-top:28px}
     indicator.innerHTML="Page "+(i+1)+" of "+pages.length+" <span>— "+PAGE_TITLES[i]+"</span>";
     pagerMid.innerHTML="<b>Page "+(i+1)+"</b> of "+pages.length+" · "+PAGE_TITLES[i];
     prevBtn.disabled=(i===0); nextBtn.disabled=(i===pages.length-1);
+    if(sidePrev) sidePrev.disabled=(i===0);
+    if(sideNext) sideNext.disabled=(i===pages.length-1);
+    if(window.__hearthHurry) window.__hearthHurry();
+    if(window.__hearthScan) window.__hearthScan();
     prevLabel.textContent=(i===0)?"Previous":PAGE_TITLES[i-1];
     nextLabel.textContent=(i===pages.length-1)?"Next":PAGE_TITLES[i+1];
     try{history.replaceState(null,"","#"+PAGE_HASH[i]);}catch(e){}
@@ -411,6 +431,27 @@ footer{text-align:center;color:#8f7aa3;font-size:.85rem;margin-top:28px}
   document.querySelectorAll("[data-goto]").forEach(function(b){b.addEventListener("click",function(){showPage(+b.dataset.goto,true);});});
   prevBtn.addEventListener("click",function(){showPage(current-1,true);});
   nextBtn.addEventListener("click",function(){showPage(current+1,true);});
+  if(sidePrev) sidePrev.addEventListener("click",function(){showPage(current-1,true);});
+  if(sideNext) sideNext.addEventListener("click",function(){showPage(current+1,true);});
+  // Mobile swipe: left = next, right = previous. ~50px threshold, horizontal-dominant only,
+  // and never when the touch starts on a flip card or any interactive element.
+  var touchStartX=null,touchStartY=null,touchStartInteractive=false;
+  document.addEventListener("touchstart",function(e){
+    if(!e.changedTouches||!e.changedTouches.length) return;
+    var t=e.changedTouches[0]; touchStartX=t.clientX; touchStartY=t.clientY;
+    var el=e.target;
+    touchStartInteractive=!!(el&&el.closest&&el.closest(".flip,button,a,input,select,textarea,[role='button'],.pair-chip,.combo-tile,.page-tab,.dots,.pager,.side-arrow"));
+  },{passive:true});
+  document.addEventListener("touchend",function(e){
+    if(touchStartX===null||touchStartInteractive) {touchStartX=null; return;}
+    if(!e.changedTouches||!e.changedTouches.length) return;
+    var t=e.changedTouches[0];
+    var dx=t.clientX-touchStartX, dy=t.clientY-touchStartY;
+    touchStartX=null; touchStartY=null;
+    if(Math.abs(dx)<50) return;
+    if(Math.abs(dx)<Math.abs(dy)*1.4) return;
+    if(dx<0) showPage(current+1,true); else showPage(current-1,true);
+  },{passive:true});
   document.addEventListener("keydown",function(e){
     if(e.key==="ArrowRight"){showPage(current+1,true);}
     else if(e.key==="ArrowLeft"){showPage(current-1,true);}
@@ -513,6 +554,105 @@ footer{text-align:center;color:#8f7aa3;font-size:.85rem;margin-top:28px}
     b.addEventListener("click",function(){b.classList.toggle("flipped");});
     grid.appendChild(b);
   });
+
+  // ---- Solo Hearth: one paragraph at a time, letter-by-letter, each plays exactly once ----
+  // House pacing: per-letter step cap 0.202s, coefficient 10.6, rest 1.32s, hurry window 950ms.
+  (function(){
+    var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(reduced) return;
+    var STEP_CAP=0.202, COEF=10.6, REST_MS=1320, HURRY_MS=950;
+    var HEARTH_SELECTOR=".page p, .page .idea, .page .note, .page blockquote";
+    var paras=[];
+    document.querySelectorAll(HEARTH_SELECTOR).forEach(function(p){
+      if(p.closest(".flip")) return;
+      paras.push(p);
+    });
+    function splitNode(node,inheritedColor){
+      if(node.nodeType===3){
+        var text=node.textContent;
+        if(!text) return;
+        var frag=document.createDocumentFragment();
+        var tokens=text.split(/(\s+)/);
+        tokens.forEach(function(tok){
+          if(!tok) return;
+          if(/^\s+$/.test(tok)){ frag.appendChild(document.createTextNode(tok)); return; }
+          var word=document.createElement("span"); word.className="hearth-word";
+          for(var i=0;i<tok.length;i++){
+            var s=document.createElement("span"); s.className="hearth-letter"; s.textContent=tok[i];
+            if(inheritedColor){ s.classList.add("prism-letter"); s.style.setProperty("--hc",inheritedColor); }
+            word.appendChild(s);
+          }
+          frag.appendChild(word);
+        });
+        node.parentNode.replaceChild(frag,node);
+      } else if(node.nodeType===1){
+        var color=inheritedColor;
+        if(node.getAttribute && node.getAttribute("data-hearth-color")) color=node.getAttribute("data-hearth-color");
+        var kids=Array.prototype.slice.call(node.childNodes);
+        kids.forEach(function(kid){ splitNode(kid,color); });
+      }
+    }
+    paras.forEach(function(p,idx){ p.dataset.hearthIndex=idx; splitNode(p); });
+    var played={}, queued={}, queue=[], playing=false, currentTimers=[], currentFinish=null, restTimer=null;
+    function clearTimers(){ currentTimers.forEach(function(id){clearTimeout(id);}); currentTimers=[]; }
+    window.__hearthHurry=function(){
+      if(!playing||!currentFinish) return;
+      var finish=currentFinish; currentFinish=null; clearTimers();
+      document.querySelectorAll(".hearth-letter.lit").forEach(function(l){l.classList.remove("lit");});
+      // Hurry: wrap the current paragraph up inside the hurry window.
+      currentTimers.push(setTimeout(function(){ if(finish) finish(true); }, Math.min(180,HURRY_MS)));
+    };
+    function playPara(p,done){
+      var letters=p.querySelectorAll(".hearth-letter");
+      if(!letters.length){ done(false); return; }
+      var step=Math.min(STEP_CAP, COEF/Math.max(letters.length,1));
+      var stepMs=step*1000;
+      currentFinish=done;
+      letters.forEach(function(letter,i){
+        currentTimers.push(setTimeout(function(){ letter.classList.add("lit"); }, Math.round(i*stepMs)));
+        currentTimers.push(setTimeout(function(){ letter.classList.remove("lit"); }, Math.round(i*stepMs+680)));
+      });
+      var total=Math.round(letters.length*stepMs+720);
+      currentTimers.push(setTimeout(function(){ currentFinish=null; done(false); }, total));
+    }
+    function processQueue(){
+      if(playing) return;
+      if(!queue.length) return;
+      queue.sort(function(a,b){ return (+a.dataset.hearthIndex)-(+b.dataset.hearthIndex); });
+      var p=queue.shift();
+      playing=true;
+      playPara(p,function(){
+        clearTimers();
+        played[p.dataset.hearthIndex]=true;
+        restTimer=setTimeout(function(){ playing=false; currentFinish=null; processQueue(); }, REST_MS);
+      });
+    }
+    function enqueue(p){
+      var idx=p.dataset.hearthIndex;
+      if(played[idx]||queued[idx]) return;
+      queued[idx]=true; queue.push(p); processQueue();
+    }
+    var observer=null;
+    if("IntersectionObserver" in window){
+      observer=new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting) enqueue(en.target); });
+      },{root:null,rootMargin:"-18% 0px -18% 0px",threshold:0.05});
+      paras.forEach(function(p){ observer.observe(p); });
+    } else {
+      paras.forEach(enqueue);
+    }
+    window.__hearthScan=function(){
+      // When a new page is shown, re-check its paragraphs against the reading zone.
+      if(!observer) return;
+      var active=document.querySelector(".page.active");
+      if(!active) return;
+      active.querySelectorAll("p, .idea, .note, blockquote").forEach(function(p){
+        if(p.dataset.hearthIndex===undefined) return;
+        var r=p.getBoundingClientRect();
+        if(r.top<window.innerHeight*0.82 && r.bottom>window.innerHeight*0.18) enqueue(p);
+      });
+    };
+  })();
 })();
 </script>
 </body>
