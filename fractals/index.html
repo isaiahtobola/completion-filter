@@ -20,11 +20,6 @@
         --body:"Spectral",Georgia,serif;
         --mono:"IBM Plex Mono",ui-monospace,monospace;
       }
-      /* Back to the Sea pill — the standard door back to bwyoungbo.com,
-         added to the deployed copy only (the Library book carries none),
-         copied from the Number 7 book's pill. */
-      .back-sea{display:inline-block;margin:0 0 20px;padding:9px 18px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--gold);text-decoration:none;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase}
-      .back-sea:hover{background:var(--panel2);color:var(--gold-pale)}
       *{ box-sizing:border-box; }
       html,body{ height:100%; }
       body{
@@ -184,6 +179,48 @@
       .cv-sq{ aspect-ratio:1/1; } .cv-wide{ aspect-ratio:16/10; } .cv-43{ aspect-ratio:4/3; } .cv-coast{ aspect-ratio:2/1; }
       .cv-bolt{ aspect-ratio:3/4; max-width:400px; margin:0 auto; }
       .cv-koch{ aspect-ratio:16/6; } .cv-cantor{ aspect-ratio:16/7; }
+
+      /* ---- The Newton Fractal page: live basins, its own controls,
+         and the trace overlay that rides inside the frame ---- */
+      .formula{
+        font-family:var(--serif); font-size:clamp(1.3rem,4vw,1.7rem); color:var(--gold-pale);
+        text-align:center; padding:18px 10px; margin:16px 0; border:1px solid var(--line-soft);
+        border-radius:14px; background:rgba(240,183,63,.04); line-height:1.5;
+      }
+      .formula .sub{ display:block; font-family:var(--mono); font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--cream-faint); margin-top:8px; }
+      #cvNewton{ touch-action:pan-y; }
+      .cv-overlay{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+      .fx-frame.tracing{ box-shadow:0 0 0 2px var(--gold), 0 0 22px rgba(240,183,63,.45), 0 0 44px rgba(240,183,63,.22); }
+      .chip-btn{
+        display:inline-flex; align-items:center; gap:6px;
+        background:rgba(21,13,32,.9); color:var(--gold-soft);
+        border:1px solid var(--line); border-radius:999px;
+        padding:8px 14px; font-family:var(--mono); font-size:.74rem; font-weight:500;
+        letter-spacing:.08em; min-height:2.75rem; box-shadow:0 2px 12px rgba(0,0,0,.45);
+      }
+      .chip-btn:hover{ background:rgba(58,36,92,.95); color:var(--gold-pale); border-color:var(--gold-pale); }
+      .chip-btn:focus-visible{ outline:2px solid var(--gold-pale); outline-offset:2px; }
+      .chip-btn.on{ background:var(--gold); border-color:var(--gold); color:#241203; }
+      .chip-btn:disabled{ opacity:.35; cursor:default; }
+      .controls-stack{ display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+      .controls-stack .row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:space-between; }
+      .controls-stack .row .left{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+      .ctl-label{ font-family:var(--mono); font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--cream-faint); margin-right:2px; }
+      .readout{
+        font-family:var(--mono); font-size:.78rem; line-height:1.7; color:var(--cream-dim);
+        border:1px solid var(--line-soft); border-radius:12px; padding:12px 14px; margin-top:12px;
+        background:rgba(240,183,63,.04); min-height:3.2rem;
+      }
+      .readout b{ color:var(--gold); font-weight:500; }
+      .readout .dim{ color:var(--cream-faint); }
+      .legend{ display:flex; flex-wrap:wrap; gap:8px 18px; margin-top:12px; font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; color:var(--cream-dim); }
+      .legend .sw{ display:inline-block; width:12px; height:12px; border-radius:3px; vertical-align:-1px; margin-right:6px; border:1px solid rgba(247,234,209,.25); }
+      .newton-colophon{ margin-top:34px; padding-top:18px; border-top:1px solid var(--line-soft); text-align:center; }
+      .newton-colophon p{
+        margin:0 auto; max-width:none; text-align:center; font-family:var(--mono); font-size:.72rem;
+        letter-spacing:.14em; text-transform:uppercase; color:var(--cream-faint); line-height:1.9;
+      }
+      .newton-colophon b{ color:var(--gold-soft); font-weight:500; }
       .two-col{ display:grid; grid-template-columns:1fr; gap:0 22px; margin-bottom:22px; }
       @media (min-width:720px){ .two-col{ grid-template-columns:1fr 1fr; } }
 
@@ -332,7 +369,9 @@
       .menu-item .de{ display:block; font-family:var(--body); font-size:.85rem; color:var(--cream-faint); margin-top:2px; }
       .menu-item.cur .ti{ color:var(--gold-pale); }
       @media (prefers-reduced-motion: reduce){ *{ scroll-behavior:auto !important; } }
-    </style>
+    .back-sea{display:inline-block;margin:0 0 20px;padding:9px 18px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--gold);text-decoration:none;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase}
+.back-sea:hover{background:var(--panel2);color:var(--gold-pale)}
+</style>
   </head>
   <body>
     <div class="book">
@@ -341,7 +380,7 @@
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
           Contents
         </button>
-        <div class="page-count" id="pageCount">Page <b>1</b> of 23</div>
+        <div class="page-count" id="pageCount">Page <b>1</b> of 25</div>
       </header>
 
       <div class="pages" id="pages">
@@ -397,7 +436,7 @@
               </div>
               <div class="roll-group">
                 <div class="roll-head">The Protein Team · Nature, 2024</div>
-                <div class="roll-names"><a href="https://www.mpi-marburg.mpg.de/1511259/2025-06-b" target="_blank" rel="noopener">Franziska Sendker</a> · <a href="https://www.mpi-marburg.mpg.de/687345/Georg-Hochberg" target="_blank" rel="noopener">Georg Hochberg</a> · <a href="https://www.dfg.de/en/funded-projects/prizewinners/leibniz-prize/2024/erb" target="_blank" rel="noopener">Tobias Erb</a> · <a href="https://www.schullerlab.org/_files/ugd/b04e46_26ebb108634c45beb323b80c7c8c303d.pdf" target="_blank" rel="noopener">Jan Schuller</a> · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11041685/" target="_blank" rel="noopener">Yat Kei Lo</a> · <a href="https://www.zmbh.uni-heidelberg.de/schindler/honors.html" target="_blank" rel="noopener">Daniel Schindler</a> · <a href="https://www.uni-marburg.de/en/synmikro/facilities/electron-microscopy" target="_blank" rel="noopener">Thomas Heimerl</a> · <a href="https://www.helmholtz-munich.de/en/cross-disciplinary-initiatives/cryo-electron-microscopy-platform" target="_blank" rel="noopener">Stefan Bohn</a> · <a href="https://www.uu.se/en/contact-and-organisation/staff?query=N21-518" target="_blank" rel="noopener">Louise J. Persson</a> · <a href="https://www.uu.se/en/news/2018/2018-12-04-the-chemist-with-a-handle-on-the-state-of-molecules" target="_blank" rel="noopener">Erik G. Marklund</a> · <a href="https://orcid.org/0000-0003-1927-2885" target="_blank" rel="noopener">Christopher-Nils Mais</a> · <a href="https://orcid.org/0000-0001-6294-8081" target="_blank" rel="noopener">Wiktoria Sadowska</a> · <a href="https://www.univ.ox.ac.uk/academics/justin-benesch/" target="_blank" rel="noopener">Justin L. P. Benesch</a> · <a href="https://www.mpi-marburg.mpg.de/1505241/Speakers" target="_blank" rel="noopener">Nicole Paczia</a> · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11041685/" target="_blank" rel="noopener">Eva Nußbaum</a> · <a href="https://www.phd.tuebingen.mpg.de/5790/karl-forchhammer" target="_blank" rel="noopener">Karl Forchhammer</a> · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11041685/" target="_blank" rel="noopener">María del Carmen Sánchez Olmos</a> · <a href="https://www.mpi-marburg.mpg.de/1051460/cv" target="_blank" rel="noopener">Gert Bange</a></div>              </div>
+                <div class="roll-names"><a href="https://www.mpi-marburg.mpg.de/1511259/2025-06-b" target="_blank" rel="noopener">Franziska Sendker</a> · <a href="https://www.mpi-marburg.mpg.de/687345/Georg-Hochberg" target="_blank" rel="noopener">Georg Hochberg</a> · <a href="https://www.dfg.de/en/funded-projects/prizewinners/leibniz-prize/2024/erb" target="_blank" rel="noopener">Tobias Erb</a> · <a href="https://www.schullerlab.org/_files/ugd/b04e46_26ebb108634c45beb323b80c7c8c303d.pdf" target="_blank" rel="noopener">Jan Schuller</a> · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11041685/" target="_blank" rel="noopener">Yat Kei Lo</a> · <a href="https://www.zmbh.uni-heidelberg.de/schindler/honors.html" target="_blank" rel="noopener">Daniel Schindler</a> · <a href="https://www.uni-marburg.de/en/synmikro/facilities/electron-microscopy" target="_blank" rel="noopener">Thomas Heimerl</a> · <a href="https://www.helmholtz-munich.de/en/cross-disciplinary-initiatives/cryo-electron-microscopy-platform" target="_blank" rel="noopener">Stefan Bohn</a> · <a href="https://www.uu.se/en/contact-and-organisation/staff?query=N21-518" target="_blank" rel="noopener">Louise J. Persson</a> · <a href="https://www.uu.se/en/news/2018/2018-12-04-the-chemist-with-a-handle-on-the-state-of-molecules" target="_blank" rel="noopener">Erik G. Marklund</a> · <a href="https://orcid.org/0000-0003-1927-2885" target="_blank" rel="noopener">Christopher-Nils Mais</a> · <a href="https://orcid.org/0000-0001-6294-8081" target="_blank" rel="noopener">Wiktoria Sadowska</a> · <a href="https://www.univ.ox.ac.uk/academics/justin-benesch/" target="_blank" rel="noopener">Justin L. P. Benesch</a> · <a href="https://www.mpi-marburg.mpg.de/1505241/Speakers" target="_blank" rel="noopener">Nicole Paczia</a> · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11041685/" target="_blank" rel="noopener">Eva Nußbaum</a> · <a href="https://uni-tuebingen.de/en/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/interfakultaere-einrichtungen/imit/arbeitsgruppen/mikrobiologie-organismische-interaktionen/ag-forchhammer/" target="_blank" rel="noopener">Karl Forchhammer</a> · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11041685/" target="_blank" rel="noopener">María del Carmen Sánchez Olmos</a> · <a href="https://www.mpi-marburg.mpg.de/1051460/cv" target="_blank" rel="noopener">Gert Bange</a></div>              </div>
               <div class="roll-group">
                 <div class="roll-head">The Popularizers &amp; the Visual Makers</div>
                 <div class="roll-names"><a href="https://www.peitgen.com/" target="_blank" rel="noopener">Heinz-Otto Peitgen</a> · <a href="https://www.itp.uni-bremen.de/prichter/nachruf.html" target="_blank" rel="noopener">Peter H. Richter</a> · <a href="https://www.mmsp.uni-konstanz.de/people/overview/prof-dr-dietmar-saupe/" target="_blank" rel="noopener">Dietmar Saupe</a> · <a href="https://history.siggraph.org/person/richard-f-voss/" target="_blank" rel="noopener">Richard F. Voss</a> · <a href="https://www.nationalbook.org/people/james-gleick/" target="_blank" rel="noopener">James Gleick</a> · <a href="https://www.csd.uwo.ca/people/memoriam/" target="_blank" rel="noopener">A. K. Dewdney</a> · <a href="https://sprott.physics.wisc.edu/pickover/biog.html" target="_blank" rel="noopener">Clifford Pickover</a> · <a href="https://history.siggraph.org/award/siggraph-1985-computer-graphics-achievement-award-carpenter/" target="_blank" rel="noopener">Loren Carpenter</a> · <a href="https://computerhistory.org/blog/lillian-schwartz-pushing-the-medium/" target="_blank" rel="noopener">Lillian F. Schwartz</a> · <a href="https://history.siggraph.org/person/donna-j-cox/" target="_blank" rel="noopener">Donna J. Cox</a> · <a href="https://doi.org/10.1007/BF02098448" target="_blank" rel="noopener">Tan Lei</a></div>              </div>
@@ -770,9 +809,84 @@
           <p class="credit">Credits — <b>Georg Cantor</b>, <i>Mathematische Annalen</i> 21 (1883) · <b>H. J. S. Smith</b>, <i>Proceedings of the London Mathematical Society</i> 6 (1874/75) · <b>Helge von Koch</b>, <i>Arkiv för matematik</i> 1 (1904) · <b>Wacław Sierpiński</b> (1915/1916) · <b>Pierre Fatou</b> (1917/1919) · <b>Gaston Julia</b>, <i>Journal de Mathématiques Pures et Appliquées</i> 8 (1918) · <b>Robert W. Brooks &amp; J. Peter Matelski</b>, Stony Brook proceedings (1978 paper; 1981 volume) · <b>Adrien Douady &amp; John H. Hubbard</b> (1982–85) · <b>Mitsuhiro Shishikura</b>, <i>Annals of Mathematics</i> 147 (1998) · <b>Mitchell Feigenbaum</b> (δ ≈ 4.669).</p>
         </section>
 
-        <!-- ============ PAGE 8 · THE MYTH TABLE ============ -->
-        <section class="page" data-slug="myths" data-title="The Myth Table" data-desc="Claims that collapse when measured — displayed proudly">
+        <!-- ============ PAGE 8 · THE NEWTON FRACTAL ============ -->
+        <section class="page" data-slug="newton" data-title="The Newton Fractal" data-desc="Basins of attraction, Cayley's question, and the Wada border">
           <p class="kicker">Page Eight</p>
+          <h2 class="page-title">The Newton Fractal</h2>
+          <p class="lede">Take a method built to find answers, ask it a question with three answers at once — and the border between those answers turns out to be a fractal that never smooths out, no matter how far you zoom.</p>
+          <div class="canvas-card newton-card">
+            <canvas class="fx cv-sq" id="cvNewton" aria-label="The Newton fractal for z cubed minus 1, computed live: three basins of attraction meeting at a fractal boundary"></canvas>
+            <p class="cap" id="fxCap"><b>Newton fractal · z³ − 1.</b> Every point is a starting guess. It is coloured by which cube root of unity Newton's method carries it to; the darker the shade, the more steps the journey took. Press Play and the picture computes itself, line by line.</p>
+            <div class="controls-stack">
+              <div class="row">
+                <div class="left">
+                  <span class="ctl-label">Equation</span>
+                  <button class="chip-btn eq-btn on" data-n="3" aria-pressed="true">z³ − 1</button>
+                  <button class="chip-btn eq-btn" data-n="4" aria-pressed="false">z⁴ − 1</button>
+                  <button class="chip-btn eq-btn" data-n="5" aria-pressed="false">z⁵ − 1</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="left">
+                  <span class="ctl-label">Tap does</span>
+                  <button class="chip-btn mode-btn on" data-mode="zoom" aria-pressed="true">＋ Zoom in</button>
+                  <button class="chip-btn mode-btn" data-mode="trace" aria-pressed="false">⌖ Trace a point</button>
+                </div>
+                <div class="left">
+                  <span class="ctl-label" id="newtonZoomLabel">Zoom ×1</span>
+                  <button class="chip-btn" id="newtonZoomOut">− Zoom out</button>
+                  <button class="chip-btn" id="newtonReset">Reset view</button>
+                </div>
+              </div>
+            </div>
+            <div class="legend" id="newtonLegend"></div>
+            <div class="readout" id="newtonReadout"><span class="dim">The method itself, live:</span> switch <b>Tap does</b> to <b>⌖ Trace a point</b>, then tap anywhere in the picture to watch Newton's method hop from that guess, step by step, down to its root.</div>
+          </div>
+          <h3>A method for finding roots</h3>
+          <p>A <em class="term">root</em> of an equation is a value that makes it zero — a place where f(z) = 0. Newton's method is a machine for hunting roots down. Start with any guess. Draw the tangent line to the curve at that guess, follow the tangent to where it crosses zero, and use that crossing as your next guess. Then repeat. Each guess is corrected by the slope of the function at the guess itself:</p>
+          <div class="formula">z<sub>next</sub> = z − f(z) ⁄ f′(z)<span class="sub">The Newton–Raphson step</span></div>
+          <p>Isaac Newton described the method for polynomials in work from <strong>1669–1671</strong> — in <em>De analysi</em> (1669) and in his <em>Method of Fluxions</em>, written in 1671 though not published until 1736. <strong>Joseph Raphson</strong> published the cleaner, recognisably iterative form in <strong>1690</strong>, which is why the method carries both names: <em class="term">Newton–Raphson</em>. In <strong>1740</strong>, Thomas Simpson generalised it beyond polynomials to functions in general.</p>
+          <p>Near a root, the method is startlingly fast: it converges <em class="term">quadratically</em>, meaning the number of correct digits roughly <strong>doubles with every step</strong>. A guess good to two digits becomes good to four, then eight, then sixteen. That speed is why a three-century-old idea still sits inside calculators, engineering software, and computer graphics today.</p>
+          <ul class="timeline">
+            <li><span class="yr">1669</span><span class="ev"><b>De analysi</b> — Newton sets out the method for polynomial equations.</span></li>
+            <li><span class="yr">1671</span><span class="ev"><b>Method of Fluxions</b> written (published 1736) — the method in Newton's fluxional form.</span></li>
+            <li><span class="yr">1690</span><span class="ev"><b>Joseph Raphson</b> publishes the streamlined iterative version — the double name is born.</span></li>
+            <li><span class="yr">1740</span><span class="ev"><b>Thomas Simpson</b> generalises the method to arbitrary functions.</span></li>
+            <li><span class="yr">1879</span><span class="ev"><b>Arthur Cayley</b> asks which starting points end at which root — and finds the cubic case resists description.</span></li>
+          </ul>
+          <hr class="rule" />
+          <h3>Three roots, three kingdoms</h3>
+          <p>Apply the method to <strong>f(z) = z³ − 1</strong> over the complex numbers, and the equation has not one answer but three: the <em class="term">cube roots of unity</em>. They are <strong>1</strong> and <strong>(−1 ± i√3)/2</strong> — three points spaced perfectly evenly around the unit circle, like the points of a triangle drawn in a ring.</p>
+          <div class="formula">1 &nbsp;·&nbsp; (−1 + i√3)/2 &nbsp;·&nbsp; (−1 − i√3)/2<span class="sub">The three cube roots of unity — each one cubed equals 1</span></div>
+          <p>Now colour the whole plane by fate. Pick any starting point, run Newton's method, and see which root it falls into. Every point that settles belongs to exactly one root's territory — its <em class="term">basin of attraction</em>; the points on the boundary between territories belong to none, and never settle at all. Points deep inside a basin arrive in a few steps and glow bright. Points near a border wander longer before settling, so the shading darkens as the journey lengthens. For z⁴ − 1 and z⁵ − 1 — try them above — the same game plays out with four and five roots, the fourth and fifth roots of unity, evenly spaced on the same circle.</p>
+          <p>Seen whole, the three-basin picture for z³ − 1 is often compared to a <strong>three-petal flower</strong>, or a triskelion — three great arms curling around a centre. That is a description of how it <em>looks</em>, nothing more: nobody designed the flower. It falls out of the arithmetic, the way a snowflake's six arms fall out of water.</p>
+          <div class="stat-row">
+            <div class="stat"><span class="n">3</span><span class="l">Roots of z³ − 1 — the cube roots of unity</span></div>
+            <div class="stat"><span class="n">120°</span><span class="l">Apart on the unit circle, exactly evenly spaced</span></div>
+            <div class="stat"><span class="n">×2</span><span class="l">Correct digits, roughly, gained per step near a root</span></div>
+          </div>
+          <hr class="rule" />
+          <h3>Cayley's question</h3>
+          <p>In <strong>1879</strong>, the British mathematician <strong>Arthur Cayley</strong> asked the obvious next question: given all possible starting points, <em>which ones end at which root?</em> For quadratic equations — two roots — the answer is beautifully dull. The plane splits cleanly in half: the boundary between the two basins is a single straight line, the perpendicular bisector between the roots. Guess on one side, you land on that side's root. Every time.</p>
+          <p>For cubics — three roots — Cayley reported that the problem resisted any such easy description. He could not find the division at all — his own words, he "had not succeeded in finding it" — and the territory where the three kingdoms meet would not resolve into a tidy curve. He had run into the fractal boundary a century before the word <em>fractal</em> existed, with no computer to draw it and no language yet for what he was seeing. The picture at the top of this page is the answer he could not draw.</p>
+          <p>An honest label belongs here: <strong>this is a computer-era view of older mathematics.</strong> The method is 17th-century, the question is 19th-century, but nobody could see these basins until computers could iterate millions of starting points, one by one, and colour each by its fate. The fractal was always there. The eyes for it are new.</p>
+          <hr class="rule" />
+          <h3>The border that never smooths out</h3>
+          <p>Zoom into the boundary between any two basins — use the zoom above, up to ×10,000 — and it never simplifies. Filaments split into smaller filaments, islands of one kingdom appear deep inside another, and the same tangled pattern repeats at every scale. The boundary is a true fractal, and it has a precise identity: it is the <em class="term">Julia set</em> of the Newton map — the set of points where the method's behaviour is chaotic rather than settling.</p>
+          <p>The border has a stranger property still, called the <em class="term">Wada property</em>, named for the Japanese mathematician <strong>Takeo Wada</strong> — his Lakes of Wada construction was first published by Kunizō Yoneyama, crediting Wada, in <strong>1917</strong>. Every single point on the boundary of one basin is simultaneously on the boundary of <strong>all three</strong> basins. There is no stretch of border where only two kingdoms meet. Stand anywhere on the frontier, and an infinitesimal nudge — smaller than any measurement you could ever make — can send your starting point to <em>any</em> of the three roots.</p>
+          <p>And the points exactly <em>on</em> the boundary? They never settle at all. Newton's method hops them around forever, never landing on a root — which is why the boundary renders as the dark, unclaimed threadwork in the picture. Order owns the heartlands. The border belongs to chaos, and it is infinitely long, folded into a finite picture.</p>
+          <div class="card">
+            <h3>Try it at the border</h3>
+            <p>Zoom two or three times into any place where the colours meet, then switch to <strong>⌖ Trace a point</strong> and tap close to the border. Watch the hops: near the frontier the method can wander for dozens of steps, visiting the neighbourhoods of all three roots, before it finally commits to one. That wandering is what the shared border feels like from the inside — every neighbourhood of the frontier holds points bound for all three roots.</p>
+          </div>
+          <div class="newton-colophon">
+            <p class="credit">Computed live from Newton's method — <b>no images</b><br />The Newton Fractal · A BW Young Bo &amp; Lux Study</p>
+          </div>
+        </section>
+
+        <!-- ============ PAGE 9 · THE MYTH TABLE ============ -->
+        <section class="page" data-slug="myths" data-title="The Myth Table" data-desc="Claims that collapse when measured — displayed proudly">
+          <p class="kicker">Page Nine</p>
           <h2 class="page-title">The Myth Table</h2>
           <p class="lede">Every claim below is famous. Every one collapses when someone measures it properly. This study displays its busts on their own page, proudly — a study that only prints its hits isn't a study. It's an advertisement.</p>
           <div class="myth-row">
@@ -829,9 +943,9 @@
           <p class="credit">Credits — <b>Clement Falbo</b> (2005) · <b>Christopher Bartlett</b> (2019) · <b>George Markowsky</b> (1992) · <b>Kenneth Libbrecht</b>, Caltech, snowcrystals.com · <b>Boris Yurchak</b> (2007) · <b>Morag Iona Scrimgeour et al.</b>, WiggleZ, <i>MNRAS</i> 425 (2012) · <b>D. Gallagher</b>, NASA Science (1999) · <b>Michael Barnsley &amp; Alan Sloan</b>, Iterated Systems (1987) · <b>Arnaud Jacquin</b> (1992).</p>
         </section>
 
-        <!-- ============ PAGE 9 · THE LIGHTNING THREAD ============ -->
+        <!-- ============ PAGE 10 · THE LIGHTNING THREAD ============ -->
         <section class="page" data-slug="verdicts" data-title="The Lightning Thread" data-desc="Isaiah's three claims, put on the witness stand">
-          <p class="kicker">Page Nine · The Verdicts</p>
+          <p class="kicker">Page Ten · The Verdicts</p>
           <h2 class="page-title">The Lightning Thread</h2>
           <p class="lede">Isaiah's published theology line makes three testable claims. This study put each one on the witness stand — evidence for, evidence against — and graded them the same as everything else in this book. All three came back with the same verdict, and it is not the weak verdict it sounds like. It is the precise one.</p>
           <div class="verdict">
@@ -856,9 +970,9 @@
           <p class="credit">Sources — the full graded evidence for every line above is in the study dossier: Niemeyer, Pietronero &amp; Wiesmann (1984); Witten &amp; Sander (1981); Murray (1926); West, Brown &amp; Enquist (1997); Scrimgeour et al. (2012); Brown et al. (2018); Fischer et al. (2019); Lorenz (2018); Smith et al. (2021).</p>
         </section>
 
-        <!-- ============ PAGE 10 · THE STUDY ============ -->
+        <!-- ============ PAGE 11 · THE STUDY ============ -->
         <section class="page" data-slug="study" data-title="The Study" data-desc="The synthesis, in three labeled layers">
-          <p class="kicker">Page Ten · The Synthesis</p>
+          <p class="kicker">Page Eleven · The Synthesis</p>
           <h2 class="page-title">The Study</h2>
           <p class="lede">Everything before this page was evidence. This page is what BW Young Bo and Lux build on it — in three layers, kept separate on purpose. The layers are labeled so that no reader ever mistakes which kind of statement they're reading.</p>
 
@@ -890,7 +1004,7 @@
             <h3>Isaiah's reading</h3>
             <p><em>This layer is ours — Isaiah's theological and philosophical reading, built on top of the science above. It is labeled interpretation. It is not a scientific finding, and nothing in Layers A or B pretends otherwise.</em></p>
             <blockquote>&ldquo;Could it be that God is consciousness and inner present in all Layers of the fractals of life, part of our creator split into all of us as a way to continue creation and energy? Is it possible that the fractions of God all stem from One whole and that each branch and leaf of the trees of reality are just the universe experiencing itself? The Micro world, Earth World, and the Macro world share energy and electricity. Maybe the shape of lightning and trees is not only a clue but also the embodiment of God's fractionalization in shape or symbol —&rdquo;<span class="attr">Isaiah Tobola · published 17 November 2026</span></blockquote>
-            <p>Read against the graded evidence: <strong>&ldquo;fractions of One whole&rdquo;</strong> is, as pure shape-language, exactly what a fractal <em>is</em> — parts that carry the pattern of the whole, at every scale the scaling survives. Isaiah named his idea &ldquo;fractionalization&rdquo; before this study measured anything, and the word turned out to be the literal mathematics of the Sierpiński protein: one whole triangle, fractioned into copies of itself, built by a living cell. We record that as a striking correspondence of <em>language and shape</em>. Whether it is also a correspondence of <em>meaning</em> is Layer C's claim, and science neither confirms nor denies it. One correction the grading forced, kept here too: the worlds share energy and the same electromagnetic physics — not one shared electricity. See Page Nine.</p>
+            <p>Read against the graded evidence: <strong>&ldquo;fractions of One whole&rdquo;</strong> is, as pure shape-language, exactly what a fractal <em>is</em> — parts that carry the pattern of the whole, at every scale the scaling survives. Isaiah named his idea &ldquo;fractionalization&rdquo; before this study measured anything, and the word turned out to be the literal mathematics of the Sierpiński protein: one whole triangle, fractioned into copies of itself, built by a living cell. We record that as a striking correspondence of <em>language and shape</em>. Whether it is also a correspondence of <em>meaning</em> is Layer C's claim, and science neither confirms nor denies it. One correction the grading forced, kept here too: the worlds share energy and the same electromagnetic physics — not one shared electricity. See Page Ten.</p>
             <p>The recurrence of the branching shape across micro, Earth, and macro is real (Claim 3: PARTIALLY HOLDS — the strongest of the three). A man of faith may read that recurrence as a signature — one Author reusing one form. A skeptic reads the same tables and sees convergent solutions to shared problems. <strong>The tables are identical under both readings.</strong> That is what makes this an interpretation and not a finding: the evidence constrains it, rhymes with it, and does not compel it.</p>
             <p>Where we refuse to cheat: Layer C does not get to upgrade any grade. The universe is not fractal to the top. The nautilus is not golden. The protein's perfect triangles appear to be an accident that does its owner no good. If the shape is a clue, it is a clue that includes accidents, cut-offs, and a homogeneity ceiling — a fractionalization that <em>stops</em>, at every scale we can measure. Isaiah's theology, to stay honest, has to hold that too: maybe what lets go, arrives — maybe the pattern letting go at large scales is part of the pattern. That sentence is ours. We label it as such.</p>
             <p><strong>What we believe, stated once, plainly:</strong> that the same branching handwriting appearing in a neuron, a lung, a river, a storm, and a protein shaped like a Triforce is <em>worth</em> the wonder Isaiah brings to it; that connection is not a small thing in a universe whose most persistent structures are connection structures; and that a fraction carrying the pattern of the whole is a true description of a fractal — and, we believe, not only of fractals.</p>
@@ -1507,7 +1621,7 @@
           <h3>Layer B would break if…</h3>
           <p>the two mechanisms stopped explaining new cases — if bronchial or vascular branching were shown to follow Laplacian growth rather than transport optimisation, or if river networks failed Horton's ratios at newly mapped scales. New branching systems — slime-mould networks, fungal hyphae, cave systems — are live tests: each one either joins a mechanism family or forces a new one.</p>
           <h3>Layer C</h3>
-          <p><strong>cannot be proved wrong by measurement, and we say so.</strong> It is a reading, not a result. What <em>can</em> be proved wrong is any factual claim smuggled inside it — which is why page nine graded the theology line's factual load claim by claim, and why this study will correct the line's physics wherever the physics is wrong, while leaving its faith exactly where Isaiah put it.</p>
+          <p><strong>cannot be proved wrong by measurement, and we say so.</strong> It is a reading, not a result. What <em>can</em> be proved wrong is any factual claim smuggled inside it — which is why page ten graded the theology line's factual load claim by claim, and why this study will correct the line's physics wherever the physics is wrong, while leaving its faith exactly where Isaiah put it.</p>
           <h3>Still unknown, honestly open</h3>
           <ul>
             <li>Whether the Sierpiński protein's fractal does anything in conditions nobody has tested yet.</li>
@@ -4128,7 +4242,7 @@
           }
         }
         var anim = makeAnimator(draw, GROW + HOLD, function(){ signalDone('cvFlake'); });
-        registerAnimator(8, {
+        registerAnimator(9, {
           start: function(){ fit = fitCanvas(cv); if (REDUCED){ draw(GROW + 100); return; } anim.start(); },
           stop: function(){ anim.stop(); },
           reset: function(){ anim.reset(); }
@@ -4196,11 +4310,503 @@
           ctx.fillText('order ' + iter + ' — and the rule goes on', w/2, h - 6);
         }
         var anim = makeAnimator(draw, PER * 6 + 1200, function(){ signalDone('cvFlakeKoch'); });
-        registerAnimator(8, {
+        registerAnimator(9, {
           start: function(){ fit = fitCanvas(cv); if (REDUCED){ draw(PER*6 - 1); return; } anim.start(); },
           stop: function(){ anim.stop(); },
           reset: function(){ anim.reset(); }
         }, 'cvFlakeKoch');
+      })();
+
+      /* ================= Newton fractal — basins of attraction, live ===
+         Ported from the bench page "The Newton Fractal". Every pixel is
+         a starting guess for Newton's method on z^n − 1, coloured by
+         which root of unity the iteration carries it to; the basins are
+         smooth, and the FRACTAL is their shared boundary — the Julia
+         set of the Newton map. The book's play/pause/replay chrome
+         drives the computation (it starts paused on the idle frame);
+         when a computation finishes, the diagram hearth traces the
+         basin boundaries — this canvas publishes _hearthBoundaryData
+         from its own basin field, like the Mandelbrot and Julia boxes.
+         Tap-to-zoom is capped at ×10,000, as everywhere in this book,
+         and Trace mode walks one point's Newton hops to its root. */
+      (function(){
+        var cv = document.getElementById('cvNewton');
+        if (!cv) return;
+        var sec = cv.closest('.page');
+        var cap = document.getElementById('fxCap');
+        var readout = document.getElementById('newtonReadout');
+        var legendEl = document.getElementById('newtonLegend');
+        var zoomLabel = document.getElementById('newtonZoomLabel');
+        var ctx = cv.getContext('2d');
+        /* the trace overlay: laid over the picture inside the frame
+           registerAnimator builds below — root rings and the hop-by-hop
+           trace draw on it, never on the fractal itself */
+        var traceCv = document.createElement('canvas');
+        traceCv.className = 'cv-overlay';
+        traceCv.setAttribute('aria-hidden', 'true');
+        var ttx = traceCv.getContext('2d');
+
+        var MAX_ITER = 60;
+        var TOL = 1e-4;
+        var BASE_HALF = 1.7;
+        var ZOOM_CAP = 10000;
+
+        /* plum-and-gold basin palette (root index -> base colour) */
+        var PALETTE = [
+          [240,183,63],   /* gold        */
+          [247,234,209],  /* cream       */
+          [125,91,166],   /* deep plum   */
+          [224,120,86],   /* copper rose */
+          [255,217,122]   /* pale gold   */
+        ];
+        var PALETTE_CSS = ['#f0b73f','#f7ead1','#7d5ba6','#e07856','#ffd97a'];
+
+        var S = {
+          n: 3, roots: [],
+          cx: 0, cy: 0, zoom: 1,
+          W: 0, H: 0,
+          img: null, basin: null, iters: null,
+          row: 0, playing: false, done: false, raf: 0,
+          mode: 'zoom', traceTimers: []
+        };
+
+        function ctlOf(){ return (window.__ctlByCv && window.__ctlByCv['cvNewton']) || null; }
+        function frameEl(){ return cv.closest('.fx-frame'); }
+
+        function computeRoots(n){
+          var r = [];
+          for (var k = 0; k < n; k++){
+            var a = 2 * Math.PI * k / n;
+            r.push([Math.cos(a), Math.sin(a)]);
+          }
+          return r;
+        }
+
+        function sizeCanvases(){
+          var w = cv.clientWidth || 600;
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          var px = Math.max(320, Math.min(720, Math.round(w * dpr)));
+          S.W = px; S.H = px;
+          cv.width = px; cv.height = px;
+          traceCv.width = px; traceCv.height = px;
+        }
+        /* re-measure when the displayed size has actually changed (the
+           page was hidden at first sizing, or the device turned): the
+           render state belongs to the old bitmap, so it resets */
+        function ensureSize(){
+          var w = cv.clientWidth || 0;
+          if (!w) return false;
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          var px = Math.max(320, Math.min(720, Math.round(w * dpr)));
+          if (px === S.W) return false;
+          cancelRender();
+          S.W = px; S.H = px;
+          cv.width = px; cv.height = px;
+          traceCv.width = px; traceCv.height = px;
+          S.img = null; S.basin = null; S.iters = null;
+          S.row = 0; S.done = false; S.playing = false;
+          clearCanvas();
+          return true;
+        }
+
+        function halfSpan(){ return BASE_HALF / S.zoom; }
+        function toComplex(px, py){
+          var h = halfSpan();
+          return [S.cx + (px / S.W - 0.5) * 2 * h, S.cy + (0.5 - py / S.H) * 2 * h];
+        }
+        function toPixel(zx, zy){
+          var h = halfSpan();
+          return [ ( (zx - S.cx) / (2 * h) + 0.5 ) * S.W, ( 0.5 - (zy - S.cy) / (2 * h) ) * S.H ];
+        }
+
+        /* one Newton run: returns [rootIndex, iterations] or [-1, MAX_ITER] */
+        function newtonRun(zx, zy){
+          var n = S.n, x = zx, y = zy, i, k;
+          for (i = 0; i < MAX_ITER; i++){
+            /* nearest root? */
+            var best = -1, bd = Infinity;
+            for (k = 0; k < n; k++){
+              var dx = x - S.roots[k][0], dy = y - S.roots[k][1];
+              var d = dx*dx + dy*dy;
+              if (d < bd){ bd = d; best = k; }
+            }
+            if (bd < TOL * TOL) return [best, i];
+            if ((x*x + y*y) < 1e-14){ x += 1e-7; y += 1.3e-7; }
+            /* z^(n-1) and z^n by repeated multiplication */
+            var ax = 1, ay = 0, j;
+            for (j = 0; j < n - 1; j++){ var tx = ax*x - ay*y; ay = ax*y + ay*x; ax = tx; }
+            var bx = ax*x - ay*y, by = ax*y + ay*x;         /* z^n */
+            bx -= 1;                                        /* z^n - 1 */
+            var den = n * (ax*ax + ay*ay);                  /* n * z^(n-1), magnitude^2 part */
+            if (den === 0) return [-1, MAX_ITER];
+            var sx = (bx*ax + by*ay) / den;                 /* (z^n-1) / (n z^(n-1)) */
+            var sy = (by*ax - bx*ay) / den;
+            x -= sx; y -= sy;
+            if (!isFinite(x) || !isFinite(y)) return [-1, MAX_ITER];
+          }
+          var best2 = -1, bd2 = Infinity;
+          for (k = 0; k < n; k++){
+            var ex = x - S.roots[k][0], ey = y - S.roots[k][1];
+            var dd = ex*ex + ey*ey;
+            if (dd < bd2){ bd2 = dd; best2 = k; }
+          }
+          if (bd2 < 0.01) return [best2, MAX_ITER];
+          return [-1, MAX_ITER];
+        }
+
+        function shadeFor(root, iter){
+          if (root < 0) return [14, 8, 23];               /* the unclaimed boundary: near-black plum */
+          var base = PALETTE[root];
+          var t = iter / MAX_ITER;
+          var f = 1 - 0.62 * Math.pow(t, 0.55);           /* fast arrivals glow; slow journeys darken */
+          f = Math.max(0.16, f);
+          return [Math.round(base[0]*f), Math.round(base[1]*f), Math.round(base[2]*f)];
+        }
+
+        function renderRows(upto){
+          var W = S.W, data = S.img.data;
+          for (var py = S.row; py < upto; py++){
+            for (var px = 0; px < W; px++){
+              var z = toComplex(px + 0.5, py + 0.5);
+              var res = newtonRun(z[0], z[1]);
+              var idx = py * W + px;
+              S.basin[idx] = res[0]; S.iters[idx] = res[1];
+              var c = shadeFor(res[0], res[1]);
+              var o = idx * 4;
+              data[o] = c[0]; data[o+1] = c[1]; data[o+2] = c[2]; data[o+3] = 255;
+            }
+          }
+          S.row = upto;
+          ctx.putImageData(S.img, 0, 0);
+        }
+
+        function clearCanvas(){
+          ctx.fillStyle = '#0d0616';
+          ctx.fillRect(0, 0, S.W, S.H);
+          clearTrace();
+        }
+
+        function runLoop(rowsPerFrame){
+          cancelRender();
+          S.playing = true;
+          function step(){
+            if (!S.playing) return;
+            renderRows(Math.min(S.H, S.row + rowsPerFrame));
+            if (S.row < S.H){ S.raf = requestAnimationFrame(step); }
+            else finishRender();
+          }
+          S.raf = requestAnimationFrame(step);
+        }
+        function startRender(quick){
+          cancelRender();
+          S.img = ctx.createImageData(S.W, S.H);
+          S.basin = new Int8Array(S.W * S.H);
+          S.iters = new Uint8Array(S.W * S.H);
+          S.row = 0; S.done = false;
+          clearTrace();
+          if (REDUCED){ renderRows(S.H); finishRender(); return; }
+          runLoop(quick ? 46 : 12);
+        }
+        function resumeRender(){
+          if (REDUCED){ renderRows(S.H); finishRender(); return; }
+          runLoop(12);
+        }
+        function cancelRender(){
+          if (S.raf) cancelAnimationFrame(S.raf);
+          S.raf = 0;
+        }
+        function pauseRender(){
+          S.playing = false;
+          cancelRender();
+        }
+        function finishRender(){
+          S.playing = false; S.done = true;
+          if (REDUCED) return;
+          var c = ctlOf();
+          /* a re-computation finishing over an already-finished picture
+             (a zoom, an equation's second run) replays the boundary
+             hearth directly — ctl.complete() would early-return on its
+             'done' state and swallow it, the Mandelbrot explore rule */
+          if (c && c.state === 'done'){ startDiagramHearth(cv); }
+          else signalDone('cvNewton');
+        }
+
+        /* completion-hearth boundary: the basin field this page already
+           computed, sampled onto the hearth's grid — a pixel joins the
+           "inside" wherever its basin differs from a neighbour's, so
+           the shared builder's rim rule draws the line exactly on the
+           basin boundaries, and its Dijkstra front travels that web
+           from the picture's centre outward */
+        cv._hearthBoundaryData = function(){
+          if (!S.basin || !S.W || !S.done) return null;
+          var gw = Math.min(S.W, 420), gh = Math.max(40, Math.round(gw * S.H / S.W));
+          var inside = new Uint8Array(gw * gh), slow = new Float32Array(gw * gh);
+          for (var y = 0; y < gh; y++){
+            var sy = Math.min(S.H - 1, Math.floor(y * S.H / gh));
+            for (var x = 0; x < gw; x++){
+              var sx = Math.min(S.W - 1, Math.floor(x * S.W / gw));
+              var b = S.basin[sy * S.W + sx], diff = false;
+              if (sx + 1 < S.W && S.basin[sy * S.W + sx + 1] !== b) diff = true;
+              else if (sx > 0 && S.basin[sy * S.W + sx - 1] !== b) diff = true;
+              else if (sy + 1 < S.H && S.basin[(sy + 1) * S.W + sx] !== b) diff = true;
+              else if (sy > 0 && S.basin[(sy - 1) * S.W + sx] !== b) diff = true;
+              inside[y * gw + x] = diff ? 1 : 0;
+            }
+          }
+          return boundaryFromField(gw, gh, inside, slow, { igx: gw / 2, igy: gh / 2 });
+        };
+
+        /* ---- roots + trace overlay ---- */
+        function drawRoots(){
+          ttx.clearRect(0, 0, S.W, S.H);
+          ttx.save();
+          for (var k = 0; k < S.roots.length; k++){
+            var p = toPixel(S.roots[k][0], S.roots[k][1]);
+            if (p[0] < -20 || p[0] > S.W + 20 || p[1] < -20 || p[1] > S.H + 20) continue;
+            ttx.beginPath();
+            ttx.arc(p[0], p[1], 7, 0, Math.PI * 2);
+            ttx.strokeStyle = 'rgba(240,183,63,.9)'; ttx.lineWidth = 2; ttx.stroke();
+            ttx.beginPath();
+            ttx.arc(p[0], p[1], 2.6, 0, Math.PI * 2);
+            ttx.fillStyle = '#fff3c4'; ttx.fill();
+          }
+          ttx.restore();
+        }
+
+        function clearTrace(){
+          S.traceTimers.forEach(function(id){ clearTimeout(id); });
+          S.traceTimers = [];
+          drawRoots();
+        }
+
+        function fmtZ(x, y){
+          function f(v){ return (v < 0 ? '−' : '') + Math.abs(v).toFixed(3); }
+          return f(x) + (y < 0 ? ' − ' : ' + ') + Math.abs(y).toFixed(3) + 'i';
+        }
+
+        function rootName(k){
+          if (S.n === 3){
+            return ['1', '(−1 + i√3)/2', '(−1 − i√3)/2'][k];
+          }
+          return 'e^{2πi·' + k + '/' + S.n + '}';
+        }
+
+        function tracePoint(zx, zy){
+          clearTrace();
+          var pts = [[zx, zy]];
+          var x = zx, y = zy, n = S.n, landed = -1, steps = 0;
+          for (var i = 0; i < 80; i++){
+            var best = -1, bd = Infinity, k;
+            for (k = 0; k < n; k++){
+              var dx = x - S.roots[k][0], dy = y - S.roots[k][1];
+              var d = dx*dx + dy*dy;
+              if (d < bd){ bd = d; best = k; }
+            }
+            if (bd < 1e-8){ landed = best; steps = i; break; }
+            if ((x*x + y*y) < 1e-14){ x += 1e-7; y += 1.3e-7; }
+            var ax = 1, ay = 0, j;
+            for (j = 0; j < n - 1; j++){ var tx = ax*x - ay*y; ay = ax*y + ay*x; ax = tx; }
+            var bx = ax*x - ay*y, by = ax*y + ay*x;
+            bx -= 1;
+            var den = n * (ax*ax + ay*ay);
+            if (den === 0) break;
+            x -= (bx*ax + by*ay) / den;
+            y -= (by*ax - bx*ay) / den;
+            pts.push([x, y]);
+            steps = i + 1;
+            if (!isFinite(x) || !isFinite(y)) break;
+          }
+          if (landed < 0){
+            var b2 = -1, bd2 = Infinity;
+            for (var k2 = 0; k2 < n; k2++){
+              var ex = x - S.roots[k2][0], ey = y - S.roots[k2][1];
+              var dd = ex*ex + ey*ey;
+              if (dd < bd2){ bd2 = dd; b2 = k2; }
+            }
+            if (bd2 < 1e-4){ landed = b2; pts.push([S.roots[b2][0], S.roots[b2][1]]); }
+          }
+
+          /* animate the hops: gold dots joined by gold lines */
+          var shown = REDUCED ? pts.length : 1;
+          function draw(upto){
+            drawRoots();
+            ttx.save();
+            ttx.strokeStyle = 'rgba(240,183,63,.85)'; ttx.lineWidth = 2;
+            ttx.shadowColor = 'rgba(240,183,63,.7)'; ttx.shadowBlur = 6;
+            ttx.beginPath();
+            for (var m = 0; m < upto; m++){
+              var p = toPixel(pts[m][0], pts[m][1]);
+              if (m === 0) ttx.moveTo(p[0], p[1]); else ttx.lineTo(p[0], p[1]);
+            }
+            ttx.stroke();
+            for (var q = 0; q < upto; q++){
+              var pp = toPixel(pts[q][0], pts[q][1]);
+              ttx.beginPath();
+              ttx.arc(pp[0], pp[1], q === 0 ? 6 : 4.5, 0, Math.PI * 2);
+              ttx.fillStyle = q === 0 ? '#fff3c4' : '#f0b73f';
+              ttx.fill();
+              ttx.strokeStyle = 'rgba(21,13,32,.85)'; ttx.lineWidth = 1.5; ttx.stroke();
+            }
+            ttx.restore();
+          }
+          draw(shown);
+          if (!REDUCED){
+            for (var s2 = 2; s2 <= pts.length; s2++){
+              (function(upto){
+                S.traceTimers.push(setTimeout(function(){ draw(upto); }, (upto - 1) * 340));
+              })(s2);
+            }
+          }
+
+          if (landed >= 0){
+            readout.innerHTML = '<b>Traced.</b> From z₀ = ' + fmtZ(zx, zy) + ', Newton\'s method landed on the root <b>' +
+              rootName(landed) + '</b> (' + fmtZ(S.roots[landed][0], S.roots[landed][1]) + ') in <b>' + steps +
+              (steps === 1 ? ' step' : ' steps') + '</b>. <span class="dim">Near a root the correct digits roughly double each hop — watch the last hops jump.</span>';
+          } else {
+            readout.innerHTML = '<b>Traced.</b> From z₀ = ' + fmtZ(zx, zy) + ', the method was still wandering after <b>80 steps</b> without settling on a root. <span class="dim">You tapped on or very near the fractal boundary — points there never settle. That is the Wada frontier, felt from the inside.</span>';
+          }
+        }
+
+        /* ---- view changes ---- */
+        function updateZoomLabel(){ zoomLabel.textContent = 'Zoom ×' + (S.zoom >= 100 ? Math.round(S.zoom).toLocaleString('en-US') : S.zoom.toFixed(1).replace(/\.0$/, '')); }
+        function refreshAfterViewChange(){
+          clearTrace();
+          if (S.done || S.row > 0){ startRender(true); }
+          else { clearCanvas(); }
+          updateZoomLabel();
+        }
+
+        function setEquation(n){
+          S.n = n;
+          S.roots = computeRoots(n);
+          S.cx = 0; S.cy = 0; S.zoom = 1;
+          S.done = false; S.row = 0;
+          pauseRender();
+          sizeCanvases();
+          clearCanvas();
+          updateZoomLabel();
+          buildLegend();
+          var rootsWord = { 3: 'cube roots of unity', 4: 'fourth roots of unity', 5: 'fifth roots of unity' };
+          cap.innerHTML = '<b>Newton fractal · z' + ({3:'³',4:'⁴',5:'⁵'})[n] + ' − 1.</b> Every point is a starting guess. It is coloured by which of the ' +
+            rootsWord[n] + ' Newton\'s method carries it to; the darker the shade, the more steps the journey took. Press Play and the picture computes itself, line by line.';
+          readout.innerHTML = '<span class="dim">The method itself, live:</span> switch <b>Tap does</b> to <b>⌖ Trace a point</b>, then tap anywhere in the picture to watch Newton\'s method hop from that guess, step by step, down to its root.';
+          /* the book's chrome follows the bench state: a fresh equation
+             rests unplayed, its button reading Play again */
+          var c = ctlOf();
+          if (c && c.state === 'playing'){ c.state = 'paused'; c.paintBtn(); }
+          else if (c && c.state === 'done'){ stopDiagramHearth(cv); c.state = 'paused'; c.primed = true; c.paintBtn(); }
+        }
+
+        function buildLegend(){
+          var names;
+          if (S.n === 3) names = ['Root 1', 'Root (−1 + i√3)/2', 'Root (−1 − i√3)/2'];
+          else { names = []; for (var k = 0; k < S.n; k++) names.push('Root e^{2πi·' + k + '/' + S.n + '}'); }
+          var html = '';
+          for (var i = 0; i < S.n; i++){
+            html += '<span><span class="sw" style="background:' + PALETTE_CSS[i] + '"></span>' + names[i] + '</span>';
+          }
+          html += '<span><span class="sw" style="background:#0e0817"></span>Boundary — never settles</span>';
+          legendEl.innerHTML = html;
+        }
+
+        /* ---- the book's animator: Play computes, Pause freezes,
+           Replay recomputes; the page opens on the idle frame ---- */
+        registerAnimator(8, {
+          start: function(){
+            ensureSize();
+            if (REDUCED){
+              if (!S.done){ S.roots = S.roots.length ? S.roots : computeRoots(S.n); startRender(false); }
+              return;
+            }
+            var c = ctlOf();
+            if (c && c.state === 'ready'){ if (!S.done && S.row === 0) clearCanvas(); return; }  /* priming: the frozen first frame */
+            if (S.done || S.playing) return;
+            if (S.row > 0 && S.img) resumeRender();
+            else startRender(false);
+          },
+          stop: function(){ pauseRender(); },
+          reset: function(){
+            cancelRender();
+            S.playing = false; S.row = 0; S.done = false;
+            clearCanvas();
+          }
+        }, 'cvNewton');
+        var fr = frameEl();
+        if (fr) fr.appendChild(traceCv);
+
+        /* ---- controls ---- */
+        sec.querySelectorAll('.eq-btn').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            sec.querySelectorAll('.eq-btn').forEach(function(b){ b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); });
+            btn.classList.add('on'); btn.setAttribute('aria-pressed', 'true');
+            setEquation(parseInt(btn.getAttribute('data-n'), 10));
+          });
+        });
+
+        sec.querySelectorAll('.mode-btn').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            sec.querySelectorAll('.mode-btn').forEach(function(b){ b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); });
+            btn.classList.add('on'); btn.setAttribute('aria-pressed', 'true');
+            S.mode = btn.getAttribute('data-mode');
+            var f = frameEl();
+            if (f) f.classList.toggle('tracing', S.mode === 'trace');
+          });
+        });
+
+        document.getElementById('newtonReset').addEventListener('click', function(){
+          S.cx = 0; S.cy = 0; S.zoom = 1;
+          refreshAfterViewChange();
+        });
+        document.getElementById('newtonZoomOut').addEventListener('click', function(){
+          if (S.zoom <= 1) return;
+          S.zoom = Math.max(1, S.zoom / 2.2);
+          refreshAfterViewChange();
+        });
+
+        /* tap guard: a tap only counts if the finger barely moved (scroll/drag safe) */
+        var downInfo = null;
+        cv.addEventListener('pointerdown', function(e){
+          downInfo = { x: e.clientX, y: e.clientY, t: performance.now() };
+        });
+        cv.addEventListener('pointerup', function(e){
+          if (!downInfo) return;
+          var dx = e.clientX - downInfo.x, dy = e.clientY - downInfo.y;
+          var dt = performance.now() - downInfo.t;
+          downInfo = null;
+          if (Math.sqrt(dx*dx + dy*dy) > 10 || dt > 600) return;
+          var rect = cv.getBoundingClientRect();
+          var px = (e.clientX - rect.left) / rect.width * S.W;
+          var py = (e.clientY - rect.top) / rect.height * S.H;
+          var z = toComplex(px, py);
+          if (S.mode === 'trace'){
+            tracePoint(z[0], z[1]);
+          } else {
+            if (S.zoom >= ZOOM_CAP){
+              readout.innerHTML = '<b>Zoom ×10,000</b> — the cap, same as everywhere else in this book. The border is still not smooth. It never will be: that is what makes it a fractal.';
+              return;
+            }
+            S.cx = z[0]; S.cy = z[1];
+            S.zoom = Math.min(ZOOM_CAP, S.zoom * 2.2);
+            refreshAfterViewChange();
+          }
+        });
+        cv.addEventListener('pointercancel', function(){ downInfo = null; });
+
+        var resizeTimer = 0;
+        window.addEventListener('resize', function(){
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(function(){
+            var wasDone = S.done;
+            if (ensureSize() && wasDone) startRender(true);
+          }, 220);
+        });
+
+        /* init */
+        S.roots = computeRoots(3);
+        sizeCanvases();
+        clearCanvas();
+        buildLegend();
+        updateZoomLabel();
       })();
 
       /* ================= go ================= */
@@ -4319,7 +4925,7 @@
            data is somehow missing, the old band runs as a fallback
            rather than no hearth at all. */
         var boundaryFlow = null;
-        if (cv.id === 'cvMandel' || cv.id === 'cvJulia' || cv.id === 'cvRiver'){
+        if (cv.id === 'cvMandel' || cv.id === 'cvJulia' || cv.id === 'cvRiver' || cv.id === 'cvNewton'){
           try { boundaryFlow = cv._hearthBoundaryData ? cv._hearthBoundaryData() : null; } catch (e) { boundaryFlow = null; }
         }
         /* RIVER AFTERMATH — the delta's own hearth data, kept separate
