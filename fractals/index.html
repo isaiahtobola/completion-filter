@@ -371,7 +371,7 @@
       @media (prefers-reduced-motion: reduce){ *{ scroll-behavior:auto !important; } }
     .back-sea{display:inline-block;margin:0 0 20px;padding:9px 18px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--gold);text-decoration:none;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase}
 .back-sea:hover{background:var(--panel2);color:var(--gold-pale)}
-</style>
+    </style>
   </head>
   <body>
     <div class="book">
@@ -816,7 +816,7 @@
           <p class="lede">Take a method built to find answers, ask it a question with three answers at once — and the border between those answers turns out to be a fractal that never smooths out, no matter how far you zoom.</p>
           <div class="canvas-card newton-card">
             <canvas class="fx cv-sq" id="cvNewton" aria-label="The Newton fractal for z cubed minus 1, computed live: three basins of attraction meeting at a fractal boundary"></canvas>
-            <p class="cap" id="fxCap"><b>Newton fractal · z³ − 1.</b> Every point is a starting guess. It is coloured by which cube root of unity Newton's method carries it to; the darker the shade, the more steps the journey took. Press Play and the picture computes itself, line by line.</p>
+            <p class="cap" id="fxCap"><b>Newton fractal · z³ − 1.</b> Every point is a starting guess. It is coloured by which cube root of unity Newton's method carries it to; the darker the shade, the more steps the journey took. Press Play and the picture computes itself, line by line. — then dives, slowly, to a point where all three basins meet, and rests there at zoom ×5,300.</p>
             <div class="controls-stack">
               <div class="row">
                 <div class="left">
@@ -868,16 +868,16 @@
           <hr class="rule" />
           <h3>Cayley's question</h3>
           <p>In <strong>1879</strong>, the British mathematician <strong>Arthur Cayley</strong> asked the obvious next question: given all possible starting points, <em>which ones end at which root?</em> For quadratic equations — two roots — the answer is beautifully dull. The plane splits cleanly in half: the boundary between the two basins is a single straight line, the perpendicular bisector between the roots. Guess on one side, you land on that side's root. Every time.</p>
-          <p>For cubics — three roots — Cayley reported that the problem resisted any such easy description. He could not find the division at all — his own words, he "had not succeeded in finding it" — and the territory where the three kingdoms meet would not resolve into a tidy curve. He had run into the fractal boundary a century before the word <em>fractal</em> existed, with no computer to draw it and no language yet for what he was seeing. The picture at the top of this page is the answer he could not draw.</p>
+          <p>For cubics — three roots — Cayley reported that the problem resisted any such easy description. He could not find the division at all — his own words, he &ldquo;had not succeeded in finding it&rdquo; — and the territory where the three kingdoms meet would not resolve into a tidy curve. He had run into the fractal boundary a century before the word <em>fractal</em> existed, with no computer to draw it and no language yet for what he was seeing. The picture at the top of this page is the answer he could not draw.</p>
           <p>An honest label belongs here: <strong>this is a computer-era view of older mathematics.</strong> The method is 17th-century, the question is 19th-century, but nobody could see these basins until computers could iterate millions of starting points, one by one, and colour each by its fate. The fractal was always there. The eyes for it are new.</p>
           <hr class="rule" />
           <h3>The border that never smooths out</h3>
           <p>Zoom into the boundary between any two basins — use the zoom above, up to ×10,000 — and it never simplifies. Filaments split into smaller filaments, islands of one kingdom appear deep inside another, and the same tangled pattern repeats at every scale. The boundary is a true fractal, and it has a precise identity: it is the <em class="term">Julia set</em> of the Newton map — the set of points where the method's behaviour is chaotic rather than settling.</p>
-          <p>The border has a stranger property still, called the <em class="term">Wada property</em>, named for the Japanese mathematician <strong>Takeo Wada</strong> — his Lakes of Wada construction was first published by Kunizō Yoneyama, crediting Wada, in <strong>1917</strong>. Every single point on the boundary of one basin is simultaneously on the boundary of <strong>all three</strong> basins. There is no stretch of border where only two kingdoms meet. Stand anywhere on the frontier, and an infinitesimal nudge — smaller than any measurement you could ever make — can send your starting point to <em>any</em> of the three roots.</p>
+          <p>The border has a stranger property still, called the <em class="term">Wada property</em>, named for the Japanese mathematician <strong>Takeo Wada</strong> — his Lakes of Wada construction was first published by Kunizō Yoneyama, crediting Wada, in <strong>1917</strong>. Every single point on the boundary of one basin is simultaneously on the boundary of all three basins. There is no stretch of border where only two kingdoms meet. Stand anywhere on the frontier, and an infinitesimal nudge — smaller than any measurement you could ever make — can send your starting point to any of the three roots.</p>
           <p>And the points exactly <em>on</em> the boundary? They never settle at all. Newton's method hops them around forever, never landing on a root — which is why the boundary renders as the dark, unclaimed threadwork in the picture. Order owns the heartlands. The border belongs to chaos, and it is infinitely long, folded into a finite picture.</p>
           <div class="card">
             <h3>Try it at the border</h3>
-            <p>Zoom two or three times into any place where the colours meet, then switch to <strong>⌖ Trace a point</strong> and tap close to the border. Watch the hops: near the frontier the method can wander for dozens of steps, visiting the neighbourhoods of all three roots, before it finally commits to one. That wandering is what the shared border feels like from the inside — every neighbourhood of the frontier holds points bound for all three roots.</p>
+            <p>Zoom two or three times into any place where the colours meet, then switch to <strong>⌖ Trace a point</strong> and tap close to the border. Watch the hops: near the frontier the method can wander for dozens of steps, visiting the neighbourhoods of all three roots, before it finally commits to one. That wandering <em>is</em> the Wada property, felt from the inside.</p>
           </div>
           <div class="newton-colophon">
             <p class="credit">Computed live from Newton's method — <b>no images</b><br />The Newton Fractal · A BW Young Bo &amp; Lux Study</p>
@@ -4367,7 +4367,8 @@
           W: 0, H: 0,
           img: null, basin: null, iters: null,
           row: 0, playing: false, done: false, raf: 0,
-          mode: 'zoom', traceTimers: []
+          mode: 'zoom', traceTimers: [],
+          phase: 'idle', canonical: false, diveTarget: null, diveC0: null
         };
 
         function ctlOf(){ return (window.__ctlByCv && window.__ctlByCv['cvNewton']) || null; }
@@ -4400,6 +4401,8 @@
           var px = Math.max(320, Math.min(720, Math.round(w * dpr)));
           if (px === S.W) return false;
           cancelRender();
+          if (diveAnim) diveAnim.reset();
+          S.phase = 'idle'; S.canonical = false;
           S.W = px; S.H = px;
           cv.width = px; cv.height = px;
           traceCv.width = px; traceCv.height = px;
@@ -4419,10 +4422,15 @@
           return [ ( (zx - S.cx) / (2 * h) + 0.5 ) * S.W, ( 0.5 - (zy - S.cy) / (2 * h) ) * S.H ];
         }
 
-        /* one Newton run: returns [rootIndex, iterations] or [-1, MAX_ITER] */
-        function newtonRun(zx, zy){
+        /* one Newton run: returns [rootIndex, iterations] or [-1, cap].
+           newtonRun is the standard run (cap MAX_ITER) — the dive's
+           Wada-point search uses it exactly as specified; the landed
+           settle render passes a raised cap of 160 through
+           newtonRunCap so its resting frame resolves sharper. */
+        function newtonRun(zx, zy){ return newtonRunCap(zx, zy, MAX_ITER); }
+        function newtonRunCap(zx, zy, cap){
           var n = S.n, x = zx, y = zy, i, k;
-          for (i = 0; i < MAX_ITER; i++){
+          for (i = 0; i < cap; i++){
             /* nearest root? */
             var best = -1, bd = Infinity;
             for (k = 0; k < n; k++){
@@ -4438,11 +4446,11 @@
             var bx = ax*x - ay*y, by = ax*y + ay*x;         /* z^n */
             bx -= 1;                                        /* z^n - 1 */
             var den = n * (ax*ax + ay*ay);                  /* n * z^(n-1), magnitude^2 part */
-            if (den === 0) return [-1, MAX_ITER];
+            if (den === 0) return [-1, cap];
             var sx = (bx*ax + by*ay) / den;                 /* (z^n-1) / (n z^(n-1)) */
             var sy = (by*ax - bx*ay) / den;
             x -= sx; y -= sy;
-            if (!isFinite(x) || !isFinite(y)) return [-1, MAX_ITER];
+            if (!isFinite(x) || !isFinite(y)) return [-1, cap];
           }
           var best2 = -1, bd2 = Infinity;
           for (k = 0; k < n; k++){
@@ -4450,28 +4458,29 @@
             var dd = ex*ex + ey*ey;
             if (dd < bd2){ bd2 = dd; best2 = k; }
           }
-          if (bd2 < 0.01) return [best2, MAX_ITER];
-          return [-1, MAX_ITER];
+          if (bd2 < 0.01) return [best2, cap];
+          return [-1, cap];
         }
 
-        function shadeFor(root, iter){
+        function shadeFor(root, iter, cap){
           if (root < 0) return [14, 8, 23];               /* the unclaimed boundary: near-black plum */
           var base = PALETTE[root];
-          var t = iter / MAX_ITER;
+          var t = iter / (cap || MAX_ITER);
           var f = 1 - 0.62 * Math.pow(t, 0.55);           /* fast arrivals glow; slow journeys darken */
           f = Math.max(0.16, f);
           return [Math.round(base[0]*f), Math.round(base[1]*f), Math.round(base[2]*f)];
         }
 
-        function renderRows(upto){
+        function renderRows(upto, cap){
           var W = S.W, data = S.img.data;
+          var runCap = cap || MAX_ITER;
           for (var py = S.row; py < upto; py++){
             for (var px = 0; px < W; px++){
               var z = toComplex(px + 0.5, py + 0.5);
-              var res = newtonRun(z[0], z[1]);
+              var res = newtonRunCap(z[0], z[1], runCap);
               var idx = py * W + px;
               S.basin[idx] = res[0]; S.iters[idx] = res[1];
-              var c = shadeFor(res[0], res[1]);
+              var c = shadeFor(res[0], res[1], runCap);
               var o = idx * 4;
               data[o] = c[0]; data[o+1] = c[1]; data[o+2] = c[2]; data[o+3] = 255;
             }
@@ -4497,8 +4506,10 @@
           }
           S.raf = requestAnimationFrame(step);
         }
-        function startRender(quick){
+        function startRender(quick, canonical){
           cancelRender();
+          S.canonical = !!canonical;
+          S.phase = 'compute';
           S.img = ctx.createImageData(S.W, S.H);
           S.basin = new Int8Array(S.W * S.H);
           S.iters = new Uint8Array(S.W * S.H);
@@ -4520,8 +4531,18 @@
           cancelRender();
         }
         function finishRender(){
-          S.playing = false; S.done = true;
-          if (REDUCED) return;
+          S.playing = false;
+          if (REDUCED){ S.done = true; return; }
+          /* the canonical show (Play / Replay) does not end at the
+             computed home view: it dives next, and completion is only
+             signalled once the dive has landed and settled */
+          if (S.canonical){
+            S.canonical = false;
+            S.done = false;
+            startDive();
+            return;
+          }
+          S.done = true; S.phase = 'done';
           var c = ctlOf();
           /* a re-computation finishing over an already-finished picture
              (a zoom, an equation's second run) replays the boundary
@@ -4529,6 +4550,251 @@
              'done' state and swallow it, the Mandelbrot explore rule */
           if (c && c.state === 'done'){ startDiagramHearth(cv); }
           else signalDone('cvNewton');
+        }
+
+        /* ================= THE DIVE =================
+           The canonical show's second act, mirroring the Mandelbrot
+           dive: after the home view computes, the view zooms
+           exponentially from ×1 to ×5,300 over 22,000 ms while the
+           centre travels to a Wada target T along
+           centre(p) = T + (C0 − T) / 5300^p, so the target point never
+           moves on screen. Every moving frame is recomputed fresh
+           from Newton's iteration at a working resolution and drawn
+           up to the full canvas, coloured by the IDENTICAL per-pixel
+           path as every other frame on this page — same PALETTE, same
+           shadeFor, shade factor never above 1, unsettled points the
+           same near-black plum. No new colours at any depth. The
+           landed frame is a true full-resolution render at a raised
+           iteration cap, and only then does completion fire, so the
+           shared hearth plays over the landed view's basin field. */
+        var DIVE_DUR = 22000, DIVE_ZOOM = 5300;
+        var targetCache = {};
+        var diveAnim = null;
+        var diveScale = 0.33;
+        var diveWork = document.createElement('canvas');
+        var dwx = diveWork.getContext('2d');
+        var lastDiveZoomShown = -1;
+
+        function basinWord(){ return ({ 3: 'three', 4: 'four', 5: 'five' })[S.n] || 'three'; }
+        function fmtZoom(z){ return '×' + Math.round(z).toLocaleString('en-US'); }
+        function basinAt(x, y){ return newtonRun(x, y)[0]; }
+
+        /* sample an N×N grid over the window of half-span hs centred
+           on T: which root basins appear, and what fraction of samples
+           are boundary-adjacent (a neighbour in another basin) or
+           unsettled */
+        function sampleWindow(T, hs, N){
+          var basins = new Int8Array(N * N);
+          var present = {}, count = 0;
+          for (var j = 0; j < N; j++){
+            for (var i = 0; i < N; i++){
+              var b = basinAt(T.x - hs + (i + 0.5) * (2 * hs / N), T.y + hs - (j + 0.5) * (2 * hs / N));
+              basins[j * N + i] = b;
+              if (b >= 0 && !present[b]){ present[b] = true; count++; }
+            }
+          }
+          var boundary = 0;
+          for (var j2 = 0; j2 < N; j2++){
+            for (var i2 = 0; i2 < N; i2++){
+              var bb = basins[j2 * N + i2];
+              if (bb < 0){ boundary++; continue; }
+              if ((i2 + 1 < N && basins[j2 * N + i2 + 1] !== bb) ||
+                  (i2 > 0 && basins[j2 * N + i2 - 1] !== bb) ||
+                  (j2 + 1 < N && basins[(j2 + 1) * N + i2] !== bb) ||
+                  (j2 > 0 && basins[(j2 - 1) * N + i2] !== bb)) boundary++;
+            }
+          }
+          return { count: count, frac: boundary / (N * N) };
+        }
+
+        /* a candidate T is a true Wada point for this page when:
+           (i) the landed window (×5,300) holds ALL n basins with at
+           least 12% boundary-adjacent or unsettled samples;
+           (ii) a ×100 window around it also holds all n basins;
+           (iii) a ring of 8 samples at half the landed half-span
+           touches at least 3 distinct root basins */
+        function verifyWada(T, n){
+          var landed = sampleWindow(T, BASE_HALF / DIVE_ZOOM, 25);
+          if (landed.count < n || landed.frac < 0.12) return { ok: false, score: landed.frac };
+          var mid = sampleWindow(T, BASE_HALF / 100, 15);
+          if (mid.count < n) return { ok: false, score: landed.frac };
+          var ring = {}, rc = 0, rr = (BASE_HALF / DIVE_ZOOM) / 2;
+          for (var k = 0; k < 8; k++){
+            var a = k * Math.PI / 4;
+            var b = basinAt(T.x + rr * Math.cos(a), T.y + rr * Math.sin(a));
+            if (b >= 0 && !ring[b]){ ring[b] = true; rc++; }
+          }
+          if (rc < 3) return { ok: false, score: landed.frac };
+          return { ok: true, score: landed.frac };
+        }
+
+        /* find the dive target for the current equation, at runtime:
+           scan the home view on a 144×144 grid, collect adjacent pairs
+           whose basins differ (pairs where both basins are real roots
+           preferred), drop pairs touching the outer 6-cell frame,
+           order centre-out, bisect each segment 50 times keeping the
+           half whose endpoints still land in different basins, verify
+           the midpoint, and keep the verified candidate with the
+           richest landed-window boundary fraction — at most 25
+           candidates evaluated, cached per equation */
+        function findTarget(n){
+          if (targetCache[n]) return targetCache[n];
+          var G = 144, step = 2 * BASE_HALF / G;
+          var grid = new Int8Array(G * G);
+          for (var gy = 0; gy < G; gy++){
+            for (var gx = 0; gx < G; gx++){
+              grid[gy * G + gx] = basinAt(-BASE_HALF + (gx + 0.5) * step, BASE_HALF - (gy + 0.5) * step);
+            }
+          }
+          function cellPoint(gx, gy){ return [-BASE_HALF + (gx + 0.5) * step, BASE_HALF - (gy + 0.5) * step]; }
+          var cands = [];
+          for (var y = 0; y < G; y++){
+            for (var x = 0; x < G; x++){
+              var b0 = grid[y * G + x];
+              var dirs = [[1, 0], [0, 1]];
+              for (var d = 0; d < 2; d++){
+                var nx = x + dirs[d][0], ny = y + dirs[d][1];
+                if (nx >= G || ny >= G) continue;
+                var b1 = grid[ny * G + nx];
+                if (b1 === b0) continue;
+                if (x < 6 || y < 6 || nx < 6 || ny < 6 || x >= G - 6 || y >= G - 6 || nx >= G - 6 || ny >= G - 6) continue;
+                var pa = cellPoint(x, y), pb = cellPoint(nx, ny);
+                var mx = (pa[0] + pb[0]) / 2, my = (pa[1] + pb[1]) / 2;
+                cands.push({ ax: pa[0], ay: pa[1], ba: b0, bx: pb[0], by: pb[1], bb: b1,
+                             both: (b0 >= 0 && b1 >= 0) ? 0 : 1, d2: mx * mx + my * my });
+              }
+            }
+          }
+          cands.sort(function(p, q){ return (p.both - q.both) || (p.d2 - q.d2); });
+          var bestVerified = null, bestAny = null;
+          var limit = Math.min(25, cands.length);
+          for (var ci = 0; ci < limit; ci++){
+            var cnd = cands[ci];
+            var A = { x: cnd.ax, y: cnd.ay, b: cnd.ba }, B = { x: cnd.bx, y: cnd.by, b: cnd.bb };
+            for (var it = 0; it < 50; it++){
+              var Mx = (A.x + B.x) / 2, My = (A.y + B.y) / 2, Mb = basinAt(Mx, My);
+              if (Mb === A.b) A = { x: Mx, y: My, b: Mb }; else B = { x: Mx, y: My, b: Mb };
+            }
+            var T = { x: (A.x + B.x) / 2, y: (A.y + B.y) / 2 };
+            var v = verifyWada(T, n);
+            if (!bestAny || v.score > bestAny.score) bestAny = { x: T.x, y: T.y, score: v.score };
+            if (v.ok && (!bestVerified || v.score > bestVerified.score)) bestVerified = { x: T.x, y: T.y, score: v.score };
+          }
+          var chosen = bestVerified || bestAny || { x: 0, y: 0 };
+          var target = { x: chosen.x, y: chosen.y };
+          targetCache[n] = target;
+          return target;
+        }
+
+        function diveReadout(){
+          readout.innerHTML = 'Diving — zoom ' + fmtZoom(S.zoom) + '… falling toward a point where all ' + basinWord() +
+            ' basins meet. The border does not resolve; it only repeats.';
+        }
+        function landedReadout(){
+          readout.innerHTML = 'Landed — zoom ' + fmtZoom(DIVE_ZOOM) + ', resting on a Wada point: every neighbourhood of it, however small, holds points bound for all ' +
+            basinWord() + ' roots. <span class="dim">Tap-to-zoom and ⌖ Trace a point still work from here; Reset view returns home.</span>';
+        }
+
+        function renderDiveFrame(){
+          var t0 = performance.now();
+          var ww = Math.max(60, Math.round(S.W * diveScale)), wh = Math.max(45, Math.round(S.H * diveScale));
+          if (diveWork.width !== ww || diveWork.height !== wh){ diveWork.width = ww; diveWork.height = wh; }
+          var img = dwx.createImageData(ww, wh);
+          var data = img.data, h = halfSpan();
+          for (var py = 0; py < wh; py++){
+            var zy = S.cy + (0.5 - (py + 0.5) / wh) * 2 * h;
+            var o = py * ww * 4;
+            for (var px = 0; px < ww; px++){
+              var zx = S.cx + ((px + 0.5) / ww - 0.5) * 2 * h;
+              var res = newtonRun(zx, zy);
+              var c = shadeFor(res[0], res[1]);
+              data[o] = c[0]; data[o + 1] = c[1]; data[o + 2] = c[2]; data[o + 3] = 255;
+              o += 4;
+            }
+          }
+          dwx.putImageData(img, 0, 0);
+          ctx.imageSmoothingEnabled = true;
+          ctx.drawImage(diveWork, 0, 0, S.W, S.H);
+          /* the Mandelbrot CPU path's own discipline: a slow frame
+             steps the working scale down, never the colours */
+          if (performance.now() - t0 > 60 && diveScale > 0.3) diveScale *= 0.85;
+        }
+
+        function startDive(){
+          var T = findTarget(S.n);
+          S.diveTarget = T;
+          S.diveC0 = { x: S.cx, y: S.cy };
+          S.phase = 'dive';
+          diveScale = 0.33;
+          lastDiveZoomShown = -1;
+          ttx.clearRect(0, 0, S.W, S.H);
+          diveReadout();
+          if (!diveAnim){
+            /* makeAnimator accumulates elapsed across stop/start, so
+               pausing freezes the dive mid-frame and Play resumes it
+               from the same accumulated progress, with no jump */
+            diveAnim = makeAnimator(function(elapsed){
+              var p = Math.min(1, elapsed / DIVE_DUR);
+              var z = Math.pow(DIVE_ZOOM, p);
+              var T2 = S.diveTarget, C0 = S.diveC0;
+              S.zoom = z;
+              S.cx = T2.x + (C0.x - T2.x) / z;
+              S.cy = T2.y + (C0.y - T2.y) / z;
+              renderDiveFrame();
+              updateZoomLabel();
+              var rz = Math.round(z);
+              if (rz !== lastDiveZoomShown){ lastDiveZoomShown = rz; diveReadout(); }
+            }, DIVE_DUR, function(){ settleLanded(); });
+          }
+          diveAnim.reset();
+          diveAnim.start();
+        }
+
+        function cancelDive(){
+          if (S.phase !== 'dive') return;
+          if (diveAnim) diveAnim.stop();
+          S.phase = 'idle';
+        }
+
+        /* landing: snap exactly to centre = T, zoom = ×5,300, and
+           re-render that view once at full canvas resolution with the
+           iteration cap raised to 160, so the resting frame resolves
+           sharply; only then fire the completion signal, so the
+           hearth's boundary data is the landed view's own field */
+        function settleLanded(){
+          S.phase = 'settle';
+          S.cx = S.diveTarget.x; S.cy = S.diveTarget.y; S.zoom = DIVE_ZOOM;
+          updateZoomLabel();
+          S.img = ctx.createImageData(S.W, S.H);
+          S.basin = new Int8Array(S.W * S.H);
+          S.iters = new Uint8Array(S.W * S.H);
+          S.row = 0;
+          renderRows(S.H, 160);
+          S.done = true; S.phase = 'done';
+          clearTrace();
+          landedReadout();
+          var c = ctlOf();
+          if (c && c.state === 'done'){ startDiagramHearth(cv); }
+          else signalDone('cvNewton');
+        }
+
+        /* reduced motion: no dive, no motion — the static finished
+           frame IS the landed frame: the target at zoom ×5,300,
+           rendered once at the raised iteration cap, mirroring the
+           Mandelbrot page's reduced-motion settle render */
+        function renderLandedStatic(){
+          var T = findTarget(S.n);
+          S.diveTarget = T;
+          S.cx = T.x; S.cy = T.y; S.zoom = DIVE_ZOOM;
+          updateZoomLabel();
+          S.img = ctx.createImageData(S.W, S.H);
+          S.basin = new Int8Array(S.W * S.H);
+          S.iters = new Uint8Array(S.W * S.H);
+          S.row = 0;
+          renderRows(S.H, 160);
+          S.done = true; S.phase = 'done';
+          clearTrace();
+          landedReadout();
         }
 
         /* completion-hearth boundary: the basin field this page already
@@ -4670,6 +4936,7 @@
         /* ---- view changes ---- */
         function updateZoomLabel(){ zoomLabel.textContent = 'Zoom ×' + (S.zoom >= 100 ? Math.round(S.zoom).toLocaleString('en-US') : S.zoom.toFixed(1).replace(/\.0$/, '')); }
         function refreshAfterViewChange(){
+          cancelDive();
           clearTrace();
           if (S.done || S.row > 0){ startRender(true); }
           else { clearCanvas(); }
@@ -4677,6 +4944,13 @@
         }
 
         function setEquation(n){
+          /* switching equation at any moment — mid-dive or paused in
+             one — cancels the dive cleanly and rests unplayed on the
+             new equation's home view; its own Wada target is found
+             for its own polynomial when its Play runs */
+          cancelDive();
+          if (diveAnim) diveAnim.reset();
+          S.phase = 'idle'; S.canonical = false;
           S.n = n;
           S.roots = computeRoots(n);
           S.cx = 0; S.cy = 0; S.zoom = 1;
@@ -4688,7 +4962,8 @@
           buildLegend();
           var rootsWord = { 3: 'cube roots of unity', 4: 'fourth roots of unity', 5: 'fifth roots of unity' };
           cap.innerHTML = '<b>Newton fractal · z' + ({3:'³',4:'⁴',5:'⁵'})[n] + ' − 1.</b> Every point is a starting guess. It is coloured by which of the ' +
-            rootsWord[n] + ' Newton\'s method carries it to; the darker the shade, the more steps the journey took. Press Play and the picture computes itself, line by line.';
+            rootsWord[n] + ' Newton\'s method carries it to; the darker the shade, the more steps the journey took. Press Play and the picture computes itself, line by line.' +
+            ' — then dives, slowly, to a point where all ' + ({3:'three',4:'four',5:'five'})[n] + ' basins meet, and rests there at zoom ×5,300.';
           readout.innerHTML = '<span class="dim">The method itself, live:</span> switch <b>Tap does</b> to <b>⌖ Trace a point</b>, then tap anywhere in the picture to watch Newton\'s method hop from that guess, step by step, down to its root.';
           /* the book's chrome follows the bench state: a fresh equation
              rests unplayed, its button reading Play again */
@@ -4715,20 +4990,37 @@
           start: function(){
             ensureSize();
             if (REDUCED){
-              if (!S.done){ S.roots = S.roots.length ? S.roots : computeRoots(S.n); startRender(false); }
+              /* the static finished frame IS the landed frame */
+              if (!S.done){ S.roots = S.roots.length ? S.roots : computeRoots(S.n); renderLandedStatic(); }
               return;
             }
             var c = ctlOf();
             if (c && c.state === 'ready'){ if (!S.done && S.row === 0) clearCanvas(); return; }  /* priming: the frozen first frame */
+            if (S.phase === 'dive'){ if (diveAnim) diveAnim.start(); return; }  /* resume the dive from its accumulated progress */
             if (S.done || S.playing) return;
             if (S.row > 0 && S.img) resumeRender();
-            else startRender(false);
+            else {
+              /* the canonical show starts from the top: the full home
+                 view (centre 0,0, zoom ×1) computes, then dives */
+              S.cx = 0; S.cy = 0; S.zoom = 1; updateZoomLabel();
+              startRender(false, true);
+            }
           },
-          stop: function(){ pauseRender(); },
+          stop: function(){
+            pauseRender();
+            if (S.phase === 'dive' && diveAnim) diveAnim.stop();
+          },
           reset: function(){
+            /* Replay restarts the canonical show from the top: home
+               view restored, canvas cleared, compute → dive → glow —
+               the Mandelbrot restart semantics */
             cancelRender();
+            if (diveAnim) diveAnim.reset();
             S.playing = false; S.row = 0; S.done = false;
+            S.canonical = false; S.phase = 'idle';
+            S.cx = 0; S.cy = 0; S.zoom = 1; updateZoomLabel();
             clearCanvas();
+            readout.innerHTML = '<span class="dim">The method itself, live:</span> switch <b>Tap does</b> to <b>⌖ Trace a point</b>, then tap anywhere in the picture to watch Newton\'s method hop from that guess, step by step, down to its root.';
           }
         }, 'cvNewton');
         var fr = frameEl();
@@ -4778,6 +5070,9 @@
           var px = (e.clientX - rect.left) / rect.width * S.W;
           var py = (e.clientY - rect.top) / rect.height * S.H;
           var z = toComplex(px, py);
+          /* a tap during the dive cancels it and applies the tap
+             exactly as always, from the dive's current view */
+          cancelDive();
           if (S.mode === 'trace'){
             tracePoint(z[0], z[1]);
           } else {
